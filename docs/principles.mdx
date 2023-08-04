@@ -1,0 +1,104 @@
+---
+title: Principles
+description: Suave principles to help the search for universality
+keywords:
+  - flashbots
+  - suave
+  - principles
+---
+
+import Grid from "@site/src/components/Grid/Grid.tsx";
+import GridBlock from "@site/src/components/GridBlock/GridBlock.tsx";
+import Button from "@site/src/components/Button/Button.tsx";
+
+We draw on the theoretical principles outlined in "[Strategyproof Computing](https://groups.ischool.berkeley.edu/archive/p2pecon/papers/s1-ng.pdf)": 
+
+```
+1. Incentives-first
+2. Utility-based
+3. Simple
+4. Open
+5. Decentralized
+```
+
+and the practical ones which led to the implementation of [Serenity](https://notes.ethereum.org/@vbuterin/serenity_design_rationale?type=view#Principles):
+
+```
+1. Simplicity
+2. Long-term stability
+3. Sufficiency
+4. Defense in depth
+5. Full light-client verifiability
+```
+
+<Grid>
+<GridBlock symbol="I." title="Permissionless">
+
+It should be possible for anyone to deploy a smart contract for handling orderflow or building blocks. This is inspired by the "open" principle from Strategyproof computing, which states: "Our belief is that an open marketplace will naturally lead to mechanisms with the 'right scope' and 'right complexity'." 
+
+We cannot pre-empt every kind of MEV that will exist, or the range of methods which can be concocted to extract it. Therefore, we aim to enable anyone, anywhere to create and deploy novel contracts in response to unpredictable needs as and when they arise.
+
+- [Searching for Universality](https://docs.google.com/file/d/1c0Ok4M3CcPjMCh7-vh6ErfhqlJsh1qau/edit?filetype=mspresentation)
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="II." title="Sufficient">
+
+This is inspired by the Serenity design rationale, which states that it should be "possible to build as many classes of applications as possible on top of the protocol". 
+
+We strive for the same generality with Suave: it should be possible to use Suave to create any kind of application to do with order flow, block building, commitments, instantaneous privacy, or any composition of the above. Moreover, given that money is a kind of verifiable record used when quantifying, storing, and communicating information, the sufficiency we aim for ought to enable not just programmable money, but programmable money that is provably fair in different contexts and at different times.
+
+- [Information is the new money](https://www.youtube.com/watch?v=vi-rVTFTb6s)
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="III." title="Simple">
+
+This is taken from both sources above. Strategyproof computing argues that we ought to "simplify the decisions facing participants in distributed multi-agent systems", and Vitalik points out that simplicty matters "because it (i) minimizes development costs, (ii) reduces risk of unforeseen security issues, and (iii) allows protocol designers to more easily convince users that parameter choices are legitimate". 
+
+It is an important principle for most modern technologies.
+
+- [Simplicty Matters](https://youtu.be/rI8tNMsozo0)
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="IV." title="Modular">
+
+Suave is many things to many people, depending on who is looking and how they choose to see. This is by design. We aim for implementations that are flexible with respect to their dependencies, such that we can readily upgrade nodes from SGX to MPC, or deploy better cryptographic solutions like FHE, or introduce some maximally robust and sufficiently decentralized combination of the above. Though not quite the same, this principle is closely related to "Simple", in that it allows us to shift any necessary complexity into contracts and applications, thereby keeping the protocol neutral and transparent.
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="V." title="Decentralized">
+
+It is hard to find the optimal means of allocating resources without centralizing power. Therefore, it is worth doing. We aim for systems that are robust and scalable, beyond the limitations imposed by trusted third parties.
+
+In our ordering here, decentralization is also related to "Defense in depth", though we apply this specifically to the boundary between developing the ideal mechanisms for MEV extraction, and crafting the most powerful means for users to express commitments and privacy preferences. That is, Suave should work as well as possible under a variety of security assumptions which sit at the intersection of information theory, computer science, economics, and sociopolitics.
+
+- [The holy grail](https://youtu.be/vi-rVTFTb6s?t=1092)
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="VI." title="Fair">
+
+This is inpired by Strategyproof computing, which states that, "the self-interest of participants in distributed systems should be explicitly addressed by system designers, much as we currently address issues of fault-tolerance and security." 
+
+It should be possible to quantify who benefits, and how much they benefit relative to the average payoff (or average value created in similar transactions). We are inspired by the work of Tarun Chitra in this regard.
+
+- [Towards a Theory of MEV: Uncertainty](https://www.youtube.com/watch?v=WYH7n4M016A&t=14626s)
+
+We do not mean "who" in the personal sense, but rather in terms of the type of actors involved. Specifically, users should enjoy the majority of the value they create, with the rest of that value cascading down to those doing the most relevant work.
+
+- [MEV Precedence List](https://youtu.be/6oFNYDBH76Q?t=464)
+
+</GridBlock>
+</Grid>

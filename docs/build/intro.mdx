@@ -1,0 +1,45 @@
+---
+title: Introduction
+description: Start building with Suave
+keywords:
+  - build
+  - suave
+  - practice
+---
+
+This section is where we will provide as many practical examples as possible to get ecosystem partners up to speed and feeling comfortable.
+
+## The basic outline
+
+1. **Replace trusted third parties (TTPs) with trusted execution environments (TEEs)**
+    - in a flexible way that allows for us to shift to MPC, FHE etc as they become viable
+2. **Make the operation of the network decentralized** 
+    - by letting anyone run TEEs, when viable
+3. **Enable user programmability** 
+    - all MEV applications exist as smart contracts, written in builder solidity
+
+The goal of these three steps is to create an **open marketplace for mechanisms** which illuminate, democratize, and distribute the value we create collectively, rather than allowing it to be routed into dark and unreachable places controlled by the powerful.
+
+The set of possible mechanisms in such a marketplace makes Suave highly general, as they can include: 
+
+- new kinds of order flow auctions
+- more efficient block building algorithms
+- shared sequencers for different rollups 
+    - and more secure, efficient bridges
+- various types of commitments
+- new kinds of DEXes
+- pre-confirmations
+- any combination of the above
+- many more ideas we haven't thought of yet.
+
+## What's in the sausage
+
+1. Builder solidity (we begin here because I think the primary aim is to get people experimenting with contracts, both because we have more examples and because it highlights further needs for precompiles)
+    1. What it is - leverage socrates1024 smart contract programming model video
+    2. Examples of how to use it 
+        - Custom peekers mev-share (specifically to engage with design of OFA on Suave)
+        - Suave Peekers Proof of Concept (specifically to engage with block building)
+2. What is a Suave peeker? (while some stuff in here contextualises the example above, it's dense and should come after we discuss getting your first contract written)
+    1. Suave custom peekers chain PoC
+3. Full reference material
+    1. Basically, an edited version of the current GH README.
