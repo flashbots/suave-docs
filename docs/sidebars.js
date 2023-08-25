@@ -2,17 +2,27 @@ module.exports = {
   docs: [
     {
       "Welcome": [
-        'welcome', 'principles'
+        'welcome', 'design-goals'
       ],
     },
     {
-      "Learn": [
-        'learn/intro'
+      "Tutorials": [
+        'tutorials/index'
       ]
     },
     {
-      "Build": [
-        'build/intro'
+      "How To": [
+        'build/index'
+      ]
+    },
+    {
+      "References": [
+        'reference/index'
+      ]
+    },
+    {
+      "Understand": [
+        'understand/index', 'understand/meaning', 'understand/fairness'
       ]
     },
     {

@@ -1,0 +1,78 @@
+---
+title: Introduction
+description: An introduction to the conceptual foundations of Suave
+keywords:
+  - understand
+  - suave
+  - theory
+---
+
+# Foundation
+
+Maximum Extractable Value (MEV) is a general phenomenon. It can occur anywhere it takes **time** to **communicate**.
+
+One of the [first known exploits in the modern era took place in 1834](https://www.schneier.com/blog/archives/2018/05/1834_the_first_.html) between Bordeaux and Paris. Communication is never instantaneous (leaving aside quantum entanglement for now), and those who receive information first are always at an advantage because they can act on it prior to anyone else, giving them greater influence over the meaning and value of that information.
+
+Therefore, to better understand MEV, we will begin by studying communication with a focus on meaning, value, and fairness. 
+
+Implementing fairness in a quanifiable way requires that we study **auctions**. Auctions are a general class of mechanisms we use to discover price in uncertain environments. They enable the exchange of information for commitments (often in the form of payment). 
+
+We can design auction mechanisms that can account for the time it takes to communicate. How this happens is subtle: on a blockchain [**information _is_ money**](https://youtu.be/vi-rVTFTb6s), so we're no longer communicating _about_ the price, we're communicating the price. Commitments made on chain are more credible than offers made on a trading floor because they are one step closer to shared truth.
+
+In short: MEV is a phenomenon inherent to communication in any non-instantaneous medium. Auctions with well-designed commitment schemes are the mechanisms we can use to craft more fair use of all such media.
+
+## Suave specifics
+
+If you read the [welcome](/welcome) page, you will see that Suave is specifically intended to create an open marketplace for mechanisms that exchange **information about transactions** for **commitments about how block builders will order those transactions and share the revenue** such orderings generate. 
+
+Well designed mechanisms for this specific kind of exchange can decentralize the block building role and ensure that honest MEV actors profit more than dishonest ones, aligning our incentives around shared ownership rather than private economies of scale.
+
+We have thought extensively about how to structure our open marketplace, such that it remains sufficiently decentralized. To do this, we propose the following three principles:
+
+1. To neutralize the pressure from exclusive orderflow, users should be empowered with pre-confirmation privacy and entitled to any MEV they create. 
+
+    - Further, their transactions should be private, yet available to all block builders.
+
+2. To neutralize the pressure from cross-domain MEV, block builders across chains should integrate with each other. 
+
+    - But, similar to how [the original Flashbots Auction](https://docs.flashbots.net/flashbots-auction/overview) integrated searchers with miners, they must do so in an open and permissionless way.
+
+3. The first two components — a transaction system that empowers users, and a block building system that empowers builders — must themselves be decentralized or risk becoming corrupted in time.
+
+Suave is our attempt to empower users and maximally decentralize public blockchains.
+
+## General application
+
+In order to maximally decentralize public blockchains, we need to go beyond sequencing for any single one of them. **Suave is really designed to be the mempool and block builder for all blockchains**.
+
+There are many reasons why we think the market will evolve toward many chains sharing a single decentralized sequencing layer:
+
+1. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV.
+2. There are efficiency gains for users from aggregating and clearing their preferences inside the same auction.
+3. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives Suave an information advantage on centralized builders.
+4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, we can amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
+5. Because of how fundamental transaction sequencing is in blockchains, only another decentralized system can provide the necessary security and credible neutrality.
+
+Building a decentralized sequencing layer is the best way to give domains control over their own validation guarantees and to ensure smaller domains stay decentralized in the face of centralizing MEV from both centralized venues and other blockchains. We predict that domains that seek to compete on MEV sequencing rather than collaborating will see severe network externalities and backdoor centralization induced by MEV searchers. 
+
+**We suggest that all domains work together to avoid the centralized block building**.
+
+## Better Questions
+
+In order to understand how all of this weaves together into a coherent picture of unified coordination, we'll begin with the following questions:
+
+1. What is meaning?
+2. What is value? Where does it come from?
+3. What is "fair"? How can we quantify it?
+
+Once we've covered those conceptual foundations, we'll begin exploring programmable privacy, communication between different contexts (i.e. cross-domain MEV) and how the Suave-specific ideas above relate to creating unified infrastructure for the expression of value. As we paint this picture, we'll make three core claims:
+
+1. People should be able to participate in the value they create by virtue of the way information about their intentions is acted on.
+2. To do this, we must anticipate how the medium moves our messages so that no-one is unfairly manipulated.
+3. This amounts to programming money (i.e. when and where information flows) in increasingly democratic ways.
+
+## Why?
+
+This section is structured as above because MEV is a **general phenomenon**. Much of the activity around MEV in blockchains so far has been characterised by bots built to exploit short-term opportunities.
+
+However, the point here is that MEV will never be "solved". We can only find increasingly more fair ways of accounting for it as our media evolve. Once you understand this, the incentive is not to learn how to exploit short-lived opportunities, but to refine your fundamental understanding such that you can always participate in the value that is created whenever any intentional being interacts with the world.
