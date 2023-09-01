@@ -8,11 +8,11 @@ import styles from  './styles.module.scss';
 
 export default function Home() {
   return (
-    <Layout title="Suave" description="Suave home page - an introduction to the future of coordination">
+    <Layout title="SUAVE" description="SUAVE home page - an introduction to the future of coordination">
       <div className={styles.container}>
         <div className={styles.headingContainer}>
             <p className={styles.mainHeading}>
-              Suave
+              SUAVE
             </p>
             <p className={styles.subHeading}>
               Unified Coordination
@@ -25,13 +25,13 @@ export default function Home() {
         </p>
         <Grid>
           <GridBlock symbol="I." title="Unified">
-          Suave is a <b>shared sequencing layer</b> for any network or product that is exposed to MEV.
+          SUAVE is a <b>shared sequencing layer</b> for any network or product that is exposed to MEV.
           </GridBlock>
           <GridBlock symbol="II." title="Decentralized">
-          Suave is an <b>open marketplace</b> for decentralized block building.
+          SUAVE is an <b>open marketplace</b> for decentralized block building.
           </GridBlock>
           <GridBlock symbol="III." title="Permissionless">
-          Suave <b>enables anyone</b> to create orderflow auctions and block building applications.
+          SUAVE <b>enables anyone</b> to create orderflow auctions and block building applications.
           </GridBlock>
         </Grid>
       </div>
@@ -39,7 +39,7 @@ export default function Home() {
         <p className={styles.explainHeading}>
           SUAVE — Shared Sequencing for Everyone
         </p>
-        <p>Using Suave as the shared sequencing layer for any network or service that is exposed to MEV unlocks the following benefits:</p>
+        <p>Using SUAVE as the shared sequencing layer for any network or service that is exposed to MEV unlocks the following benefits:</p>
         <Grid>
           <GridBlock symbol="I." title="For blockchains">
           Maximally decentralized sequencing. Maximal neutral network resilience.

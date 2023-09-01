@@ -1,9 +1,37 @@
 ---
 title: Introduction
-description: All the up-to-date treasure maps to help you navigate Suave like the pirate you were born to be
+description: All the up-to-date treasure maps to help you navigate SUAVE like the pirate you were born to be
 keywords:
   - references
   - suave
   - technical
   - advanced
 ---
+
+## The basic outline
+
+Flashbots has been running services like mev-boost and mev-share to help alleviate some of the issues with MEV. These are effectively trusted third parties. They've worked as intended to prevent the worst effects of MEV, to ensure that the dark forest remains illuminated, and to redistribute value. Now, it's time to decentralize these operations and enable anyone to create increasingly better algorithms and/or applications to ensure that blockchains find a good balance between being open and private, efficient and fair.
+
+To read more about the **history** of this project, what inspires us, and why we do the work we do, we recommend that you read [this post](https://writings.flashbots.net/the-future-of-mev-is-suave).
+
+The **high level plan** is:
+
+1. Enhance open, permissionless programmability 
+    - all MEV applications exist as smart contracts, written in builder solidity
+2. Replace trusted third parties (TTPs) with trusted execution environments (TEEs)
+    - in a flexible way that allows for us to shift to MPC, FHE etc as they become viable
+3. Make the operation of the network decentralized
+    - by letting anyone run TEEs, when viable
+
+The **goal** of these three steps is to create an **open marketplace for mechanisms** which illuminate, democratize, and distribute the value we create collectively, rather than allowing it to be routed into dark and unreachable places controlled by the powerful. 
+
+More technically, SUAVE clients offer confidential execution for smart contracts, allowing off-chain processing with extended precompiles for enhanced MEV functionalities, including transaction simulation via geth RPC, block building, and relay boosting, all handled by dedicated execution nodes.
+
+## *Refers to notes
+
+In this section, you'll find up-to-date and succinct descriptions of each part of SUAVE and the MEVM. Once you're familiar wih the tutorials and how to guides, this section should help you create new and innovative mechanisms of your own on SUAVE by providing you with the context you need to create whatever you can imagine.
+
+1. **Confidential computation** - what is is and how it works.
+2. **Builder solidity** - what it is and what it offers you. 
+3. **Available precompiles** - easy reference list of your new super powers.
+4. **MEVM** - what it is and how it differs from go-ethereum.

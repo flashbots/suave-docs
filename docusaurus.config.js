@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 // With JSDoc @type annotations, IDEs can provide config autocompletion
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
-  title: 'Suave',
+  title: 'SUAVE',
   tagline: 'Illuminate, Democratize, Distribute',
   baseUrl: process.env.BASE_URL,
   onBrokenLinks: 'throw',
@@ -16,6 +16,10 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
   organizationName: 'flashbots', 
   projectName: 'docs', 
   url: process.env.TARGET_URL,
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css',
@@ -48,7 +52,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         }
       },
       navbar: {
-        title: 'Suave',
+        title: 'SUAVE',
         logo: {
           alt: 'Flashbots Logo',
           src: 'img/logo.png',
