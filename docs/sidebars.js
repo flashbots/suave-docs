@@ -16,12 +16,12 @@ module.exports = {
       ]
     },
     {
-      "References": [
-        'reference/index'
+      "Technical Details": [
+        'reference/index', 'reference/confidential-computation', 'reference/precompiles', 'reference/MEVM'
       ]
     },
     {
-      "Understand": [
+      "Understanding MEV": [
         'understand/index', 'understand/meaning', 'understand/fairness'
       ]
     },

@@ -1,0 +1,158 @@
+---
+title: SUAVE Precompiles
+description: An up-to-date list of all precompiles available to use in smart contracts on SUAVE
+keywords:
+  - reference
+  - suave
+  - precompiles
+---
+
+# Precompiles
+
+Below, you will find a list of currently available precompiles in SUAVE, to be used to build expressive, confidential smart contracts. 
+
+You can find worked examples of how to use these precompiles in your own contracts in our [how to](/build) section.
+
+We have created a [convenient library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) of all the precompiles listed below. Once familiar with what is currently on offer, we invite you to [look at the implementation](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave.go) and help us extend what is available.
+
+We will be extremely happy to help you get a specific precompile you need for your MEV use case into SUAVE.
+
+```go
+function isOffchain() internal view returns (bool b)
+function confidentialInputs() internal view returns (bytes memory)
+function newBid(uint64 decryptionCondition, address[] memory allowedPeekers, string memory BidType) internal view returns (Bid memory)
+function fetchBids(uint64 cond, string memory namespace) internal view returns (Bid[] memory)
+function confidentialStoreStore(BidId bidId, string memory key, bytes memory data) internal view
+function confidentialStoreRetrieve(BidId bidId, string memory key) internal view returns (bytes memory)
+function simulateBundle(bytes memory bundleData) internal view returns (bool, uint64)
+function extractHint(bytes memory bundleData) internal view returns (bytes memory)
+function buildEthBlock(BuildBlockArgs memory blockArgs, BidId bid, string memory namespace) internal view returns (bytes memory, bytes memory)
+function submitEthBlockBidToRelay(string memory relayUrl, bytes memory builderBid) internal view returns (bool, bytes memory)
+```
+
+## Extended Details
+
+### IsOffchain
+
+|   |   |
+|---|---|
+| Address | `0x42010000` |
+| Inputs | None |
+| Outputs | boolean |
+
+Outputs whether execution mode is regular (on-chain) or confidential.
+
+**NOTE**: this is the only precompile available during on-chain execution, where it simply returns false.
+
+### ConfidentialInputs
+
+|   |   |
+|---|---|
+| Address | `0x42010001` |
+| Inputs | None |
+| Outputs | bytes |
+
+Outputs the confidential inputs passed in with the confidential computation request.
+
+**NOTE**: currently all precompiles have access to the data passed in. This might change in the future.
+
+### ConfidentialStore
+
+|   |   |
+|---|---|
+| Address | `0x42020000` |
+| Inputs | (Suave.BidId bidId, string key, bytes data) |
+| Outputs | None |
+
+Stores the value in underlying confidential store. 
+
+Requires that the caller is present in the `AllowedPeekers` of the bid passed in.
+
+### ConfidentialRetrieve
+
+|   |   |
+|---|---|
+| Address | `0x42020001` |
+| Inputs | (Suave.BidId bidId, string key) |
+| Outputs | bytes |
+
+Retrieves the value from underlying confidential store.
+
+Requires that the caller is present in the `AllowedPeekers` of the bid passed in.
+
+### NewBid
+
+|   |   |
+|---|---|
+| Address | `0x42030000` |
+| Inputs | (uint64 decryptionCondition, string[] allowedPeekers) |
+| Outputs | Suave.Bid |
+
+Initializes the bid in ConfidentialStore. All bids must be initialized before attempting to store data on them.
+
+Initialization of bids can *only* be done through this precompile.
+
+### FetchBids
+
+|   |   |
+|---|---|
+| Address | `0x42030001` |
+| Inputs | uint64 DecryptionCondition |
+| Outputs | Suave.Bid[] |
+
+Returns all bids matching the decryption condition.
+
+In the near future bids will be stored in a different way, possibly changing how they are accessed.
+
+### SimulateBundle
+
+|   |   |
+|---|---|
+| Address | `0x42100000` |
+| Inputs | bytes bundleArgs (json) |
+| Outputs | (bool success, uint64 egp) |
+
+Simulates the bundle by building a block containing it, returns whether the apply was successful and the EGP of the resulting block.
+
+### ExtractHint
+
+|   |   |
+|---|---|
+| Address | `0x42100037` |
+| Inputs | bytes bundleData (json) |
+| Outputs | bytes hintData (json) |
+
+Parses the bundle data and extracts the hint: i.e. the "to" address and the calldata.
+
+The return structure is encoded as follows:
+
+```go
+struct {
+    To   common.Address
+    Data []byte
+}
+```
+
+### BuildEthBlock
+
+|   |   |
+|---|---|
+| Address | `0x42100001` |
+| Inputs | (Suave.BuildBlockArgs blockArgs, Suave.BidId bidId) |
+| Outputs | (bytes builderBid, bytes blockPayload) |
+
+Builds an Ethereum block based on the bid passed in.
+
+The bid can either hold `ethBundle` in its confidential store, or be a "merged bid", i.e. contain a list of bids in `mergedBids` in its confidential store. The merged bids should themselves hold `ethBundle`.
+
+The block is built *in order*, without any attepmts at re-ordering. The block will contain the transactions unless they failed to apply. The caller should check whether the bids applied successfully, ie whether they revert only if are allowed to.
+
+### SubmitEthBlockBidToRelay
+
+|   |   |
+|---|---|
+| Address | `0x42100002` |
+| Inputs | (string relayUrl, bytes builderBid (json) |
+| Outputs | (bytes error) |
+
+Submits provided builderBid to a boost relay. If the submission is successful, returns nothing, otherwise returns an error string.

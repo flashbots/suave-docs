@@ -1,45 +1,43 @@
 ---
 title: Introduction
-description: Start building with Suave
+description: Start building with SUAVE
 keywords:
   - build
   - suave
   - practice
 ---
 
-Suave uses the **MEVM**, which is a modified EVM with new precompiles for MEV use cases. Using the MEVM, you can program MEV applications as smart contracts within an expressive, familiar, and flexible programming environment - just like the normal EVM. 
+SUAVE uses the **MEVM**, which is a modified EVM with new precompiles for MEV use cases. Using the MEVM, you can program MEV applications as smart contracts within an expressive, familiar, and flexible programming environment - just like the normal EVM. 
 
-The ambition of the MEVM is to offer every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure today to be transformed into a smart contract running on Suave.
+The MEVM offers every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure to be transformed into a smart contract running on SUAVE.
 
-## The basic outline
+SUAVE is focused on delivering the properties you need: low latency, privacy, credible computation, and composability.
 
-Flashbots has been running services like mev-boost and mev-share to help alleviate some of the issues with MEV. These are effectively trusted third parties. They've worked as intended to prevent the worst effects of MEV, to ensure that the dark forest has been illuminated, and to redistribute some of the value created by users. Now, it's time to decentralize these operations and enable anyone to create increasingly better algorithms and/or applications to ensure that our world remains open and fair, with room for all.
+## What can I do with SUAVE?
 
-1. **Enhance open, permissionless programmability** 
-    - all MEV applications exist as smart contracts, written in builder solidity
-2. **Replace trusted third parties (TTPs) with trusted execution environments (TEEs)**
-    - in a flexible way that allows for us to shift to MPC, FHE etc as they become viable
-3. **Make the operation of the network decentralized** 
-    - by letting anyone run TEEs, when viable
+1. **Deploy more expressive smart contracts.** 
+    - Smart contracts on SUAVE follow the same rules as on Ethereum, with the added advantage of being able to access additional precompiles we have made available to serve any MEV application. You can find a list of these precompiles in the [reference section](/reference/precompiles).
 
-The goal of these three steps is to create an **open marketplace for mechanisms** which illuminate, democratize, and distribute the value we create collectively, rather than allowing it to be routed into dark and unreachable places controlled by the powerful. 
+2. **Enjoy confidential execution**. 
+    - Using the precompiles above, smart contracts can define computation that can occur "off-chain", that is, in a manner in which the data involved is not exposed to everyone using SUAVE, but is encrypted to specific actors. Once the node(s) I have encrypted my data for complete the confidential computation, the result replaces the calldata for on-chain execution. This creates a public and transparent marketplace of applications in which we can inspect, collaborate, and compete to produce the most efficient order flow auctions, or block building algorithsm etc., while nevertheless protecting the data of the people who use those applications.
 
-We want to enable you to build new applications that you cannot build on Ethereum in a decentralized way today. Initially, we will support applications:
+## What's in the sausage?
 
-1. that require **private data**, e.g., auctions, block building
-2. that require **coordination within block times**, e.g., block building, trade routing and filling
-3. that require **access to fresh off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
-4. the require **commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
-5. that are too **expensive to do on-chain** because of how much compute they use, e.g., block building 
+In this section, you'll find all of our recipes. 
 
-## What's in the sausage
+The [tutorials](/tutorials/index) are intended to get you from 0 to 1. These "how to" guides will help you get from 1 to wherever else you want to go. They do not provide history and background explanation: they show you how to do interesting and delicious things. 
 
-1. Builder solidity (we begin here because I think the primary aim is to get people experimenting with contracts, both because we have more examples and because it highlights further needs for precompiles)
-    1. What it is - leverage socrates1024 smart contract programming model video
-    2. Examples of how to use it 
-        - Custom peekers mev-share (specifically to engage with design of OFA on Suave)
-        - Suave Peekers Proof of Concept (specifically to engage with block building)
-2. What is a Suave peeker? (while some stuff in here contextualises the example above, it's dense and should come after we discuss getting your first contract written)
-    1. Suave custom peekers chain PoC
-3. Full reference material
-    1. Basically, an edited version of the current GH README.
+> **We want to enable you to build new applications that you cannot build on Ethereum in a decentralized way today.**  
+
+Initially, we will support applications that require:
+
+1. **private data**, e.g., auctions, block building
+2. **coordination within block times**, e.g., block building, trade routing and filling
+3. **access to fresh off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
+4. **commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
+5. **too much gas to do on-chain** because of how much compute they use, e.g., block building.
+
+You will find the following recipes in this section:
+
+1. How to create your own custom peeker ("custom peekers mev-share" Notion page, specifically to engage with design of OFA on SUAVE)
+2. How to build blocks for other networks ("SUAVE Peekers Proof of Concept" Notion page, specifically to engage with block building)
