@@ -1,0 +1,78 @@
+---
+title: Setup SUAVE
+description: Start running SUAVE and participating in the chain itself
+keywords:
+  - build
+  - suave
+  - setup
+  - practice
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Setup SUAVE
+
+## Using Docker
+
+### What you need
+
+1. Use the cheapest instance you can. We don't have high RAM, disk, or bandwidth requirements at this stage.
+2. Use **Ubuntu 22.04**.
+3. This guide is tested on a 1GB CPU, 25GB SSD machine in Digital Ocean, and on a `t2.micro` EC2 instance (free-tier) in AWS. 
+    1. We default to Digital Ocean due to the ease with which `docker-compose` works there. 
+    2. You **do not** need Docker itself installed to follow this guide.
+
+### What to do
+
+1. Install `docker-compose`:
+<Tabs
+  defaultValue="do"
+  values={[
+    {label: 'Digital Ocean', value: 'do'},
+    {label: 'AWS', value: 'aws'},
+  ]}>
+  <TabItem value="do">
+    <pre>
+        apt install docker-compose
+    </pre>
+  </TabItem>
+  <TabItem value="aws">
+    Ubuntu images in AWS do not come with the Docker's Apt repository already set up. Therefore, you need to add it manually before installing <code>docker-compose</code>:
+
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+    # Add the repository to Apt sources:
+    echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    # Update
+    sudo apt-get update
+
+    # Install docker-compose
+    sudo apt install docker-compose
+  </TabItem>
+</Tabs>
+
+2. Clone the software and get to the right place:
+```bash
+git clone https://github.com/flashbots/suave-geth.git
+cd suave-geth/suave/devenv/
+```
+3. Run SUAVE (you'll need to run this as `sudo` in AWS):
+```bash
+docker-compose up -d 
+```
+
+### What just happened
+
+You just setup SUAVE and it's now running as a daemon process (which happened because of the `-d` flag we used in the `docker-compose` command). Well done!
+
+If you look at the `docker-compose.yml` file in `suave/devenv`, you will see that there are two services running. 
+
+1. The `MEVM-node` is started first. This node is responsible for executing any cofidential compute requests made by users of SUAVE. You can find an explanation of [confidential computation here](/reference/confidential-computation).
+2. The `SUAVE-enabled-chain` is started second. This is an adapted version of geth, with a new runtime and what we call the [`SuaveExecutionBackend`](/reference/MEVM#architecture), which gives you access to some new APIs. These APIs make it possible to write smart contracts using the precompiles we have made available for creating MEV applications like orderflow auctions and new block building algorithms. You can find a full list of [precompiles here](/reference/precompiles) and information about the [APIs here](/reference/confidential-compute#apis).

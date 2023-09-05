@@ -8,6 +8,8 @@ keywords:
 ---
 
 import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx";
+import Grid from "@site/src/components/Grid/Grid.tsx";
+import GridBlock from "@site/src/components/GridBlock/GridBlock.tsx";
 
 # Welcome to SUAVE
 
@@ -17,10 +19,20 @@ SUAVE is our way to **decentralize the block building** role by creating an open
 
 **Sharing the same sequencing layer** reduces the economic centralization pressure on all of us, enabling:
 
-1. _the industry_ to stay decentralized, 
-2. _block builders_ to capture cross-domain MEV, 
-3. _validators_ to maximize their revenue, and 
-4. _users_ to transact with the best execution.
+<Grid>
+  <GridBlock symbol="I." title="Blockchains">
+  to stay decentralized
+  </GridBlock>
+  <GridBlock symbol="II." title="Block builders">
+  to capture cross-domain MEV
+  </GridBlock>
+  <GridBlock symbol="III." title="Validators">
+  to maximize their revenue
+  </GridBlock>
+  <GridBlock symbol="IV." title="Humans">
+  to transact fairly, with the best execution.
+  </GridBlock>
+</Grid>
 
 SUAVE is **unifying infrastructure** that allows honest MEV actors to profit more than dishonest ones, aligning our incentives around shared ownership rather than private economies of scale.
 

@@ -39,7 +39,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         appId: 'BH4D9OD16A',
       },
       colorMode: {
-        defaultMode: 'dark',
+        defaultMode: 'light',
       },
       prism: {
         theme: lightCodeTheme,
@@ -58,12 +58,6 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
           src: 'img/logo.png',
         },
         items: [
-          {
-            type: 'doc',
-            position: 'left',
-            docId: 'welcome',
-            label: 'Get Started',
-          },
           {
             href: 'https://github.com/flashbots/suave-geth',
             label: 'GitHub',

@@ -2,7 +2,7 @@ module.exports = {
   docs: [
     {
       "👋 Welcome": [
-        'welcome', 'design-goals'
+        'index', 'design-goals'
       ],
     },
     {
@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       "🥷 How To": [
-        'build/index'
+        'build/index', 'build/suave-setup'
       ]
     },
     {
