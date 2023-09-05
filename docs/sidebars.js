@@ -1,34 +1,39 @@
 module.exports = {
   docs: [
     {
-      "Welcome": [
+      "👋 Welcome": [
         'welcome', 'design-goals'
       ],
     },
     {
-      "Tutorials": [
+      "🐥 Tutorials": [
         'tutorials/index'
       ]
     },
     {
-      "How To": [
+      "🥷 How To": [
         'build/index'
       ]
     },
     {
-      "Technical Details": [
+      "🤖 Technical Details": [
         'reference/index', 'reference/confidential-computation', 'reference/precompiles', 'reference/MEVM'
       ]
     },
     {
-      "Understanding MEV": [
+      "⚡ Understanding MEV": [
         'understand/index', 'understand/meaning', 'understand/fairness'
       ]
     },
     {
-      "Join Us": [
+      "🤼 Join Us": [
         'join/joining-suave', 'join/contribution-guide', 'join/code-of-conduct'
       ],
+    },
+    {
+      "Policies": [
+        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy'
+      ]
     },
     {
       type: 'link',
@@ -37,14 +42,8 @@ module.exports = {
     },
     {
       type: 'link',
-      label: 'Discord',
-      href: 'https://discord.gg/flashbots',
-    },
-    {
-      type: 'link',
-      href: 'https://github.com/flashbots/',
+      href: 'https://github.com/flashbots/suave-geth',
       label: 'GitHub',
-    },
-        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy',
+    }
   ],
 };

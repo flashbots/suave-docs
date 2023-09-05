@@ -7,13 +7,13 @@ keywords:
   - docs
 ---
 
+import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx";
+
 # Welcome to SUAVE
 
-The work done at Flashbots to date (like mev-geth, mev-relay, mev-boost, and mev-share) has successfully isolated the centralizing effects of MEV to block builders. SUAVE is our way to **decentralize the block building role**.
+If MEV remains centralized, we cannot realise the promises that crypto offers.
 
-This matters because if MEV remains centralized, we cannot realise the promises that crypto offers.
-
-Decentralizing block building requires unbundling the mempool and block builder role and creating an open marketplace for mechanisms that innovate on both block building algorithms and order flow auctions. Such "MEV applications" can sustainably eliminate the centralizing forces in block building by creating a shared sequencing layer for anything effected by MEV. 
+SUAVE is our way to **decentralize the block building** role by creating an open marketplace for mechanisms that innovate on both block building algorithms and order flow auctions. Such "MEV applications" can sustainably eliminate the centralizing forces in block building by creating a shared sequencing layer for anything effected by MEV. 
 
 **Sharing the same sequencing layer** reduces the economic centralization pressure on all of us, enabling:
 
@@ -30,10 +30,16 @@ We must make sure block building - and the power it implies - ends up meaningful
 
 This site encourages you to move through a specific flow in order to start building the **future of coordination**. 
 
-1. Begin with **tutorials**. These are _learning-oriented_. They focus on practical skills, not theoretical knowledge. They are the best place to start, even if you have prior experience with MEV. Our goal with the tutorials is that you enjoy the experience and gain confidence, not that you become an expert.
-2. Grow with the **how-to guides**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence (hence why we start with tutorials). These will not give you context or history: they will help you do stuff. All the recipes taken together help frame the picture of what SUAVE can enable you to do, in general.
-3. Consult the **references**. These are intended to provide you with up-to-date certainty about what interfaces, libraries, capabilities etc. SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
-4. Refine your **understanding**. These are _discussion-oriented_. They won't help you achieve a practical goal, but they will provide you with insight into the "deep why". Why is it meaningful to work on MEV? The discussions this section invites weave everything together so you have a sense not just of how to cook delicious meals on your journey to a more fair, decentralized world, but why it matters that you even walk this way to begin with.
+1. Begin with **[tutorials](/tutorials/index)**. These are _learning-oriented_. They focus on practical skills, not theoretical knowledge. Our goal with the tutorials is that you enjoy the experience and gain confidence, not that you become an expert.
+2. Grow with the **[how-to guides](/build/index)**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence (hence why we start with tutorials). Recipes do not give you context or history: they will help you do stuff. All the recipes taken together help frame the picture of what SUAVE can enable you to do, in general.
+3. Consult the **[references](/reference/index)**. These are _information-oriented_ and provide you with up-to-date certainty about what interfaces and precompiles SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
+4. Refine your **[understanding](/understand/index)**. These are _discussion-oriented_. These are designed to provide you with insight into the "deep why". Why is it meaningful to work on MEV? The discussions this section invites weave everything together.
+
+<AlignItems horizontal="center" vertical="center" sideMargin={0}>
+<div>
+  <img alt="Fairier Transformers" src={require('/static/img/diatraxis.png').default} />
+</div>
+</AlignItems>
 
 ## About Flashbots
 
