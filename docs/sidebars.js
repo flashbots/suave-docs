@@ -1,8 +1,11 @@
 module.exports = {
   docs: [
     {
-      "👋 Welcome": [
-        'index', 'design-goals'
+      type: 'category',
+      label: '👋 Welcome',
+      link: {type: 'doc', id: 'index'},
+      items: [
+        'design-goals',
       ],
     },
     {
@@ -11,23 +14,38 @@ module.exports = {
       ]
     },
     {
-      "🥷 How To": [
-        'build/index', 'build/suave-setup'
-      ]
+      type: 'category',
+      label: '🥷 How To',
+      link: {type: 'doc', id: 'build/index'},
+      items: [
+        'build/suave-setup',
+      ],
     },
     {
-      "🤖 Technical Details": [
-        'reference/index', 'reference/confidential-computation', 'reference/precompiles', 'reference/MEVM'
-      ]
+      type: 'category',
+      label: '🤖 Technical Details',
+      link: {type: 'doc', id: 'reference/index'},
+      items: [
+        'reference/confidential-computation',
+        'reference/precompiles',
+        'reference/MEVM',
+      ],
     },
     {
-      "⚡ Understanding MEV": [
-        'understand/index', 'understand/meaning', 'understand/fairness'
-      ]
+      type: 'category',
+      label: '⚡ Understanding MEV',
+      link: {type: 'doc', id: 'understand/index'},
+      items: [
+        'understand/meaning',
+        'understand/fairness',
+      ],
     },
     {
-      "🤼 Join Us": [
-        'join/joining-suave', 'join/contribution-guide', 'join/code-of-conduct'
+      type: 'category',
+      label: '🤼 Join Us',
+      link: {type: 'doc', id: 'join/joining-suave'},
+      items: [
+        'join/code-of-conduct',
       ],
     },
     {
