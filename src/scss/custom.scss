@@ -81,7 +81,14 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p,
+ol,
+ul,
+a,
+b,
+span,
+div {
   font-family: 'CMU-Serif', 'Times New Roman', Garamond, Georgia, serif;
   // color: var(--ifm-color-gray-1000);
 }
@@ -95,6 +102,24 @@ h3 {
 h2 {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+p,
+ol,
+ul,
+a,
+b,
+span, 
+div {
+  font-size: 18px;
+}
+
+.theme-doc-sidebar-item-link {
+  padding-left: 15px;
+}
+
+.menu__list {
+  font-weight: bold;
 }
 
 .menu__link--sublist:after {

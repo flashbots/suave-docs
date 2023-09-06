@@ -8,62 +8,29 @@ keywords:
   - practice
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Setup SUAVE
 
-## Using Docker
+## Local - Docker
 
 ### What you need
 
-1. Use the cheapest instance you can. We don't have high RAM, disk, or bandwidth requirements at this stage.
-2. Use **Ubuntu 22.04**.
-3. This guide is tested on a 1GB CPU, 25GB SSD machine in Digital Ocean, and on a `t2.micro` EC2 instance (free-tier) in AWS. 
-    1. We default to Digital Ocean due to the ease with which `docker-compose` works there. 
-    2. You **do not** need Docker itself installed to follow this guide.
+1. Install Docker. You can find general directions [here](https://docs.docker.com/get-docker/).
+    1. If you're running Ubuntu or Debian, we recommend [this specific guide](https://docs.docker.com/engine/install/ubuntu/#installation-methods).
+2. Make sure you have `docker-compose` installed too. The should just happen when you install Docker.
+    1. Check with `docker-compose version` (Docker Engine) or `docker compose version` (Docker Desktop).
+3. We do not have high RAM, disk, or bandwidth requirements. This section should work on most consumer laptops.
 
 ### What to do
 
-1. Install `docker-compose`:
-<Tabs
-  defaultValue="do"
-  values={[
-    {label: 'Digital Ocean', value: 'do'},
-    {label: 'AWS', value: 'aws'},
-  ]}>
-  <TabItem value="do">
-    <pre>
-        apt install docker-compose
-    </pre>
-  </TabItem>
-  <TabItem value="aws">
-    Ubuntu images in AWS do not come with the Docker's Apt repository already set up. Therefore, you need to add it manually before installing <code>docker-compose</code>:
-
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-    # Add the repository to Apt sources:
-    echo \
-    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-    # Update
-    sudo apt-get update
-
-    # Install docker-compose
-    sudo apt install docker-compose
-  </TabItem>
-</Tabs>
-
-2. Clone the software and get to the right place:
+1. Clone suave-geth:
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
+```
+2. Get to the right place in the repo:
+```bash
 cd suave-geth/suave/devenv/
 ```
-3. Run SUAVE (you'll need to run this as `sudo` in AWS):
+3. Run SUAVE:
 ```bash
 docker-compose up -d 
 ```
@@ -72,7 +39,145 @@ docker-compose up -d
 
 You just setup SUAVE and it's now running as a daemon process (which happened because of the `-d` flag we used in the `docker-compose` command). Well done!
 
-If you look at the `docker-compose.yml` file in `suave/devenv`, you will see that there are two services running. 
+There are two kinds of SUAVE nodes, both participating in the same p2p network. We load them both in this setup. The "SUAVE Chain node" is a full node and the "MEVM node" is a full node with the ability to run confidential computation and broadcast the results.
 
-1. The `MEVM-node` is started first. This node is responsible for executing any cofidential compute requests made by users of SUAVE. You can find an explanation of [confidential computation here](/reference/confidential-computation).
-2. The `SUAVE-enabled-chain` is started second. This is an adapted version of geth, with a new runtime and what we call the [`SuaveExecutionBackend`](/reference/MEVM#architecture), which gives you access to some new APIs. These APIs make it possible to write smart contracts using the precompiles we have made available for creating MEV applications like orderflow auctions and new block building algorithms. You can find a full list of [precompiles here](/reference/precompiles) and information about the [APIs here](/reference/confidential-computation#apis).
+1. You can find more information about [confidential computation](/reference/confidential-computation) and the [APIs we've built to enable it](/reference/confidential-computation#apis).
+2. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
+3. See a full list of the [precompiles this gives you access to in any smart contract](/reference/precompiles).
+
+### Common problems
+
+<details>
+  <summary>1. Docker not running</summary>
+  <div>
+    <div>
+      <div>
+        Make sure that Docker is running before trying <code>docker-compose up -d</code>. On most Linux machines, you can do this with:<br/>
+        <code>
+        sudo systemctl start docker
+        </code><br/><br/>
+        Or just check the current status with:<br/>
+        <code>
+        sudo systemctl status docker
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+
+<details>
+  <summary>2. Using Docker Desktop</summary>
+  <div>
+    <div>
+      If you're using Docker Desktop, it's likely that you need to use <code>docker compose up -d</code> (without the <code>-</code>).
+    </div>
+  </div>
+</details>
+
+<details>
+  <summary>3. Older OS won't shut down</summary>
+  <div>
+    <div>
+      <div>
+        Depending on your OS version and the way you installed Docker, you might have issues switching your new MEVM node off again. If so:<br/>
+        <code>
+        sudo killall containerd-shim
+        </code><br/><br/>
+        Now you should be able to run:<br/>
+        <code>
+        sudo docker-compose down
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+
+## Local - build it yourself
+
+The `docker-compose` version above sets up SUAVE using simple defaults. If you'd like to run the binaries yourself and customise what is happening, read on.
+
+### What you need
+
+1. [Install go](https://go.dev/doc/install).
+
+### What to do
+
+1. Build the adapted geth client first with:
+```bash
+make geth
+```
+2. Run the MEVM node first:
+```bash
+./build/bin/geth --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
+--allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
+--keystore ./suave/devenv/suave-ex-node/keystore/
+```
+3. Press `Enter` when prompted for a password
+4. In a new terminal, run the SUAVE Chain node:
+```bash
+./build/bin/geth --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws
+```
+
+### What to do next
+
+You can now run any `geth` command you like, with an additional `--suave` flag. Start by generating a new account:
+
+```bash
+./build/bin/geth --suave account new
+```
+
+Consult the help page for anything else you need to do:
+```bash
+./build/bin/geth --suave help
+```
+
+## Cloud - Docker
+
+### What you need
+
+1. Use the cheapest instance you can. We don't have high RAM, disk, or bandwidth requirements at this stage.
+2. Use **Ubuntu 22.04**.
+3. This guide is tested on a 1GB CPU, 25GB SSD machine in Digital Ocean, and on a `t2.micro` EC2 instance (free-tier) in AWS. 
+    1. Digital Ocean requires the least Docker setup in our experience. 
+    2. You **do not** need Docker itself installed to follow this section.
+
+### What to do
+
+1. Install `docker-compose`:
+```bash
+apt install docker-compose
+```
+
+<details>
+  <summary>docker-compose not found</summary>
+  <div>
+    <div>
+    <div>
+      Ubuntu images in certain cloud providers do not come with Docker's Apt repository already set up. Therefore, you may need to add it manually:<br/><br/>
+      <code>
+      sudo install -m 0755 -d /etc/apt/keyrings<br/>
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg<br/>
+      sudo chmod a+r /etc/apt/keyrings/docker.gpg<br/><br/>
+      echo \
+      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      <br/><br/>
+      sudo apt-get update
+      <br/><br/>
+      sudo apt install docker-compose
+      </code>
+    </div>
+    </div>
+  </div>
+</details>
+
+2. Clone the software and get to the right place:
+```bash
+git clone https://github.com/flashbots/suave-geth.git
+cd suave-geth/suave/devenv/
+```
+3. Run SUAVE (you may need to run this as `sudo`):
+```bash
+docker-compose up -d 
+```

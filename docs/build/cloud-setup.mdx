@@ -1,0 +1,67 @@
+---
+title: Setup SUAVE in the Cloud
+description: Start running SUAVE and participating in the chain itself
+keywords:
+  - build
+  - suave
+  - setup
+  - practice
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Setup Suave remotely
+
+### What you need
+
+1. Use the cheapest instance you can. We don't have high RAM, disk, or bandwidth requirements at this stage.
+2. Use **Ubuntu 22.04**.
+3. This guide is tested on a 1GB CPU, 25GB SSD machine in Digital Ocean, and on a `t2.micro` EC2 instance (free-tier) in AWS. 
+    1. We default to Digital Ocean due to the ease with which `docker-compose` works there. 
+    2. You **do not** need Docker itself installed to follow this guide.
+
+### What to do
+
+1. Install `docker-compose`:
+<Tabs
+  defaultValue="do"
+  values={[
+    {label: 'Digital Ocean', value: 'do'},
+    {label: 'AWS', value: 'aws'},
+  ]}>
+  <TabItem value="do">
+    <pre>
+        apt install docker-compose
+    </pre>
+  </TabItem>
+  <TabItem value="aws">
+    Ubuntu images in AWS do not come with Docker's Apt repository already set up. Therefore, you need to add it manually before installing: <code>docker-compose</code>:
+
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+    # Add the repository to Apt sources:
+    echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    # Update
+    sudo apt-get update
+
+    # Install docker-compose
+    sudo apt install docker-compose
+  </TabItem>
+</Tabs>
+
+2. Clone the software and get to the right place:
+```bash
+git clone https://github.com/flashbots/suave-geth.git
+cd suave-geth/suave/devenv/
+```
+3. Run SUAVE (you'll need to run this as `sudo` in AWS):
+```bash
+docker-compose up -d 
+```
