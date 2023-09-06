@@ -56,7 +56,6 @@
     font-size: 1.2rem;
     line-height: 1.25;
     font-weight: 500;
-    font-family: 'CMU-Serif', 'Times New Roman', Garamond, Georgia, serif;
   }
 
   & hr {
@@ -66,7 +65,7 @@
 }
 
 .content {
-  font-size: 18px;
+  font-size: 16px;
   line-height: var(--ifm-line-height-base);
   & ul, & ol {
     padding-left: 1ch;

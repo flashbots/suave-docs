@@ -78,23 +78,6 @@
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ol,
-ul,
-a,
-b,
-span,
-div {
-  font-family: 'CMU-Serif', 'Times New Roman', Garamond, Georgia, serif;
-  // color: var(--ifm-color-gray-1000);
-}
-
-h1,
-h2,
 h3 {
   font-weight: 400;
 }
@@ -111,7 +94,7 @@ a,
 b,
 span, 
 div {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .theme-doc-sidebar-item-link {
