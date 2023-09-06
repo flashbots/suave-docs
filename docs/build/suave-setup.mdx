@@ -10,7 +10,7 @@ keywords:
 
 # Setup SUAVE
 
-## Local - Docker
+## Docker
 
 ### What you need
 
@@ -39,7 +39,7 @@ docker-compose up -d
 
 You just setup SUAVE and it's now running as a daemon process (which happened because of the `-d` flag we used in the `docker-compose` command). Well done!
 
-There are two kinds of SUAVE nodes, both participating in the same p2p network. We load them both in this setup. The "SUAVE Chain node" is a full node and the "MEVM node" is a full node with the ability to run confidential computation and broadcast the results.
+There are two kinds of SUAVE nodes, both participating in the same p2p network. We start them both in this setup. The "SUAVE Chain node" is a full node and the "MEVM node" is a full node with the ability to run confidential computation and broadcast the results.
 
 1. Read more about [confidential computation](/reference/confidential-computation) and the [APIs we've built to enable it](/reference/confidential-computation#apis).
 2. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
@@ -92,7 +92,7 @@ There are two kinds of SUAVE nodes, both participating in the same p2p network. 
   </div>
 </details>
 
-## Local - build it yourself
+## Build it yourself
 
 The `docker-compose` version above sets up SUAVE using simple defaults. If you'd like to run the binaries yourself and customise what is happening, read on.
 
