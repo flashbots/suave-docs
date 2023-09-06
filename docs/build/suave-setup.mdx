@@ -117,12 +117,12 @@ make geth
 3. Press `Enter` when prompted for a password
 4. In a new terminal, run the SUAVE Chain node:
 ```bash
-./build/bin/geth --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws
+./build/bin/geth --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
 ```
 
 ### What to do next
 
-You can now run any `geth` command you like, with an additional `--suave` flag. Start by generating a new account:
+You can now run any `geth` command you like, with an additional `--suave` flag. Start by generating a new account (in another terminal):
 
 ```bash
 ./build/bin/geth --suave account new
@@ -131,55 +131,4 @@ You can now run any `geth` command you like, with an additional `--suave` flag. 
 Consult the help page for anything else you need to do:
 ```bash
 ./build/bin/geth --suave help
-```
-
-## Cloud - Docker
-
-### What you need
-
-1. Use the cheapest instance you can. We don't have high RAM, disk, or bandwidth requirements at this stage.
-2. Use **Ubuntu 22.04**.
-3. This guide is tested on a 1GB CPU, 25GB SSD machine in Digital Ocean, and on a `t2.micro` EC2 instance (free-tier) in AWS. 
-    1. Digital Ocean requires the least Docker setup in our experience. 
-    2. You **do not** need Docker itself installed to follow this section.
-
-### What to do
-
-1. Install `docker-compose`:
-```bash
-apt install docker-compose
-```
-
-<details>
-  <summary>docker-compose not found</summary>
-  <div>
-    <div>
-    <div>
-      Ubuntu images in certain cloud providers do not come with Docker's Apt repository already set up. Therefore, you may need to add it manually:<br/><br/>
-      <code>
-      sudo install -m 0755 -d /etc/apt/keyrings<br/>
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg<br/>
-      sudo chmod a+r /etc/apt/keyrings/docker.gpg<br/><br/>
-      echo \
-      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-      <br/><br/>
-      sudo apt-get update
-      <br/><br/>
-      sudo apt install docker-compose
-      </code>
-    </div>
-    </div>
-  </div>
-</details>
-
-2. Clone the software and get to the right place:
-```bash
-git clone https://github.com/flashbots/suave-geth.git
-cd suave-geth/suave/devenv/
-```
-3. Run SUAVE (you may need to run this as `sudo`):
-```bash
-docker-compose up -d 
 ```
