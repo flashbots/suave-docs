@@ -13,9 +13,11 @@ keywords:
 
 The [MEVM](/reference/MEVM) has two modes of operation: regular and confidential (sometimes called off-chain). 
 
-Regular operation is exactly the same as the normal EVM. Confidential operation leverages the [new confidential compute APIs](/reference/MEVM#confidential-compute-apis), and the [precompiles](/reference/precompiles) through which any smart contract can access them, in order to ensure that certain data provided by users remains private.
+Regular operation is exactly the same as the normal EVM. Confidential operation leverages the [new confidential compute APIs](#apis), and the [precompiles](/reference/precompiles) through which any smart contract can access them, in order to ensure that certain data provided by users remains private.
 
-While the contracts themselves are written in solidity and leverage all the tools and patterns you already know and love, this concept of confidential compute is new and worth understanding. Essentially, the SUAVE APIs and precompiles mean your smart contracts can define how specific nodes will run computation that is not done on-chain. This is the way we **combine the benefits of public, verifiable mechanisms with private data**.
+While contracts themselves are written in solidity and leverage all the tools and patterns you know and love, the concept of confidential compute is new and worth understanding. Essentially, the SUAVE APIs and precompiles mean your smart contracts can define how specific nodes will run computation that is not done on-chain. 
+
+> **This is the way we combine the benefits of public, verifiable mechanisms with private data**.
 
 This confidentiality is made possible through two new methods: `OffchainTx` and `OffchainExecutedTx`. 
 
@@ -27,7 +29,7 @@ This confidentiality is made possible through two new methods: `OffchainTx` and 
     - Confidential execution is _not_ verifiable during on-chain state transition, though we do check that the signature of the execution node comes from the public address for which the original request was encrypted. State transition only depends on the result of the confidential computation, so it remains fully reproducible.
     - `OffchainExecutedTx`s are propagated through the mempool and inserted into blocks as expected, unifying confidential operation with regular operation. 
 
-# How it works
+## How it works
 
 The basic flow for confidential computation is as follows:
 
@@ -42,7 +44,7 @@ The basic flow for confidential computation is as follows:
 
 The user passes in any confidential data through the new `confidential_data` parameter of the `eth_sendRawTransaction` RPC method. The initial confidential computation has access to both the public and confidential data, but only the public data becomes part of the transaction propagated through the mempool. Any confidential data passed in by the user is discarded after execution.
 
-## Further detail
+## Show me code
 
 We can go over the above steps again, this time looking at the actual code required for each step:
 
@@ -94,7 +96,65 @@ type OffchainExecutedTx struct {
 }
 ```
 
-# Architecture
+## Show me pictures
 
 ![Execution Node Architecture](/img/execution_node_architecture.png)
 
+## APIs
+
+### ConfidentialStoreBackend
+
+The Confidential Store is an integral part of the SUAVE chain, designed to facilitate secure and privacy-preserving transactions and smart contract interactions. It is a key-value store where users can safely store and retrieve confidential data related to their bids. The Confidential Store restricts access (both read and write) to the allowed peekers of each bid, allowing developers to define the entire data model of their application.
+
+The current implementation of `ConfidentialStoreBackend` is managed by the `LocalConfidentialStore` struct. It provides thread-safe access to the bids' confidential data.
+
+```go
+type ConfidentialStoreBackend interface {
+    Initialize(bid Bid, key string, value []byte) (Bid, error)
+    Store(bidId BidId, caller common.Address, key string, value []byte) (Bid, error)
+    Retrieve(bid BidId, caller common.Address, key string) ([]byte, error)
+}
+```
+
+The `LocalConfidentialStore` provides the following methods:
+
+1. **Initialize**: This method is used to initialize a bid with a given `bid.Id`. If no `bid.Id` is provided, a new one is created. The method is trusted, meaning it is not directly accessible through precompiles.
+2. **Store**: This method stores a given value under a specified key in a bid's `dataMap`. Access is restricted only to addresses listed in the bid's `AllowedPeekers`.
+3. **Retrieve**: This method retrieves data associated with a given key from a bid's `dataMap`. Similar to the `Store` method, access is restricted only to addresses listed in the bid's `AllowedPeekers`.
+
+Please note that the actual implementation of the Confidential Store will vary depending on future requirements and the privacy mechanisms used.
+
+### MempoolBackend
+
+The SUAVE mempool is a temporary storage pool for transactions waiting to be added to SUAVE. This mempool, `MempoolOnConfidentialStore`, operates on the Confidential Store, hence facilitating the privacy-preserving handling of bid transactions. The `MempoolOnConfidentialStore` is designed to handle SUAVE bids, namely the submission, retrieval, and grouping of bids by decryption condition such as block number and protocol. It provides a secure and efficient mechanism for managing these transactions while preserving their confidentiality.
+
+The current implementation of `MempoolBackend` is managed by the `MempoolOnConfidentialStore` struct, which interacts directly with the `ConfidentialStoreBackend` interface.
+
+```go
+type MempoolBackend interface {
+    SubmitBid(Bid) error
+    FetchBidById(BidId) (Bid, error)
+    FetchBidsByProtocolAndBlock(blockNumber uint64, namespace string) []Bid
+}
+```
+
+The `MempoolOnConfidentialStore` provides the following methods:
+
+1. **SubmitBid**: This method submits a bid to the mempool. The bid is stored in the Confidential Store with its ID as the key. Additionally, the bid is grouped by block number and protocol, which are also stored in the Confidential Store.
+2. **FetchBidById**: This method retrieves a bid from the mempool using its ID.
+3. **FetchBidsByProtocolAndBlock**: This method fetches all bids from a particular block that match a specified protocol.
+
+The mempool operates on the underlying Confidential Store, thereby maintaining the confidentiality of the bids throughout the transaction process. As such, all data access is subject to the Confidential Store's security controls, ensuring privacy and integrity. 
+
+Please note that while this initial implementation provides an idea of the ideal functionality, the final version will most likely incorporate additional features or modifications.
+
+### OffchainEthBackend
+
+// TODO
+
+```go
+type OffchainEthBackend interface {
+    BuildEthBlock(ctx context.Context, args *BuildBlockArgs, txs types.Transactions) (*engine.ExecutionPayloadEnvelope, error)
+    BuildEthBlockFromBundles(ctx context.Context, args *BuildBlockArgs, bundles []types.SBundle) (*engine.ExecutionPayloadEnvelope, error)
+}
+```

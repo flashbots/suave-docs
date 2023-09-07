@@ -44,6 +44,8 @@
   // --ifm-color-primary-lighter: rgb(102, 212, 189);
   // --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
+  --ifm-menu-link-padding-vertical: 15px; 
+  --ifm-menu-link-padding-horizontal: 15px;
 }
 
 [data-theme='dark'] {
@@ -76,16 +78,6 @@
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'CMU-Serif', 'Times New Roman', Garamond, Georgia, serif;
-  // color: var(--ifm-color-gray-1000);
-}
-
-h1,
-h2,
 h3 {
   font-weight: 400;
 }
@@ -93,6 +85,24 @@ h3 {
 h2 {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+p,
+ol,
+ul,
+a,
+b,
+span, 
+div {
+  font-size: 16px;
+}
+
+.theme-doc-sidebar-item-link {
+  padding-left: 15px;
+}
+
+.menu__list {
+  font-weight: bold;
 }
 
 .menu__link--sublist:after {

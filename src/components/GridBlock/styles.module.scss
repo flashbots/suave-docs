@@ -47,7 +47,7 @@
 
   & p {
     margin-bottom: 8px;
-    font-size: 11px;
+    font-size: 22px;
     font-weight: 700;
   }
 
@@ -56,7 +56,6 @@
     font-size: 1.2rem;
     line-height: 1.25;
     font-weight: 500;
-    font-family: 'CMU-Serif', 'Times New Roman', Garamond, Georgia, serif;
   }
 
   & hr {
@@ -66,7 +65,7 @@
 }
 
 .content {
-  font-size: .9em;
+  font-size: 16px;
   line-height: var(--ifm-line-height-base);
   & ul, & ol {
     padding-left: 1ch;

@@ -1,34 +1,60 @@
 module.exports = {
   docs: [
     {
-      "Welcome": [
-        'welcome', 'design-goals'
+      type: 'category',
+      label: '👋 Welcome',
+      link: {type: 'doc', id: 'index'},
+      items: [
+        'design-goals',
       ],
     },
     {
-      "Tutorials": [
-        'tutorials/index'
-      ]
-    },
-    {
-      "How To": [
-        'build/index'
-      ]
-    },
-    {
-      "Technical Details": [
-        'reference/index', 'reference/confidential-computation', 'reference/precompiles', 'reference/MEVM'
-      ]
-    },
-    {
-      "Understanding MEV": [
-        'understand/index', 'understand/meaning', 'understand/fairness'
-      ]
-    },
-    {
-      "Join Us": [
-        'join/joining-suave', 'join/contribution-guide', 'join/code-of-conduct'
+      type: 'category',
+      label: '🐥 Tutorials',
+      link: {type: 'doc', id: 'tutorials/index'},
+      items: [
+        'tutorials/holder'
       ],
+    },
+    {
+      type: 'category',
+      label: '🥷 How To',
+      link: {type: 'doc', id: 'build/index'},
+      items: [
+        'build/suave-setup',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🤖 Technical Details',
+      link: {type: 'doc', id: 'reference/index'},
+      items: [
+        'reference/confidential-computation',
+        'reference/precompiles',
+        'reference/MEVM',
+      ],
+    },
+    {
+      type: 'category',
+      label: '⚡ Understanding MEV',
+      link: {type: 'doc', id: 'understand/index'},
+      items: [
+        'understand/meaning',
+        'understand/fairness',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🤼 Join Us',
+      link: {type: 'doc', id: 'join/joining-suave'},
+      items: [
+        'join/code-of-conduct',
+      ],
+    },
+    {
+      "Policies": [
+        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy'
+      ]
     },
     {
       type: 'link',
@@ -37,14 +63,8 @@ module.exports = {
     },
     {
       type: 'link',
-      label: 'Discord',
-      href: 'https://discord.gg/flashbots',
-    },
-    {
-      type: 'link',
-      href: 'https://github.com/flashbots/',
+      href: 'https://github.com/flashbots/suave-geth',
       label: 'GitHub',
-    },
-        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy',
+    }
   ],
 };
