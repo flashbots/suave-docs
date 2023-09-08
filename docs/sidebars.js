@@ -21,7 +21,7 @@ module.exports = {
       label: '🥷 How To',
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/suave-setup',
+        'how-to/setup-suave',
       ],
     },
     {

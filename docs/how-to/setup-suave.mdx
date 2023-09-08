@@ -14,7 +14,7 @@ keywords:
 
 There are two kinds of SUAVE nodes, both participating in the same p2p network. We're going to start them both in this guide. 
 
-1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on informatio_ you receive (i.e. run confidential computation). You need to run one MEVM node per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM nodes: one for each domain.
+1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM node per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM nodes: one for each domain.
 
 2. The "SUAVE chain node" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
 
