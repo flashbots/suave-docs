@@ -20,33 +20,22 @@ This section describes how SUAVE works, and provides up-to-date reference materi
 
 SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_ that handle block building and orderflow auctions. Such a marketplace requires its own network. As an open marketplace for mechanisms, SUAVE can also act as a _shared sequencing layer_ for other blockchains, helping them remain resilient to economic forces that encourage centralization and/or specialization over time.
 
-The _high level plan_ is:
+The high level plan is:
 
-1. Enhance open, permissionless programmability 
-    - all MEV applications exist as smart contracts, written in [builder solidity](/reference/builder-solidity)
-2. Replace trusted third parties (TTPs) with trusted execution environments (TEEs)
-    - in a flexible way that allows for us to shift to MPC, FHE etc as they become viable
-3. Make the operation of the network decentralized with the same tools in (2)
+1. **Permissionless programmability** 
+    - make it possible to create MEV applications as smart contracts, written in [builder solidity](/reference/builder-solidity)
+2. **Trust minimization**
+    - replace trusted third parties (TTPs) with trusted execution environments (TEEs)
+3. **Decentralized execution**
+    - geographically and administratively, using threshold MPC, FHE etc as they become viable
 
 Technically, we will achieve this with the "MEVM": our adaption of the EVM with a new runtime and APIs. These APIs enable you to leverage new precompiles in what we call "builder solidity", which is solidity as you know and love it, but extended so that you can create MEV applications. 
-
-In essence, builder solidity contracts can define how MEVM nodes run computation, without that computation being done on chain. That is, MEVM nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not than the inputs.
-
-## Why will it work?
-
-Builders have no incentive to share the algorithms by which they currently build blocks, so it is hard for searchers to know whether their bundles will be built in the order they submit them, or manipulated. This means that searchers are more likely to send their bundles to the few builders they trust, or only those who consistently build winning blocks (in order to avoid leaking alpha to everyone). This results in block builder centralization over time.
-
-Builders can now use builder solidity to encode exactly how they will order bundles (and transactions) sent to them. However, those bundles can be kept confidential: encrypted to the MEVM node that the builder in question runs. This way, builders can receive bundles and order them in a verifiable and public manner, without ever revealing sensitive transaction data.
-
-The result should be an open marketplace for mechanisms which compete for orderflow, and do so by virtue of the guarantees their contracts make about how they will order bundles sent to them.
-
-This enables us to combine the collective verifiability we expect from public blockchains with the individual privacy we need in order to protect users, defend against malicious MEV, and create provably fair systems which are resilient to economic centralization pressures across time. 
 
 ## *Refers to notes
 
 In this section, you'll find up-to-date and succinct descriptions of each part of SUAVE and the MEVM. Once you're familiar wih the tutorials and how to guides, this section should help you create new and innovative mechanisms of your own on SUAVE.
 
-1. **[Confidential computation](/reference/confidential-computation)** - what is is and how it works.
-2. **[Builder solidity](/reference/builder-solidity)** - what it is and what it offers you. 
+1. **[Builder solidity](/reference/builder-solidity)** - what it is and what it offers you.
+2. **[Confidential computation](/reference/confidential-computation)** - what is is and how it works. 
 3. **[Available precompiles](/reference/precompiles)** - easy reference list of your new super powers.
 4. **[MEVM](/reference/MEVM)** - what it is and how it differs from go-ethereum.

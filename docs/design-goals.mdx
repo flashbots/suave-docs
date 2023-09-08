@@ -42,7 +42,17 @@ We cannot preempt every kind of MEV that will exist, or the range of methods whi
 
 </GridBlock>
 
-<GridBlock symbol="II." title="Sufficient">
+<GridBlock symbol="II." title="Private">
+
+The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms need not be. Privacy is a human right and, in the context of MEV, it actually enables us to create systems that are more resilient to economic centralization over time, and to malicious manipulation in any given moment. 
+
+We must provide people with the ability to keep their data hidden and only reveal it to those whom they trust or wish to interact with.
+
+</GridBlock>
+</Grid>
+
+<Grid>
+<GridBlock symbol="III." title="Sufficient">
 
 This is inspired by the Serenity design rationale, which states that it should be "possible to build as many classes of applications as possible on top of the protocol". 
 
@@ -51,22 +61,14 @@ We strive for the same generality with SUAVE: it should be possible to use SUAVE
 - [Information is the new money](https://www.youtube.com/watch?v=vi-rVTFTb6s)
 
 </GridBlock>
-</Grid>
 
-<Grid>
-<GridBlock symbol="III." title="Simple">
+<GridBlock symbol="IV." title="Simple">
 
 This is taken from both sources above. Strategyproof computing argues that we ought to "simplify the decisions facing participants in distributed multi-agent systems", and Vitalik points out that simplicity matters "because it (i) minimizes development costs, (ii) reduces risk of unforeseen security issues, and (iii) allows protocol designers to more easily convince users that parameter choices are legitimate". 
 
-It is an important principle for most modern technologies.
+We value simplicity because it enhances flexibility with respect to our dependencies, such that we can readily upgrade MEVM nodes from SGX to MPC, or deploy better cryptographic solutions like FHE, or introduce some maximally robust and sufficiently decentralized combination of the above.
 
 - [Simplicity Matters](https://youtu.be/rI8tNMsozo0)
-
-</GridBlock>
-
-<GridBlock symbol="IV." title="Modular">
-
-SUAVE is many things to many people, depending on who is looking and how they choose to see. This is by design. We aim for implementations that are flexible with respect to their dependencies, such that we can readily upgrade nodes from SGX to MPC, or deploy better cryptographic solutions like FHE, or introduce some maximally robust and sufficiently decentralized combination of the above. Though not quite the same, this principle is closely related to "Simple", in that it allows us to shift any necessary complexity into contracts and applications, thereby keeping the protocol neutral and transparent.
 
 </GridBlock>
 </Grid>

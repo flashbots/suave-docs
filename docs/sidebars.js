@@ -29,6 +29,7 @@ module.exports = {
       label: '🤖 Technical Details',
       link: {type: 'doc', id: 'reference/index'},
       items: [
+        'reference/builder-solidity',
         'reference/confidential-computation',
         'reference/precompiles',
         'reference/MEVM',

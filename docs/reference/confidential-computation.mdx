@@ -35,12 +35,6 @@ We describe here what occurs when you want your transaction to _remain confident
 3. The `confidentialComputeResult` is set as the calldata in a "SUAVE transaction", which is broadcast to the public mempool.
 4. We call this a "SUAVE transaction" because it is a normal EVM transaction, with an extra check to make sure that the MEVM node's signature matches the requested MEVM node in (2.i)
 
-<AlignItems horizontal="center" vertical="center" sideMargin={0}>
-<div>
-  <img alt="Fairier Transformers" src={require('/static/img/confidentialCompute.png').default} />
-</div>
-</AlignItems>
-
 <details>
   <summary>1. How do we ensure that <code>confidentialComputeRequests</code> reach their intended MEVM nodes?</summary>
   <div>
@@ -81,10 +75,18 @@ For clarity, let's define `confidentialComputeRequest` and `confidentialComputeR
     - Confidential execution is _not_ verifiable during on-chain state transition. However, we check that the signature of the MEVM node on a SUAVE transaction comes from the public address for which the original request was encrypted. State transition only depends on the result of the confidential computation, so it remains fully reproducible.
     - SUAVE transactions are propagated through the mempool and inserted into blocks as expected, unifying confidential operation with regular operation. 
 
+## Pictures
+
+<AlignItems horizontal="center" vertical="center" sideMargin={0}>
+<div>
+  <img alt="Fairier Transformers" src={require('/static/img/confidentialCompute.png').default} />
+</div>
+</AlignItems>
+
 ---
 TODO: everything below this needs to be updated. Also, update the picture after bugging dmarz more.
 
-## Show me code
+## Code
 
 We can go over the above steps again, this time looking at the actual code required for each step:
 
@@ -135,10 +137,6 @@ type OffchainExecutedTx struct {
     /* MEVM node's signature fields */
 }
 ```
-
-## Show me pictures
-
-![MEVM node Architecture](/img/execution_node_architecture.png)
 
 ## APIs
 
