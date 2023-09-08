@@ -17,7 +17,7 @@ Therefore, to better understand MEV, we will begin by studying communication wit
 
 Implementing fairness in a quanifiable way requires that we study **auctions**. Auctions are a general class of mechanisms we use to discover price in uncertain environments. They enable the exchange of information for commitments (often in the form of payment). 
 
-We can design auction mechanisms that can account for the time it takes to communicate. How this happens is subtle: on a blockchain [**information _is_ money**](https://youtu.be/vi-rVTFTb6s), so we're no longer communicating _about_ the price, communication is the price. Commitments made on chain are more credible than offers made on a trading floor because they are one step closer to shared truth.
+We can design auction mechanisms that can account for the time it takes to communicate. How this happens is subtle: on a blockchain [**information _is_ money**](https://youtu.be/vi-rVTFTb6s), so we're no longer communicating _about_ the price, communication is the price. Commitments made on chain are more credible than offers made on a trading floor because they are actually synomymous with the exchange of value.
 
 In short: MEV is a phenomenon inherent to communication in any non-instantaneous medium. Auctions with well-designed commitment schemes are the mechanisms we can use to craft more fair use of all such media.
 
@@ -53,7 +53,7 @@ There are many reasons why we think the market will evolve toward many chains sh
 4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, we can amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
 5. Because of how fundamental transaction sequencing is in blockchains, only another decentralized system can provide the necessary security and credible neutrality.
 
-Building a decentralized sequencing layer is the best way to give domains control over their own validation guarantees and to ensure smaller domains stay decentralized in the face of centralizing MEV from both centralized venues and other blockchains. We predict that domains that seek to compete on MEV sequencing rather than collaborating will see severe network externalities and backdoor centralization induced by MEV searchers. 
+Building a decentralized sequencing layer is the best way to give domains control over their own validation guarantees and to ensure smaller domains stay decentralized in the face of centralizing MEV from both centralized venues and other blockchains. We predict that domains which seek to compete rather than collaborate on MEV sequencing will see severe network externalities and backdoor centralization induced by MEV searchers. 
 
 **We suggest that all domains work together to avoid centralized block building**.
 

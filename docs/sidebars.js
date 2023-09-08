@@ -10,14 +10,6 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🐥 Tutorials',
-      link: {type: 'doc', id: 'tutorials/index'},
-      items: [
-        'tutorials/holder'
-      ],
-    },
-    {
-      type: 'category',
       label: '🥷 How To',
       link: {type: 'doc', id: 'how-to/index'},
       items: [
