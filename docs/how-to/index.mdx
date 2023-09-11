@@ -9,17 +9,15 @@ keywords:
 
 SUAVE uses the **MEVM**, which is a modified EVM with new precompiles for MEV use cases. Using the MEVM, you can program MEV applications as smart contracts within an expressive, familiar, and flexible programming environment - just like the normal EVM. 
 
-The MEVM offers every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure to be transformed into a smart contract running on SUAVE.
-
 SUAVE is focused on delivering the properties you need: low latency, privacy, credible computation, and composability.
 
 ## What can I do with SUAVE?
 
 1. **Deploy more expressive smart contracts.** 
-    - Smart contracts on SUAVE follow the same rules as on Ethereum, with the added advantage of being able to access additional precompiles we have made available to serve any MEV application. You can find a list of these precompiles in the [reference section](/reference/precompiles).
+    - Contracts on SUAVE follow the same rules as on Ethereum, with the added advantage of being able to access additional precompiles we have made available to serve any MEV application. We call this builder solidity.
 
 2. **Enjoy confidential execution**. 
-    - Using the precompiles above, smart contracts can define computation that can occur "off-chain", that is, the transaction data is not exposed to everyone using SUAVE, but is encrypted to specific actors. Once the node(s) I have encrypted my data for complete the confidential computation, the result replaces the calldata for on-chain execution. This creates a public and transparent marketplace of applications in which we can inspect, collaborate, and compete to produce the most efficient order flow auctions, or block building algorithsm etc., while nevertheless protecting the data of the people who use those applications.
+    - Builder solidity lets you define computation that can occur "off-chain", that is, where the transaction data is not exposed to everyone using SUAVE, but is encrypted to specific actors. Once the node(s) you have encrypted your data for complete the confidential computation, the result replaces the calldata for on-chain execution. This creates a public and transparent marketplace of applications in which we can inspect, collaborate, and compete to produce the most efficient order flow auctions, or block building algorithsm etc., while nevertheless protecting the data of the people who use those applications.
 
 > **You can build new applications that you cannot build on Ethereum in a decentralized way today.**  
 
@@ -37,6 +35,6 @@ In this section, you'll find all of our recipes.
 
 The [tutorials](/tutorials/index) are intended to get you from 0 to 1. These "how to guides" will help you get from 1 to wherever else you want to go. They do not provide history and background explanation: they show you how to do interesting and delicious things. 
 
-1. How to setup SUAVE and participate in the network.
+1. [How to setup SUAVE](/how-to/setup-suave) and participate in the network.
 2. How to create your own custom peeker ("custom peekers mev-share" Notion page, specifically to engage with design of OFA on SUAVE)
 3. How to build blocks for other networks ("SUAVE Peekers Proof of Concept" Notion page, specifically to engage with block building)

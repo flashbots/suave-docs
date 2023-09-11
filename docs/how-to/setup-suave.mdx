@@ -10,6 +10,14 @@ keywords:
 
 # Setup SUAVE
 
+## Our goal
+
+There are two kinds of SUAVE nodes, both participating in the same p2p network. We're going to start them both in this guide. 
+
+1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM node per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM nodes: one for each domain.
+
+2. The "SUAVE chain node" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
+
 ## Docker
 
 ### What you need
@@ -37,9 +45,7 @@ docker-compose up -d
 
 ### What just happened
 
-You just setup SUAVE and it's now running as a daemon process (which happened because of the `-d` flag we used in the `docker-compose` command). Well done!
-
-There are two kinds of SUAVE nodes, both participating in the same p2p network. We start them both in this setup. The "SUAVE Chain node" is a full node and the "MEVM node" is a full node with the ability to run confidential computation and broadcast the results.
+Both SUAVE nodes are now running as a daemon process (because of the `-d` flag in the `docker-compose` command). Well done!
 
 1. Read more about [confidential computation](/reference/confidential-computation) and the [APIs we've built to enable it](/reference/confidential-computation#apis).
 2. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
@@ -106,29 +112,29 @@ The `docker-compose` version above sets up SUAVE using simple defaults. If you'd
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
-make geth
+make suave
 ```
 2. Run the MEVM node first:
 ```bash
-./build/bin/geth --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
+./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
 --allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
 --keystore ./suave/devenv/suave-ex-node/keystore/
 ```
 3. Press `Enter` when prompted for a password
 4. In a new terminal, run the SUAVE Chain node:
 ```bash
-./build/bin/geth --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
+./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
 ```
 
 ### What to do next
 
-You can now run any `geth` command you like, with an additional `--suave` flag. Start by generating a new account (in another terminal):
+You can now run any SUAVE command you like. Start by generating a new account (in another terminal):
 
 ```bash
-./build/bin/geth --suave account new
+./build/bin/suave --suave account new
 ```
 
 Consult the help page for anything else you need to do:
 ```bash
-./build/bin/geth --suave help
+./build/bin/suave --suave help
 ```

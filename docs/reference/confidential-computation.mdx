@@ -13,38 +13,80 @@ keywords:
 
 The [MEVM](/reference/MEVM) has two modes of operation: regular and confidential (sometimes called off-chain). 
 
-Regular operation is exactly the same as the normal EVM. Confidential operation leverages the [new confidential compute APIs](#apis), and the [precompiles](/reference/precompiles) through which any smart contract can access them, in order to ensure that certain data provided by users remains private.
+Regular mode is the same as the normal EVM. Confidential mode uses the [new confidential compute APIs](#apis), and the [precompiles](/reference/precompiles) available in [builder solidity](reference/builder-solidity), to ensure that transaction data provided by users remains private.
 
-While contracts themselves are written in solidity and leverage all the tools and patterns you know and love, the concept of confidential compute is new and worth understanding. Essentially, the SUAVE APIs and precompiles mean your smart contracts can define how specific nodes will run computation that is not done on-chain. 
+Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific MEVM nodes is new and worth emphasizing. 
+
+Users can encrypt their transaction data for specific MEVM nodes. Those nodes run the necessary computation (as defined in the public contract referenced in the transaction data), and insert the result into the `calldata` of a SUAVE transaction that is submitted to the public mempool, ensuring that only the results (and not the input) are broadcast publicly. 
 
 > **This is the way we combine the benefits of public, verifiable mechanisms with private data**.
 
-This confidentiality is made possible through two new methods: `OffchainTx` and `OffchainExecutedTx`. 
+## Flow
 
-1. `OffchainTx` is a _request_ for confidential computation to a specfic (set of) execution node(s). 
-    - It looks exactly like a normal Ethereumt transaction, except it specifies the address(es) of the execution node for whom the data in the transaction is encrypted. 
-    - It is an **intermediary message** between the user requesting confidential computation and the execution node, and is **not propagated through the mempool or included in blocks**.
-2. `OffchainExecutedTx` is the _result_ of the confidential computation, shared with the whole SUAVE chain. 
-    - The execution node essentially takes the `OffchainTx` object, adds the result it computed, signs it, and sends the resulting object to the SUAVE mempool, where it is treated as any regular transaction would be.
-    - Confidential execution is _not_ verifiable during on-chain state transition, though we do check that the signature of the execution node comes from the public address for which the original request was encrypted. State transition only depends on the result of the confidential computation, so it remains fully reproducible.
-    - `OffchainExecutedTx`s are propagated through the mempool and inserted into blocks as expected, unifying confidential operation with regular operation. 
+You can sign and submit transactions as you ordinarily would on Ethereum and they will work as expected. 
 
-## How it works
+We describe here what occurs when you want your transaction to _remain confidential_.
 
-The basic flow for confidential computation is as follows:
+1. Create a `confidentialComputeRequest`:
+    1. Specify a MEVM node: i.e. an address whose signature over the confidential computation result will be trusted. 
+    2. Place your ordinary transaction in the new `confidential_input` field in the `eth_sendRawTransaction` RPC method and send it. 
+    3. Messages with confidential inputs are not broadcast to the public mempool, but passed to the MEVM node whose address it is encrypted to.
+2. The MEVM node executes the transaction in confidential mode, creating a `confidentialComputeResult`.
+3. The `confidentialComputeResult` is set as the calldata in a "SUAVE transaction", which is broadcast to the public mempool.
+4. We call this a "SUAVE transaction" because it is a normal EVM transaction, with an extra check to make sure that the MEVM node's signature matches the requested MEVM node in (2.i)
 
-1. Craft an ordinary EVM transaction, which calls the contract of your liking
-2. Embed this into a confidential computation request, or `OffchainTx`. Do this by:
-    1. Specifying an execution node: i.e. an address whose signature over the confidential computation result will be trusted
-    2. Signing and sending the confidential computation request to the execution node via `eth_sendRawTransaction`
-3. The execution node executes the transaction in confidential mode, accessing the relevant confidential compute APIs
-4. The execution node creates an `OffchainExecutedTx` using the result of its execution
-5. The execution node signs and submits the `OffchainExecutedTx` to the mempool
-6. The `OffchainExecutedTx` makes its way into a block, by executing the `OffchainResult` as calldata, as long as the execution node's signature matches the requested executor node in (2.i)
+<details>
+  <summary>1. How do we ensure that <code>confidentialComputeRequests</code> reach their intended MEVM nodes?</summary>
+  <div>
+    <div>
+      Ensuring users can send their requests directly to the specified MEVM node is an area of active research. One way to do this is to ensure that the logic for sending encrypted messages to their intended recipient lives within SGX, so we can be sure it won't be tampered with.
+    </div>
+  </div>
+</details>
 
-The user passes in any confidential data through the new `confidential_data` parameter of the `eth_sendRawTransaction` RPC method. The initial confidential computation has access to both the public and confidential data, but only the public data becomes part of the transaction propagated through the mempool. Any confidential data passed in by the user is discarded after execution.
+<details>
+  <summary>2. How do MEVM nodes get paid, or how do we protect against spam?</summary>
+  <div>
+    <div>
+      We require a signature for each <code>confidentialComputeRequest</code>. These requests also include a <code>creationTx</code> with a gas price, thereby limiting spam. How to price SUAVE gas correctly without leaking too much information about the nature of the request is an active area of research.
+    </div>
+  </div>
+</details>
 
-## Show me code
+<details>
+  <summary>3. How do confidential transactions result in stuff happening (like blocks being built) on other blockchains?</summary>
+  <div>
+    <div>
+      What we describe above occurs on SUAVE. It is the responsibility of applications on SUAVE to broadcast blocks that have been built, or the result of various kinds of auction, back to other blockchains (like Ethereum). At first, we assume that this will happen via already-established relays.
+    </div>
+  </div>
+</details>
+
+## Definitions
+
+For clarity, let's define `confidentialComputeRequest` and `confidentialComputeResult`. 
+
+1. `confidentialComputeRequest` is a _request_ for confidential computation to a specfic (set of) MEVM node(s). 
+    - It holds an ordinary Ethereum transaction in its `confidential_inputs` field
+    - It specifies the address(es) of the MEVM node for whom the data in the transaction is encrypted. 
+    - These requests are _not_ propagated through the mempool or included in blocks.
+2. `confidentialComputeResult` is the _result_ of the confidential computation, shared with the whole SUAVE chain. 
+    - The MEVM node takes the `confidentialComputeRequest`, adds the result it computed, signs it, and broadcasts it as a SUAVE transaction to the mempool.
+    - Confidential execution is _not_ verifiable during on-chain state transition. However, we check that the signature of the MEVM node on a SUAVE transaction comes from the public address for which the original request was encrypted. State transition only depends on the result of the confidential computation, so it remains fully reproducible.
+    - SUAVE transactions are propagated through the mempool and inserted into blocks as expected, unifying confidential operation with regular operation. 
+
+## Pictures
+
+<AlignItems horizontal="center" vertical="center" sideMargin={0}>
+<div>
+  <img alt="Fairier Transformers" src={require('/static/img/confidentialCompute.png').default} />
+</div>
+</AlignItems>
+
+---
+TODO: everything below this needs to be updated. Also, update the picture after bugging dmarz more.
+
+## Code
 
 We can go over the above steps again, this time looking at the actual code required for each step:
 
@@ -62,7 +104,7 @@ offchainInnerTx := &types.LegacyTx{
 }
 ```
 
-2. You can wrap (and sign) the above transaction into the new `OffchainTx` method as below, making sure to include the Execution Node's public key.
+2. You can wrap (and sign) the above transaction into the new `OffchainTx` method as below, making sure to include the MEVM node's public key.
 
 ```go
 offchainTx := types.SignTx(types.NewTx(&types.OffchainTx{
@@ -71,14 +113,14 @@ offchainTx := types.SignTx(types.NewTx(&types.OffchainTx{
 }), suaveSigner, privKey)
 ```
 
-3. Request confidential computation by submitting your transaction along with your confidential data to the execution node you chose via `eth_sendRawTransaction`.
+3. Request confidential computation by submitting your transaction along with your confidential data to the MEVM node you chose via `eth_sendRawTransaction`.
 
 ```go
 confidentialDataBytes := hexutil.Encode(ethBundle)
 suaveClient.Call("eth_sendRawTransaction", offchainTx, confidentialDataBytes)
 ```
 
-4. Once the execution node processes your computation request, the execution node will submit it as `OffchainExecutedTx` to the SUAVE mempool. For your reference, the two new types look like this:
+4. Once the MEVM node processes your computation request, the MEVM node will submit it as `OffchainExecutedTx` to the SUAVE mempool. For your reference, the two new types look like this:
 
 ```go
 type OffchainTx struct {
@@ -92,13 +134,9 @@ type OffchainExecutedTx struct {
     ExecutionNode  common.Address
     Wrapped        Transaction
     OffchainResult []byte
-    /* Execution node's signature fields */
+    /* MEVM node's signature fields */
 }
 ```
-
-## Show me pictures
-
-![Execution Node Architecture](/img/execution_node_architecture.png)
 
 ## APIs
 

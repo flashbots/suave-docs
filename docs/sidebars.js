@@ -10,18 +10,10 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🐥 Tutorials',
-      link: {type: 'doc', id: 'tutorials/index'},
-      items: [
-        'tutorials/holder'
-      ],
-    },
-    {
-      type: 'category',
       label: '🥷 How To',
-      link: {type: 'doc', id: 'build/index'},
+      link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'build/suave-setup',
+        'how-to/setup-suave',
       ],
     },
     {
@@ -29,6 +21,7 @@ module.exports = {
       label: '🤖 Technical Details',
       link: {type: 'doc', id: 'reference/index'},
       items: [
+        'reference/builder-solidity',
         'reference/confidential-computation',
         'reference/precompiles',
         'reference/MEVM',

@@ -8,30 +8,34 @@ keywords:
   - advanced
 ---
 
-## The basic outline
+## Foundation
 
-Flashbots has been running services like mev-boost and mev-share to help alleviate some of the issues with MEV. These are effectively trusted third parties. They've worked as intended to prevent the worst effects of MEV, to ensure that the dark forest remains illuminated, and to redistribute value. Now, it's time to decentralize these operations and enable anyone to create increasingly better algorithms and/or applications to ensure that blockchains find a good balance between being open and private, efficient and fair.
+After [formalizing the threat posed by MEV](https://arxiv.org/pdf/1904.05234.pdf), and creating [mev-geth](https://github.com/flashbots/mev-geth) to begin addressing it, Flashbots has collaborated with many people and organizations to build neutral open-source software like [mev-boost](https://github.com/flashbots/mev-boost) and [mev-share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many critical problems remain.
 
-To read more about the **history** of this project, what inspires us, and why we do the work we do, we recommend [this post](https://writings.flashbots.net/the-future-of-mev-is-suave).
+To read more about what inspires us, and why we are working on SUAVE, we recommend [this post](https://writings.flashbots.net/the-future-of-mev-is-suave).
 
-The **high level plan** is:
+This section describes how SUAVE works, and provides up-to-date reference material for all the APIs and precompiles SUAVE gives you access to.
 
-1. Enhance open, permissionless programmability 
-    - all MEV applications exist as smart contracts, written in builder solidity
-2. Replace trusted third parties (TTPs) with trusted execution environments (TEEs)
-    - in a flexible way that allows for us to shift to MPC, FHE etc as they become viable
-3. Make the operation of the network decentralized
-    - by letting anyone run TEEs, when viable
+## SUAVE Plan
 
-The **goal** of these three steps is to create an **open marketplace for mechanisms** which illuminate, democratize, and distribute the value we create collectively, rather than allowing it to be routed into dark and unreachable places controlled by the powerful. 
+SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_ that handle block building and orderflow auctions. Such a marketplace requires its own network. As an open marketplace for mechanisms, SUAVE can also act as a _shared sequencing layer_ for other blockchains, helping them remain resilient to economic forces that encourage centralization and/or specialization over time.
 
-More technically, SUAVE clients offer confidential execution for smart contracts, allowing off-chain processing with extended precompiles for enhanced MEV functionalities, including transaction simulation via geth RPC, block building, and relay boosting, all handled by dedicated execution nodes.
+The high level plan is:
+
+1. **Permissionless programmability** 
+    - make it possible to create MEV applications as smart contracts, written in [builder solidity](/reference/builder-solidity)
+2. **Trust minimization**
+    - replace trusted third parties (TTPs) with trusted execution environments (TEEs)
+3. **Decentralized execution**
+    - geographically and administratively, using threshold MPC, FHE etc as they become viable
+
+Technically, we will achieve this with the "MEVM": our adaption of the EVM with a new runtime and APIs. These APIs enable you to leverage new precompiles in what we call "builder solidity", which is solidity as you know and love it, but extended so that you can create MEV applications. 
 
 ## *Refers to notes
 
-In this section, you'll find up-to-date and succinct descriptions of each part of SUAVE and the MEVM. Once you're familiar wih the tutorials and how to guides, this section should help you create new and innovative mechanisms of your own on SUAVE by providing you with the context you need to create whatever you can imagine.
+In this section, you'll find up-to-date and succinct descriptions of each part of SUAVE and the MEVM. Once you're familiar wih the tutorials and how to guides, this section should help you create new and innovative mechanisms of your own on SUAVE.
 
-1. **Confidential computation** - what is is and how it works.
-2. **Builder solidity** - what it is and what it offers you. 
-3. **Available precompiles** - easy reference list of your new super powers.
-4. **MEVM** - what it is and how it differs from go-ethereum.
+1. **[Builder solidity](/reference/builder-solidity)** - what it is and what it offers you.
+2. **[Confidential computation](/reference/confidential-computation)** - what is is and how it works. 
+3. **[Available precompiles](/reference/precompiles)** - easy reference list of your new super powers.
+4. **[MEVM](/reference/MEVM)** - what it is and how it differs from go-ethereum.

@@ -10,11 +10,13 @@ keywords:
 
 # MEVM
 
-SUAVE uses the **MEVM**, which is a modified EVM with new precompiles for MEV use cases. This gives anyone the power to program MEV applications as smart contracts within an expressive, familiar, and flexible programming environment - just like the normal EVM. 
+The MEVM gives anyone the power to program MEV applications in builder solidity: an expressive, familiar, and flexible programming environment for smart contract mechanisms. 
 
-The MEVM offers every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure to be transformed into a smart contract running on SUAVE.
+The MEVM seeks to offer every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure to be transformed into a smart contract running on SUAVE.
 
 For a high level description of the goals of the MEVM, we encourage you to read [this post](https://writings.flashbots.net/mevm-suave-centauri-and-beyond). On this page, we'll be diving deep into the technical implementation.
+
+If you'd prefer to learn by running it yourself, please follow [this guide](/how-to/setup-suave).
 
 ## Architecture
 
@@ -75,7 +77,7 @@ func NewRuntimeSuaveExecutionBackend(evm *EVM, caller common.Address) *SuaveExec
 }
 ```
 
-Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `OffchainEthBackend` - are available in any solidity smart contract through the use of [precompiles](/reference/precompiles). The precompiles also make use of `callerStack` to specify whether there is confidential computation required, and `confidentialInputs` to specify the inputs to that computation if it is required.
+Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `OffchainEthBackend` - are available in [builder solidity](/reference/builder-solidity) through the use of [precompiles](/reference/precompiles). The precompiles also make use of `callerStack` to specify whether there is confidential computation required, and `confidentialInputs` to specify the inputs to that computation if it is required.
 
 ## Notable differences from go-ethereum
 

@@ -9,15 +9,12 @@ keywords:
 
 # Precompiles
 
-Below, you will find a list of currently available precompiles in SUAVE, for use when writing expressive, confidential smart contracts. 
+Below, you will find a list of currently available precompiles in the MEVM, for use when writing expressive, confidential smart contracts. The idea of extending the EVM with new precompiles for specific use cases is not new. We take inspiration from many other projects, including Secret Network and Oasis Protocol.
 
-You can find worked examples of how to use these precompiles in your own contracts in our [how to](/build) section.
+While it is possible to call the SUAVE precompiles directly using, for example, `abi.encode` and `abi.decode` in Solidity, we recommend using the [convenient Suave.sol library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) we have created for a more comfortable experience.
 
-We have created a [convenient library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) of all the precompiles listed below. Once familiar with what is currently on offer, we invite you to [look at the implementation](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave.go) and help us extend what is available.
 
-We will be extremely happy to help you get a specific precompile you need for your MEV use case into SUAVE.
-
-```go
+```solidity
 function isOffchain() internal view returns (bool b)
 function confidentialInputs() internal view returns (bytes memory)
 function newBid(uint64 decryptionCondition, address[] memory allowedPeekers, string memory BidType) internal view returns (Bid memory)
@@ -30,7 +27,51 @@ function buildEthBlock(BuildBlockArgs memory blockArgs, BidId bid, string memory
 function submitEthBlockBidToRelay(string memory relayUrl, bytes memory builderBid) internal view returns (bool, bytes memory)
 ```
 
-## Extended Details
+## Example usage
+
+Any of these functions can be called in your own builder solidity smart contract by simply importing the Suave.sol library.
+
+```solidity
+pragma solidity ^0.8.8;
+
+import "../libraries/Suave.sol"; <-- TODO: make this an npm package for easy imports
+
+contract AnyBidContract {
+
+  event BidEvent(
+		Suave.BidId bidId,
+		uint64 decryptionCondition,
+		address[] allowedPeekers
+	);
+
+	function fetchBidConfidentialBundleData() public returns (bytes memory) {
+		require(Suave.isOffchain());
+		
+		bytes memory confidentialInputs = Suave.confidentialInputs();
+		return abi.decode(confidentialInputs, (bytes));
+	}
+
+	// Bids to this contract should not be trusted!
+	function emitBid(Suave.Bid calldata bid) public {
+		emit BidEvent(bid.id, bid.decryptionCondition, bid.allowedPeekers);
+	}
+
+}
+```
+
+## Explanation
+
+_Maybe discuss which precompiles map to which API? But that is not future proof and likely to change a lot._
+
+_Definitely link this to the builder solidity page as it becomes clear how the MEVM node does what it does when it receives a `confidentialComputeRequest`._
+
+Once you are familiar with what is currently on offer, we invite you to [look at the implementation](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave.go) and help us extend what is available.
+
+We will be happy to help you get a specific precompile you need for your MEV use case into SUAVE.
+
+## Exact Details
+
+If you'd like to call the precompiles directly, you can use the addresses and details listed below to do so without having to import the whole `Suave.sol` library.
 
 ### IsOffchain
 
