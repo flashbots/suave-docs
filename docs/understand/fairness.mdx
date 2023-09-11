@@ -61,9 +61,11 @@ We can go further by looking at the Fourier coefficient. If a set of permutation
 2. The Fourier transform provides a way of going from a given payoff to that payoff represented in the basis of all liquidations
 3. The Uncertainty Principle provides a bound on the expected value over the maximum value
 
-These three facts together give us an explicit way to quantify fairness! 
+These three facts together give us an explicit way to quantify fairness!
 
-In practice, this means that to avoid maximally unfair payoffs, we need to have a sufficiently large set of possible orderings _and_ there needs to be a large degree of overlap between the possible orderings and the Fourier coefficient. The way to achieve this is an **open marketplace for mechanisms** at the application level.
+Note that the "fairness" we are quantifying here is premised on a very context-specific definition: [there is no universal definition of fairness](https://www.youtube.com/live/krlAqKsdLkw?si=i-L_OZFQTHYJ7y1C&t=1439), just as there is no "ultimate meaning", which is why MEV will always exist to some degree. However, if each application can order transactions based on the above general mathematical insights above applied to their specific context, we can meaningfully reduce MEV.
+
+In practice, this means that to avoid maximally unfair payoffs, we need to have a sufficiently large set of possible orderings _and_ there needs to be a large degree of overlap between the possible orderings and the Fourier coefficient. One way to achieve this is an **open marketplace for mechanisms** at the application level. 
 
 # Generally suave
 
