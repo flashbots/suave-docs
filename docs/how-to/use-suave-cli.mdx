@@ -1,0 +1,61 @@
+---
+title: Use SUAVE cli
+description: Start work with SUAVE by using the cli
+keywords:
+  - build
+  - suave
+  - cli
+  - practice
+---
+
+note to self: these code examples come from the README. See if I can work them into all that is in SUAVE cli.
+
+We can go over the above steps again, this time looking at the actual code required for each step:
+
+1. You can create an ordinary EVM transaction like this in Go:
+
+```go
+allowedPeekers := []common.Address{newBlockBidPeeker, newBundleBidPeeker, buildEthBlockPeeker} // express which contracts should have access to your data (by their addresses)
+offchainInnerTx := &types.LegacyTx{
+    Nonce:    suaveAccNonce,
+    To:       &newBundleBidAddress,
+    Value:    nil,
+    Gas:      1000000,
+    GasPrice: 50,
+    Data:     bundleBidAbi.Pack("newBid", targetBlock, allowedPeekers)
+}
+```
+
+2. You can wrap (and sign) the above transaction into the new `OffchainTx` method as below, making sure to include the MEVM node's public key.
+
+```go
+offchainTx := types.SignTx(types.NewTx(&types.OffchainTx{
+    ExecutionNode: "0x4E2B0c0e428AE1CDE26d5BcF17Ba83f447068E5B",
+    Wrapped:       *types.NewTx(&offchainInnerTx),
+}), suaveSigner, privKey)
+```
+
+3. Request confidential computation by submitting your transaction along with your confidential data to the MEVM node you chose via `eth_sendRawTransaction`.
+
+```go
+confidentialDataBytes := hexutil.Encode(ethBundle)
+suaveClient.Call("eth_sendRawTransaction", offchainTx, confidentialDataBytes)
+```
+
+4. Once the MEVM node processes your computation request, the MEVM node will submit it as `OffchainExecutedTx` to the SUAVE mempool. For your reference, the two new types look like this:
+
+```go
+type OffchainTx struct {
+    ExecutionNode common.Address
+    Wrapped  Transaction
+}
+```
+
+```go
+type OffchainExecutedTx struct {
+    ExecutionNode  common.Address
+    Wrapped        Transaction
+    OffchainResult []byte
+    /* MEVM node's signature fields */
+}
+```

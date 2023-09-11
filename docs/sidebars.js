@@ -22,7 +22,15 @@ module.exports = {
       link: {type: 'doc', id: 'reference/index'},
       items: [
         'reference/builder-solidity',
-        'reference/confidential-computation',
+        {
+          type: 'category',
+          label: 'Confidentiality',
+          link: {type: 'doc', id: 'reference/confidential-computation/index'},
+          items: [
+            'reference/confidential-computation/worked-examples',
+            'reference/confidential-computation/apis',
+          ],
+        },
         'reference/precompiles',
         'reference/MEVM',
       ],

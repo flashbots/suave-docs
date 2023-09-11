@@ -1,0 +1,78 @@
+---
+title: Worked Examples
+description: Step-by-step walkthrough of how to make the most of programmable privacy on SUAVE
+keywords:
+  - reference
+  - suave
+  - privacy
+  - confidential
+  - compute
+  - example
+---
+
+# Worked Examples - Confidential Computation
+
+## Uniswap exchange
+
+I want to swap on Uniswap. However, I've heard that I can be exposed to MEV if I send the signed transaction directly to the Ethereum L1 mempool. A good friend recently told me about the new MEV-Share.sol contract on SUAVE that worked well for her. I decide I want to send my transaction to that contract instead. 
+
+What do I need to do, and what happens next?
+
+1. I take my signed ETH L1 Uniswap tx, and put it inside a `confidentialComputeRequest`.
+    1. I specify the MEVM node for whom the data (i.e. my signed Uniswap tx) is encrypted.
+    2. I craft a `creationTx` and point it at MEV-Share.sol on SUAVE. Specifcally, I call the `newTx` function in that contract.
+2. I send this `confidentialComputeRequest` (both the Uniswap tx and the `creationTx`) to a MEVM node via `eth_sendRawTransaction`.
+    1. Before nodes broadcast `RawTransactions` they receive, they check if there are confidential inputs. 
+    2. If there are not, they broadcast the transaction directly to the public SUAVE mempool, operating in "regular" mode,
+    3. If there are confidential inputs present, the MEVM enters "confidential" mode and performs the following loops:
+
+### 1. The trade
+
+1. The MEVM executes an EVM call on MEV-Share.sol.
+    1. This _does not_ permute the state: the call is to a view function that returns the result to the thread executing the call.
+    2. The view function uses the `fetchConfidentalInputs` precompile, which enables the MEVM to fetch the data you encrypted for it. 
+    3. Once it has this, it calls another precompile, which will extract the hint in your transaction.
+    4. The hint is stored in the `confidentialDataStore`, under the MEV-Share.sol "keyspace".
+        1. The `confidentialDataStore` is essentially an offchain data layer, which publishes data for specific contracts to particular places in a giant map, such that contracts can access information they need without exposing it on chain.
+    5. It's subtle but important: the view function being called here will return a _callback to another function_ which is intended to permute the state. 
+    6. If it returned the result - rather than this callback - it would expose all the confidential data when it is sent in the next step.
+3. This `confidentialComputeResult` (which is a callback to a function which permutes states) is placed alongside the original `confidentialComputeRequest`.
+    1. We call this combination a "SUAVE transaction".
+4. The SUAVE transaction is propagated to the public mempool via an internal p2p method in the MEVM node.
+5. Whoever is a proposer picks it up and includes it in the next block. 
+
+### 2. The search
+
+Now, say some searcher is monitoring the chain, looking for hints about domains they're interested in. What do they do with all the above?
+
+1. They see new block, with a transaction to MEV-Share.sol.
+2. They check its logs, see a hint, and now have the info they need to guess possibly profitable backruns on a given domain.
+3. They craft their backrun, and place _that transaction_ into a `confidentialComputeRequest`. 
+4. What happens above is repeated, except that the searcher would call the `share` function in MEV-Share.sol. 
+5. The `share` function uses a similar `fetchConfidentalInputs` precompile, giving it acess to the searcher's backrun, which it matches against my original tx that the searcher is backrunning.
+    1. It does this by combining the two transactions and simulating them, checking that the resulting bundle meets the validity conditions the contract defines.
+    2. Such checks - and the way transactions are combined - is one area we expect to see mechanism designers compete to write simultaneously more efficient and fair contracts.
+    2. Remember, my original transaction which I sent to `newTx`, is available in the MEV-Share.sol "keyspace".
+6. The `share` function then places the bundle into the `confidentialDataStore` under the BlockBuilder.sol "keyspace". 
+    1. That way, when anyone calls `buildBlock` on another contract, called BlockBuilder.sol, the bundle is available to that function in the same way my original transaction was available to MEV_Share.sol for simulation. 
+
+### 3. The build
+
+1. Someone (most likely the searcher themselves, who wants to see their bundle included in a block) crafts a `confidentialComputeRequest`, which calls `buildBlock` on BlockBuilder.sol, which does the same as in (1) above.
+    1. THe MEVM enters into `buildBlock` function.
+    2. Grabss all bundles in `confidentialDataStore` at its key, simulates them all, sorts them by most profitable, takes the top N bundles, constructs a block.
+    3. Calls another precompile to calculate state root etc.
+    4. Calls one more precompile to send it to some relay offchain.
+        1. This will eventually be done onchain, hence repeating process one more time.
+
+### What's different
+
+The above example is almost the same as what currently exists in [MEV-share](https://docs.flashbots.net/flashbots-mev-share/introduction) except that, instead of calling the MEV-share API and getting a response immediately, searchers now need to listen to blocks produced on SUAVE. 
+
+This does imply a slightly longer delay, as searchers have to wait on consensus about the next block. Blocks re finalised more quickly (~2s) than on Ethereum L1, but this is a notable difference. We feel that the innovations in mechanisms that an open, contestable network like SUAVE will encourage are worth the trade-off.
+
+## Batch Auction
+
+Assume that there is a batch auction, like CoWswap. Everyone submits bids, something comes out the other side.
+
+1. runUniXAuction - computes best route between all trades and shove it in the BlockBuilder.sol keyspace.
