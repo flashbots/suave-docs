@@ -13,9 +13,9 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx"
 
 # Keeping it confidential
 
-The [MEVM](/reference/MEVM) has two modes of operation: regular and confidential (sometimes called off-chain). 
+SUAVE nodes have two modes of operation: regular and confidential (sometimes called off-chain). 
 
-Regular mode is the same as the normal EVM. Confidential mode uses the [new confidential compute APIs](/reference/confidential-computation/apis), and the [precompiles](/reference/precompiles) available in [builder solidity](/reference/builder-solidity/index), to ensure that transaction data provided by users remains private.
+Regular mode is the same as the normal EVM. Confidential mode uses [the MEVM](/reference/MEVM), with its [additional APIs](/reference/confidential-computation/apis), and the [precompiles](/reference/precompiles) available in [builder solidity](/reference/builder-solidity/index), to ensure that transaction data provided by users remains private.
 
 Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific SUAVE nodes is new and worth emphasizing. 
 
@@ -55,7 +55,7 @@ For clarity, let's define `confidentialComputeRequest` and `confidentialComputeR
     3. The request is sent via `eth_sendRawTransaction` and is _not_ necessarily sent directly to the mempool.
         1. Before nodes broadcast `RawTransactions` they receive, they check if there are confidential inputs. 
         2. If there are none, the node broadcasts the transaction directly to the public SUAVE mempool, operating in "regular" mode.
-        3. If there are confidential inputs present, the MEVM enters "confidential" mode.
+        3. If there are confidential inputs present, the SUAVE node enters "confidential" mode, which uses the MEVM.
 
 ### confidentialComputeResult
 
