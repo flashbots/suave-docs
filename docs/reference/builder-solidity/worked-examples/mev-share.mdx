@@ -21,7 +21,7 @@ What do I need to do, and what happens next? We'll describe the steps first in n
 1. I take my signed ETH L1 Uniswap tx, and put it inside a `confidentialComputeRequest`.
     1. I decide whether I want all my transaction information in there, or just - for instance - the address of the pool contract I am trading on, but not the direction of the trade. 
         1. We call this Ethereum L1 transaction a "hint", because it need not reveal _everything_ an ordinary L1 transaction would.
-    2. I specify the MEVM node for whom the hint is encrypted.
+    2. I specify the SUAVE node for whom the hint is encrypted.
     3. I craft a `creationTx` and point it at MEVShare.sol on SUAVE. Specifcally, I call the `newBid` function in that contract.
 2. I send this `confidentialComputeRequest` (both the Uniswap tx and the `creationTx`) to a SUAVE node via `eth_sendRawTransaction`.
 
@@ -34,7 +34,6 @@ What do I need to do, and what happens next? We'll describe the steps first in n
         1. Simulate whether this is a valid transaction with `simulateBundle`
         2. Extracts the "hint" with `extractHint`.
     4. The hint and simulation are stored in the `confidentialDataStore`, under the "mevshare" keyspace.
-        1. The `confidentialDataStore` is essentially an offchain data layer, which publishes data for specific contracts to particular places in a giant map, such that contracts can access information they need without exposing it on chain.
 		2. When MEVShare.sol tells the MEVM to combine transactions from users looking for protection with transactions from searchers doing backruns, the MEVM can do so without storing any of this data in MEVShare.sol's onchain storage.
 		3. When EthBlockBid.sol tells the MEVM to access matched bids, it can also do, searching in its specific `confidentialDataStore`, in the same "mevshare" keyspace.
     5. It's subtle but important: the view function being called here will return a _callback to another function_ which is intended to permute the state. If it returned the result - rather than this callback - it would expose all the confidential data when it is sent in the next step.
@@ -49,7 +48,7 @@ Now, say some searcher is monitoring the chain, looking for hints about domains 
 
 1. They see a new block, with a transaction to MEVShare.sol.
 2. They check its logs, see a `Hint` event, and can extract the information they need to guess profitable backruns on a given domain.
-3. They craft their backrun, and place _that transaction_ into another `confidentialComputeRequest`. 
+3. They craft their backrun, and place _that transaction_ into another `confidentialComputeRequest` to the same SUAVE node. 
 4. What happens above is repeated, except that the searcher would call the `newMatch` function in MEVShare.sol. 
 	1. This function looks aproximately similar to the `newBid` function above, except that it expects an additional param, which is the id of my original transaction that the searcher wants to backrun.
 	2. It uses the same `fetchConfidentalInputs`, `simulateBundle`, and `extractHint` precompiles, giving it acess to the searcher's backrun tx, which it simulates and stores as another "hint".
