@@ -17,7 +17,7 @@ The [MEVM](/reference/MEVM) has two modes of operation: regular and confidential
 
 Regular mode is the same as the normal EVM. Confidential mode uses the [new confidential compute APIs](/reference/confidential-computation/apis), and the [precompiles](/reference/precompiles) available in [builder solidity](/reference/builder-solidity/index), to ensure that transaction data provided by users remains private.
 
-Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific MEVM nodes is new and worth emphasizing. 
+Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific SUAVE nodes is new and worth emphasizing. 
 
 Users can encrypt their transaction data for specific SUAVE nodes. Those nodes run the necessary computation (as defined in the public contract referenced in the transaction data), and insert the result into the `calldata` of a SUAVE transaction that is submitted to the public mempool, ensuring that only the results (and not the input) are broadcast publicly. 
 
@@ -90,7 +90,7 @@ For clarity, let's define `confidentialComputeRequest` and `confidentialComputeR
   <summary>1. How do we ensure that a <code>confidentialComputeRequest</code> reaches its intended SUAVE node(s)?</summary>
   <div>
     <div>
-      Ensuring users can send their requests directly to the specified MEVM node is an area of active research. One way to do this is to ensure that the logic for sending encrypted messages to their intended recipient lives within SGX, so we can be sure it won't be tampered with.
+      Ensuring users can send their requests directly to the specified SUAVE node is an area of active research. One way to do this is to ensure that the logic for sending encrypted messages to their intended recipient lives within SGX, so we can be sure it won't be tampered with.
     </div>
   </div>
 </details>

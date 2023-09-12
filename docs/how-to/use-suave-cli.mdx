@@ -26,7 +26,7 @@ offchainInnerTx := &types.LegacyTx{
 }
 ```
 
-2. You can wrap (and sign) the above transaction into the new `OffchainTx` method as below, making sure to include the MEVM node's public key.
+2. You can wrap (and sign) the above transaction into the new `OffchainTx` method as below, making sure to include the SUAVE node's public key.
 
 ```go
 offchainTx := types.SignTx(types.NewTx(&types.OffchainTx{
@@ -35,14 +35,14 @@ offchainTx := types.SignTx(types.NewTx(&types.OffchainTx{
 }), suaveSigner, privKey)
 ```
 
-3. Request confidential computation by submitting your transaction along with your confidential data to the MEVM node you chose via `eth_sendRawTransaction`.
+3. Request confidential computation by submitting your transaction along with your confidential data to the SUAVE node you chose via `eth_sendRawTransaction`.
 
 ```go
 confidentialDataBytes := hexutil.Encode(ethBundle)
 suaveClient.Call("eth_sendRawTransaction", offchainTx, confidentialDataBytes)
 ```
 
-4. Once the MEVM node processes your computation request, the MEVM node will submit it as `OffchainExecutedTx` to the SUAVE mempool. For your reference, the two new types look like this:
+4. Once the SUAVE node processes your computation request, the MEVM instance will submit it as `OffchainExecutedTx` to the public mempool. For your reference, the two new types look like this:
 
 ```go
 type OffchainTx struct {
@@ -56,6 +56,6 @@ type OffchainExecutedTx struct {
     ExecutionNode  common.Address
     Wrapped        Transaction
     OffchainResult []byte
-    /* MEVM node's signature fields */
+    /* SUAVE node's signature fields */
 }
 ```

@@ -39,7 +39,7 @@ What do I need to do, and what happens next? We'll describe the steps first in n
     5. It's subtle but important: the view function being called here will return a _callback to another function_ which is intended to permute the state. If it returned the result - rather than this callback - it would expose all the confidential data when it is sent in the next step.
 3. This `confidentialComputeResult` (which is a callback to a function which permutes states) is placed alongside the original `confidentialComputeRequest`.
     1. We call this combination a "SUAVE transaction".
-4. The SUAVE transaction is propagated to the public mempool via an internal p2p method in the MEVM node.
+4. The SUAVE transaction is propagated to the public mempool via an internal p2p method in the MEVM.
 5. Whoever is a proposer picks it up and includes it in the next block. 
 
 ### 2. The search
@@ -214,7 +214,7 @@ Here is the reference code for EthBlockBid.sol and EthBlockBidSender.sol.
 
 > _EGP stands for Effective Gas Price._
 
-> _You'll notice lots of TODOs left in this contract. We's love you to write better versions of our example implementations!_
+> _You'll notice lots of TODOs left in this contract. We'd love you to write better versions of our example implementations!_
 
 ```solidity
 contract EthBlockBid is FetchAndEmit {

@@ -12,11 +12,11 @@ keywords:
 
 ## Our goal
 
-There are two kinds of SUAVE nodes, both participating in the same p2p network. We're going to start them both in this guide. 
+A SUAVE node is really two nodes in a trenchcoat, both participating in the same p2p network. We're going to start them both in this guide. 
 
-1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM node per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM nodes: one for each domain.
+1. The "MEVM instance" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM instance per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM instances: one for each domain.
 
-2. The "SUAVE chain node" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
+2. The "Chain instance" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
 
 ## Docker
 
@@ -85,7 +85,7 @@ Both SUAVE nodes are now running as a daemon process (because of the `-d` flag i
   <div>
     <div>
       <div>
-        Depending on your OS version and the way you installed Docker, you might have issues switching your new MEVM node off again. If so:<br/>
+        Depending on your OS version and the way you installed Docker, you might have issues switching your new SUAVE node off again. If so:<br/>
         <code>
         sudo killall containerd-shim
         </code><br/><br/>
@@ -114,14 +114,14 @@ git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
 make suave
 ```
-2. Run the MEVM node first:
+2. Run the MEVM instace first:
 ```bash
 ./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
 --allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
 --keystore ./suave/devenv/suave-ex-node/keystore/
 ```
 3. Press `Enter` when prompted for a password
-4. In a new terminal, run the SUAVE Chain node:
+4. In a new terminal, run the Chain instance:
 ```bash
 ./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
 ```

@@ -12,13 +12,13 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx";
 
 # Builer solidity
 
-Builder solidity is solidity with some additional precompiles intended to support MEV applications. Using these precompiles, builder solidity contracts can define how MEVM nodes run computation, without that computation being done on chain. That is, MEVM nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not the inputs.
+Builder solidity is solidity with some additional precompiles intended to support MEV applications. Using these precompiles, builder solidity contracts can define how SUAVE nodes run computation, without that computation being done on chain. That is, SUAVE nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not the inputs.
 
 ## Why is this cool?
 
 Builders have no incentive to share the algorithms by which they currently build blocks, so it is hard for searchers to know whether their bundles will be built in the order they submit them, or manipulated. This means that searchers are more likely to send their bundles to the few builders they trust, or only those who consistently build winning blocks (in order to avoid leaking alpha to everyone). This results in block builder centralization over time.
 
-Builders can now use builder solidity to create contracts that specify exactly how they will order bundles (and transactions) sent to them. However, those bundles can be kept confidential: encrypted to the MEVM node that the builder in question runs. This way, builders can receive bundles and order them in a verifiable and public manner, without ever revealing sensitive transaction data.
+Builders can now use builder solidity to create contracts that specify exactly how they will order bundles (and transactions) sent to them. However, those bundles can be kept confidential: encrypted to the SUAVE node that the builder in question runs. This way, builders can receive bundles and order them in a verifiable and public manner, without ever revealing sensitive transaction data.
 
 Builder solidity is for all kinds of builders though, not just block builders. Builder solidity contracts are a _uniform programming model for implementing every component of the transaction supply chain_, such that we can ensure that any value created is distributed fairly.
 
