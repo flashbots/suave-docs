@@ -21,13 +21,19 @@ module.exports = {
       label: '🤖 Technical Details',
       link: {type: 'doc', id: 'reference/index'},
       items: [
-        'reference/builder-solidity',
+        {
+          type: 'category',
+          label: 'Builder Solidity',
+          link: {type: 'doc', id: 'reference/builder-solidity/index'},
+          items: [
+            'reference/builder-solidity/worked-examples/mev-share',
+          ],
+        },
         {
           type: 'category',
           label: 'Confidentiality',
           link: {type: 'doc', id: 'reference/confidential-computation/index'},
           items: [
-            'reference/confidential-computation/worked-examples',
             'reference/confidential-computation/apis',
           ],
         },
