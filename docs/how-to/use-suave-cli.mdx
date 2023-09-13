@@ -8,6 +8,145 @@ keywords:
   - practice
 ---
 
+# Use SUAVE CLI
+
+On this page, you will find a recipe for installing the SUAVE command line interface (CLI) and using it to deploy and interact with contracts on a SUAVE network running on your local machine.
+
+This recipe is an _instruction set_ that enables you to use SUAVE CLI. Our goal is to 
+
+1. install the tool
+2. run a local SUAVE network
+3. deploy some basic contracts to that network
+4. interact with those contracts and see what happens
+
+> _SUAVE CLI was developed to test and demonstrate potential ways to use SUAVE. It is **not** necessary to incorporate it into your own toolkit._
+
+Explanation of how contracts we'll be deploying work, and further description of builder solidity, is kept in the technical details part of this site. We recommend that you read the [worked examples section](/references/builder-solidity/worked-examples/mev-share) after completing this guide.
+
+## Install
+
+You need to have [Go](https://go.dev/doc/install) installed to follow this guide.
+
+1. Clone the repo and get to the right place:
+```bash
+git clone https://github.com/flashbots/suave-geth.git
+cd suave-geth
+```
+2. Install SUAVE CLI:
+```bash
+go mod tidy
+go build -o suavecli ./suave/cmd/suavecli
+```
+
+## Run a local SUAVE node
+
+This is also explained in the [previous guide](/how-to/setup-suave#build-it-yourself).
+
+1. Make the SUAVE node (from within the same `suave-geth` directory as above):
+```bash
+make suave
+```
+2. Run the MEVM instance first:
+```bash
+./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
+--allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
+--keystore ./suave/devenv/suave-ex-node/keystore/
+```
+3. Press `Enter` when prompted for a password
+4. In a new terminal, run the Chain instance:
+```bash
+./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
+```
+
+## Deploy MEVShare
+
+Our SUAVE node (which is two nodes in a trenchcoat) has been deployed with a specific account set as the "dev account". This accounts has some funds we can use to deploy contracts and interact with the chain, we just need to let SUAVE CLI know what its private key is when sending transactions.
+
+1. Deploy MEVShare.sol:
+```bash
+./suavecli deployMevShareContract --privkey "6c45335a22461ccdb978b78ab61b238bad2fae4544fb55c14eb096c875ccfc52"
+```
+2. **Take note of the contract address printed at the end of the logs in your console**.
+
+The [MEVShare.sol contract we just deployed is explained in detail in our worked examples](/reference/builder-solidity/worked-examples/mev-share).
+
+## Send a MEVShare bundle
+
+The basic flow of MEV-sharing is:
+
+1. Users send transactions they want to be protected from MEV to this contract.
+2. The contract emits hints about those transactions in event logs, which searchers listen for.
+3. Searchers send backrun transactions which potentially match the user transactions in (1).
+4. The contract merges these transactions and stores them in its `confidentialDataStore`.
+
+So, let's send a bundle of transactions to the contract we just deployed. 
+
+We'll use the contract address you noted in step (2) above. We also need a `goerli_rpc` address, provided below:
+
+```bash
+./suavecli sendMevShareBundle --privkey "6c45335a22461ccdb978b78ab61b238bad2fae4544fb55c14eb096c875ccfc52" --ex_node_addr "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" --mev_share_addr "<YOUR_CONTRACT_ADDRESS>" --goerli_rpc "https://eth-goerli.alchemyapi.io/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Commands
+
+### Deploy Commands:
+
+1. `deployBlockSenderContract`: Deploys the BlockSender contract to the Suave network. This contract is used to send constructed blocks for execution via the Boost Relay.
+
+2. `deployMevShareContract`: Deploys the MevShare contract to the Suave network. This contract is used for sharing Maximum Extractable Value (MEV) profits with the MevExtractor contract.
+
+### Send Commands:
+
+1. `sendBundle`: Sends a bundle of transactions to specified MEVM contract.
+
+2. `sendMevShareBundle`: Sends a MEVShare bundle to specified MEVM contract.
+
+3. `sendMevShareMatch`: Sends a MEV share match transaction to the Suave network via the Boost Relay for matching MEV share recipients with their corresponding transactions.
+
+4. `sendBuildShareBlock`: Sends a transaction to build a Goerli block using MEV-Share orderflow and sends to specified Goerli relay.
+
+### Demo Helper Commands:
+
+1. `startHintListener`: Starts a hint listener for demo purposes. This command listens for hints emmited from MEV-Share on the Suave Chain.
+
+2. `subscribeBeaconAndBoost`: Subscribes to events from the Beacon Chain and Boost for demo purposes.
+
+3. `startRelayListener`: Starts a relay listener for demo purposes. This command listens for block submisisons and deliveries from the Boost Relay.
+
+### End-to-End (e2e) Test Commands:
+
+1. `testDeployAndShare`: Performs an end-to-end test scenario that includes contract deployment and block sharing.
+
+2. `buildGoerliBlocks`: Performs an end-to-end test scenario for building and sharing blocks on the Goerli network.
+
+
+
+
+
+
+
+
+
 note to self: these code examples come from the README. See if I can work them into all that is in SUAVE cli.
 
 We can go over the above steps again, this time looking at the actual code required for each step:
