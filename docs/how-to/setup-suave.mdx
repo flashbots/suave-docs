@@ -22,7 +22,7 @@ A SUAVE node is really two nodes in a trenchcoat, both participating in the same
 
 ### What you need
 
-1. Install Docker. You can find general directions [here](https://docs.docker.com/get-docker/).
+1. Install and start Docker. You can find general directions [here](https://docs.docker.com/get-docker/).
     1. If you're running Ubuntu or Debian, we recommend [this specific guide](https://docs.docker.com/engine/install/ubuntu/#installation-methods).
 2. Make sure you have `docker-compose` installed too. The should just happen when you install Docker.
     1. Check with `docker-compose version` (Docker Engine) or `docker compose version` (Docker Desktop).
@@ -36,20 +36,43 @@ git clone https://github.com/flashbots/suave-geth.git
 ```
 2. Get to the right place in the repo:
 ```bash
-cd suave-geth/suave/devenv/
+cd suave-geth/
 ```
-3. Run SUAVE:
+3. Run SUAVE (depending on your docker setup, you may need to run this as `sudo`):
 ```bash
-docker-compose up -d 
+make devnet-up 
+```
+
+### Optional testing
+
+4. If you'd like to test your node by deploying a contract and sending it some transactions, you can do so easily by running:
+```bash
+go run suave/devenv/cmd/main.go
+```
+You should see something like the below printed to your terminal (addresses, txns, and ids will differ):
+```bash
+suave-geth$ go run suave/devenv/cmd/main.go
+Step 0: Create and fund test accounts
+- Funded test account: 0x66d5a8D6B34329c0639071275b3d78D29e11EbC6 (100000000)
+Step 1: Deploy mev-share contract
+- Mev share contract deployed: 0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17
+Step 2: Send bid
+- Bid sent at txn: 0xb49debcdead2b306d6ab6282b88fdad7c8d6a33d87df34b79f56d141eae7c08a
+- Bid id: 30bbc65298f24e67aaf5c95bf5f0686c
+Step 3: Send backrun
+- Backrun sent at txn: 0xcf7880e61e94aaab48c60655c321716ecab6edab752586448b0412e93a969889
+- Backrun bid id: db98b83d02694fc2b13c042ad22c233
 ```
 
 ### What just happened
 
-Both SUAVE nodes are now running as a daemon process (because of the `-d` flag in the `docker-compose` command). Well done!
+Both the MEVM instance and the Chain instance are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
 
-1. Read more about [confidential computation](/reference/confidential-computation/index) and the [APIs we've built to enable it](/reference/confidential-computation/apis).
-2. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
-3. Browse a full list of the [precompiles this gives you access to in any smart contract](/reference/precompiles).
+1. Learn more about the contract you deployed and what those transactions are in our [worked examples](/reference/builder-solidity/worked-examples/mev-share).
+2. Read more about [confidential computation](/reference/confidential-computation/index) and the [APIs we've built to enable it](/reference/confidential-computation/apis).
+3. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
+4. Browse a full list of the [precompiles](/reference/precompiles) this gives you access to in [builder solidity](/reference/builder-solidity/index).
+5. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here].
 
 ### Common problems
 
@@ -65,33 +88,6 @@ Both SUAVE nodes are now running as a daemon process (because of the `-d` flag i
         Or just check the current status with:<br/>
         <code>
         sudo systemctl status docker
-        </code>
-      </div>
-    </div>
-  </div>
-</details>
-
-<details>
-  <summary>2. Using Docker Desktop</summary>
-  <div>
-    <div>
-      If you're using Docker Desktop, it's likely that you need to use <code>docker compose up -d</code> (without the <code>-</code>).
-    </div>
-  </div>
-</details>
-
-<details>
-  <summary>3. Older OS won't shut down</summary>
-  <div>
-    <div>
-      <div>
-        Depending on your OS version and the way you installed Docker, you might have issues switching your new SUAVE node off again. If so:<br/>
-        <code>
-        sudo killall containerd-shim
-        </code><br/><br/>
-        Now you should be able to run:<br/>
-        <code>
-        sudo docker-compose down
         </code>
       </div>
     </div>

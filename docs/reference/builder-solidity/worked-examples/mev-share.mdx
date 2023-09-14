@@ -29,7 +29,7 @@ What do I need to do, and what happens next? We'll describe the steps first in n
 
 1. The MEVM enters into the `newBid` function in MEVShare.sol.
     1. This _does not_ permute state: the call is to the `fetchConfidentialData` view function, which returns a result to the thread executing the EVM call.
-    2. `fetchConfidentialData` uses the `fetchConfidentalInputs` precompile, which enables the MEVM to fetch the data you encrypted for it. 
+    2. `fetchConfidentialData` uses the `confidentalInputs` precompile, which enables the MEVM to fetch the data you encrypted for it. 
     3. Once it has the data, it calls two more precompiles:
         1. Simulate whether this is a valid transaction with `simulateBundle`
         2. Extracts the "hint" with `extractHint`.
@@ -51,7 +51,7 @@ Now, say some searcher is monitoring the chain, looking for hints about domains 
 3. They craft their backrun, and place _that transaction_ into another `confidentialComputeRequest` to the same SUAVE node. 
 4. What happens above is repeated, except that the searcher would call the `newMatch` function in MEVShare.sol. 
 	1. This function looks aproximately similar to the `newBid` function above, except that it expects an additional param, which is the id of my original transaction that the searcher wants to backrun.
-	2. It uses the same `fetchConfidentalInputs`, `simulateBundle`, and `extractHint` precompiles, giving it acess to the searcher's backrun tx, which it simulates and stores as another "hint".
+	2. It uses the same `confidentalInputs`, `simulateBundle`, and `extractHint` precompiles, giving it acess to the searcher's backrun tx, which it simulates and stores as another "hint".
 	3. Using the additional input param, it then merges my original transaction with the searcher's backrun transaction and stores those in the "mevshare keyspace".
 5. As above, the `newMatch` function then returns a _callback to another function_ which is intended to permute the state. This is the `confidentialComputeResult` that is propagated as a SUAVE transaction to the public mempool, so that we also don't reveal the searcher's successful backrun.
 

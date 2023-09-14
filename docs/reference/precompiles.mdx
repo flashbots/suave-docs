@@ -15,12 +15,12 @@ While it is possible to call the SUAVE precompiles directly using, for example, 
 
 
 ```solidity
-function isOffchain() internal view returns (bool b)
+function isConfidential() internal view returns (bool b)
 function confidentialInputs() internal view returns (bytes memory)
 function newBid(uint64 decryptionCondition, address[] memory allowedPeekers, string memory BidType) internal view returns (Bid memory)
 function fetchBids(uint64 cond, string memory namespace) internal view returns (Bid[] memory)
-function confidentialStoreStore(BidId bidId, string memory key, bytes memory data) internal view
-function confidentialStoreRetrieve(BidId bidId, string memory key) internal view returns (bytes memory)
+function confidentialStoreSet(BidId bidId, string memory key, bytes memory data) internal view
+function confidentialStoreGet(BidId bidId, string memory key) internal view returns (bytes memory)
 function simulateBundle(bytes memory bundleData) internal view returns (bool, uint64)
 function extractHint(bytes memory bundleData) internal view returns (bytes memory)
 function buildEthBlock(BuildBlockArgs memory blockArgs, BidId bid, string memory namespace) internal view returns (bytes memory, bytes memory)
@@ -70,7 +70,7 @@ We will be happy to help you get a specific precompile you need for your MEV use
 
 If you'd like to call the precompiles directly, you can use the addresses and details listed below to do so without having to import the whole `Suave.sol` library.
 
-### IsOffchain
+### isConfidential
 
 |   |   |
 |---|---|
@@ -94,7 +94,7 @@ Outputs the confidential inputs passed in with the confidential computation requ
 
 **NOTE**: currently all precompiles have access to the data passed in. This might change in the future.
 
-### ConfidentialStore
+### ConfidentialStoreSet
 
 |   |   |
 |---|---|
@@ -106,7 +106,7 @@ Stores the value in underlying confidential store.
 
 Requires that the caller is present in the `AllowedPeekers` of the bid passed in.
 
-### ConfidentialRetrieve
+### ConfidentialStoreGet
 
 |   |   |
 |---|---|

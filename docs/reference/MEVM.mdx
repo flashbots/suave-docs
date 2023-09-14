@@ -8,9 +8,9 @@ keywords:
   - go-ethereum
 ---
 
-# MEVM
+import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx"
 
-The MEVM gives anyone the power to program MEV applications in builder solidity: an expressive, familiar, and flexible programming environment for smart contract mechanisms. 
+# MEVM
 
 The MEVM seeks to offer every primitive of the MEV supply chain as a precompile, allowing any centralized MEV infrastructure to be transformed into a smart contract running on SUAVE.
 
@@ -20,13 +20,29 @@ If you'd prefer to learn by running it yourself, please follow [this guide](/how
 
 ## Architecture
 
-Our goal is to give you what you need to write more expressive smart contracts and conduct confidential computation, such that you can build any kind of MEV application.
+Our goal is to give you what you need to write more expressive [builder solidity](/reference/builder-solidity/index) and conduct [confidential computation](/reference/confidential-computation/index), such that you can build any kind of MEV application.
 
-For this part, if you remember the below formula, you're good to go:
+If you've read the two links above, you'll know that the basic flow of a transaction on SUAVE looks like this:
 
-**SuaveExecutionBackend 🤝 EVM = MEVM**
+<AlignItems horizontal="center" vertical="center" sideMargin={0}>
+<div>
+  <img alt="Fairier Transformers" src={require('/static/img/basic_flow_mevshare.png').default} />
+</div>
+</AlignItems>
 
-Here is a visual overview of what the above actually looks like:
+We'll be explaing how we achieve the above "Confidential MEVM execution" for the rest of this page. 
+
+At a high level, we have adapted the `eth_sendRawTransaction` RPC method to accept an additional field, called `confidential_data`. Users place signed transactions from other blockchains in this field. They encrypt the field for specific SUAVE node(s), and specify some builder solidity contract on SUAVE, which holds the logic for what to do with their encrypted inputs.
+
+When a SUAVE node receives a `RawTransaction`, it checks whether there are confidential inputs. If there are, we call this a `confidentialComputeRequest` and the MEVM kicks into action. It enters the function being called in the builder solidity contract and, using a `view` function and the `confidentalInputs` [precompile](/reference/precompiles), gets the data it needs about the user's transaction on another blockchain. The MEVM computes some result and stores the relevant data locally, in its `confidentialDataStore`. This does not permute state, as we're only using a `view` function fetch data and then doing the computation locally, in the MEVM.
+
+Computation complete, the MEVM places what we call the `confidentialComputeResult` in the original `RawTransaction` it received, which it then propagates to the public mempool. The `confidentialComputeResult` is really a callback to another function, which does permute state and often emits some kind of event, the logs of which hold data required by others parties without revealing the original inputs. We encourage you to read about [mev-share on SUAVE](/reference/builder-solidity/worked-examples/mev-share) for a practical example. 
+
+For now, it is good enough that you understand that all our adaptations to the EVM serve the goal of confidential computation, as outlined above. These changes can be summed up in a very simple formula:
+
+> **SuaveExecutionBackend 🤝 EVM = MEVM**
+
+Here is a visual overview of what that actually means in practice:
 
 ```mermaid
 graph TB
@@ -59,35 +75,38 @@ graph TB
     classDef lightgreen fill:#b3c69f,stroke:#444,stroke-width:2px, color:#333;
 ```
 
-What do you get from the **SuaveExecutionBackend** that we've married to the EVM through the new runtime? In a nutshell: [3 new API endpoints](/reference/confidential-computation/apis):
+In words: the EVM is made up of a whole bunch of different parts. THose numbered `1` through `7` exist in the vanilla EVM we all know and love. Parts `8` through `13` are what we have added (or adapted in the case of the `interpreter`) in order to enable confidential computation.
+
+What do you get from the [SuaveExecutionBackend](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) that we've married to the EVM through the new runtime? In a nutshell: [3 new API endpoints](/reference/confidential-computation/apis):
 
 ```go
 func NewRuntimeSuaveExecutionBackend(evm *EVM, caller common.Address) *SuaveExecutionBackend {
-	if !evm.Config.IsOffchain {
+	if !evm.Config.IsConfidential {
 		return nil
 	}
 
 	return &SuaveExecutionBackend{
 		ConfidentialStoreBackend: evm.suaveExecutionBackend.ConfidentialStoreBackend,
 		MempoolBackend:           evm.suaveExecutionBackend.MempoolBackend,
-		OffchainEthBackend:       evm.suaveExecutionBackend.OffchainEthBackend,
+		ConfidentialEthBackend:   evm.suaveExecutionBackend.ConfidentialEthBackend,
 		confidentialInputs:       evm.suaveExecutionBackend.confidentialInputs,
 		callerStack:              append(evm.suaveExecutionBackend.callerStack, &caller),
 	}
 }
 ```
 
-Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `OffchainEthBackend` - are available in [builder solidity](/reference/builder-solidity) through the use of [precompiles](/reference/precompiles). The precompiles also make use of `callerStack` to specify whether there is confidential computation required, and `confidentialInputs` to specify the inputs to that computation if it is required.
+Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `ConfidentialEthBackend` - are available in [builder solidity](/reference/builder-solidity/index) through the use of [precompiles](/reference/precompiles). The precompiles also make use of `confidentialInputs` to specify the data relevant to confidential computation, and `callerStack` enables transaction tracing.
 
 ## Notable differences from go-ethereum
 
 ### Changes to RPC methods
 
-1. New `IsOffchain` and `ExecutionNode` fields have been added to TransactionArgs, used in `eth_sendTransaction` and `eth_call` methods.
-    - If `IsOffchain` is set to true, the call will be performed confidentially, using the `ExecutionNode` passed in for constructing `OffchainTx`.
+1. New `IsConfidential` and `ExecutionNode` fields are added to the TransactionArgs used in `eth_sendTransaction` and `eth_call` methods.
+    - If `IsConfidential` is set to true, the call will be performed as a confidential call, using the SUAVE node passed in for constructing `ConfidentialComputeRequest`.
+    - `SuaveTransaction` is the result of `eth_sendTransaction`.
 
-2. New, optional `confidential_data` argument has been added to `eth_sendRawTransaction`, `eth_sendTransaction` and `eth_call` methods.
-    - The confidential data is made available to the EVM in the confidential mode via a precompile, but does not become a part of the eventual on-chain transaction. This enables confidential computation (like simulating a bundle, putting the data into confidential store).
+2. New optional argument - `confidential_data` is added to `eth_sendRawTransaction`, `eth_sendTransaction` and `eth_call` methods.
+    - The confidential data is made available to the EVM in the confidential mode via a precompile, but does not become a part of the transaction that makes it to chain. This allows performing computation based on confidential data (like simulating a bundle, or putting the data into confidential store).
 
 ### SuavePrecompiledContract
 
@@ -96,15 +115,15 @@ We introduce a new interface [SuavePrecompiledContract](https://github.com/flash
 ```go
 type SuavePrecompiledContract interface {
 	PrecompiledContract
-	RunOffchain(backend *SuaveExecutionBackend, input []byte) ([]byte, error)
+	RunConfidential(backend *SuaveExecutionBackend, input []byte) ([]byte, error)
 }
 ```
 
-The method `RunOffchain` is invoked during confidential execution, and the `SuaveExecutionBackend` which provides access to confidential compute APIs is passed in as input.
+The method `RunConfidential` is invoked during confidential execution, and the suave execution backend which provides access to confidential APIs is passed in as input.
 
-### SuavePrecompiledContractWrapper
+### SUAVE Precompile Wrapper
 
-We introduce [SuavePrecompiledContractWrapper](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) implementing the `PrecompiledContract` interface. The new structure captures the confidential compute APIs in its constructor, and passes the confidential compute APIs during the usual contract's `Run` method to a separate method: `RunOffchain`.
+We introduce [SuavePrecompiledContractWrapper](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) implementing the `PrecompiledContract` interface. The new structure captures the confidential APIs in its constructor, and passes the confidential APIs during the usual contract's `Run` method to a separate method - `RunConfidential`.
 
 ### SuaveExecutionBackend
 
@@ -118,9 +137,9 @@ We introduce [SuaveExecutionBackend](https://github.com/flashbots/suave-geth/blo
 
 The [EVM interpreter](https://github.com/flashbots/suave-geth/blob/main/core/vm/interpreter.go) is modified to enable confidential computation:
 
-1. We introduce `IsOffchain` to the interpreter's config
-2. We modify the `Run` function to accept off-chain APIs `func (in *EVMInterpreter) Run(*SuaveExecutionBackend, *Contract, []byte, bool) ([]byte, err)`
-3. We modify the `Run` function to trace the caller stack
+* We introduce `IsConfidential` to the interpreter's config
+* We modify the `Run` function to accept confidential APIs `func (in *EVMInterpreter) Run(*SuaveExecutionBackend, *Contract, []byte, bool) ([]byte, err)`
+* We modify the `Run` function to trace the caller stack
 
 Like `eth_sendTransaction`, this method accepts an additional, optional confidential inputs argument.
 
