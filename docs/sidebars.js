@@ -3,6 +3,7 @@ module.exports = {
     {
       type: 'category',
       label: '👋 Welcome',
+      collapsed: false,
       link: {type: 'doc', id: 'index'},
       items: [
         'design-goals',
@@ -11,6 +12,7 @@ module.exports = {
     {
       type: 'category',
       label: '🥷 How To',
+      collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
         'how-to/setup-suave',
@@ -19,10 +21,25 @@ module.exports = {
     {
       type: 'category',
       label: '🤖 Technical Details',
+      collapsed: false,
       link: {type: 'doc', id: 'reference/index'},
       items: [
-        'reference/builder-solidity',
-        'reference/confidential-computation',
+        {
+          type: 'category',
+          label: 'Builder Solidity',
+          link: {type: 'doc', id: 'reference/builder-solidity/index'},
+          items: [
+            'reference/builder-solidity/worked-examples/mev-share',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Confidentiality',
+          link: {type: 'doc', id: 'reference/confidential-computation/index'},
+          items: [
+            'reference/confidential-computation/apis',
+          ],
+        },
         'reference/precompiles',
         'reference/MEVM',
       ],
@@ -30,6 +47,7 @@ module.exports = {
     {
       type: 'category',
       label: '⚡ Understanding MEV',
+      collapsed: false,
       link: {type: 'doc', id: 'understand/index'},
       items: [
         'understand/meaning',
