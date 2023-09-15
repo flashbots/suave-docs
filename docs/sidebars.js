@@ -3,6 +3,7 @@ module.exports = {
     {
       type: 'category',
       label: '👋 Welcome',
+      collapsed: false,
       link: {type: 'doc', id: 'index'},
       items: [
         'design-goals',
@@ -11,6 +12,7 @@ module.exports = {
     {
       type: 'category',
       label: '🥷 How To',
+      collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
         'how-to/setup-suave',
@@ -19,6 +21,7 @@ module.exports = {
     {
       type: 'category',
       label: '🤖 Technical Details',
+      collapsed: false,
       link: {type: 'doc', id: 'reference/index'},
       items: [
         {
@@ -44,6 +47,7 @@ module.exports = {
     {
       type: 'category',
       label: '⚡ Understanding MEV',
+      collapsed: false,
       link: {type: 'doc', id: 'understand/index'},
       items: [
         'understand/meaning',

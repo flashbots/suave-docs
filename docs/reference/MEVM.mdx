@@ -30,7 +30,7 @@ If you've read the two links above, you'll know that the basic flow of a transac
 </div>
 </AlignItems>
 
-We'll be explaing how we achieve the above "Confidential MEVM execution" for the rest of this page. 
+How do we achieve this "Confidential MEVM execution"? 
 
 At a high level, we have adapted the `eth_sendRawTransaction` RPC method to accept an additional field, called `confidential_data`. Users place signed transactions from other blockchains in this field. They encrypt the field for specific SUAVE node(s), and specify some builder solidity contract on SUAVE, which holds the logic for what to do with their encrypted inputs.
 
@@ -40,7 +40,7 @@ Computation complete, the MEVM places what we call the `confidentialComputeResul
 
 For now, it is good enough that you understand that all our adaptations to the EVM serve the goal of confidential computation, as outlined above. These changes can be summed up in a very simple formula:
 
-> **SuaveExecutionBackend 🤝 EVM = MEVM**
+> **SuaveExecutionBackend + EVM = MEVM**
 
 Here is a visual overview of what that actually means in practice:
 
