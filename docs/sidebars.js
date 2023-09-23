@@ -15,7 +15,7 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/setup-suave',
+        'how-to/run-suave',
       ],
     },
     {
@@ -40,7 +40,14 @@ module.exports = {
             'reference/confidential-computation/apis',
           ],
         },
-        'reference/precompiles',
+        {
+          type: 'category',
+          label: 'Precompiles',
+          link: {type: 'doc', id: 'reference/precompiles/index'},
+          items: [
+            'reference/precompiles/write-your-own',
+          ],
+        },
         'reference/MEVM',
       ],
     },
@@ -52,6 +59,7 @@ module.exports = {
       items: [
         'understand/meaning',
         'understand/fairness',
+        'understand/power'
       ],
     },
     {
