@@ -18,27 +18,24 @@ I want to swap on an decentralized exchange. However, I've heard that I can be e
 
 What do I need to do, and what happens next? We'll describe the steps first in natural language. If you want to [jump straight to code, please do so](#the-code).
 
-1. I take my signed ETH L1 Uniswap tx, and put it inside a `confidentialComputeRequest`.
+1. I take my signed ETH L1 Uniswap tx, and encrypt it using the public key of a specific SUAVE node.
     1. I decide whether I want all my transaction information in there, or just - for instance - the address of the pool contract I am trading on, but not the direction of the trade. 
         1. We call this Ethereum L1 transaction a "hint", because it need not reveal _everything_ an ordinary L1 transaction would.
-    2. I specify the SUAVE node for whom the hint is encrypted.
-    3. I craft a `creationTx` and point it at MEVShare.sol on SUAVE. Specifcally, I call the `newBid` function in that contract.
-2. I send this `confidentialComputeRequest` (both the Uniswap tx and the `creationTx`) to a SUAVE node via `eth_sendRawTransaction`.
+    3. I wrap my L1 transaction in another transaction to the MEVShare.sol on SUAVE.
+2. I send the transaction in (1.ii) to the SUAVE node I encrypted it for.
+3. The SUAVE node sees this transaction, sees that it contains additional data (the encrypted L1 transaction), and passes it to the MEVM running in that node to process confidentially.
 
 ### 1. The trade
 
-1. The MEVM enters into the `newBid` function in MEVShare.sol.
-    1. This _does not_ permute state: the call is to the `fetchConfidentialData` view function, which returns a result to the thread executing the EVM call.
-    2. `fetchConfidentialData` uses the `confidentalInputs` precompile, which enables the MEVM to fetch the data you encrypted for it. 
-    3. Once it has the data, it calls two more precompiles:
-        1. Simulate whether this is a valid transaction with `simulateBundle`
-        2. Extracts the "hint" with `extractHint`.
-    4. The hint and simulation are stored in the `confidentialDataStore`, under the "mevshare" keyspace.
+1. The MEVM enters into the function being called in the MEVShare.sol contract on SUAVE.
+    1. This _does not_ permute state: we use view functions to fetch confidential data, and then have the MEVM compute over that data off-chain. 
+    3. Once the MEVM has the data, it will use any other combination of precompiles to extract relevant parts of it and simulate the results of any computation done ofer that data.
+    4. These "hint" and "simulations" are stored in the Confidential Data Store of that particular SUAVE node, under a specific "keyspace". The Confidential Data Store, and this notion of "keyspace", enables us to have public mechanisms specified in verifiable contracts which nevertheless collect and compute over private data. For instane:
 		2. When MEVShare.sol tells the MEVM to combine transactions from users looking for protection with transactions from searchers doing backruns, the MEVM can do so without storing any of this data in MEVShare.sol's onchain storage.
-		3. When EthBlockBid.sol tells the MEVM to access matched bids, it can also do, searching in its specific `confidentialDataStore`, in the same "mevshare" keyspace.
+		3. When EthBlockBid.sol tells the MEVM to access matched bids, it can also do, searching in its specific Confidential Data Store, in the same "mevshare" keyspace.
     5. It's subtle but important: the view function being called here will return a _callback to another function_ which is intended to permute the state. If it returned the result - rather than this callback - it would expose all the confidential data when it is sent in the next step.
-3. This `confidentialComputeResult` (which is a callback to a function which permutes states) is placed alongside the original `confidentialComputeRequest`.
-    1. We call this combination a "SUAVE transaction".
+2. The callback to a function which does permute states is placed alongside the original transaction sent in (2) above.
+    1. We call this triple combination - the encrypted L1 transaction, the transaction I sent which wraps it, and the result from the MEVM - a "SUAVE transaction".
 4. The SUAVE transaction is propagated to the public mempool via an internal p2p method in the MEVM.
 5. Whoever is a proposer picks it up and includes it in the next block. 
 
@@ -47,15 +44,15 @@ What do I need to do, and what happens next? We'll describe the steps first in n
 Now, say some searcher is monitoring the chain, looking for hints about domains they're interested in. What do they do with all the above?
 
 1. They see a new block, with a transaction to MEVShare.sol.
-2. They check its logs, see a `Hint` event, and can extract the information they need to guess profitable backruns on a given domain.
-3. They craft their backrun, and place _that transaction_ into another `confidentialComputeRequest` to the same SUAVE node. 
-4. What happens above is repeated, except that the searcher would call the `newMatch` function in MEVShare.sol. 
-	1. This function looks aproximately similar to the `newBid` function above, except that it expects an additional param, which is the id of my original transaction that the searcher wants to backrun.
-	2. It uses the same `confidentalInputs`, `simulateBundle`, and `extractHint` precompiles, giving it acess to the searcher's backrun tx, which it simulates and stores as another "hint".
+2. They check its logs, see a Hint event, and can extract the information they need to guess profitable backruns on a given domain.
+3. They craft their backrun on ETH L1, and wrap that backrun transaction into another transaction to the same SUAVE node. 
+4. What happens above is repeated, except that the searcher would call a different function in MEVShare.sol. 
+	1. This function operates similarly to what was described above, except that it expects an additional parameter, which is the id of my original transaction that the searcher wants to backrun.
+	2. It uses the same precompiles, giving it acess to the searcher's backrun transaction, which it simulates and stores as another "hint".
 	3. Using the additional input param, it then merges my original transaction with the searcher's backrun transaction and stores those in the "mevshare keyspace".
-5. As above, the `newMatch` function then returns a _callback to another function_ which is intended to permute the state. This is the `confidentialComputeResult` that is propagated as a SUAVE transaction to the public mempool, so that we also don't reveal the searcher's successful backrun.
+5. As above, the MEVM returns a _callback to another function_ which is intended to permute the state, all of which is propagated as a SUAVE transaction to the public mempool, so that we also don't reveal the searcher's successful backrun.
 
-Of course, we still need to find out how the block which contains these matched transactions will be built and propagated, but let's put that to the side for one moment to look at the builder solidity code necessary to perform the above steps.
+We still need to find out how the block which contains these matched transactions will be built and propagated, but let's put that to the side for one moment to look at the builder solidity code necessary to perform the above steps.
 
 ### The code
 
