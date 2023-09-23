@@ -75,9 +75,11 @@ graph TB
     classDef lightgreen fill:#b3c69f,stroke:#444,stroke-width:2px, color:#333;
 ```
 
-In words: the EVM is made up of a whole bunch of different parts. THose numbered `1` through `7` exist in the vanilla EVM we all know and love. Parts `8` through `13` are what we have added (or adapted in the case of the `interpreter`) in order to enable confidential computation.
+In words: the EVM is made up of a whole bunch of different parts. Those numbered `1` through `7` exist in the vanilla EVM we all know and love. Parts `8` through `13` are what we have added (or adapted in the case of the `interpreter`) in order to enable confidential computation.
 
-What do you get from the [SuaveExecutionBackend](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) that we've married to the EVM through the new runtime? In a nutshell: [3 new API endpoints](/reference/confidential-computation/apis):
+What do you get from the [SuaveExecutionBackend](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) that we've married to the EVM through the new runtime? 
+
+In a nutshell: [3 new API endpoints](/reference/confidential-computation/apis):
 
 ```go
 func NewRuntimeSuaveExecutionBackend(evm *EVM, caller common.Address) *SuaveExecutionBackend {

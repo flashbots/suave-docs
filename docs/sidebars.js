@@ -52,6 +52,7 @@ module.exports = {
       items: [
         'understand/meaning',
         'understand/fairness',
+        'understand/power'
       ],
     },
     {
