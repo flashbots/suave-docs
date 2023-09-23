@@ -1,0 +1,126 @@
+---
+title: Write your own
+description: An up-to-date list of all precompiles available to use in smart contracts on SUAVE
+keywords:
+  - reference
+  - suave
+  - precompiles
+---
+
+# Write your own precompile
+
+SUAVE uses custom precompiles to extend the EVM with specific MEV functions.
+
+We specify the inputs and outputs for each precompile in `yaml`. From [this specification](https://github.com/flashbots/suave-geth/blob/main/suave/gen/suave_spec.yaml), two bindings are auto-generated, one in Solidity (the client) and another one in Go (the server).
+
+The Solidity binding in implemented in a [Solidity library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) that Suave apps can use to call precompiles. The [Golang counterpart](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go) runs in the EVM and handles the Solidity calls to the SUAVE precompiles.
+
+The bindings handle encoding/decoding and error management, providing a standard format for both runtimes to communicate with each other. This removes all the nitty-gritty work required such that you can focus on creating the precompiles you need without getting caught up in the implementation complexities.
+
+## Understand the spec
+
+The `yaml` specification looks like this:
+
+```yaml
+types:
+  - name: BidId
+    type: bytes16
+structs:
+  - name: Bid
+    fields:
+      - name: id
+        type: BidId
+      - name: decryptionCondition
+        type: uint64
+...
+functions:
+  - name: confidentialInputs
+    address: "0x0000000000000000000000000000000042010001"
+    output:
+      packed: true
+      fields:
+        - name: output1
+          type: bytes
+  - name: newBid
+    address: "0x0000000000000000000000000000000042030000"
+    input:
+      - name: decryptionCondition
+        type: uint64
+      - name: allowedPeekers
+        type: address[]
+      - name: bidType
+        type: string
+    output:
+      fields:
+        - name: bid
+          type: Bid
+```
+
+There are three to-level objects: `types`, `structs` and `functions`. In this guide, we will focus on the `functions`, as adding a new precompile will most often entail writing a new function.
+
+If you can specify the function's name, the address its logic is deployed at on SUAVE, and what form you expect the inputs and output to take, then our codegen tool will automatically generate both the Solidity and Go bindings required to make your precompile work.
+
+The fields you can include when adding a new `function` to the `yaml` specification are:
+
+- `name`: Name of the precompile.
+- `address`: Address of the precompile.
+- `input`: Configuration of the expected input. 
+    - `name`: Name of the input field
+    - `type`: Type of the input field.
+- `output`: Configuration of the expected output.
+    - `packed`: Boolean that specifies whether to pack the output. Only available if the function returns a single array of bytes.
+    - `fields`: Array of output fields for the precompile.
+        - `name`: Name of the output field
+        - `type`: Type of the output field.
+
+Input and output types can be a basic Solidity type (`address`), a composite type (`address[]`), or a reference to any of the custom types and structs (i.e. `Struct`, `Struct[]`). It must be written in the same format as it would be in Solidity.
+    
+## How to write your own
+
+We'll write a custom SUAVE precompile to perform the "add" operation in order to illustrate how to add your own. This is a two step process:
+
+1. Edit the `yaml` specification, adding your new precompile to the `functions` block.
+2. Implement the custom logic in the Go runtime that is required to get from the inputs to the outputs you specified.
+
+You can edit the [`yaml` specification here](https://github.com/flashbots/suave-geth/blob/main/suave/gen/suave_spec.yaml). We'll add a new entry in the `functions` section:
+
+````yaml
+functions:
+  - name: add
+    address: "0x0000000000000000000000000000000042010009"
+    input:
+      - name: a
+        type: uint64
+      - name: b
+        type: uint64
+    output:
+      fields:
+        - name: output1
+          type: uint64
+````
+
+Then, run our code generator:
+
+```bash
+$ go run suave/gen/main.go --write
+```
+
+If your `yaml` additions have no errors and the `--write` flag is set, the bindings will be regenerated [here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) and [here](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go).
+
+A new `Add` function will have been created will have been created in the interface, which looks like:
+
+```go
+type SuaveRuntime interface {
+    ...
+    Add(a uint64, b uint64) (uint64, error)
+    ...
+}
+```
+
+You will now need to write the logic required for your precompile to work as expected based on this generated skeleton. You can do this in the specific `suaveRuntime` struct generated in the same `contracts_suave_runtime_adaptor.go` file. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
+
+````go
+func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
+    return a+b, nil
+}
+````
