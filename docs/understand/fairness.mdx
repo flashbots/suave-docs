@@ -47,7 +47,7 @@ However, payoff functions in the context of _liquidations_ are discontinuous. If
 
 > **People taking leverage serves as the basis for the set of all payoffs**. 
 
-Moreover, the maximum and expected payoff in the context of liquidation games is separated multiplicatively by a factor of `n!`. This is a much bigger problem if we're trying to craft fair systems that do not advantage those who can act on price information they receive first.
+Derivatives really are weapons of mass destruction. Tarun's proof - which shows that the maximum and expected payoff in the context of liquidation games is separated multiplicatively by a factor of `n!` - is powerful because _it explains why derivatives are destructive_. Everyone knows leveraged positions are more risky. However, when we look through the lens of MEV, we can see that taking a leveraged position creates systemic risk because it increases the chance that the payoff sophisticated users can get will differ extremely from the average, which shifts the global incentive structure toward private ownership (manipulation for individual profit) and away from shared stewardship (reciprocity for mutual flourishing).
 
 # Fairier transforms
 
@@ -69,7 +69,7 @@ In practice, this means that to avoid maximally unfair payoffs, we need to have 
 
 # Generally suave
 
-This is exactly what SUAVE is: an open marketplace for applications that determine specific ways of ordering transactions, such that we can provide approximate fairness guarantees _in general_, i.e. across any new use case that occurs indefinitely into the future.
+This is exactly what SUAVE is: an open marketplace for applications that act on the information in transactions in verifiable ways, such that we can provide approximate fairness guarantees _in general_, i.e. across any new use case that occurs indefinitely into the future.
 
 It's important to understand the _general_ nature of SUAVE. As we have stressed, MEV is a general phenomenon which arises from the time it takes to communicate. People have been aware of this for centuries, but no-one has attempted to build systems that can account for it, because no-one had the sort of verifiable commitment devices (blockchains) we enjoy.
 
