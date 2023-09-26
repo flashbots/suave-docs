@@ -1,5 +1,5 @@
 ---
-title: Setup SUAVE
+title: Run a node 
 description: Start running SUAVE and participating in the chain itself
 keywords:
   - build
@@ -8,11 +8,11 @@ keywords:
   - practice
 ---
 
-# Setup SUAVE
+# Run a node
 
 ## Our goal
 
-A SUAVE node is really two nodes in a trenchcoat, both participating in the same p2p network. We're going to start them both in this guide. 
+A SUAVE node is two nodes in a trenchcoat, both participating in the same p2p network. We're going to start both in this guide. 
 
 1. The "MEVM instance" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM instance per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM instances: one for each domain.
 
@@ -72,7 +72,7 @@ Both the MEVM instance and the Chain instance are now running in separate contai
 2. Read more about [confidential computation](/reference/confidential-computation/index) and the [APIs we've built to enable it](/reference/confidential-computation/apis).
 3. Dig deeper in the [architecture of the MEVM](/reference/MEVM#architecture).
 4. Browse a full list of the [precompiles](/reference/precompiles) this gives you access to in [builder solidity](/reference/builder-solidity/index).
-5. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here].
+5. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
 ### Common problems
 
@@ -129,6 +129,8 @@ You can now run any SUAVE command you like. Start by generating a new account (i
 ```bash
 ./build/bin/suave --suave account new
 ```
+
+If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
 
 Consult the help page for anything else you need to do:
 ```bash
