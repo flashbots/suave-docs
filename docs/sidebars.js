@@ -4,7 +4,7 @@ module.exports = {
       type: 'category',
       label: '👋 Welcome',
       collapsed: false,
-      link: {type: 'doc', id: 'index'},
+      link: {type: 'doc', id: 'welcome'},
       items: [
         'design-goals',
       ],
@@ -61,11 +61,6 @@ module.exports = {
       items: [
         'join/code-of-conduct',
       ],
-    },
-    {
-      "Policies": [
-        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy'
-      ]
     },
     {
       type: 'link',

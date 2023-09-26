@@ -35,7 +35,7 @@
   // --ifm-menu-color-active: #0044FF;
   // --ifm-toc-link-color: #0044FF;
   // --ifm-color-primary: #25c2a0;
-  --ifm-color-primary: #0044FF;
+  --ifm-color-primary: #2FD0F6;
   --ifm-color-content: var(--ifm-color-emphasis-800);
   // --ifm-color-primary-dark: #99AAFF;
   // --ifm-color-primary-darker: rgb(31, 165, 136);
@@ -46,6 +46,31 @@
   --ifm-code-font-size: 95%;
   --ifm-menu-link-padding-vertical: 8px; 
 }
+
+/* Navbar customisations */
+
+// issues with identifying active links - maybe because all sections have an index?
+.navbar__link--active {
+  color: #1A1A1A;
+}
+
+// issues extended on mobile, also with active links
+.menu__link--active {
+  color: var(--ifm-menu-color);
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background-color: transparent;
+}
+
+// give mobile menu more space
+.navbar-sidebar__items {
+  .menu__list-item {
+    margin: 20px 0;
+  }
+}
+
+/* Sidebar customisations */
 
 .theme-doc-sidebar-item-category-level-1 {
   margin: 10px 0 28px 0;
@@ -138,4 +163,14 @@ div {
   &:hover {
     background-image: linear-gradient(transparent, rgba(0, 0, 0, .05) 40%, rgba(0, 0, 0, .1));
   }
+}
+
+// add space at the mobile footer for home page customisations
+
+@media screen and (max-width: 996px) {
+
+  .footer {
+    margin-top: 60px;
+  }
+
 }

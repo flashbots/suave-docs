@@ -59,13 +59,102 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         },
         items: [
           {
+            type: 'doc',
+            position: 'right',
+            docId: 'welcome',
+            label: 'Welcome',
+          },
+          {
+            type: 'doc',
+            position: 'right',
+            docId: 'how-to/index',
+            label: 'Guides',
+          },
+          {
+            type: 'doc',
+            position: 'right',
+            docId: 'reference/index',
+            label: 'Technical Details',
+          },
+          {
+            type: 'doc',
+            position: 'right',
+            docId: 'understand/index',
+            label: 'Understanding MEV',
+          },
+          {
             href: 'https://github.com/flashbots/suave-geth',
             label: 'GitHub',
             position: 'right',
           },
         ],
-      }
-      
+      },
+      footer: {
+        style: 'light',
+        links: [
+          {
+            title: 'Learn',
+            items: [
+              {
+                label: 'Welcome',
+                to: 'welcome',
+              },
+              {
+                label: 'How To Guides',
+                to: '/how-to',
+              },
+              {
+                label: 'Technical Details',
+                to: '/reference',
+              },
+              {
+                label: 'Understanding MEV',
+                to: '/understand',
+              }
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Forum',
+                href: 'https://collective.flashbots.net',
+              },
+              {
+                label: 'Github',
+                to: 'https://github.com/flashbots/suave-geth/',
+              },
+              {
+                label: 'Discord',
+                href: 'https://discord.gg/flashbots',
+              },
+            ],
+          },
+          {
+            title: 'Legal',
+            items: [
+              {
+                label: 'Privacy',
+                to: '/policies/privacy',
+              },
+              {
+                label: 'Terms',
+                href: '/policies/terms-of-service',
+              },
+              {
+                label: 'Prohibited Use',
+                href: '/policies/prohibited-use-policy',
+              },
+            ],
+          },
+        ],
+        logo: {
+          alt: 'Flashbots Logo',
+          src: '/img/logo.png',
+          href: 'https://flashbots.net',
+        },
+        copyright: `Copyright © ${new Date().getFullYear()} Flasbots`,
+      },  
     }),
   presets: [
     [

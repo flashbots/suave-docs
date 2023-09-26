@@ -1,10 +1,16 @@
 .container {
-  background-image: url('/static/img/galactic-flashbot.png');
+  background-image: url('/static/img/light.png');
   background-size: cover;
-  background-repeat: no-repeat;
-  height: 100vh;
+  height: 756px;
+  flex-shrink: 0;
   font-family: "CMU-Serif", "Times New Roman", Garamond, Georgia, serif;
 }
+
+[data-theme='dark'] .container {
+  background-image: url('/static/img/dark.png');
+}
+
+/* Hero */
 
 .headingContainer {
   margin-top: 200px;
@@ -12,39 +18,330 @@
 
 .mainHeading {
   text-align: center;
-  font-size: 86px;
+  font-size: 48px;
   font-weight: bold;
   color: #000;
-  margin-left: -30px;
+}
+
+[data-theme='dark'] .mainHeading {
+  color: #fff;
 }
 
 .subHeading {
   text-align: center;
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 32px;
+  font-style: italic;
   color: #000;
-  margin-left: -30px;
 }
+
+[data-theme='dark'] .subHeading {
+  color: #fff;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  margin-top: 48px;
+}
+
+.mainButton {
+  display: flex;
+  width: 263px;
+  height: 56px;
+  padding: 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 60px;
+  background: #1A1A1A;
+  box-shadow: 0px 8px 16px 0px #E8E8E8;
+  margin: 0 auto;
+
+  a {
+    color: #fff;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    padding: 0 40px;
+  }
+
+  a:hover {
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+[data-theme='dark'] .mainButton {
+  background: #fff;
+  box-shadow: 0px 8px 16px 0px #111;
+
+  a {
+    color: #1A1A1A;
+  }
+
+  a:hover {
+    color: #1A1A1A;
+  }
+}
+
+.outcomes {
+  text-align: center;
+  font-size: 20px;
+  font-style: italic;
+  color: #000;
+  margin-top: 148px;
+}
+
+[data-theme='dark'] .outcomes {
+  color: #fff;
+}
+
+.participants {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-content: flex-end;
+  gap: 24px 200px;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.participant {
+  margin-top: 32px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* First Row */
 
 .explainContainer {
   margin: 100px auto 0 auto;
   width: 70%;
+  font-family: "CMU-Serif", "Times New Roman", Garamond, Georgia, serif;
 }
 
-.explainHeading {
-  font-size: 40px;
+.explainHeading1 {
+  font-size: 22px;
+  text-align: center;
 }
 
-@media screen and (max-width: 960px) {
+.explainHeading2 {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 700;
+  text-align: center;
+}
+
+.gap {
+  margin: 20px 0;
+}
+
+/* Cards */
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+}
+
+.rainbowCard {
+  display: flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 32px;
+  flex: 1 0 0;
+  border: 1px solid #E8E8E8;
+  box-shadow: 0px 8px 16px 0px #E8E8E8;
+  transition: border-color 0.3s ease;
+  text-decoration: none;
+  color: #494E55;
+  background-image: url('/static/img/arrow.svg');
+  background-repeat: no-repeat;
+  background-position: bottom 40px right 40px;
+
+  &:hover {
+    text-decoration: none;
+    color: #494E55;
+    border: 1px solid transparent;
+    border-image: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
+    border-image-slice: 1;
+    border-image-source: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
+    background-image: url('/static/img/rainbow-arrow.svg');
+  }
+}
+
+[data-theme='dark'] .rainbowCard {
+  background-image: url('/static/img/arrow-light.svg');
+  box-shadow: 0px 8px 16px 0px #111;
+
+  &:hover {
+    background-image: url('/static/img/rainbow-arrow.svg');
+  }
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+  margin-bottom: 60px;
+}
+
+.cardImage {
+  display: flex;
+  width: 56px;
+  height: 56px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardText {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  margin: 0;
+}
+
+[data-theme='dark'] .cardText {
+  color: #FFF;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 996px) {
   .container {
-    background-image: url('/static/img/galactic-mobile.png');
+    height: 176px;
+    margin-bottom: 40px;
   }
 
-  .mainHeading, .subHeading {
-    margin-left: 0;
+  .headingContainer {
+    margin-top: 20px;
+  }
+
+  .mainHeading {
+    font-size: 40px;
   }
 
   .subHeading {
-    font-size: 28px;
+    font-size: 24px;
   }
+
+  .outcomes {
+    display: none;
+  }
+
+  .participants {
+    display: none;
+  }
+
+  .explainHeading1 {
+    display: none;
+  }
+
+  .participant {
+    margin-top: 0;
+  }
+
+  .cardContainer {
+    width: 100%;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .rainbowCard {
+    border: 1px solid transparent;
+    border-image: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
+    border-image-slice: 1;
+    border-image-source: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
+    background-image: url('/static/img/rainbow-arrow.svg');
+  }
+}
+
+/* Special handling for card svgs to do dark mode well */
+
+.unified {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/unified.svg')
+}
+
+.decentralized {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/decentralized.svg')
+}
+
+.permissionless {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/permissionless.svg')
+}
+
+.blockchains {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/blockchains.svg')
+}
+
+.builders {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/builders.svg')
+}
+
+.validators {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/validators.svg')
+}
+
+.humans {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-image: url('/static/img/humans.svg')
+}
+
+[data-theme='dark'] .unified {
+  background-image: url('/static/img/unified-dark.svg')
+}
+
+[data-theme='dark'] .decentralized {
+  background-image: url('/static/img/decentralized-dark.svg')
+}
+
+[data-theme='dark'] .permissionless {
+  background-image: url('/static/img/permissionless-dark.svg')
+}
+
+[data-theme='dark'] .blockchains {
+  background-image: url('/static/img/blockchains-dark.svg')
+}
+
+[data-theme='dark'] .builders {
+  background-image: url('/static/img/builders-dark.svg')
+}
+
+[data-theme='dark'] .validators {
+  background-image: url('/static/img/validators-dark.svg')
+}
+
+[data-theme='dark'] .humans {
+  background-image: url('/static/img/humans-dark.svg')
 }
