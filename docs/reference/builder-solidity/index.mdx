@@ -14,7 +14,7 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx";
 
 Builder solidity is solidity with some additional precompiles intended to support MEV applications. Using these precompiles, builder solidity contracts can define how SUAVE nodes run computation, without that computation being done on chain. That is, SUAVE nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not the inputs.
 
-## Why is this cool?
+## Verifiable logic, private data
 
 Builders have no incentive to share the algorithms by which they currently build blocks, so it is hard for searchers to know whether their bundles will be built in the order they submit them, or manipulated. This means that searchers are more likely to send their bundles to the few builders they trust, or only those who consistently build winning blocks (in order to avoid leaking alpha to everyone). This results in block builder centralization over time.
 

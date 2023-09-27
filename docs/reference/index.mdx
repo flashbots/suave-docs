@@ -29,7 +29,15 @@ The high level plan is:
 3. **Decentralized execution**
     - geographically and administratively, using threshold MPC, FHE etc as they become viable
 
-Technically, we will achieve this with the "MEVM": our adaption of the EVM with a new runtime and APIs. These APIs enable you to leverage new precompiles in what we call "builder solidity", which is solidity as you know and love it, but extended so that you can create MEV applications. 
+There are many reasons why we think the market will evolve toward many chains sharing a unified sequencing layer which is specifically intended to keep power meaningfully decentralized in each specific chain:
+
+1. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV.
+2. There are efficiency gains for users from aggregating and clearing their preferences inside the same auction.
+3. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives SUAVE an information advantage on centralized builders.
+4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, we can amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
+5. Because of how fundamental transaction sequencing is in blockchains, only another decentralized system can provide the necessary security and credible neutrality.
+
+Building unified infrastructure for expressing diverse values is the best way to give domains control over their own validation guarantees and to ensure smaller domains stay decentralized in the face of centralizing economic forces outside their control.
 
 ## *Refers to notes
 
