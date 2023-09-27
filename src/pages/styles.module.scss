@@ -58,78 +58,46 @@
   background: #1A1A1A;
   box-shadow: 0px 8px 16px 0px #E8E8E8;
   margin: 0 auto;
-
-  a {
-    color: #fff;
+  color: #fff;
+  
+  p {
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
-    line-height: 28px;
-    padding: 0 40px;
+    margin: 0;
   }
 
-  a:hover {
+  &:hover {
     cursor: pointer;
     color: #fff;
     text-decoration: none;
+    transition: ease-in 0.2s;
+    background-image: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
   }
 }
 
 [data-theme='dark'] .mainButton {
   background: #fff;
   box-shadow: 0px 8px 16px 0px #111;
+  color: #1A1A1A;
 
-  a {
+  &:hover {
     color: #1A1A1A;
+    text-decoration: none;
+    transition: ease-in 0.2s;
+    background-image: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
   }
-
-  a:hover {
-    color: #1A1A1A;
-  }
-}
-
-.outcomes {
-  text-align: center;
-  font-size: 20px;
-  font-style: italic;
-  color: #000;
-  margin-top: 148px;
-}
-
-[data-theme='dark'] .outcomes {
-  color: #fff;
-}
-
-.participants {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  align-content: flex-end;
-  gap: 24px 200px;
-  align-self: stretch;
-  flex-wrap: wrap;
-}
-
-.participant {
-  margin-top: 32px;
-  font-weight: bold;
-  font-size: 20px;
 }
 
 /* First Row */
 
 .explainContainer {
-  margin: 100px auto 0 auto;
+  margin: 50px auto 0 auto;
   width: 70%;
   font-family: "CMU-Serif", "Times New Roman", Garamond, Georgia, serif;
 }
 
-.explainHeading1 {
-  font-size: 22px;
-  text-align: center;
-}
-
-.explainHeading2 {
+.explainHeading {
   font-size: 24px;
   font-style: italic;
   font-weight: 700;
@@ -145,18 +113,19 @@
 .cardContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 24px;
   align-self: stretch;
 }
 
 .rainbowCard {
   display: flex;
-  padding: 32px;
   flex-direction: column;
   align-items: flex-end;
-  gap: 32px;
-  flex: 1 0 0;
+  flex: 1;
+  min-width: calc(24% - 12px);
+  padding: 32px;
   border: 1px solid #E8E8E8;
   box-shadow: 0px 8px 16px 0px #E8E8E8;
   transition: border-color 0.3s ease;
@@ -179,7 +148,7 @@
 
 [data-theme='dark'] .rainbowCard {
   background-image: url('/static/img/arrow-light.svg');
-  box-shadow: 0px 8px 16px 0px #111;
+  box-shadow: 0px 8px 16px 0px #3E2E27;
 
   &:hover {
     background-image: url('/static/img/rainbow-arrow.svg');
@@ -218,6 +187,13 @@
 
 /* Media Queries */
 
+@media screen and (max-width: 1300px) {
+ .rainbowCard {
+    min-width: calc(32% - 12px);
+    min-height: 400px;
+ }
+}
+
 @media screen and (max-width: 996px) {
   .container {
     height: 176px;
@@ -236,20 +212,8 @@
     font-size: 24px;
   }
 
-  .outcomes {
-    display: none;
-  }
-
-  .participants {
-    display: none;
-  }
-
-  .explainHeading1 {
-    display: none;
-  }
-
-  .participant {
-    margin-top: 0;
+  .explainContainer {
+    margin: 100px auto 0 auto;
   }
 
   .cardContainer {
@@ -259,6 +223,7 @@
   }
 
   .rainbowCard {
+    width: 100%;
     border: 1px solid transparent;
     border-image: linear-gradient(91.47deg, #2FD0F6 0%, #FFC93A 55.21%, #F03917 100%);
     border-image-slice: 1;

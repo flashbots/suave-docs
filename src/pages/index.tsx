@@ -18,34 +18,14 @@ export default function Home() {
               Unified Coordination
             </p>
             <div className={styles.buttonContainer}>
-              <div className={styles.mainButton}>
-                <a href="/welcome">Get started</a>
-              </div>
-            </div>
-            <p className={styles.outcomes}>
-              Better outcomes for:
-            </p>
-            <div className={styles.participants}>
-              <div className={styles.participant}>
-                Humans
-              </div>
-              <div className={styles.participant}>
-                Validators
-              </div>
-              <div className={styles.participant}>
-                Builders
-              </div>
-              <div className={styles.participant}>
-                Blockchains
-              </div>
+              <a href="/welcome" className={styles.mainButton}>
+                <p>Get started</p>
+              </a>
             </div>
         </div>
       </div>
       <div className={styles.explainContainer}>
-        <p className={styles.explainHeading1}>
-          SUAVE
-        </p>
-        <p className={styles.explainHeading2}>
+        <p className={styles.explainHeading}>
           Single Unified Auction for Value Expression
         </p>
         <div className={styles.cardContainer}>
@@ -91,11 +71,8 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.explainContainer}>
-        <p className={styles.explainHeading1}>
-          SUAVE
-        </p>
-        <p className={styles.explainHeading2}>
-          Simple Uncompromizing Applications Verified by Everyone
+        <p className={styles.explainHeading}>
+          Better outcomes for everyone
         </p>
         <div className={styles.cardContainer}>
         <a href="/design-goals" className={styles.rainbowCard}>
@@ -159,12 +136,12 @@ export default function Home() {
               Are you ready?
             </p>
             <p className={styles.subHeading}>
-              Start building better coordination
+              Build better mechanisms
             </p>
             <div className={styles.buttonContainer}>
-              <div className={styles.mainButton}>
-                <a href="/welcome">Get started</a>
-              </div>
+              <a href="/welcome" className={styles.mainButton}>
+                <p>Get started</p>
+              </a>
             </div>
         </div>
       </div>

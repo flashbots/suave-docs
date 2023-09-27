@@ -148,12 +148,6 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
             ],
           },
         ],
-        logo: {
-          alt: 'Flashbots Logo',
-          src: '/img/logo.png',
-          href: 'https://flashbots.net',
-        },
-        copyright: `Copyright © ${new Date().getFullYear()} Flasbots`,
       },  
     }),
   presets: [
