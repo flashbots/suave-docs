@@ -20,7 +20,6 @@ What do I need to do, and what happens next? We'll describe the steps first in n
 
 1. I take my signed ETH L1 Uniswap tx, and encrypt it using the public key of a specific SUAVE node.
     1. I decide whether I want all my transaction information in there, or just - for instance - the address of the pool contract I am trading on, but not the direction of the trade. 
-        1. We call this Ethereum L1 transaction a "hint", because it need not reveal _everything_ an ordinary L1 transaction would.
     3. I wrap my L1 transaction in another transaction to the MEVShare.sol on SUAVE.
 2. I send the transaction in (1.ii) to the SUAVE node I encrypted it for.
 3. The SUAVE node sees this transaction, sees that it contains additional data (the encrypted L1 transaction), and passes it to the MEVM running in that node to process confidentially.

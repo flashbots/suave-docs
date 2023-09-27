@@ -58,7 +58,7 @@ module.exports = {
       link: {type: 'doc', id: 'understand/index'},
       items: [
         'understand/meaning',
-        'understand/fairness',
+        'understand/welfare',
         'understand/power'
       ],
     },
