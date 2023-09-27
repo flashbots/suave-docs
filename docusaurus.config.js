@@ -39,7 +39,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         appId: 'BH4D9OD16A',
       },
       colorMode: {
-        defaultMode: 'light',
+        defaultMode: 'dark',
       },
       prism: {
         theme: lightCodeTheme,

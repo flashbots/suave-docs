@@ -34,7 +34,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.permissionless}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 PERMISSIONLESS
               </p>
               <p className={styles.cardText}>
@@ -47,7 +47,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.decentralized}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 DECENTRALIZED
               </p>
               <p className={styles.cardText}>
@@ -60,7 +60,7 @@ export default function Home() {
               <div className={styles.cardImage}>
                 <div className={styles.unified}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 UNIFIED
               </p>
               <p className={styles.cardText}>
@@ -80,7 +80,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.humans}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 HUMANS
               </p>
               <p className={styles.cardText}>
@@ -93,7 +93,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.validators}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 VALIDATORS
               </p>
               <p className={styles.cardText}>
@@ -106,7 +106,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.builders}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 BUILDERS
               </p>
               <p className={styles.cardText}>
@@ -119,7 +119,7 @@ export default function Home() {
               <div className={styles.cardImage}>
               <div className={styles.blockchains}></div>
               </div>
-              <p className={styles.cardText}>
+              <p className={styles.cardHeading}>
                 BLOCKCHAINS
               </p>
               <p className={styles.cardText}>

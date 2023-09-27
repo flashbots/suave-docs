@@ -1,9 +1,8 @@
 .container {
-  background-image: url('/static/img/light.png');
+  background-image: url('/static/img/light-alt.png');
   background-size: cover;
   height: 756px;
   flex-shrink: 0;
-  font-family: "CMU-Serif", "Times New Roman", Garamond, Georgia, serif;
 }
 
 [data-theme='dark'] .container {
@@ -19,7 +18,7 @@
 .mainHeading {
   text-align: center;
   font-size: 48px;
-  font-weight: bold;
+  font-weight: 700;
   color: #000;
 }
 
@@ -94,7 +93,6 @@
 .explainContainer {
   margin: 50px auto 0 auto;
   width: 70%;
-  font-family: "CMU-Serif", "Times New Roman", Garamond, Georgia, serif;
 }
 
 .explainHeading {
@@ -173,10 +171,21 @@
   align-items: center;
 }
 
-.cardText {
+.cardHeading {
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
+  line-height: 26px;
+  margin: 0;
+}
+
+[data-theme='dark'] .cardHeading {
+  color: #FFF;
+}
+
+.cardText {
+  font-size: 16px;
+  font-style: normal;
   line-height: 26px;
   margin: 0;
 }
