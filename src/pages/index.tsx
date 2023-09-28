@@ -15,7 +15,7 @@ export default function Home() {
               SUAVE
             </p>
             <p className={styles.subHeading}>
-              Unified Coordination
+              Build Better Mechanisms
             </p>
             <div className={styles.buttonContainer}>
               <a href="/welcome" className={styles.mainButton}>
@@ -72,7 +72,7 @@ export default function Home() {
       </div>
       <div className={styles.explainContainer}>
         <p className={styles.explainHeading}>
-          Better outcomes for everyone
+          Better Outcomes for Everyone
         </p>
         <div className={styles.cardContainer}>
         <a href="/design-goals" className={styles.rainbowCard}>
