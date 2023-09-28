@@ -14,7 +14,7 @@ keywords:
 
 A SUAVE node is two nodes in a trenchcoat, both participating in the same p2p network. We're going to start both in this guide. 
 
-1. The "MEVM instance" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive (i.e. run confidential computation). You need to run one MEVM instance per domain. Right now, we support Ethereum L1, but more domains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc. This will mean running many MEVM instances: one for each domain.
+1. The "MEVM instance" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive. You need to run one MEVM instance per blockchain you're operating on. Right now, we support Ethereum L1, but more blockchains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc.
 
 2. The "Chain instance" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
 
@@ -45,7 +45,7 @@ make devnet-up
 
 ### Optional testing
 
-4. If you'd like to test your node by deploying a contract and sending it some transactions, you can do so easily by running:
+4. If you'd like to test your node by deploying a contract and sending it some transactions, you can do so by running:
 ```bash
 go run suave/devenv/cmd/main.go
 ```
