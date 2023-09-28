@@ -15,7 +15,7 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx"
 
 SUAVE nodes have two modes of operation: regular and confidential (sometimes called off-chain). 
 
-Regular mode is the same as the normal EVM. Confidential mode uses [the MEVM](/technical-details/MEVM), with its [additional APIs](/technical-details/confidential-computation/apis), and the [precompiles](/technical-details/precompiles) available in [builder solidity](/technical-details/builder-solidity/index), to ensure that transaction data provided by users remains private.
+Regular mode is the same as the normal EVM. Confidential mode uses [the MEVM](/technical-details/MEVM), with its [additional APIs](/technical-details/confidential-computation/apis), and the [precompiles](/technical-details/precompiles) available in [builder solidity](/technical-details/builder-solidity/index), to ensure that transaction data provided by users remains private until executed on their blockchain of choice.
 
 Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific SUAVE nodes is new and worth emphasizing. 
 
