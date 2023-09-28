@@ -13,41 +13,41 @@ import GridBlock from "@site/src/components/GridBlock/GridBlock.tsx";
 
 # Welcome to SUAVE
 
-If MEV remains centralized, we cannot realise the promises that crypto offers.
+If MEV only benefits the few, we cannot realise the permissionless, censorship-resistant systems that crypto promises.
 
-SUAVE unifies how we coordinate without forcing any one mechanism onto everyone. SUAVE does not compete with other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
+SUAVE unifies how we coordinate without forcing any one mechanism onto everyone. SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
 
-SUAVE is a permissionless and open marketplace for many different mechanisms. SUAVE enables anyone to innovate, design, and deploy new mechanisms, which enables us to (among other things) _decentralize block building_ for all blockchains. Such "MEV applications" can provide a sustainable [defender's advantage](https://vitalik.ca/general/2016/12/29/pos_design.html) against centralizing economic forces both within and beyond crypto.  
+SUAVE is a permissionless and open marketplace for many mechanisms. SUAVE enables anyone to innovate, design, and deploy different applications that mitigate MEV on any other blockchain. Such "MEV applications" can provide a sustainable [defender's advantage](https://vitalik.ca/general/2016/12/29/pos_design.html) against centralizing economic forces both within and beyond crypto.  
 
-Reducing the economic centralization pressure on other networks enables:
+Reducing the economic centralization pressure on other blockchains enables:
 
 <Grid>
   <GridBlock symbol="I." title="Blockchains">
-  to stay decentralized
+  to decentralize power, not just architecture
   </GridBlock>
   <GridBlock symbol="II." title="Block builders">
-  to benefit from cross-domain MEV
+  to decentralize their work and access more orderflow
   </GridBlock>
   <GridBlock symbol="III." title="Validators">
-  to maximize revenue
+  to participate on a level playing field across domains
   </GridBlock>
   <GridBlock symbol="IV." title="Humans">
   to transact fairly, with the best execution.
   </GridBlock>
 </Grid>
 
-SUAVE is _unifying infrastructure_ that allows honest MEV actors to profit more than dishonest ones, aligning our incentives around shared ownership rather than private economies of scale.
+SUAVE is _unifying infrastructure_ in which the incentives for all actors in the transaction supply chain are aligned around shared ownership, rather than private economies of scale.
 
-We must make sure block building - and the power it implies - ends up meaningfully decentralized, because crypto must end up decentralized, because humanity needs decentralization in its financial systems, now more than ever.
+We must make sure block building - and the power it implies - ends up meaningfully decentralized, because decentralization is a means towards the end where crypto helps us realise permissionless, censorship-resistant, and verifiable public systems which are genuinely good for the communities who use them.
 
 ## About this site
 
 This site encourages you to move through a specific flow in order to start building the _future of coordination_. 
 
 1. Begin with **[tutorials](/tutorials/index)**. These are _learning-oriented_. They focus on practical skills, not theoretical knowledge. Our goal with the tutorials is that you enjoy the experience and gain confidence, not that you become an expert.
-2. Grow with the **[how-to guides](/how-to/index)**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence (hence why we start with tutorials). Recipes do not give you context or history: they will help you do stuff. All the recipes taken together help frame the picture of what SUAVE can enable you to do, in general.
-3. Consult the **[references](/reference/index)**. These are _information-oriented_ and provide you with up-to-date certainty about what interfaces and precompiles SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
-4. Refine your **[understanding](/understand/index)**. These are _discussion-oriented_. These are designed to provide you with insight into the "deep why". Why is it meaningful to work on MEV? The discussions this section invites weave everything together.
+2. Grow with the **[how to guides](/how-to/index)**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence. Recipes do not give you context or history: they will help you do stuff. All the recipes taken together help frame a general picture of how SUAVE enables you.
+3. Consult the **[technical details](/technical-details/index)**. These are _information-oriented_ and provide you with up-to-date certainty about what interfaces and precompiles SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
+4. Refine your **[understanding of MEV](/understand/index)**. This section is _discussion-oriented_. It does not present "the right way", but rather encourages you to reflect on "the deep why", ideally in dialogue with friends. Why does it matter that we work on MEV?
 
 <AlignItems horizontal="center" vertical="center" sideMargin={0}>
 <div>
@@ -55,14 +55,28 @@ This site encourages you to move through a specific flow in order to start build
 </div>
 </AlignItems>
 
+## Unified, decentralized
+
+After [formalizing the threat posed by MEV](https://arxiv.org/pdf/1904.05234.pdf), and creating [MEV-Geth](https://github.com/flashbots/mev-geth) to begin addressing it, Flashbots has collaborated with many people and organizations to build neutral open-source software like [MEV-Boost](https://github.com/flashbots/mev-boost) and [MEV-Share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many problems remain.
+
+SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_ for any kind of MEV application. As an open marketplace for mechanisms, SUAVE can also act as a _shared sequencing layer_ for other blockchains, helping them remain resilient in the face of economic forces that encourage centralization and/or specialization over time.
+
+There are many reasons why we think the market will evolve toward many chains sharing a unified sequencing layer specifically designed to keep power decentralized across the ecosystem:
+
+1. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV.
+2. There are efficiency gains for users from aggregating and clearing their preferences inside the same auction.
+3. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives SUAVE an information advantage on centralized builders.
+4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, we can amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
+5. Because of how fundamental transaction sequencing is in blockchains, only another decentralized system can provide the necessary security and credible neutrality.
+
+To read more about what inspires us, we recommend [this post](https://writings.flashbots.net/the-future-of-mev-is-suave).
+
 ## About Flashbots
 
-Our primary focus is to enable a permissionless, transparent, and fair ecosystem for MEV. We achieve this in three ways: _Illuminate the Dark Forest_ of MEV activity, _Democratize Extraction_, and _Distribute Benefits_.
+Our primary focus is to enable a permissionless, transparent, and fair ecosystem for MEV. We achieve this in three ways: _Illuminate the Dark Forest_, _Democratize Extraction_, and _Distribute Benefits_.
 
-We focus on:
-
+- _Research_: open, transparent, and collaborative research to tackle short and long term research questions relevant to MEV.
 - _Product_: engineering products to fulfill our mission.
 - _Coordination_: organizing processes, interfacing with external teams in the ecosystem, and maximizing our impact.
-- _Research_: open, transparent, and collaborative research to tackle short and long term research questions relevant to MEV.
 
-You can interact with Flashbots on [Discord](https://discord.gg/7hvTycdNcK), [Github](https://github.com/flashbots/), and our [Discourse forum](https://collective.flashbots.net/). We have dedicated channels on Discord for each of our efforts and welcome your contributions. Our work is open source and you can follow our progress in each Github repository.
+You can interact with Flashbots on our [Discourse forum](https://collective.flashbots.net/) or in [Discord](https://discord.gg/7hvTycdNcK). Our work is open source and you can follow our progress in each [Github repository](https://github.com/flashbots/).

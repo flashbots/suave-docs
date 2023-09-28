@@ -22,33 +22,33 @@ module.exports = {
       type: 'category',
       label: '🤖 Technical Details',
       collapsed: false,
-      link: {type: 'doc', id: 'reference/index'},
+      link: {type: 'doc', id: 'technical-details/index'},
       items: [
         {
           type: 'category',
           label: 'Builder Solidity',
-          link: {type: 'doc', id: 'reference/builder-solidity/index'},
+          link: {type: 'doc', id: 'technical-details/builder-solidity/index'},
           items: [
-            'reference/builder-solidity/worked-examples/mev-share',
+            'technical-details/builder-solidity/worked-examples/mev-share',
           ],
         },
         {
           type: 'category',
           label: 'Confidentiality',
-          link: {type: 'doc', id: 'reference/confidential-computation/index'},
+          link: {type: 'doc', id: 'technical-details/confidential-computation/index'},
           items: [
-            'reference/confidential-computation/apis',
+            'technical-details/confidential-computation/apis',
           ],
         },
         {
           type: 'category',
           label: 'Precompiles',
-          link: {type: 'doc', id: 'reference/precompiles/index'},
+          link: {type: 'doc', id: 'technical-details/precompiles/index'},
           items: [
-            'reference/precompiles/write-your-own',
+            'technical-details/precompiles/write-your-own',
           ],
         },
-        'reference/MEVM',
+        'technical-details/MEVM',
       ],
     },
     {
