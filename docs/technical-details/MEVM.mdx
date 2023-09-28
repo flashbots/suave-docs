@@ -20,7 +20,7 @@ If you'd prefer to learn by running it yourself, please follow [this guide](/how
 
 ## Architecture
 
-Our goal is to give you what you need to write more expressive [builder solidity](/reference/builder-solidity/index) and conduct [confidential computation](/reference/confidential-computation/index), such that you can build any kind of MEV application.
+Our goal is to give you what you need to write more expressive [builder solidity](/technical-details/builder-solidity/index) and conduct [confidential computation](/technical-details/confidential-computation/index), such that you can build any kind of MEV application.
 
 If you've read the two links above, you'll know that the basic flow of a transaction on SUAVE looks like this:
 
@@ -34,9 +34,9 @@ How do we achieve this "Confidential MEVM execution"?
 
 At a high level, we have adapted the `eth_sendRawTransaction` RPC method to accept an additional field, called `confidential_data`. Users place signed transactions from other blockchains in this field. They encrypt the field for specific SUAVE node(s), and specify some builder solidity contract on SUAVE, which holds the logic for what to do with their encrypted inputs.
 
-When a SUAVE node receives a `RawTransaction`, it checks whether there are confidential inputs. If there are, we call this a `confidentialComputeRequest` and the MEVM kicks into action. It enters the function being called in the builder solidity contract and, using a `view` function and the `confidentalInputs` [precompile](/reference/precompiles), gets the data it needs about the user's transaction on another blockchain. The MEVM computes some result and stores the relevant data locally, in its `confidentialDataStore`. This does not permute state, as we're only using a `view` function fetch data and then doing the computation locally, in the MEVM.
+When a SUAVE node receives a `RawTransaction`, it checks whether there are confidential inputs. If there are, we call this a `confidentialComputeRequest` and the MEVM kicks into action. It enters the function being called in the builder solidity contract and, using a `view` function and the `confidentalInputs` [precompile](/technical-details/precompiles), gets the data it needs about the user's transaction on another blockchain. The MEVM computes some result and stores the relevant data locally, in its `confidentialDataStore`. This does not permute state, as we're only using a `view` function fetch data and then doing the computation locally, in the MEVM.
 
-Computation complete, the MEVM places what we call the `confidentialComputeResult` in the original `RawTransaction` it received, which it then propagates to the public mempool. The `confidentialComputeResult` is really a callback to another function, which does permute state and often emits some kind of event, the logs of which hold data required by others parties without revealing the original inputs. We encourage you to read about [mev-share on SUAVE](/reference/builder-solidity/worked-examples/mev-share) for a practical example. 
+Computation complete, the MEVM places what we call the `confidentialComputeResult` in the original `RawTransaction` it received, which it then propagates to the public mempool. The `confidentialComputeResult` is really a callback to another function, which does permute state and often emits some kind of event, the logs of which hold data required by others parties without revealing the original inputs. We encourage you to read about [mev-share on SUAVE](/technical-details/builder-solidity/worked-examples/mev-share) for a practical example. 
 
 For now, it is good enough that you understand that all our adaptations to the EVM serve the goal of confidential computation, as outlined above. These changes can be summed up in a very simple formula:
 
@@ -79,7 +79,7 @@ In words: the EVM is made up of a whole bunch of different parts. Those numbered
 
 What do you get from the [SuaveExecutionBackend](https://github.com/flashbots/suave-geth/blob/main/core/vm/suave.go) that we've married to the EVM through the new runtime? 
 
-In a nutshell: [3 new API endpoints](/reference/confidential-computation/apis):
+In a nutshell: [3 new API endpoints](/technical-details/confidential-computation/apis):
 
 ```go
 func NewRuntimeSuaveExecutionBackend(evm *EVM, caller common.Address) *SuaveExecutionBackend {
@@ -97,7 +97,7 @@ func NewRuntimeSuaveExecutionBackend(evm *EVM, caller common.Address) *SuaveExec
 }
 ```
 
-Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `ConfidentialEthBackend` - are available in [builder solidity](/reference/builder-solidity/index) through the use of [precompiles](/reference/precompiles). The precompiles also make use of `confidentialInputs` to specify the data relevant to confidential computation, and `callerStack` enables transaction tracing.
+Each of these new APIs - `ConfidentialStoreBackend`, `MempoolBackend`, `ConfidentialEthBackend` - are available in [builder solidity](/technical-details/builder-solidity/index) through the use of [precompiles](/technical-details/precompiles). The precompiles also make use of `confidentialInputs` to specify the data relevant to confidential computation, and `callerStack` enables transaction tracing.
 
 ## Notable differences from go-ethereum
 
