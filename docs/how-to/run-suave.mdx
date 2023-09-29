@@ -104,7 +104,7 @@ The `docker-compose` version above sets up SUAVE using simple defaults. If you'd
 
 ### What to do
 
-1. Clone the repo and build the adapted geth client first with:
+1. Clone the repo and build SUAVE:
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
@@ -112,7 +112,7 @@ make suave
 ```
 2. Run the MEVM instance first:
 ```bash
-./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave_dev --http --ws \
+./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave --http --ws \
 --allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
 --keystore ./suave/devenv/suave-ex-node/keystore/
 ```
