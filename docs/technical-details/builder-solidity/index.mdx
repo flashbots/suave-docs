@@ -12,15 +12,22 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx";
 
 # Builder solidity
 
-Builder solidity is a superset of Solidity with additional precompiles to support decentralized MEV applications. Using these precompiles, builder solidity contracts can define how SUAVE nodes run computation, without that computation being done on chain. That is, SUAVE nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not the inputs.
+Builder solidity is a superset of Solidity with additional precompiles to support decentralized MEV applications. Using these precompiles, builder solidity contracts can define how SUAVE nodes run computation, without that computation being done on chain. 
+
+That is, SUAVE nodes can accept encrypted data from users, do stuff with it privately and only reveal the results, not the inputs. This ensures confidentiality **and** improves efficiency, enabling computations that are not possible on blockchains like Ethereum.
 
 ## Verifiable logic, private data
 
-Block builders have no incentive to share the algorithms by which they currently build blocks, and searchers currently depend on builders they send their bundles to to ensure the bundles are included. This means that searchers are more likely to send their bundles to just the few builders they do trust, or only those who consistently build winning blocks. This trust-dependency results in block builder centralization over time.
+Block builders have no incentive to share the algorithms by which they currently build blocks, and searchers currently depend on builders they send their bundles to to ensure the bundles are included. Searchers are therefore more likely to send their bundles only to the few builders they do trust, or only those who consistently build winning blocks. This trust-dependency results in block builder centralization over time.
 
-Builders can now use builder solidity to create contracts that specify exactly how they will order bundles (and transactions) sent to them. Those bundles can be kept confidential: encrypted to the SUAVE node that the builder in question runs. This way, builders can receive bundles and order them according to verifiable logic, without ever revealing sensitive transaction data.
+Builder solidity enables anyone to create contracts that specify exactly how they will order bundles (and transactions) sent to them. This may help create incentives for block builders to implement their algorithms in verifiable, public contracts (that nevertheless preserve the confidentiality of any orderflow data they process). The reasons for this are multiple:
 
-Builder solidity is for all kinds of builders though, not just block builders. Builder solidity contracts are a _uniform programming model for implementing every component of the transaction supply chain_, such that we can ensure that any value created is distributed fairly.
+1. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives SUAVE an information advantage on centralized builders.
+2. There are efficiency gains for users from aggregating and clearing their preferences inside the same auction. More users means more oderflow means more likelihood of landing blocks, or settling auctions, successfully.
+3. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV. Builder solidity on SUAVE should decrease the cost (and complexity) of building blocks for many different blockchains.
+4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, builder solidity contracts amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
+
+Builder solidity is for all kinds of builders though, not just block builders. Builder solidity contracts are a _uniform programming model for implementing every component of the transaction supply chain_, such that we can ensure that any value created is distributed fairly. An auction for clockspace is not very different from an auction for solving user preferences and we expect that mechanisms which work well for either will easily translate into multiple different use cases.
 
 <AlignItems horizontal="center" vertical="center" sideMargin={0}>
 <div>
@@ -28,7 +35,7 @@ Builder solidity is for all kinds of builders though, not just block builders. B
 </div>
 </AlignItems>
 
-The result should be continuous improvement of mechanisms which compete for order flow, and do so by virtue of the efficiency of their implementation _combined with_ the guarantees their contracts make about how they will distribute value.
+The result should be continuous improvement of mechanisms which compete for sesitive data, and do so by virtue of the efficiency of their implementation _combined with_ the guarantees their contracts make about how they will distribute value arising from the aggregation of such data.
 
 This enables us to combine the collective verifiability we expect from blockchains with the individual privacy we need in order to protect users, defend against malicious MEV, and create provably fair systems which are resilient to economic centralization pressures across time. 
 
