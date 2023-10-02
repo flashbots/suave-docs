@@ -13,7 +13,7 @@ SUAVE uses custom precompiles to extend the EVM with specific MEV functions.
 
 We specify the inputs and outputs for each precompile in `yaml`. From [this specification](https://github.com/flashbots/suave-geth/blob/main/suave/gen/suave_spec.yaml), two bindings are auto-generated, one in Solidity (the client) and another one in Go (the server).
 
-The Solidity binding in implemented in a [Solidity library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) that Suave apps can use to call precompiles. The [Golang counterpart](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go) runs in the EVM and handles the Solidity calls to the SUAVE precompiles.
+The Solidity binding is implemented in a [Solidity library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) that Suave apps can use to call precompiles. The [Golang counterpart](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go) runs in the EVM and handles the Solidity calls to the SUAVE precompiles.
 
 The bindings handle encoding/decoding and error management, providing a standard format for both runtimes to communicate with each other. This removes all the nitty-gritty work required such that you can focus on creating the precompiles you need without getting caught up in the implementation complexities.
 
