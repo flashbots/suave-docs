@@ -44,14 +44,20 @@ We must make sure block building - and the power it implies - ends up meaningful
 
 This site encourages you to move through a specific flow in order to start building the _future of coordination_. 
 
-1. Begin with **[tutorials](/tutorials/index)**. These are _learning-oriented_. They focus on practical skills, not theoretical knowledge. Our goal with the tutorials is that you enjoy the experience and gain confidence, not that you become an expert.
-2. Grow with the **[how to guides](/how-to/index)**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence. Recipes do not give you context or history: they will help you do stuff. All the recipes taken together help frame a general picture of how SUAVE enables you.
-3. Consult the **[technical details](/technical-details/index)**. These are _information-oriented_ and provide you with up-to-date certainty about what interfaces and precompiles SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
-4. Refine your **[understanding of MEV](/understand/index)**. This section is _discussion-oriented_. It does not present "the right way", but rather encourages you to reflect on "the deep why", ideally in dialogue with friends. Why does it matter that we work on MEV?
+1. Begin with **[tutorials](/)**. These are _learning-oriented_. They focus on practical skills, not theoretical knowledge. Our goal with the tutorials is that you enjoy the experience and gain confidence, not that you become an expert.
+2. Grow with the **[how to guides](/how-to/)**. These are _task-oriented_. You can think of them like recipes. Following a recipe requires basic competence. Recipes do not give you context or history: they will help you do stuff. All the recipes taken together help frame a general picture of how SUAVE enables you.
+3. Consult the **[technical details](/technical-details/)**. These are _information-oriented_ and provide you with up-to-date certainty about what interfaces and precompiles SUAVE provides and where to find them. These are our treasure maps, which tell you what you need to know about the territory you're working in, without having to go and constantly check yourself.
+4. Refine your **[understanding of MEV](/understand/)**. This section is _discussion-oriented_. It does not present "the right way", but rather encourages you to reflect on "the deep why", ideally in dialogue with friends. Why does it matter that we work on MEV?
 
 <AlignItems horizontal="center" vertical="center" sideMargin={0}>
 <div>
-  <img alt="Fairier Transformers" src={require('/static/img/diatraxis.png').default} />
+  <img alt="Website structure" src={require('/static/img/diatraxis.png').default} usemap="#imagemap" />
+  <map name="imagemap">
+    <area shape="rect" coords="50,50,250,250" href="/" alt="Tutorials" />
+    <area shape="rect" coords="330,0,550,250" href="/how-to" alt="How To Guides" />
+    <area shape="rect" coords="20,300,250,600" href="/understand" alt="Understanding MEV" />
+    <area shape="rect" coords="330,300,550,600" href="/technical-details" alt="Technical Details" />
+  </map>
 </div>
 </AlignItems>
 
