@@ -42,11 +42,13 @@ We cannot preempt every kind of MEV that will exist, or the range of methods whi
 
 </GridBlock>
 
-<GridBlock symbol="II." title="Private">
+<GridBlock symbol="II." title="Simple">
 
-The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms need not be. Privacy is a human right and, in the context of MEV, it actually enables us to create systems that are more resilient to economic centralization over time, and to malicious manipulation in any given moment. 
+Strategyproof computing argues that we ought to "simplify the decisions facing participants in distributed multi-agent systems", and Vitalik points out that simplicity matters "because it (i) minimizes development costs, (ii) reduces risk of unforeseen security issues, and (iii) allows protocol designers to more easily convince users that parameter choices are legitimate". 
 
-We must provide people with the ability to keep their data hidden and only reveal it to those whom they trust or wish to interact with.
+Simplicity implies flexibility with respect to dependencies, such that we can upgrade from SGX to MPC, or deploy better cryptographic solutions like FHE, or introduce some maximally robust and sufficiently decentralized combination of the above.
+
+- [Simplicity Matters](https://youtu.be/rI8tNMsozo0)
 
 </GridBlock>
 </Grid>
@@ -62,13 +64,11 @@ We strive for the same generality with SUAVE: it should be possible to use SUAVE
 
 </GridBlock>
 
-<GridBlock symbol="IV." title="Simple">
+<GridBlock symbol="IV." title="Private">
 
-Strategyproof computing argues that we ought to "simplify the decisions facing participants in distributed multi-agent systems", and Vitalik points out that simplicity matters "because it (i) minimizes development costs, (ii) reduces risk of unforeseen security issues, and (iii) allows protocol designers to more easily convince users that parameter choices are legitimate". 
+The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms need not be. Privacy is a human right and, in the context of MEV, it enables us to create systems that are more resilient to economic centralization over time, and to malicious manipulation in any given moment. 
 
-Simplicity implies flexibility with respect to dependencies, such that we can upgrade from SGX to MPC, or deploy better cryptographic solutions like FHE, or introduce some maximally robust and sufficiently decentralized combination of the above.
-
-- [Simplicity Matters](https://youtu.be/rI8tNMsozo0)
+We must provide people with the ability to keep their data hidden and only reveal it to those whom they trust or wish to interact with.
 
 </GridBlock>
 </Grid>
@@ -76,15 +76,15 @@ Simplicity implies flexibility with respect to dependencies, such that we can up
 <Grid>
 <GridBlock symbol="V." title="Decentralized">
 
-It is hard to find the optimal means of allocating resources without centralizing power. Therefore, it is worth doing. We aim for systems that are robust and scalable, beyond the limitations imposed by trusted third parties.
+Allocating resources without a central authority is hard because there is a trade-off between revenue optimality and efficiency. People should benefit maximally from their information, <b>and</b> searching for inefficiencies should carry sufficient reward.
 
-In our ordering here, decentralization is also related to "Defense in depth", though we apply this specifically to the boundary between developing the ideal mechanisms for MEV extraction, and crafting the most powerful means for users to express commitments and privacy preferences. That is, SUAVE should work as well as possible under a variety of security assumptions which sit at the intersection of information theory, computer science, economics, and sociopolitics.
+SUAVE is simultaneously a search for the efficient mechanisms for value extraction, <b>and</b> the most optimal mechanisms for value distribution. How such mechanisms work cannot be invented in isolation, it must be discovered together (like the price in an auction). No-one should have undue power in this process of discovery. SUAVE unifies insights from information theory, computer science, economics, and sociopolitics to ensure such power remains properly decentralized.
 
 - [The holy grail](https://youtu.be/vi-rVTFTb6s?t=1092)
 
 </GridBlock>
 
-<GridBlock symbol="VI." title="Fair">
+<GridBlock symbol="VI." title="Credible">
 
 This is inspired by Strategyproof computing, which states that, "the self-interest of participants in distributed systems should be explicitly addressed by system designers, much as we currently address issues of fault-tolerance and security." 
 

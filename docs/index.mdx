@@ -57,19 +57,17 @@ This site encourages you to move through a specific flow in order to start build
 
 ## Unified, decentralized
 
-After [formalizing the threat posed by MEV](https://arxiv.org/pdf/1904.05234.pdf), and creating [MEV-Geth](https://github.com/flashbots/mev-geth) to begin addressing it, Flashbots has collaborated with many people and organizations to build neutral open-source software like [MEV-Boost](https://github.com/flashbots/mev-boost) and [MEV-Share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many problems remain.
+After [formalizing the threat posed by MEV](https://arxiv.org/pdf/1904.05234.pdf), and creating [MEV-Geth](https://github.com/flashbots/mev-geth) to begin addressing it, [Flashbots](https://medium.com/flashbots/frontrunning-the-mev-crisis-40629a613752﻿) has collaborated with many people and organizations to build neutral, open-source software like [MEV-Boost](https://github.com/flashbots/mev-boost) and protocols like [MEV-Share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many problems remain.
 
-SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_ for any kind of MEV application. As an open marketplace for mechanisms, SUAVE can also act as a _shared sequencing layer_ for other blockchains, helping them remain resilient in the face of economic forces that encourage centralization and/or specialization over time.
+SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_ for any kind of MEV application, which require one (or many) of the following:
 
-There are many reasons why we think the market will evolve toward many chains sharing a unified sequencing layer specifically designed to keep power decentralized across the ecosystem:
+1. **private data**, e.g., auctions, block building
+2. **coordination within block times**, e.g., block building, trade routing and filling
+3. **access to fresh off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
+4. **commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
+5. **too much gas to do on-chain** because of how much compute they use.
 
-1. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV.
-2. There are efficiency gains for users from aggregating and clearing their preferences inside the same auction.
-3. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives SUAVE an information advantage on centralized builders.
-4. Enabling computation on sensitive data (user orderflow) in a permissionless setting is hard. By solving it once, we can amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
-5. Because of how fundamental transaction sequencing is in blockchains, only another decentralized system can provide the necessary security and credible neutrality.
-
-To read more about what inspires us, we recommend [this post](https://writings.flashbots.net/the-future-of-mev-is-suave).
+Any mechanism that strikes a meaningful balance between revenue optimality and efficiency will have broad application, and SUAVE is a unified venue for many such applications. As such, SUAVE exhibits second-order effects. For instance, keeping block building decentralized by creating an open marketplace for mechanisms results in SUAVE also being a shared sequencing layer for other blockchains. We expect that SUAVE will find increasingly wider application as more people build better mechanisms with it.
 
 ## About Flashbots
 
