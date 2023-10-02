@@ -52,7 +52,6 @@ contract FetchAndEmit {
 		return abi.decode(confidentialInputs, (bytes));
 	}
 
-	// Bids to this contract should not be trusted!
 	function emitBid(Suave.Bid calldata bid) public {
 		emit BidEvent(bid.id, bid.decryptionCondition, bid.allowedPeekers);
 	}
