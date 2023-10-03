@@ -11,7 +11,7 @@ import Grid from "@site/src/components/Grid/Grid.tsx";
 import GridBlock from "@site/src/components/GridBlock/GridBlock.tsx";
 import Button from "@site/src/components/Button/Button.tsx";
 
-We draw on the theoretical goals outlined in "[Strategyproof Computing](https://groups.ischool.berkeley.edu/archive/p2pecon/papers/s1-ng.pdf)": 
+We draw on the theoretical goals outlined in "[Strategyproof Computing](https://groups.ischool.berkeley.edu/archive/p2pecon/papers/s1-ng.pdf)", a paper that illustrates how to think about incentives in the design of distributed systems: 
 
 ```
 1. Incentives-first
@@ -66,7 +66,7 @@ We strive for the same generality with SUAVE: it should be possible to use SUAVE
 
 <GridBlock symbol="IV." title="Private">
 
-The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms need not be. Privacy is a human right and, in the context of MEV, it enables us to create systems that are more resilient to economic centralization over time, and to malicious manipulation in any given moment. 
+The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms must not be. Privacy is a human right and, in the context of MEV, it enables us to create more economically efficient systems that are resilient to centralization of wealth and power over time, <b>and</b> to malicious manipulation in any given moment. 
 
 We must provide people with the ability to keep their data hidden and only reveal it to those whom they trust or wish to interact with.
 
@@ -76,9 +76,9 @@ We must provide people with the ability to keep their data hidden and only revea
 <Grid>
 <GridBlock symbol="V." title="Decentralized">
 
-Allocating resources without a central authority is hard because there is a trade-off between revenue optimality and efficiency. People should benefit maximally from their information, <b>and</b> searching for inefficiencies should carry sufficient reward.
+Allocating resources without a central authority is hard because there is a trade-off between revenue optimality and efficiency. People should benefit maximally from their information, <b>and</b> finding or correcting inefficiencies should carry sufficient reward.
 
-SUAVE is simultaneously a search for the efficient mechanisms for value extraction, <b>and</b> the most optimal mechanisms for value distribution. How such mechanisms work cannot be invented in isolation, it must be discovered together (like the price in an auction). No-one should have undue power in this process of discovery. SUAVE unifies insights from information theory, computer science, economics, and sociopolitics to ensure such power remains properly decentralized.
+SUAVE is simultaneously a search for the most efficient mechanisms for value extraction, <b>and</b> the most optimal mechanisms for value distribution. How such mechanisms work cannot be invented in isolation, it must be discovered together (like the price in an auction). No-one should have undue power in this process of discovery. SUAVE unifies insights from information theory, computer science, economics, and sociopolitics to ensure such power remains properly decentralized.
 
 - [The holy grail](https://youtu.be/vi-rVTFTb6s?t=1092)
 
@@ -86,13 +86,13 @@ SUAVE is simultaneously a search for the efficient mechanisms for value extracti
 
 <GridBlock symbol="VI." title="Credible">
 
-This is inspired by Strategyproof computing, which states that, "the self-interest of participants in distributed systems should be explicitly addressed by system designers, much as we currently address issues of fault-tolerance and security." 
+This is inspired by Strategyproof computing, which states that, "the self-interest of participants in distributed systems should be explicitly addressed by system designers." 
 
 It should be possible to quantify who benefits, and how much they benefit relative to the average.
 
 - [Towards a Theory of MEV: Uncertainty](https://www.youtube.com/watch?v=WYH7n4M016A&t=14626s)
 
-We do not mean "who" in the personal sense, but rather in terms of the type of actors involved. Specifically, users should enjoy the majority of the value they create, with the rest of that value cascading down to those doing the most relevant work.
+We do not mean "who" in the personal sense, but rather in terms of the type of actors involved. Specifically, users should enjoy the maximum value possible while ensuring SUAVE is adopted by all parties, with the rest of that value cascading down to those doing the most relevant work.
 
 - [MEV Precedence List](https://youtu.be/6oFNYDBH76Q?t=464)
 
