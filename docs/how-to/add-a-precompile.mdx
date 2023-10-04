@@ -11,13 +11,15 @@ keywords:
 
 SUAVE uses custom precompiles to extend the EVM with specific MEV functions.
 
+In this guide, we will add a new precompile to the [suave-geth client](https://github.com/flashbots/suave-geth) that will be accessible in any builder solidity contract on SUAVE.
+
+## Understand the structure
+
 We specify the inputs and outputs for each precompile in `yaml`. From [this specification](https://github.com/flashbots/suave-geth/blob/main/suave/gen/suave_spec.yaml), two bindings are auto-generated, one in Solidity (the client) and another one in Go (the server).
 
 The Solidity binding is implemented in a [Solidity library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) that Suave apps can use to call precompiles. The [Golang counterpart](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go) runs in the EVM and handles the Solidity calls to the SUAVE precompiles.
 
 The bindings handle encoding/decoding and error management, providing a standard format for both runtimes to communicate with each other. This removes all the nitty-gritty work required such that you can focus on creating the precompiles you need without getting caught up in the implementation complexities.
-
-## Understand the spec
 
 The `yaml` specification looks like this:
 
@@ -75,9 +77,9 @@ The fields you can include when adding a new `function` to the `yaml` specificat
 
 Input and output types can be a basic Solidity type (`address`), a composite type (`address[]`), or a reference to any of the custom types and structs (i.e. `Struct`, `Struct[]`). It must be written in the same format as it would be in Solidity.
     
-## How to write your own
+## Add your own
 
-We'll write a custom SUAVE precompile to perform the "add" operation in order to illustrate how to add your own. This is a two step process:
+Now we can write a custom SUAVE precompile to perform the "add" operation in order to illustrate how to add your own. This is a two step process:
 
 1. Edit the `yaml` specification, adding your new precompile to the `functions` block.
 2. Implement the custom logic in the Go runtime that is required to get from the inputs to the outputs you specified.
@@ -125,4 +127,4 @@ func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
 }
 ````
 
-You can find a workd example of how to add a more complicated precompile in [this PR](https://github.com/flashbots/suave-geth/pull/66/files).
+You can find a worked example of how to add a more complicated precompile in [this PR](https://github.com/flashbots/suave-geth/pull/66/files).
