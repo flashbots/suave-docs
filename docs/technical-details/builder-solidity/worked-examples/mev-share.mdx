@@ -28,7 +28,7 @@ What do I need to do, and what happens next? We'll describe the steps first in n
 
 1. The MEVM enters into the function being called in the MEVShare.sol contract on SUAVE.
     1. This _does not_ permute state: we use view functions to fetch confidential data, and then have the MEVM compute over that data off-chain. 
-    3. Once the MEVM has the data, it will use any other combination of precompiles to extract relevant parts of it and simulate the results of any computation done ofer that data.
+    3. Once the MEVM has the data, it will use any other combination of precompiles to extract relevant parts of it and simulate the results of any computation done over that data.
     4. Relevant data is stored in the Confidential Data Store, under a specific "keyspace". The Confidential Data Store, and this notion of "keyspace", enables us to have public mechanisms specified in verifiable contracts which nevertheless collect and compute over private data. For instance:
 		1. When MEVShare.sol tells the MEVM to combine transactions from users looking for protection with transactions from searchers doing backruns, the MEVM can do so without storing any of this data in MEVShare.sol's onchain storage.
 		2. When EthBlockBid.sol tells the MEVM to access matched bids, it can also do, searching in its specific Confidential Data Store, in the same "mevshare" keyspace.
