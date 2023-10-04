@@ -18,11 +18,11 @@ I want to swap on an decentralized exchange. However, I've heard that I can be e
 
 What do I need to do, and what happens next? We'll describe the steps first in natural language. If you want to [jump straight to code, please do so](#the-code).
 
-1. I take my signed ETH L1 Uniswap tx, and encrypt it using the public key of a specific SUAVE node. 
-    1. This example assumes you know which SUAVE node to encrypt it for. On the current testnet, only Flashbots is running nodes.
+1. I take my signed ETH L1 Uniswap tx, and encrypt it using the public key of a specific SUAVE computor. 
+    1. This example assumes you know which SUAVE computor to encrypt it for. On the current testnet, only Flashbots is running nodes.
 	2. My L1 transaction becomes the "request record" in another transaction to the MEVShare.sol on SUAVE.
-2. I send the transaction, with the L1 request record, to the SUAVE node I encrypted it for.
-3. The SUAVE node sees this transaction, sees that it contains a request record, and calls the MEVM running in that node to process confidentially.
+2. I send the transaction, with the L1 request record, to the SUAVE computor I encrypted it for.
+3. The SUAVE computor sees this transaction, sees that it contains a request record, and calls the MEVM running in that node to process confidentially.
 
 ### 1. The trade
 
@@ -43,7 +43,7 @@ Now, say some searcher is monitoring the chain, looking for hints about domains 
 
 1. They see a new block, with a transaction to MEVShare.sol.
 2. They check its logs, see a Hint event, and can extract the information they need to guess profitable backruns on a given domain.
-3. They craft their backrun on ETH L1, and wrap that backrun transaction into another transaction to the same SUAVE node. 
+3. They craft their backrun on ETH L1, and wrap that backrun transaction into another transaction to the same SUAVE computor. 
 4. What happens above is repeated, except that the searcher would call a different function in MEVShare.sol. 
 	1. This function operates similarly to what was described above, except that it expects an additional parameter, which is the id of my original transaction that the searcher wants to backrun.
 	2. It uses the same precompiles, giving it access to the searcher's backrun transaction, which it simulates and stores as another "hint".
@@ -56,7 +56,7 @@ We still need to find out how the block which contains these matched transaction
 
 #### FetchAndEmit
 
-We'll begin with the base `FetchAndEmit` contract which is called by both the MEVShare.sol and EthBlockBid.sol contracts when they need to access confidential inputs sent along with the `creationTx` as a part of the `eth_sendRawTransaction` received by a SUAVE node. It also broadcasts specific information from these `confidentialComputeRequest`s required for searchers to complete backruns etc.
+We'll begin with the base `FetchAndEmit` contract which is called by both the MEVShare.sol and EthBlockBid.sol contracts when they need to access confidential inputs sent along with the `creationTx` as a part of the `eth_sendRawTransaction` received by a SUAVE computor. It also broadcasts specific information from these `confidentialComputeRequest`s required for searchers to complete backruns etc.
 
 > _The use of the term "bid" here is an historical artifact. Transactions in SUAVE are general, though they were initially designed specifically for orderflow and block space auctions, hence the word "bid" is used often in the `suave-geth` codebase._
 
@@ -225,7 +225,7 @@ Now that we have seen how builder solidity can be used to substitute for hints a
 
 It is in scenarios (and contracts) like the below that we expect to see an open marketplace for mechanisms forming, based largely around the efficiency different algorithms and implementations offer, in combination with the way they allocate any value they are able to extract. That is, we expect that the contracts the majority of people will use will be those which offer the greatest efficiency/performance _while simultaneously_ offering the greatest rewards back to their users.
 
-Let's pick up where we were. I've submitted my MEVShare.sol transaction as a `confidentialComputeRequest`, specifying the SUAVE node I want to send it to. The searcher has seen the `Hint` event emitted on chain and submitted their backrun transaction as another `confidentialComputeRequest` to the same node. That node, using the logic in MEVShare.sol, has combined these transactions (or "bids"), and stored them in the `confidentialDataStore` under the `mevshare:v0:mergedBids` keyspace.
+Let's pick up where we were. I've submitted my MEVShare.sol transaction as a `confidentialComputeRequest`, specifying the SUAVE computor I want to send it to. The searcher has seen the `Hint` event emitted on chain and submitted their backrun transaction as another `confidentialComputeRequest` to the same node. That node, using the logic in MEVShare.sol, has combined these transactions (or "bids"), and stored them in the `confidentialDataStore` under the `mevshare:v0:mergedBids` keyspace.
 
 What happens next?
 
