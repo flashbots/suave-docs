@@ -1,0 +1,3 @@
+[submodule "docs/technical"]
+	path = docs/technical
+	url = git@github.com:flashbots/suave-specs.git

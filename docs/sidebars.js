@@ -15,40 +15,32 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/run-suave',
+        'how-to/run-suave', 'how-to/write-builder-solidity', 'how-to/add-a-precompile'
       ],
     },
     {
       type: 'category',
-      label: '🤖 Technical Details',
+      label: '🗝️ Key Concepts',
       collapsed: false,
-      link: {type: 'doc', id: 'technical-details/index'},
+      link: {type: 'doc', id: 'key-concepts/index'},
+      items: [
+        'key-concepts/builder-solidity', 'key-concepts/precompiles', 'key-concepts/confidential-computation',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🤖 Technical Specs',
+      collapsed: false,
+      link: {type: 'doc', id: 'technical/README'},
       items: [
         {
           type: 'category',
-          label: 'Builder Solidity',
-          link: {type: 'doc', id: 'technical-details/builder-solidity/index'},
+          label: 'Rigil',
+          link: {type: 'doc', id: 'technical/specs/rigil/README'},
           items: [
-            'technical-details/builder-solidity/worked-examples/mev-share',
+            'technical/specs/rigil/suave-chain', 'technical/specs/rigil/computor', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/bridge', 'technical/specs/rigil/precompiles',
           ],
         },
-        {
-          type: 'category',
-          label: 'Confidentiality',
-          link: {type: 'doc', id: 'technical-details/confidential-computation/index'},
-          items: [
-            'technical-details/confidential-computation/apis',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Precompiles',
-          link: {type: 'doc', id: 'technical-details/precompiles/index'},
-          items: [
-            'technical-details/precompiles/write-your-own',
-          ],
-        },
-        'technical-details/MEVM',
       ],
     },
     {

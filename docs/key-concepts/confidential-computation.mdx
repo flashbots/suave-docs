@@ -15,7 +15,7 @@ import AlignItems from "@site/src/components/AlignItems/AlignItems.tsx"
 
 SUAVE nodes have two modes of operation: regular and confidential (sometimes called off-chain). 
 
-Regular mode is the same as the normal EVM. Confidential mode uses [the MEVM](/technical-details/MEVM), with its [additional APIs](/technical-details/confidential-computation/apis), and the [precompiles](/technical-details/precompiles) available in [builder solidity](/technical-details/builder-solidity/index), to ensure that transaction data provided by users remains private until executed on their blockchain of choice.
+Regular mode is the same as the normal EVM. Confidential mode uses [the MEVM](/technical/specs/rigil/mevm), with its [additional APIs](/technical/specs/rigil/mevm#confidential-apis), and the [precompiles](/technical/specs/rigil/precompiles) available in [builder solidity](/key-concepts/builder-solidity), to ensure that transaction data provided by users remains private until executed on their blockchain of choice.
 
 Builder solidity uses (and extends) all the tools and patterns you know and love. However, the concept of confidential computation being done off-chain by specific SUAVE nodes is new and worth emphasizing. 
 
@@ -40,7 +40,7 @@ We describe here what occurs when you want your transaction data to _remain conf
 3. The `confidentialComputeResult` is set as the calldata in a "SUAVE transaction", which is broadcast to the public mempool.
 4. We call this a "SUAVE transaction" because it is a normal EVM transaction, with an extra check to make sure that the SUAVE node's signature matches the requested SUAVE node in (1)
 
-Please take a look through our detailed [worked examples](/technical-details/builder-solidity/worked-examples/mev-share) page if you want to dive deeper into the specifics of how each step occurs.
+Please take a look through our [how to write builder solidity guide](/how-to/write-builder-solidity) if you want to dive deeper into the specifics of how each step occurs.
 
 ## Key terms
 
@@ -74,7 +74,7 @@ For clarity, let's define `confidentialComputeRequest` and `confidentialComputeR
 3. `confidentialDataStore` is an offchain data store. Builder solidity contracts tell the MEVM where to store particular information, such that the MEVM can access information other functions (or other contracts) need without storing it in the contract on chain and thereby exposing it to everyone.
     1. Builder solidity contracts tell the MEVM to store data relevant to its operation in specific "keyspaces". 
     2. This is done locally, on the specific SUAVE node for whom the `confidentialComputeRequest` was encrypted.
-    2. It's best to look directly at our [worked examples](/technical-details/builder-solidity/worked-examples/mev-share#1-the-trade) to get a deeper intutition for how this happens and why it's necessary.
+    2. It's best to look directly at our [how to write builder solidity guide](/how-to/write-builder-solidity) to get a deeper intutition for how this happens.
 
 ## Pictures
 
@@ -108,7 +108,7 @@ For clarity, let's define `confidentialComputeRequest` and `confidentialComputeR
   <summary>3. How do confidential transactions result in stuff happening (like blocks being built) on other blockchains?</summary>
   <div>
     <div>
-      What we describe above occurs on SUAVE. It is the responsibility of applications on SUAVE to broadcast blocks that have been built, or the result of various kinds of auction, back to other blockchains (like Ethereum). At first, we assume that this will happen via already-established relays. You can see a <a href="/technical-details/builder-solidity/worked-examples/mev-share#3-the-build">worked example involving block building here</a>.
+      What we describe above occurs on SUAVE. It is the responsibility of applications on SUAVE to broadcast blocks that have been built, or the result of various kinds of auction, back to other blockchains (like Ethereum). At first, we assume that this will happen via already-established relays. You can see a <a href="/how-to/write-builder-solidity#3-the-build">worked example involving block building here</a>.
     </div>
   </div>
 </details>

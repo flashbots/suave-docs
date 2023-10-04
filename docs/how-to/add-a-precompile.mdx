@@ -37,7 +37,7 @@ functions:
   - name: confidentialInputs
     address: "0x0000000000000000000000000000000042010001"
     output:
-      packed: true
+      plain: true
       fields:
         - name: output1
           type: bytes
@@ -68,7 +68,7 @@ The fields you can include when adding a new `function` to the `yaml` specificat
     - `name`: Name of the input field
     - `type`: Type of the input field.
 - `output`: Configuration of the expected output.
-    - `packed`: Boolean that specifies whether to pack the output. Only available if the function returns a single array of bytes.
+    - `plain`: Boolean that specifies whether to pack the output. Only available if the function returns a single array of bytes.
     - `fields`: Array of output fields for the precompile.
         - `name`: Name of the output field
         - `type`: Type of the output field.
@@ -124,3 +124,5 @@ func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
     return a+b, nil
 }
 ````
+
+You can find a workd example of how to add a more complicated precompile in [this PR](https://github.com/flashbots/suave-geth/pull/66/files).
