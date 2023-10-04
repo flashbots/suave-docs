@@ -12,11 +12,11 @@ keywords:
 
 ## Our goal
 
-A SUAVE node is two nodes in a trenchcoat, both participating in the same p2p network. We're going to start both in this guide. 
+Participating in SUAVE requires running what we call a "SUAVE computor". A SUAVE computor is two nodes in a trenchcoat, both participating in the same p2p network. We're going to start both in this guide. 
 
-1. The "MEVM instance" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive. You need to run one MEVM instance per blockchain you're operating on. Right now, we support Ethereum L1, but more blockchains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc.
+1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive. You need to run one MEVM node per blockchain you're operating on. Right now, we support Ethereum L1, but more blockchains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc.
 
-2. The "Chain instance" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these, as everyone should broadcast their hints on SUAVE.
+2. The "SUAVE Chain node" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these.
 
 ## Docker
 
@@ -66,13 +66,14 @@ Step 3: Send backrun
 
 ### What just happened
 
-Both the MEVM instance and the Chain instance are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
+Both the MEVM and the SUAVE Chain node are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
 
-1. Learn more about the contract you deployed and what those transactions are in our [how to write builder solidity guide](/how-to/write-builder-solidity).
+1. Learn more about the contract you deployed in our [how to write builder solidity guide](/how-to/write-builder-solidity).
 2. Read more about [confidential computation](/key-concepts/confidential-computation/).
-3. Dig deeper in the [architecture of the MEVM](/technical/specs/rigil/mevm) and the [APIs available](/technical/specs/rigil/mevm#confidential-apis).
-4. Browse a full list of [SUAVE precompiles](/technical/specs/rigil/precompiles).
-5. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
+3. Understand the term [SUAVE computor](/technical/specs/rigil/computor) in greater detail.
+4. Dig deeper in the [architecture of the MEVM](/technical/specs/rigil/mevm) and the [APIs available](/technical/specs/rigil/mevm#confidential-apis).
+5. Browse a full list of [SUAVE precompiles](/technical/specs/rigil/precompiles).
+6. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
 ### Common problems
 
