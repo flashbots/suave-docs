@@ -3,7 +3,6 @@ module.exports = {
     {
       type: 'category',
       label: '👋 Welcome',
-      collapsed: false,
       link: {type: 'doc', id: 'index'},
       items: [
         'design-goals',
@@ -30,7 +29,6 @@ module.exports = {
     {
       type: 'category',
       label: '🤖 Technical Specs',
-      collapsed: false,
       link: {type: 'doc', id: 'technical/README'},
       items: [
         {
