@@ -19,7 +19,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🗝️ Key Concepts',
+      label: '🔑 Key Concepts',
       collapsed: false,
       link: {type: 'doc', id: 'key-concepts/index'},
       items: [
@@ -29,16 +29,10 @@ module.exports = {
     {
       type: 'category',
       label: '🤖 Technical Specs',
+      collapsed: false,
       link: {type: 'doc', id: 'technical/README'},
       items: [
-        {
-          type: 'category',
-          label: 'Rigil',
-          link: {type: 'doc', id: 'technical/specs/rigil/README'},
-          items: [
-            'technical/specs/rigil/suave-chain', 'technical/specs/rigil/computor', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/bridge', 'technical/specs/rigil/precompiles',
-          ],
-        },
+        'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/precompiles', 'technical/specs/rigil/computor', 'technical/specs/rigil/bridge',
       ],
     },
     {
@@ -54,7 +48,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🤼 Join Us',
+      label: '🏴‍☠️ Join Us',
       link: {type: 'doc', id: 'join/joining-suave'},
       items: [
         'join/code-of-conduct',
