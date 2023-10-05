@@ -32,7 +32,7 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'technical/README'},
       items: [
-        'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/precompiles', 'technical/specs/rigil/computor', 'technical/specs/rigil/bridge',
+        'technical/specs/rigil/README', 'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/precompiles', 'technical/specs/rigil/computor', 'technical/specs/rigil/bridge',
       ],
     },
     {
