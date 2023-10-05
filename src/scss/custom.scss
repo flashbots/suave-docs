@@ -145,3 +145,20 @@ div {
 .hideInDocs {
   display: none;
 }
+
+/* Custom styles for warnings from the specs */
+
+.warning {
+  background-color: #F9DDB5;
+  border: 1px solid #FFAC33;
+  border-radius: 8px;
+
+  p {
+    padding: 20px 20px 0px 20px;
+  }
+}
+
+[data-theme='dark'] .warning {
+  background-color: #F79506;
+  border: 1px solid #FBE7C9;
+}
