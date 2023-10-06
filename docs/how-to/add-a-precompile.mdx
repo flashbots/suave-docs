@@ -1,5 +1,5 @@
 ---
-title: Add a precompile
+title: Add a Precompile
 description: How to add your own precompile to suave-geth such that it is accessible in any builder solidity contract on SUAVE
 keywords:
   - reference
@@ -9,13 +9,13 @@ keywords:
 
 # Add a precompile
 
-SUAVE uses custom precompiles to extend the EVM with specific MEV functions.
+SUAVE uses [custom precompiles](/technical/specs/rigil/precompiles) to extend the EVM with specific MEV functions.
 
 In this guide, we will add a new precompile to the [suave-geth client](https://github.com/flashbots/suave-geth) that will be accessible in any builder solidity contract on SUAVE.
 
 ## Understand the structure
 
-We specify the inputs and outputs for each precompile in `yaml`. From [this specification](https://github.com/flashbots/suave-geth/blob/main/suave/gen/suave_spec.yaml), two bindings are auto-generated, one in Solidity (the client) and another one in Go (the server).
+We specify the inputs and outputs for each precompile in `yaml`. This automatically generates two bindings, one in Solidity (the client) and another one in Go (the server).
 
 The Solidity binding is implemented in a [Solidity library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) that Suave apps can use to call precompiles. The [Golang counterpart](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go) runs in the EVM and handles the Solidity calls to the SUAVE precompiles.
 
