@@ -12,11 +12,13 @@ keywords:
 
 ## Our goal
 
-Participating in SUAVE requires running what we call a "SUAVE computor". A SUAVE computor is two nodes in a trenchcoat, both participating in the same p2p network. We're going to start both in this guide. 
+Participating in SUAVE requires running what we call a "SUAVE computor", which is the main actor in the SUAVE protocol, and which contains a few different pieces. The two most important ones are:
 
-1. The "MEVM node" is a full node that can run confidential computation and broadcast the results. You need to run it in order to _act on information_ you receive. You need to run one MEVM node per blockchain you're operating on. Right now, we support Ethereum L1, but more blockchains will become available as we add the necessary precompiles, like `simulatePolygonBundle` or `buildOptimismBlock` etc.
+1. The "MEVM", which enables confidential computation.
 
-2. The "SUAVE Chain node" is also a full node. You need to run it in order to _receive information_ about transactions on any domain that broadcasts to the SUAVE chain. You only need to run one of these.
+2. "SUAVE-enabled geth", which ensures all computors in SUAVE maintain consensus about contracts deployed to SUAVE and a few other critical items.
+
+> **This guide will show you how to start a SUAVE computor.**
 
 ## Docker
 
@@ -66,11 +68,11 @@ Step 3: Send backrun
 
 ### What just happened
 
-Both the MEVM and the SUAVE Chain node are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
+Both the MEVM and the SUAVE-enabled geth node are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
 
 1. Learn more about the contract you deployed in our [how to write a contract guide](/how-to/write-a-contract).
-3. Understand the term [SUAVE computor](/technical/specs/rigil/computor) in greater detail.
-4. Dig deeper in the [architecture of the MEVM](/technical/specs/rigil/mevm) and the [APIs available](/technical/specs/rigil/mevm#confidential-apis).
+3. Understand [the architecture of SUAVE computors](/technical/specs/rigil/#architecture) in greater detail.
+4. Dig deeper into the [specifics of the MEVM](/technical/specs/rigil/mevm) and the [APIs available](/technical/specs/rigil/mevm#confidential-apis).
 2. Read more about [confidential data storage](/technical/specs/rigil/confidential-data-store/).
 5. Browse a full list of [SUAVE precompiles](/technical/specs/rigil/precompiles).
 6. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
@@ -111,14 +113,14 @@ git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
 make suave
 ```
-2. Run the MEVM instance first:
+2. Run the MEVM first:
 ```bash
 ./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave --http --ws \
 --allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
 --keystore ./suave/devenv/suave-ex-node/keystore/
 ```
 3. Press `Enter` when prompted for a password
-4. In a new terminal, run the Chain instance:
+4. In a new terminal, run SUAVE-enabled geth:
 ```bash
 ./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
 ```
