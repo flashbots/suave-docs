@@ -1,0 +1,26 @@
+---
+title: Developers
+description: Key concepts for developers building with SUAVE
+keywords:
+  - build
+  - suave
+  - key
+  - concepts
+---
+
+## Verifiable logic, private data
+
+Block builders currently have no incentive to share the algorithms by which they build blocks, and searchers depend on builders they send their bundles to to ensure the bundles are included. This trust-dependency results in [block builder centralization](https://medium.com/flashbots/frontrunning-the-mev-crisis-40629a613752), [irrespective of architecture](https://www.notion.so/PBS-Centralisation-A-Qualitative-Analysis-0ba745fb32b94e8db759126d03a358e6#77a0885718504ca1b93de7506be51f5a).
+
+Builder solidity enables anyone to create contracts that specify exactly how they will order sensitive data sent to them. There are many potential incentives for doing so:
+
+1. The credible neutrality of an open marketplace in which many parties share their views, strategies, and opinions gives SUAVE an information advantage on centralized builders.
+2. There are efficiency gains when aggregating and clearing user preferences inside the same auction. More users means more oderflow means more likelihood of landing blocks, or settling auctions, successfully.
+3. Block builders who only operate on a single domain will find themselves increasingly disadvantaged due to cross-domain MEV. Builder solidity on SUAVE should decrease the cost (and complexity) of building blocks for many different blockchains.
+4. Enabling computation on sensitive data in a permissionless setting is hard. By solving it once, builder solidity contracts amortize the cost across the ecosystem and provide better solutions more cheaply than any individual participant could.
+
+Builder solidity is not just for block builders, though. 
+
+Builder solidity contracts are a _uniform programming model for implementing every component of the [transaction supply network](https://frontier.tech/infinite-games)_, such that we can ensure that any value created is distributed well. An auction for blockspace is not very different from an auction for solving user preferences. We expect that mechanisms which work well for either will translate into many different use cases.
+
+The result should be continuous improvement of mechanisms which compete for sensitive data, and do so by virtue of the efficiency of their implementation _combined with_ the guarantees their contracts make about how they will distribute value arising from the aggregation of such data.

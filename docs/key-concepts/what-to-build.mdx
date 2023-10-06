@@ -1,0 +1,122 @@
+---
+title: What to Build
+description: An up-to-date list of ideas it might be interesting to build on SUAVE
+keywords:
+  - key
+  - concepts
+  - suave
+  - build
+  - ideas
+---
+
+# What to build on SUAVE
+
+One way to generate value is to design an app that is **uniquely enabled by SUAVE**.
+
+What kind of apps are uniquely enabled by SUAVE? SUAVE exhibits three key differences to existing blockchains:
+
+1. faster blocktime
+2. support for programmable privacy
+3. ability to do credible off-chain computation
+
+[Interoperability with web2 services may be the key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design:
+
+1. Big TAM, 
+2. No cold-start problem, and 
+3. Uniquely enabled by the previous three properties of SUAVE
+
+Essentially, we could build [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 service. This is a fun, productive use of DarkDAOs (instead of building collusion rings to buy votes, we build collusion rings to allow permissionless interaction with web2). 
+
+While interesting, this page is split into **Cryptonative (short-term)**, **SGX (medium-term)** and **Interoperable (long-term)** so that you know which solutions may be possible to work on for the internal hackathon. 
+
+## Crpytonative (short-term)
+
+### Ticketmasters
+
+Ticketmasters sell things like Taylor Swift concert tickets. Currently there is huge complaint about their UX in that it’s basically “click the frontend, wait 10mins, and then have it says you didn’t get the ticket.” And the executives are worried.
+
+If we do an application for this, it would be similar to ad auctions, but latency requirement is not as brutal, can be relaxed to like a few minutes.
+
+Frens from Pantera built an example [here](https://github.com/lstephanian/SUIFT). The basic idea:
+
+1. Deploy NFT contract on ETH L1. Accepts face value of tickets in ETH.
+2. Once I have sent face value of ticket to NFT contract, I send my real, confidential bid to the Bid contract on SUAVE. This is just a number.
+3. Bid contract calculates set of winning bids once auction is over. Emits this as bundle (or sends it to builder via precompile).
+4. NFT contract on ETH L1 receives winners, loops through them, checks they have the balance they bid. If so, send NFT. If not, skip (and keep their face value ETH as penalty). Does this over a period of blocks to avoid flash loan vulnerability.
+
+### Triggered!
+
+1. Deadman switch. A contract that posts a message on the L1 if it doesn’t get (stealth) heartbeats.
+
+2. Liquidations based on sensitive information, like ZK Collateral. Check someone’s ZK Credential of some kind (twitter account, etc.) and keep it in SUAVE [Confidential Data Storage](/technical/specs/rigil/confidential-data-store). Let other people bid on revealing it, or reveal it in case of undercollateralization.
+    1. Not directly related, but revealing information in the case of "bad behaviour" has wide applicability, the most interesting of which is likely [Rate Limiting Nullifiers](https://vac.dev/publications), which could be useful for the SUAVE chain design itself. 
+
+3. Bribe Twitter accounts to post certain tweets in certain time periods. Check results and post to chain with an oracle. Hide what the content the account was bribed to say was using [Confidential Data Storage](/technical/specs/rigil/confidential-data-store).
+
+### SAUVE router
+
+_Details to come from dmarzzz._
+
+**Bonus: Add SUAVE-router to metamask page**
+
+### SUAVE template repo
+
+This is for anyone who wants to hack on DevEx. Basically, we want to create an unopinionated template repo to help developers who are already familiar with Solidity get going on SUAVE.
+
+This likely entails a simple builder solidity contract, with working Forge and Viem tests. Ferran and Dan are working on Forge + Viem support currently.
+
+We take inspiration from [Filecoin actors](https://docs.filecoin.io/basics/the-blockchain/actors/) and may wish to replicate something like this to make DevEx a breeze.
+
+### Generalized intents 
+
+Deploy [this](https://blog.essential.builders/introducing-erc-7521-generalized-intents/) to SUAVE. Do something intense with it.
+
+### Escalating fee auction
+
+Basically this is to exercise the persistent storage. It can be an order that is partially filled, but raises the fee offered over time according to a fixed strategy. The entire curve doesn’t have to be revealed, only a short time window of the next offered price. (Confidentiality mechanism).
+
+## SGX (medium-term)
+
+Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-shitposts-f404c62d046545c2ae256a0ea8e6f2cd), some of which were included in short-term above.
+
+1. We know that UniswapV2 and Compound are interesting when they’re ported to TEE beacuse of how Sienna Swap and [Sienna Lend on secret network](https://sienna.network/lend/) are cool. [FuturesMEX](https://securitylab.disi.unitn.it/lib/exe/fetch.php?media=sp18.pdf) is quite similar to this too.
+2. Write path ORAM in [builder solidity](/key-concepts/builder-solidity). It should be [easy](https://pathoram.jimdofree.com/files/)
+3. Steal any and all ideas from contestants in [Oasis](https://oasisprotocol.org/p4w3-hackathon) and [Phala](https://github.com/Phala-Network/amsterDOT-2022) hackathons. 
+
+### Telegram bot
+
+SUAVE got that privacy, Telegramgram bots today just escrow user keys. This increases the leverage on SGX, since now it matters for integrity (SGX breach could lead to stealing user funds), but that can't stop us from writing it.
+
+### Exfiltrate data
+
+Either to a centralized third party, or a completely separate SGX enclave. This could use [RAVE](https://github.com/PufferFinance/rave) from PufferFi.
+
+## Interoperable (long-term)
+
+### Friend.tech with Twitter
+
+In friend.tech you can promise to give out the twitter ads revenue share to your key holders (ofc this has serious legal concerns etc, but as an example it’s cool), your twitter ads revenue is actually public and calculatable using public API, so if we could do an oracle from twitter to on-chain, then it is possible to build a (smart) contract that queries the API like once per day and checks if the account holder pays out to the key holders in 7 days and if not slash some stake.
+
+### Gaming
+
+In games like Sid Meier’s Civilization etc, you build an on-chain oracle that takes game state as input, and then you can allow players to sign (smart) contracts that allow them to negotiate with each other in a super expressive way, e.g., you can now say “I want to borrow your units in this continent for X turns and in exchange I’ll commit to taking your future contracts of Y,” so in this way you can directly build mods (and specifically, mods around incentives/contracts/commitments) into existing games without having to build a new game, so you don’t have a cold-start problem and those mods are the most monetizable ones anyway.
+
+But of course, if those SUAPPs start generating revenue, then we would run into credibility problems (in that the commitments to game mechanics those companies made are not credible). They would be like: “oh those on-chain contracts are making big bucks, let’s shutdown our api/change our code such that the on-chain contracts don’t work and let’s build those features directly into our own game and monetize the same idea.”
+
+### Header-bidding Ad auctions
+
+[Header-bidding wtf](https://digiday.com/media/wtf-header-bidding/)
+
+[Ad auction](https://www.notion.so/flashbots/Ad-Auctions-3e6c7ca6b93a41f484cd64510cb9619b)
+
+Basically, create a snippet/plugin that websites can integrate in their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers and then they would participate in an auction. In our case, this would be the website owner directly sending to MEVM and then the off-chain components do the ad auction and returns the bid. Of course, the latency requirements are brutal (sub 1 ms level) but we discussed internally and agreed that it’s not impossible.
+
+## Decentralized Autobidders
+
+Currently 80% of google ads and 100% of microsoft ads goes through autobidders: algorithms that help to elicit and constantly express advertiser preferences like: “I want to show my ad to as many junior tech professionals in Colorado as possible for $1,000” but not indicate the value per individual.”
+
+The market structure is similar to the builder market: where sophisticated advertisers develop their own autobidding algorithms instead of using the auctioneer’s provided autobidders (albeit the reasoning could be just more fine-grained control over preferences rather than “private orderflow”). And that the autobidding/advertiser platform/auctions/publisher platform teams have their offices “split up by literal walls” despite them working at the same floor to prevent collusion.
+
+Without privacy one cannot build an autobidder as strategic behavior would just rekt the service (you can manipulate behavior of other people’s bidding agents/algorithms by misreporting your preferences), so over here essentially we want advertisers to report their preferences to some MEVM contract and then the MEVM contract does aggregation and bids in the header-bidding ad auction in real-time.
+
+Just like the gaming example, autobidders could run into serious credibility/vertical-integration concerns if they start getting traction.

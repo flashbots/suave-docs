@@ -14,16 +14,16 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/run-suave', 'how-to/write-builder-solidity', 'how-to/add-a-precompile'
+        'how-to/run-suave', 'how-to/submit-a-transaction', 'how-to/write-a-contract', 'how-to/add-a-precompile'
       ],
     },
     {
       type: 'category',
-      label: '🔑 Key Concepts',
+      label: '🔑 Developer Keys',
       collapsed: false,
       link: {type: 'doc', id: 'key-concepts/index'},
       items: [
-        'key-concepts/builder-solidity', 'key-concepts/precompiles', 'key-concepts/confidential-computation',
+        'key-concepts/builder-solidity', 'key-concepts/what-to-build',
       ],
     },
     {
