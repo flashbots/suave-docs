@@ -1,5 +1,5 @@
 ---
-title: What to Build
+title: Novel Use Cases
 description: An up-to-date list of ideas it might be interesting to build on SUAVE
 keywords:
   - key
@@ -9,23 +9,18 @@ keywords:
   - ideas
 ---
 
-# What to build on SUAVE
+# What to Build on SUAVE
 
-One way to generate value is to design an app that is **uniquely enabled by SUAVE**.
+A good way to generate value is to design an app that is **uniquely enabled by SUAVE**.
 
-What kind of apps are uniquely enabled by SUAVE? SUAVE exhibits three key differences to existing blockchains:
+SUAVE exhibits two key differences to existing blockchains:
 
-1. faster blocktime
-2. support for programmable privacy
-3. ability to do credible off-chain computation
+2. Programmable privacy
+3. Credible off-chain computation
 
-[Interoperability with web2 services may be the key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design:
+Our research team suggests that [interoperability with web2 services may be one key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design, given that these use cases have a big total addressable market (TAM), and no cold-start problem.
 
-1. Big TAM, 
-2. No cold-start problem, and 
-3. Uniquely enabled by the previous three properties of SUAVE
-
-Essentially, we could build [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 service. This is a fun, productive use of DarkDAOs (instead of building collusion rings to buy votes, we build collusion rings to allow permissionless interaction with web2). 
+They suggest thinking about [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 services as a fun, productive use of DarkDAOs. That is, instead of building collusion rings to buy votes, we can build collusion rings to allow permissionless interaction with web2. 
 
 While interesting, this page is split into **Cryptonative (short-term)**, **SGX (medium-term)** and **Interoperable (long-term)** so that you know which solutions may be possible to work on for the internal hackathon. 
 
@@ -33,9 +28,9 @@ While interesting, this page is split into **Cryptonative (short-term)**, **SGX 
 
 ### Ticketmasters
 
-Ticketmasters sell things like Taylor Swift concert tickets. Currently there is huge complaint about their UX in that it’s basically “click the frontend, wait 10mins, and then have it says you didn’t get the ticket.” And the executives are worried.
+Ticketmasters sell things like Taylor Swift concert tickets. Currently, their UX is basically “click the frontend, wait 10mins, and then find out you didn’t get the ticket.”
 
-If we do an application for this, it would be similar to ad auctions, but latency requirement is not as brutal, can be relaxed to like a few minutes.
+An application for this would be similar to ad auctions, but the latency requirements are not as brutal, and can be relaxed to perhaps even a few minutes.
 
 Frens from Pantera built an example [here](https://github.com/lstephanian/SUIFT). The basic idea:
 
@@ -80,7 +75,7 @@ Basically this is to exercise the persistent storage. It can be an order that is
 Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-shitposts-f404c62d046545c2ae256a0ea8e6f2cd), some of which were included in short-term above.
 
 1. We know that UniswapV2 and Compound are interesting when they’re ported to TEE beacuse of how Sienna Swap and [Sienna Lend on secret network](https://sienna.network/lend/) are cool. [FuturesMEX](https://securitylab.disi.unitn.it/lib/exe/fetch.php?media=sp18.pdf) is quite similar to this too.
-2. Write path ORAM in [builder solidity](/key-concepts/builder-solidity). It should be [easy](https://pathoram.jimdofree.com/files/)
+2. Write path ORAM in [builder solidity](/builder-solidity). It should be [easy](https://pathoram.jimdofree.com/files/)
 3. Steal any and all ideas from contestants in [Oasis](https://oasisprotocol.org/p4w3-hackathon) and [Phala](https://github.com/Phala-Network/amsterDOT-2022) hackathons. 
 
 ### Telegram bot
@@ -111,7 +106,7 @@ But of course, if those SUAPPs start generating revenue, then we would run into 
 
 Basically, create a snippet/plugin that websites can integrate in their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers and then they would participate in an auction. In our case, this would be the website owner directly sending to MEVM and then the off-chain components do the ad auction and returns the bid. Of course, the latency requirements are brutal (sub 1 ms level) but we discussed internally and agreed that it’s not impossible.
 
-## Decentralized Autobidders
+### Decentralized Autobidders
 
 Currently 80% of google ads and 100% of microsoft ads goes through autobidders: algorithms that help to elicit and constantly express advertiser preferences like: “I want to show my ad to as many junior tech professionals in Colorado as possible for $1,000” but not indicate the value per individual.”
 

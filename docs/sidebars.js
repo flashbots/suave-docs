@@ -5,7 +5,7 @@ module.exports = {
       label: '👋 Welcome',
       link: {type: 'doc', id: 'index'},
       items: [
-        'design-goals',
+        'novel-use-cases', 'builder-solidity'
       ],
     },
     {
@@ -15,15 +15,6 @@ module.exports = {
       link: {type: 'doc', id: 'how-to/index'},
       items: [
         'how-to/run-suave', 'how-to/submit-a-transaction', 'how-to/write-a-contract', 'how-to/add-a-precompile'
-      ],
-    },
-    {
-      type: 'category',
-      label: '🔑 Developer Keys',
-      collapsed: false,
-      link: {type: 'doc', id: 'key-concepts/index'},
-      items: [
-        'key-concepts/builder-solidity', 'key-concepts/what-to-build',
       ],
     },
     {
