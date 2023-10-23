@@ -5,7 +5,7 @@ module.exports = {
       label: '👋 Welcome',
       link: {type: 'doc', id: 'index'},
       items: [
-        'novel-use-cases', 'builder-solidity'
+        'what-is-suave', 'novel-use-cases', 'builder-solidity'
       ],
     },
     {

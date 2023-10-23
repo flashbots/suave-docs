@@ -1,0 +1,39 @@
+---
+title: What is SUAVE?
+hide_title: true
+description: An open marketplace for mechanisms, a way to decentralize block building, and a general-purpose coordination solution.
+keywords:
+  - flashbots
+  - suave
+  - docs
+  - build
+  - mechanisms
+---
+
+# What is SUAVE?
+
+SUAVE - the *Single Unifying Auction for Value Expression* - is a platform for building better mechanisms (such as OFAs and block builders) in a decentralized and private way. 
+
+SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
+
+## Unified, decentralized
+
+After [formalizing the threat posed by MEV](https://arxiv.org/pdf/1904.05234.pdf), and creating [MEV-Geth](https://github.com/flashbots/mev-geth) to begin addressing it, [Flashbots](https://medium.com/flashbots/frontrunning-the-mev-crisis-40629a613752﻿) has collaborated with many people and organizations to build neutral, open-source software like [MEV-Boost](https://github.com/flashbots/mev-boost) and protocols like [MEV-Share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many problems remain.
+
+SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_, which we call "SUAPPs". A SUAPP is an application deployed on SUAVE which requires one (or many) of the following:
+
+1. **private data**, e.g., auctions, block building
+2. **coordination within block times**, e.g., block building, trade routing and filling
+3. **access to fresh off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
+4. **commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
+5. **too much gas to do on-chain** because of how much compute they use.
+
+Any SUAPP that strikes a meaningful balance between revenue optimality and efficiency will have broad application. SUAVE is a blockchain for many such applications and so exhibits second-order effects. For instance, keeping block building decentralized by creating an open marketplace for mechanisms could result in SUAVE being an effective, unified sequencing layer for other blockchains. 
+
+We expect that SUAVE will find increasingly wider application as more people build better mechanisms with it.
+
+## About Flashbots
+
+Our primary focus is to enable a permissionless, transparent, and fair ecosystem for MEV. We achieve this in three ways: _Illuminate the Dark Forest_, _Democratize Extraction_, and _Distribute Benefits_.
+
+You can interact with Flashbots on our [Discourse forum](https://collective.flashbots.net/) or in [Discord](https://discord.gg/7hvTycdNcK). Our work is open source and you can follow our progress in each [Github repository](https://github.com/flashbots/).
