@@ -1,5 +1,5 @@
 ---
-title: Run a Computor 
+title: Run SUAVE Locally
 description: Start running SUAVE and participating in the chain itself
 keywords:
   - build
@@ -8,17 +8,11 @@ keywords:
   - practice
 ---
 
-# Run a computor
+# Run SUAVE Locally
 
-## Our goal
+Our goal in this guide is to get SUAVE running locally. This should take four commands.
 
-Participating in SUAVE requires running what we call a "SUAVE computor", which is the main actor in the SUAVE protocol, and which contains a few different pieces. The two most important ones are:
-
-1. The "MEVM", which enables confidential computation.
-
-2. "SUAVE-enabled geth", which ensures all computors in SUAVE maintain consensus about contracts deployed to SUAVE and a few other critical items.
-
-> **This guide will show you how to start a SUAVE computor.**
+You can read more about exactly what you'll be running in the [architecture section of the Technical Specs](/technical/specs/rigil/#architecture).
 
 ## Docker
 
@@ -47,7 +41,7 @@ make devnet-up
 
 ### Optional testing
 
-4. If you'd like to test your node by deploying a contract and sending it some transactions, you can do so by running:
+4. Test your node by deploying a contract and sending it some transactions:
 ```bash
 go run suave/devenv/cmd/main.go
 ```
@@ -66,16 +60,12 @@ Step 3: Send backrun
 - Backrun bid id: db98b83d02694fc2b13c042ad22c233
 ```
 
-### What just happened
+> If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
-Both the MEVM and the SUAVE-enabled geth node are now running in separate containers, which means your local SUAVE dev environment is ready to go. If you followed through with Step 4 above, you've also deployed a contract in your local environment and sent some transactions to it.
-
-1. Learn more about the contract you deployed in our [how to write a contract guide](/how-to/write-a-contract).
-3. Understand [the architecture of SUAVE computors](/technical/specs/rigil/#architecture) in greater detail.
-4. Dig deeper into the [specifics of the MEVM](/technical/specs/rigil/mevm) and the [APIs available](/technical/specs/rigil/mevm#confidential-apis).
-2. Read more about [confidential data storage](/technical/specs/rigil/confidential-data-store/).
-5. Browse a full list of [SUAVE precompiles](/technical/specs/rigil/precompiles).
-6. If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
+5. You can stop your docker containers with:
+```bash
+make devnet-down
+```
 
 ### Common problems
 
@@ -84,11 +74,11 @@ Both the MEVM and the SUAVE-enabled geth node are now running in separate contai
   <div>
     <div>
       <div>
-        Make sure that Docker is running before trying <code>docker-compose up -d</code>. On most Linux machines, you can do this with:<br/>
+        Make sure that Docker is running. On most Linux machines, you can do this with:<br/>
         <code>
         sudo systemctl start docker
         </code><br/><br/>
-        Or just check the current status with:<br/>
+        You can check the current status with:<br/>
         <code>
         sudo systemctl status docker
         </code>
@@ -96,10 +86,24 @@ Both the MEVM and the SUAVE-enabled geth node are now running in separate contai
     </div>
   </div>
 </details>
+<details>
+  <summary>2. Unsupported version</summary>
+  <div>
+    <div>
+      <div>
+        If you're running an older version of Docker, you may get a message that looks like this:<br/><br/>
+        <code>
+        ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
+        </code><br/><br/>
+        Simply go to the file in <code>/suave/devenv/docker-compose.yml</code> and change the first line to use <code>3.3</code> rather than <code>3.8</code>.
+      </div>
+    </div>
+  </div>
+</details>
 
 ## Build it yourself
 
-The `docker-compose` version above sets up SUAVE using simple defaults. If you'd like to run the binaries yourself and customise what is happening, read on.
+f you'd like to run the suave-geth binaries yourself, read on.
 
 ### What you need
 
@@ -122,12 +126,13 @@ make suave
 3. Press `Enter` when prompted for a password
 4. In a new terminal, run SUAVE-enabled geth:
 ```bash
-./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 --authrpc.port 8561
+./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 \
+--authrpc.port 8561
 ```
 
 ### What to do next
 
-You can now run any SUAVE command you like. Start by generating a new account (in another terminal):
+You can now run any familiar Geth command you like. Start by generating a new account (in another terminal):
 
 ```bash
 ./build/bin/suave --suave account new
@@ -135,7 +140,32 @@ You can now run any SUAVE command you like. Start by generating a new account (i
 
 If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
 
-Consult the help page for anything else you need to do:
+#### Using the console 
+
+You can attach to the usual Geth javascript console to get any interactive data you need with:
+
 ```bash
-./build/bin/suave --suave help
+./build/bin/suave attach ./suave/geth.ipc
 ```
+
+From within the console, you can run:
+
+```bash
+eth.accounts[0]
+```
+
+Which should return `"0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f"` which is the account we unlocked when starting the MEVM.
+
+```bash
+eth.getBalance(eth.accounts[0])
+```
+
+Should return a really large number `1.1579...e+77`. If you try `eth.getBalance("<your_new_address>")` instead, you should see `0`.
+
+If you try:
+
+```bash
+web3.eth.blockNumber
+```
+
+It should tell you the block height of your local network.

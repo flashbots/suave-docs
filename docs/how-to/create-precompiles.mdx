@@ -1,13 +1,13 @@
 ---
-title: Add a Precompile
-description: How to add your own precompile to suave-geth such that it is accessible in any builder solidity contract on SUAVE
+title: Create Precompiles
+description: How to create a precompile so that it is accessible in any builder solidity contract on SUAVE
 keywords:
   - reference
   - suave
   - precompiles
 ---
 
-# Add a precompile
+# Create a precompile
 
 SUAVE uses [custom precompiles](/technical/specs/rigil/precompiles) to extend the EVM with specific MEV functions.
 
@@ -119,7 +119,7 @@ type SuaveRuntime interface {
 }
 ```
 
-You will now need to write the logic required for your precompile to work as expected based on this generated skeleton. You can do this in the specific `suaveRuntime` struct generated in the same `contracts_suave_runtime_adaptor.go` file. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
+You will now need to write the logic required for your precompile to work as expected based on this generated skeleton. You can do this in the specific `suaveRuntime` struct generated in the same `contracts_suave_runtime_adapter.go` file. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
 
 ````go
 func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
