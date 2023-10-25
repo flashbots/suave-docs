@@ -3,9 +3,10 @@ module.exports = {
     {
       type: 'category',
       label: '👋 Welcome',
+      collapsed: false,
       link: {type: 'doc', id: 'index'},
       items: [
-        'what-is-suave', 'novel-use-cases', 'builder-solidity'
+        'novel-use-cases',
       ],
     },
     {
@@ -14,7 +15,7 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/run-suave', 'how-to/submit-a-transaction', 'how-to/write-a-contract', 'how-to/add-a-precompile'
+        'how-to/run-suave', 'how-to/send-transactions', 'how-to/create-contracts', 'how-to/create-precompiles'
       ],
     },
     {
