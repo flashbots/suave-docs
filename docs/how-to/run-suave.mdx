@@ -132,7 +132,15 @@ make suave
 
 ### What to do next
 
-You can now run any familiar Geth command you like. Start by generating a new account (in another terminal):
+Now run:
+
+```bash
+go run suave/devenv/cmd/main.go
+```
+
+The output should be roughly similar to the one printed above, though addresses, txns, and ids will differ.
+
+You can also run any familiar Geth command you like. Start by generating a new account (in another terminal):
 
 ```bash
 ./build/bin/suave --suave account new
