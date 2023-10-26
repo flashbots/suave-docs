@@ -140,8 +140,89 @@ If you run the following from your terminal, you should now have one funded acco
 go run suave/devenv/cmd/transactions.go
 ```
 
+The important parts to note are the `SendTransaction` method, and the way the balance of a given account is fetched via the `RPC()` method, both available in the SDK. Using this pattern, you should be able to send most of the transactions you wish to, as well as fetch information about other accounts or transactions as is necessary.
+
 ## 2. Deploy a Contract
 
 We've written a number of example smart contracts to help get you started thinking about what's possible. For this guide, we'll stick to deploying one of these examples to keep things simple.
 
-To see how to deploy your own smart contract, please see the [next guide](/how-to/create-contracts).
+Create a new file called `deploy.go`:
+
+```go
+package main
+
+import (
+	"crypto/ecdsa"
+	"fmt"
+
+	_ "embed"
+
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereum/go-ethereum/suave/e2e"
+	"github.com/ethereum/go-ethereum/suave/sdk"
+)
+
+var (
+  // This is the address we used when starting the MEVM, which we will encrypt our confidential inputs to later
+	exNodeEthAddr = common.HexToAddress("b5feafbdd752ad52afb7e1bd2e40432a485bbb7f")
+	exNodeNetAddr = "http://localhost:8545"
+	// This account is funded in both devenv networks
+	// address: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+	fundedAccount = newPrivKeyFromHex("91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12")
+)
+
+var (
+	mevShareArtifact = e2e.MevShareBidContract
+)
+
+func main() {
+    rpcClient, _ := rpc.Dial(exNodeNetAddr)
+	mevmClt := sdk.NewClient(rpcClient, fundedAccount.priv, exNodeEthAddr)
+
+	var mevShareContract *sdk.Contract
+	_ = mevShareContract
+
+	txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
+	if err != nil {
+		fmt.Errorf("Failed to deploy contract: %v", err)
+	}
+	receipt, err := txnResult.Wait()
+	if err != nil {
+		fmt.Errorf("Failed to wait for transaction result: %v", err)
+	}
+	if receipt.Status == 0 {
+		fmt.Errorf("Failed to deploy contract: %v", err)
+	}
+
+	fmt.Printf("- Example contract deployed: %s\n", receipt.ContractAddress)
+	mevShareContract = sdk.GetContract(receipt.ContractAddress, mevShareArtifact.Abi, mevmClt)
+}
+
+// Helpers, not unique to SUAVE
+
+type privKey struct {
+	priv *ecdsa.PrivateKey
+}
+
+func newPrivKeyFromHex(hex string) *privKey {
+	key, err := crypto.HexToECDSA(hex)
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse private key: %v", err))
+	}
+	return &privKey{priv: key}
+}
+```
+
+If you now run:
+
+```bash
+go run suave/devenv/cmd/deploy.go
+```
+
+You should see the address of your new example contract printed in the terminal.
+
+The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`. 
+
+If you're able to generate the necessary ABIs and bytecode, you should be able to deploy any contract you like using the above pattern.
