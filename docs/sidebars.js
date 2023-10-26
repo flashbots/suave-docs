@@ -15,7 +15,14 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'how-to/index'},
       items: [
-        'how-to/run-suave', 'how-to/send-transactions', 'how-to/create-contracts', 'how-to/create-precompiles'
+        'how-to/run-suave', 'how-to/send-transactions',
+        {type: 'category',
+         label: 'Create Contracts',
+         items: [
+          'how-to/create-contracts/deploy-custom', 'how-to/create-contracts/confidential', 'how-to/create-contracts/ofa'
+         ]
+        }, 
+        'how-to/create-precompiles'
       ],
     },
     {

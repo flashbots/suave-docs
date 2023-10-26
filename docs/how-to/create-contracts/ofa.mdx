@@ -1,0 +1,84 @@
+---
+title: OFA Contract
+description: Step-by-step walkthrough of what MEV-Share on SUAVE looks like and how it works
+keywords:
+  - practical
+  - suave
+  - builder
+  - solidity
+  - example
+---
+
+# Orderflow auctions on SUAVE
+
+The previous two guides present toy examples to introduce you to the programming model on SUAVE. Now, we'll look at the steps required to build an orderflow auction SUAPP.
+
+We've described a few of the available precompiles, and illustrated an example transaction flow on SUAVE. Now, we can illustrate the full data flow between multiple kinds of actors we expect to use SUAVE, and demonstrate how they can use both confidential inputs and the results emitted by SUAPPs to meet their needs.
+
+![OFA + Block Builder flow](/assets/OFA_And_Block_Flow.svg)
+
+1. A user sends their L1 transaction, EIP-712 message, UserOp, or Intent to a SUAVE Kettle.
+2. The MEVM inside that Kettle processes the L1 transaction, extracts a hint, and emits it onchain.
+3. Searchers listening to the chain see the hint, craft backrun transactions, and send them to a SUAVE Kettle.
+4. SUAVE Kettles will process the backrun, combine it into a bundle with the original transaction, include the bundle in a block, and then emit the block to an offchain relay.
+
+Optionally, bundles can be sent straight to a centralized block builder. In future test networks, the block can also be sent to an onchain relay.
+
+We expect there will be many types of OFAs which serve different needs in different ways. This is, after all, the goal of SUAVE: to create an open marketplace for mechanisms. 
+
+## MEV-Share End-to-End Example
+
+One example of such an OFA could be a replicating MEV-Share in a smart contract. Instead of calling the MEV-share API and getting a response immediately, searchers could listen to blocks produced on SUAVE. This implies a longer delay, as searchers have to wait for consensus on the next block. We feel that the innovations in mechanisms that an open, contestable network like SUAVE will encourage may still make this trade-off worthwhile.
+
+> **The code for the MEV-Share example can be found [here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65).**
+
+This guide will focus on the way `MevShareBidContract` and `EthBlockBidContract` use the Confidential Data Store after receiving any [confidential compute request (CCR)](/how-to/create-contracts/confidential#transaction-flow) from either users or searchers. 
+
+When the SUAVE Kettle which the user specified receives a CCR that calls the `newBid` function in the MEV-Share SUAPP, the MEVM in that Kettle fetches the confidential inputs and computes a result. The logic in `MevShareBidContract` tells it - among other things - to:
+
+```solidity
+Suave.Bid memory bid = Suave.newBid(
+	decryptionCondition, 
+	bidAllowedPeekers, 
+	bidAllowedStores, 
+	"mevshare:v0:unmatchedBundles"
+);
+Suave.confidentialStore(bid.id, "mevshare:v0:ethBundles", bundleData);
+Suave.confidentialStore(bid.id, "mevshare:v0:ethBundleSimResults", abi.encode(egp));
+```
+
+The term "bid" is an artefact of earlier versions of suave-geth. Here, it is a general data identifier used when operating on confidential data.
+
+More importantly, this MEV-Share SUAPP is telling the MEVM to store confidential data - along with who can see it and under which conditions - in the Confidential Data Store of that Kettle under a specific "keyspace" named "mevshare". In this case, we are storing both the L1 transaction sent by the user (in the `bundleData`) and the result of the simulation, which is limited to returning the effective gas price for now. 
+
+Any searcher can listen for these events and use them to try and match backrun transactions to the user's L1 transaction, which they send to the same MEV-Share SUAPP. These potential matches are stored in the same way as illustrated above, _in the same keyspace_.
+
+When the confidential compute request comes from a searcher looking to backrun a transaction (using the `newMatch` function), the MEV-Share SUAPP also merges the bids involved and stores those merged bids:
+
+```solidity
+Suave.confidentialStore(bid.id, "mevshare:v0:mergedBids", abi.encode(bids));
+```
+
+It is the `mergedBids` values in the mevshare keyspace that the block building SUAPP (i.e. the `EthBlockBidContract`) then fetches data from when looking to create a block and send it to an offchain relay. This happens with the `confidentialRetrieve` precompile:
+
+```solidity
+Suave.confidentialRetrieve(allShareMatchBids[j].id, "mevshare:v0:mergedBids"), (Suave.BidId[])
+```
+
+or when it orders the merged bids by their effective gas price:
+
+```solidity
+Suave.confidentialRetrieve(allBids[i].id, "mevshare:v0:ethBundleSimResults")
+```
+
+[All the code is here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65) if you want to run it yourself and develop your own picture of the total data flow in SUAVE.
+
+---
+
+You might also notice that the command we first started with when [running SUAVE locally](/how-to/run-suave#optional-testing):
+
+```bash
+go run suave/devenv/cmd/main.go
+```
+
+deploys the MEV-Share SUAPP and crafts some backrun transactions. You can [consult that script again](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go) if you want to see how it works from the point of view of users transacting rather than developers writing contracts.
