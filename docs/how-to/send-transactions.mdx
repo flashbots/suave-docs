@@ -34,8 +34,6 @@ The [SUAVE SDK](https://github.com/flashbots/suave-geth/blob/main/suave/sdk/sdk.
 
 ## 1. Fund an account
 
-First, setup everything needed to interact with your local development environment. 
-
 Create a new file in `suave/devenv/cmd` called `transactions.go`:
 
 ```go
@@ -165,7 +163,7 @@ import (
 )
 
 var (
-  // This is the address we used when starting the MEVM, which we will encrypt our confidential inputs to later
+  // This is the address we used when starting the MEVM
 	exNodeEthAddr = common.HexToAddress("b5feafbdd752ad52afb7e1bd2e40432a485bbb7f")
 	exNodeNetAddr = "http://localhost:8545"
 	// This account is funded in both devenv networks
@@ -226,3 +224,21 @@ You should see the address of your new example contract printed in the terminal.
 The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`. 
 
 If you're able to generate the necessary ABIs and bytecode, you should be able to deploy any contract you like using the above pattern.
+
+## 3. USE Rigil Testnet RPC
+
+You can also adapt any of this code to use the Rigil Testnet RPC, rather than your local development environment. All it requires is 
+
+1. Request faucet funds in the #suave-hackathon slack channel by posting your address
+2. Change this code:
+
+```go
+var (
+  // This address of the MEVM can stay the same
+	exNodeEthAddr = common.HexToAddress("b5feafbdd752ad52afb7e1bd2e40432a485bbb7f")
+  // Target the Rigil RPC
+	exNodeNetAddr = "https://rpc.rigil.suave.flashbots.net"
+  // Insert a private key you own with some SUAVE ETH
+	fundedAccount = newPrivKeyFromHex("<your_priv_key>")
+)
+```
