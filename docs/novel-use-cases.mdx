@@ -18,13 +18,13 @@ SUAVE exhibits two key differences to existing blockchains:
 2. Programmable privacy
 3. Credible off-chain computation
 
+The [SUAVE core team ideas are here](https://www.notion.so/flashbots/Hackathon-Ideas-beed49f0eb0a46c38466b39afb40f372).
+
 Our research team suggests that [interoperability with web2 services may be one key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design, given that these use cases have a big total addressable market (TAM), and no cold-start problem.
 
 They suggest thinking about [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 services as a fun, productive use of DarkDAOs. That is, instead of building collusion rings to buy votes, we can build collusion rings to allow permissionless interaction with web2. 
 
-While interesting, this page is split into **Short-term**, **Medium-term** and **Long-term** so that you know which solutions may be possible to work on for the internal hackathon. 
-
-## Short-term
+## Start here
 
 ### Ticketmasters
 
@@ -70,7 +70,7 @@ Deploy [this](https://blog.essential.builders/introducing-erc-7521-generalized-i
 
 Basically this is to exercise the persistent storage. It can be an order that is partially filled, but raises the fee offered over time according to a fixed strategy. The entire curve doesn’t have to be revealed, only a short time window of the next offered price. (Confidentiality mechanism).
 
-## Medium-term
+## SGX building blocks
 
 Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-shitposts-f404c62d046545c2ae256a0ea8e6f2cd), some of which were included in short-term above.
 
@@ -80,13 +80,13 @@ Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-s
 
 ### Telegram bot
 
-SUAVE got that privacy, Telegramgram bots today just escrow user keys. This increases the leverage on SGX, since now it matters for integrity (SGX breach could lead to stealing user funds), but that can't stop us from writing it.
+SUAVE got that privacy, Telegram bots today just escrow user keys. This increases the leverage on SGX, since now it matters for integrity (SGX breach could lead to stealing user funds), but that can't stop us from writing it.
 
 ### Exfiltrate data
 
 Either to a centralized third party, or a completely separate SGX enclave. This could use [RAVE](https://github.com/PufferFinance/rave) from PufferFi.
 
-## Long-term
+## Research ideas
 
 ### Friend.tech with Twitter
 

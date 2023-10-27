@@ -10,7 +10,7 @@ keywords:
 
 # Run SUAVE Locally
 
-Our goal in this guide is to get SUAVE running locally. This should take four commands.
+Our goal in this guide is to get SUAVE running locally.
 
 You can read more about exactly what you'll be running in the [architecture section of the Technical Specs](/technical/specs/rigil/#architecture).
 
@@ -117,30 +117,22 @@ git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
 make suave
 ```
-2. Run the MEVM first:
+2. Run this command:
 ```bash
-./build/bin/suave --dev --dev.gaslimit 30000000 --datadir suave --http --ws \
---allow-insecure-unlock --unlock "0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f" \
---keystore ./suave/devenv/suave-ex-node/keystore/
-```
-3. Press `Enter` when prompted for a password
-4. In a new terminal, run SUAVE-enabled geth:
-```bash
-./build/bin/suave --dev --dev.gaslimit 30000000 --http --http.port 8555 --ws --ws.port 8556 \
---authrpc.port 8561
+./build/bin/suave --suave.dev 
 ```
 
 ### What to do next
 
-Now run:
+In another terminal, you can run:
 
 ```bash
 go run suave/devenv/cmd/main.go
 ```
 
-The output should be roughly similar to the one printed above, though addresses, txns, and ids will differ.
+The output should be roughly similar to the one printed above (addresses, txns, and ids will differ).
 
-You can also run any familiar Geth command you like. Start by generating a new account (in another terminal):
+You can also run any familiar Geth command you like. Start by generating a new account:
 
 ```bash
 ./build/bin/suave --suave account new
