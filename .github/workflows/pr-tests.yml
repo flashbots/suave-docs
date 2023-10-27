@@ -10,7 +10,12 @@ jobs:
   build-and-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SPECS_TOKEN }}
+          submodules: recursive
+
       - uses: actions/setup-node@v1
         with:
           node-version: '16.x'
