@@ -63,7 +63,7 @@ contract onlyConfidential {
 }
 ```
 
-This contract uses three new [precompiles](/technical/specs/rigil/precompiles): 
+This contract uses three new [precompiles](/technical/specs/rigil/mevm#precompiles): 
 
 1. `isConfidential` to ensure that only the MEVM(s) specified by the user can fetch the confidential data in transactions to this contract.
 2. `confidentialInputs` to fetch the confidential data that was submitted along with the transaction that the user sent which specified this contract.
@@ -124,7 +124,7 @@ var (
 )
 
 func main() {
-  rpcClient, _ := rpc.Dial(exNodeNetAddr)
+    rpcClient, _ := rpc.Dial(exNodeNetAddr)
 	mevmClt := sdk.NewClient(rpcClient, fundedAccount.priv, exNodeEthAddr)
 
 	var onlyConfidentialContract *sdk.Contract
@@ -179,9 +179,9 @@ Request [faucet funds here](https://faucet.rigil.suave.flashbots.net).
 
 ```go
 var (
-  // Target the Rigil RPC
+    // Target the Rigil RPC
 	exNodeNetAddr = "https://rpc.rigil.suave.flashbots.net"
-  // Insert a private key you own with some SUAVE ETH
+    // Insert a private key you own with some SUAVE ETH
 	fundedAccount = newPrivKeyFromHex("<your_priv_key>")
 	// The public address of a Kettle on Rigil
 	exNodeEthAddr = common.HexToAddress("0626a5c68af88e43613f7f7cf5879d60f50033b3")
