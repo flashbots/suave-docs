@@ -24,11 +24,13 @@ This guide will show you how to craft such transactions yourself.
 
 ## RPC and SDK
 
-In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods in the following ways:
+In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods.
 
-1. Two new fields - `IsConfidential` and `ExecutionNode` - have been added to the transaction arguments used in the `eth_sendTransaction` and `eth_call` methods.
-2. One new optional argument - `confidential_data` - has been added to `eth_sendRawTransaction`, `eth_sendTransaction` and `eth_call` methods.
-3. All RPCs that return transaction or receipt objects do so with type `SuaveTransaction`.
+1. Suave JSON-RPC has two modes of operation: regular and confidential. Which is activated depends on the truth value of `IsConfidential` in any request received.
+	- *Regular mode* is equivalent to the usual EVM.
+	- *Confidential mode* accesses additional precompiles, both directly and through a convenient [library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol).
+2. A new optional argument - `confidential_data` - is added to `eth_sendRawTransaction`, `eth_sendTransaction` and `eth_call` methods.
+3. All RPCs that return transaction or receipt objects will do so with type `SuaveTransaction`, a super set of regular Ethereum transactions.
 
 The [SUAVE SDK](https://github.com/flashbots/suave-geth/blob/main/suave/sdk/sdk.go) makes it easy to interact with the extended RPC and we will be using it in this guide.
 
@@ -231,17 +233,17 @@ If you're able to generate the necessary ABIs and bytecode, you should be able t
 
 You can also adapt any of this code to use the Rigil Testnet RPC, rather than your local development environment. 
 
-1. Request [faucet funds here](https://faucet.rigil.suave.flashbots.net)
+1. Request [faucet funds here](https://faucet.rigil.suave.flashbots.net).
 2. Change this code:
 
 ```go
 var (
-  // The address of the flashbots MEVM on Rigil
-	exNodeEthAddr = common.HexToAddress("0626a5c68af88e43613f7f7cf5879d60f50033b3")
-  // Target the Rigil RPC
-	exNodeNetAddr = "https://rpc.rigil.suave.flashbots.net"
-  // Insert a private key you own with some SUAVE ETH
-	fundedAccount = newPrivKeyFromHex("<your_priv_key>")
+    // Target the Rigil RPC
+    exNodeNetAddr = "https://rpc.rigil.suave.flashbots.net"
+    // Insert a private key you own with some SUAVE ETH
+    fundedAccount = newPrivKeyFromHex("<your_priv_key>")
+    // The public address of a Kettle on Rigil
+    exNodeEthAddr = common.HexToAddress("0626a5c68af88e43613f7f7cf5879d60f50033b3")
 )
 ```
 
