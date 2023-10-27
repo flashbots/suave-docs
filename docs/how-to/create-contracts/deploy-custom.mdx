@@ -171,17 +171,19 @@ And you should see the address of your custom contract printed in your terminal.
 
 ## 3. Deploy to Rigil
 
-Follow the same steps as listed above, but point your deploy script at the Rigil RPC after getting some faucet funds. You can request faucet funds by putting your address in the **#suave-hackathon** slack channel.
+Follow the same steps as listed above, but point your deploy script at the Rigil RPC after getting some faucet funds. 
+
+Request [faucet funds here](https://faucet.rigil.suave.flashbots.net).
 
 `deploy.go` should work as is, just adapt this block:
 
 ```go
 var (
-  // The address of the flashbots MEVM on Rigil
-	exNodeEthAddr = common.HexToAddress("0626a5c68af88e43613f7f7cf5879d60f50033b3")
   // Target the Rigil RPC
 	exNodeNetAddr = "https://rpc.rigil.suave.flashbots.net"
   // Insert a private key you own with some SUAVE ETH
 	fundedAccount = newPrivKeyFromHex("<your_priv_key>")
+	// The public address of a Kettle on Rigil
+	exNodeEthAddr = common.HexToAddress("0626a5c68af88e43613f7f7cf5879d60f50033b3")
 )
 ```
