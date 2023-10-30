@@ -24,13 +24,24 @@ This guide will show you how to craft such transactions yourself.
 
 ## RPC and SDK
 
-In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods.
+In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods. Some methods in the `eth_` namespace are overloaded to support confidential compute requests.
 
-1. Suave JSON-RPC has two modes of operation: regular and confidential. Which is activated depends on the truth value of `IsConfidential` in any request received.
-	- *Regular mode* is equivalent to the usual EVM.
-	- *Confidential mode* accesses additional precompiles, both directly and through a convenient [library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol).
-2. A new optional argument - `confidential_data` - is added to `eth_sendRawTransaction`, `eth_sendTransaction` and `eth_call` methods.
-3. All RPCs that return transaction or receipt objects will do so with type `SuaveTransaction`, a super set of regular Ethereum transactions.
+1. **eth_sendRawTransaction**
+
+Creates a new message call transaction or a contract creation for any signed `ConfidentialComputeRequest`.
+
+2. **eth_call**
+
+Executes a new message call immediately without creating a transaction on the block chain. It follows the same format as the default `eth_call` with two extra parameters:
+
+*Parameters*
+
+- `IsConfidential`: Set to true to execute as a confidential request and access the [`MEVM`](/technical/specs/rigil/mevm#precompiles) methods.
+- `ExecutionAddress`: `address` - (optional) The execution address that performs the execution.
+
+3. **eth_executionAddress**
+
+Returns the list of available addresses in the Kettle to execute the confidential compute request.
 
 The [SUAVE SDK](https://github.com/flashbots/suave-geth/blob/main/suave/sdk/sdk.go) makes it easy to interact with the extended RPC and we will be using it in this guide.
 
