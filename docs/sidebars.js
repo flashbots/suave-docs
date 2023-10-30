@@ -35,30 +35,30 @@ module.exports = {
         'technical/specs/rigil/README', 'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/kettle', 'technical/specs/rigil/bridge',
       ],
     },
-    {
-      type: 'category',
-      label: '⚡ Understanding MEV',
-      collapsed: false,
-      link: { type: 'doc', id: 'understand/index' },
-      items: [
-        'understand/meaning',
-        'understand/welfare',
-        'understand/power'
-      ],
-    },
-    {
-      type: 'category',
-      label: '🏴‍☠️ Join Us',
-      link: { type: 'doc', id: 'join/joining-suave' },
-      items: [
-        'join/code-of-conduct',
-      ],
-    },
-    {
-      "Policies": [
-        'policies/privacy', 'policies/terms-of-service', 'policies/prohibited-use-policy'
-      ]
-    },
+    // {
+    //   type: 'category',
+    //   label: '⚡ Understanding MEV',
+    //   collapsed: false,
+    //   link: { type: 'doc', id: 'understand/index' },
+    //   items: [
+    //     'understand/meaning',
+    //     'understand/welfare',
+    //     'understand/power'
+    //   ],
+    // },
+    // {
+    //   type: 'category',
+    //   label: '🏴‍☠️ Join Us',
+    //   link: { type: 'doc', id: 'join/joining-suave' },
+    //   items: [
+    //     'join/code-of-conduct',
+    //   ],
+    // },
+    // {
+    //   "Policies": [
+    //     'policies/privacy', 'policies/terms-of-service', 'policies/prohibited-use-policy'
+    //   ]
+    // },
     {
       type: 'link',
       label: 'Forum',

@@ -9,7 +9,7 @@ Use Node.js v18+
 Note: if you want to install the node packages from within a Docker container (recommended for security), then you can start it like this:
 
 ```sh
-docker run -p 3000:3000 --rm -it -w /mnt -v $(pwd):/mnt node:18 /bin/bash
+docker run -p 3000:3000 --name suave-docs --rm -it -w /mnt -v $(pwd):/mnt node:20 /bin/bash
 ```
 
 First create a copy of the environment file `.env.template` in the root of the codebase and rename it to `.env`
