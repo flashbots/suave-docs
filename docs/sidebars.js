@@ -4,7 +4,7 @@ module.exports = {
       type: 'category',
       label: '👋 Welcome',
       collapsed: false,
-      link: {type: 'doc', id: 'index'},
+      link: { type: 'doc', id: 'index' },
       items: [
         'novel-use-cases',
       ],
@@ -13,15 +13,16 @@ module.exports = {
       type: 'category',
       label: '🥷 How To',
       collapsed: false,
-      link: {type: 'doc', id: 'how-to/index'},
+      link: { type: 'doc', id: 'how-to/index' },
       items: [
         'how-to/run-suave', 'how-to/send-transactions',
-        {type: 'category',
-         label: 'Create Contracts',
-         items: [
-          'how-to/create-contracts/deploy-custom', 'how-to/create-contracts/confidential', 'how-to/create-contracts/ofa'
-         ]
-        }, 
+        {
+          type: 'category',
+          label: 'Create Contracts',
+          items: [
+            'how-to/create-contracts/deploy-custom', 'how-to/create-contracts/confidential', 'how-to/create-contracts/ofa'
+          ]
+        },
         'how-to/create-precompiles'
       ],
     },
@@ -29,16 +30,16 @@ module.exports = {
       type: 'category',
       label: '🤖 Technical Specs',
       collapsed: false,
-      link: {type: 'doc', id: 'technical/README'},
+      link: { type: 'doc', id: 'technical/README' },
       items: [
-        'technical/specs/rigil/README', 'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/computor', 'technical/specs/rigil/bridge',
+        'technical/specs/rigil/README', 'technical/specs/rigil/suave-chain', 'technical/specs/rigil/mevm', 'technical/specs/rigil/confidential-data-store', 'technical/specs/rigil/kettle', 'technical/specs/rigil/bridge',
       ],
     },
     {
       type: 'category',
       label: '⚡ Understanding MEV',
       collapsed: false,
-      link: {type: 'doc', id: 'understand/index'},
+      link: { type: 'doc', id: 'understand/index' },
       items: [
         'understand/meaning',
         'understand/welfare',
@@ -48,14 +49,14 @@ module.exports = {
     {
       type: 'category',
       label: '🏴‍☠️ Join Us',
-      link: {type: 'doc', id: 'join/joining-suave'},
+      link: { type: 'doc', id: 'join/joining-suave' },
       items: [
         'join/code-of-conduct',
       ],
     },
     {
       "Policies": [
-        'policies/privacy','policies/terms-of-service', 'policies/prohibited-use-policy'
+        'policies/privacy', 'policies/terms-of-service', 'policies/prohibited-use-policy'
       ]
     },
     {

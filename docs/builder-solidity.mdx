@@ -22,7 +22,7 @@ Builder solidity enables anyone to create contracts that specify exactly how the
 
 ## Open to All
 
-Builder solidity is not just for block builders, though. 
+Builder solidity is not just for block builders, though.
 
 Builder solidity contracts are a _uniform programming model for implementing every component of the [transaction supply network](https://frontier.tech/infinite-games)_, such that we can ensure that any value created is distributed well. An auction for blockspace is not very different from an auction for solving user preferences. We expect that mechanisms which work well for either will translate into many different use cases.
 
@@ -49,7 +49,7 @@ contract AnyBidContract {
 
 	function fetchBidConfidentialBundleData() public returns (bytes memory) {
 		require(Suave.isConfidential());
-		
+
 		bytes memory confidentialInputs = Suave.confidentialInputs();
 		return abi.decode(confidentialInputs, (bytes));
 	}
@@ -60,7 +60,7 @@ contract AnyBidContract {
 }
 ```
 
-Builder solidity contracts are used to define the public logic that is used for confidential computation. Using a precompile like `confidentialInputs` allows [SUAVE computors](/technical/specs/rigil/computor) to access encrypted data from users, do stuff with it privately and only reveal the results, not the inputs. 
+Builder solidity contracts are used to define the public logic that is used for confidential computation. Using a precompile like `confidentialInputs` allows [SUAVE Kettles](/technical/specs/rigil/kettle) to access encrypted data from users, do stuff with it privately and only reveal the results, not the inputs.
 
 This ensures confidentiality **and** improves efficiency, enabling computation that is not possible on blockchains like Ethereum.
 
