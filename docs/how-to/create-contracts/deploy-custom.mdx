@@ -63,7 +63,7 @@ contract onlyConfidential {
 }
 ```
 
-This contract uses three new [precompiles](/technical/specs/rigil/mevm#precompiles): 
+This contract uses three new [precompiles](/technical/specs/rigil/precompiles): 
 
 1. `isConfidential` to ensure that only the MEVM(s) specified by the user can fetch the confidential data in transactions to this contract.
 2. `confidentialInputs` to fetch the confidential data that was submitted along with the transaction that the user sent which specified this contract.
