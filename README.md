@@ -2,7 +2,7 @@
 
 This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
 
-## Installation
+## Getting started
 
 Use Node.js v18+
 
@@ -10,29 +10,38 @@ Note: if you want to install the node packages from within a Docker container (r
 
 ```sh
 docker run -p 3000:3000 --name suave-docs --rm -it -w /mnt -v $(pwd):/mnt node:20 /bin/bash
+
+# shortcut:
+make docker
 ```
 
-First create a copy of the environment file `.env.template` in the root of the codebase and rename it to `.env`
+First create a copy of the environment file `.env.template` in the root of the codebase and rename it to `.env`:
 
-Then run the following:
+```bash
+cp .env.template .env
+```
 
-```console
+Then install the dependencies and serve the content:
+
+```bash
+# install dependencies
 yarn install
-```
 
-## Local Development
-
-```console
+# start dev-server
 yarn start
+
+# doing the same in Docker:
+make docker-deps
+make docker-start
 ```
 
-This command starts a local development server (and may open up a browser window). Some changes are reflected live without having to restart the server.
+Changes are reflected live without having to restart the server.
 
 You can open the local docs at [http://localhost:3000/docs](http://localhost:3000/docs)
 
 ## Build
 
-```console
+```bash
 yarn build
 ```
 
@@ -40,6 +49,4 @@ This command generates static content into the `build` directory and can be serv
 
 ## Deployment
 
-Create a PR and once merged, Github actions automatically deploy it.
-
-The docs use Vercel for hosting, and deployment is done by Vercel on any merge into the master branch.
+The docs use Vercel for hosting, and deployment is done by Vercel on any merge into the main branch.
