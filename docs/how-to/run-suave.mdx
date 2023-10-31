@@ -34,10 +34,28 @@ git clone https://github.com/flashbots/suave-geth.git
 ```bash
 cd suave-geth/
 ```
-3. Run SUAVE (depending on your docker setup, you may need to run this as `sudo`):
+3. Run SUAVE:
 ```bash
 make devnet-up 
 ```
+
+<details>
+  <summary>1. Docker permission errors</summary>
+  <div>
+    <div>
+      <div>
+        It is likely best to create a new user group for Docker, rather than run the above command as <code>sudo</code>. You can do by running:<br/><br/>
+        <code>
+        sudo usermod -aG docker $USER
+        </code><br/>
+        <code>
+        newgrp docker
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+
 
 ### Optional testing
 
@@ -69,10 +87,40 @@ You can also navigate to [http://localhost:8080](http://localhost:8080) in your 
 make devnet-down
 ```
 
-### Common problems
+### Troubleshooting
 
 <details>
-  <summary>1. Docker not running</summary>
+  <summary>1. Go permission errors</summary>
+  <div>
+    <div>
+      <div>
+        If you are seeing:<br/>
+        <code>
+        "cp: cannot create regular file '/bin/suave': Permission denied"
+        </code><br/><br/>
+        it is most likely because you have not set your GOPATH correctly. You can do so by running:<br/><br/>
+        <code>
+        export GOPATH=$HOME/go
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>2. Missing packages</summary>
+  <div>
+    <div>
+      <div>
+        If you have set up a new machine to run through this, you'll also need to install Make and Go:<br/>
+        <code>
+        sudo apt install make golang-go
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>2. Docker not running</summary>
   <div>
     <div>
       <div>
@@ -83,13 +131,17 @@ make devnet-down
         You can check the current status with:<br/>
         <code>
         sudo systemctl status docker
+        </code><br/><br/>
+        If you installed Docker and still run into issues wit docker-compose, you can try:<br/>
+        <code>
+        sudo apt install docker-compose
         </code>
       </div>
     </div>
   </div>
 </details>
 <details>
-  <summary>2. Unsupported version</summary>
+  <summary>3. Unsupported version</summary>
   <div>
     <div>
       <div>
@@ -97,7 +149,7 @@ make devnet-down
         <code>
         ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
         </code><br/><br/>
-        Simply go to the file in <code>/suave/devenv/docker-compose.yml</code> and change the first line to use <code>3.3</code> rather than <code>3.8</code>.
+        Go to the file in <code>/suave/devenv/docker-compose.yml</code> and change the first line to use <code>3.3</code> rather than <code>3.8</code>.
       </div>
     </div>
   </div>
@@ -147,7 +199,7 @@ If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.eth
 You can attach to the usual Geth javascript console to get any interactive data you need with:
 
 ```bash
-./build/bin/suave attach ./suave/geth.ipc
+./build/bin/suave attach /tmp/geth.ipc
 ```
 
 From within the console, you can run:

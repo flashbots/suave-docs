@@ -58,7 +58,7 @@ functions:
           type: Bid
 ```
 
-There are three to-level objects: `types`, `structs` and `functions`. In this guide, we will focus on the `functions`, as adding a new precompile will most often entail writing a new function.
+There are three top-level objects: `types`, `structs` and `functions`. In this guide, we will focus on the `functions`, as adding a new precompile will most often entail writing a new function.
 
 If you can specify the function's name, the address its logic is deployed at on SUAVE, and what form you expect the inputs and output to take, then our codegen tool will automatically generate both the Solidity and Go bindings required to make your precompile work.
 
@@ -107,9 +107,9 @@ Then, run our code generator:
 $ go run suave/gen/main.go --write
 ```
 
-If your `yaml` additions have no errors and the `--write` flag is set, the bindings will be regenerated [here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) and [here](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go).
+If your `yaml` additions have no errors and the `--write` flag is set, the bindings will be (re)generated [here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) and [here](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go).
 
-A new `Add` function will have been created will have been created in the interface, which looks like:
+A new `Add` function will have been created in the interface, which looks like:
 
 ```go
 type SuaveRuntime interface {
@@ -119,7 +119,9 @@ type SuaveRuntime interface {
 }
 ```
 
-You will now need to write the logic required for your precompile to work as expected based on this generated skeleton. You can do this in the specific `suaveRuntime` struct generated in the same `contracts_suave_runtime_adapter.go` file. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
+You will now need to write the logic required for your precompile to work as expected based on this generated skeleton. 
+
+You can do this in `contracts_suave.go`. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
 
 ````go
 func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
