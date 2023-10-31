@@ -36,7 +36,7 @@ cd suave-geth/
 ```
 3. Run SUAVE (depending on your docker setup, you may need to run this as `sudo`):
 ```bash
-make devnet-up 
+make devnet-up
 ```
 
 ### Optional testing
@@ -61,8 +61,6 @@ Step 3: Send backrun
 ```
 
 If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
-
-You can also navigate to [http://localhost:8080](http://localhost:8080) in your browser to see a local block explorer.
 
 5. You can stop your docker containers with:
 ```bash
@@ -121,7 +119,7 @@ make suave
 ```
 2. Run this command:
 ```bash
-./build/bin/suave --suave.dev 
+./build/bin/suave --suave.dev
 ```
 
 ### What to do next
@@ -142,7 +140,7 @@ You can also run any familiar Geth command you like. Start by generating a new a
 
 If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
 
-#### Using the console 
+#### Using the console
 
 You can attach to the usual Geth javascript console to get any interactive data you need with:
 

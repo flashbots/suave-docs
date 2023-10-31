@@ -16,9 +16,15 @@ jobs:
           token: ${{ secrets.SPECS_TOKEN }}
           submodules: recursive
 
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ^1.21
+
       - uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '20.x'
+
       - name: Test build
         env:
           TARGET_URL: "https://docs.flashbots.net"
@@ -26,8 +32,17 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-      # - name: Check for broken links
-      #   run: |
-      #     cd build
-      #     npm install -g linkinator
-      #     linkinator "**/*.html" --recurse --timeout 3000 --concurrency 10 --retry -s https://dune.com/ChainsightAnalytics,'https://.*etherscan.io/.*','https://twitter.com.*','https://.*imgur.com.*'
+
+      - name: Check for broken links
+        run: |
+          go install github.com/raviqqe/muffet/v2@latest
+
+          echo -e "BASE_URL=/docs/\nTARGET_URL=http://localhost:3000" > .env
+          yarn serve &
+          sleep 5
+          echo "Checking for broken links..."
+          muffet http://localhost:3000/docs/ \
+            --exclude="notion[.]so" \
+            -e "github[.]com/flashbots/suave-specs" \
+            -e "github[.]com/flashbots/suave-bridge" \
+            -e "algolia[.]net"
