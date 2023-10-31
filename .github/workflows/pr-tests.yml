@@ -11,23 +11,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.SPECS_TOKEN }}
           submodules: recursive
 
-      - uses: actions/setup-node@v1
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
-          node-version: '16.x'
-      - name: Test build
+          go-version: ^1.21
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Building the docs
         env:
-          TARGET_URL: "https://docs.flashbots.net"
-          BASE_URL: "/"
+          TARGET_URL: "http://localhost:3000"
+          BASE_URL: "/docs/"
+        run: yarn build
+
+      - name: Check for broken links
+        env:
+          TARGET_URL: "http://localhost:3000"
+          BASE_URL: "/docs/"
         run: |
-          yarn install --frozen-lockfile
-          yarn build
-      # - name: Check for broken links
-      #   run: |
-      #     cd build
-      #     npm install -g linkinator
-      #     linkinator "**/*.html" --recurse --timeout 3000 --concurrency 10 --retry -s https://dune.com/ChainsightAnalytics,'https://.*etherscan.io/.*','https://twitter.com.*','https://.*imgur.com.*'
+          go install github.com/raviqqe/muffet/v2@latest
+
+          yarn serve &
+          sleep 5
+
+          echo "Checking for broken links..."
+          muffet --version
+          muffet http://localhost:3000/docs/ \
+            --ignore-fragments \
+            --skip-tls-verification \
+            --exclude="notion[.]so" \
+            -e "github[.]com/flashbots/suave-specs" \
+            -e "github[.]com/flashbots/suave-bridge" \
+            -e "algolia[.]net" \
+            -e "arxiv[.]org" \
+            -e "docs[.]google[.]com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw" \
+            -e "pathoram[.]jimdofree[.]com/files/" \
+            -e "flashbots[.]notion[.]site"
