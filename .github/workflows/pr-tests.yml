@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.SPECS_TOKEN }}
           submodules: recursive
@@ -21,9 +21,10 @@ jobs:
         with:
           go-version: ^1.21
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
+          cache: 'yarn'
 
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
@@ -48,10 +49,12 @@ jobs:
           muffet --version
           muffet http://localhost:3000/docs/ \
             --ignore-fragments \
+            --skip-tls-verification \
             --exclude="notion[.]so" \
             -e "github[.]com/flashbots/suave-specs" \
             -e "github[.]com/flashbots/suave-bridge" \
             -e "algolia[.]net" \
+            -e "arxiv[.]org" \
             -e "docs[.]google[.]com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw" \
             -e "pathoram[.]jimdofree[.]com/files/" \
             -e "flashbots[.]notion[.]site"
