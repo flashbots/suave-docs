@@ -22,7 +22,7 @@ The [SUAVE core team ideas are here](https://www.notion.so/flashbots/Hackathon-I
 
 Our research team suggests that [interoperability with web2 services may be one key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design, given that these use cases have a big total addressable market (TAM), and no cold-start problem.
 
-They suggest thinking about [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 services as a fun, productive use of DarkDAOs. That is, instead of building collusion rings to buy votes, we can build collusion rings to allow permissionless interaction with web2. 
+They suggest thinking about [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 services as a fun, productive use of DarkDAOs. That is, instead of building collusion rings to buy votes, we can build collusion rings to allow permissionless interaction with web2.
 
 ## Start here
 
@@ -32,7 +32,7 @@ Ticketmasters sell things like Taylor Swift concert tickets. Currently, their UX
 
 An application for this would be similar to ad auctions, but the latency requirements are not as brutal, and can be relaxed to perhaps even a few minutes.
 
-Frens from Pantera built an example [here](https://github.com/lstephanian/SUIFT). The basic idea:
+The basic idea:
 
 1. Deploy NFT contract on ETH L1. Accepts face value of tickets in ETH.
 2. Once I have sent face value of ticket to NFT contract, I send my real, confidential bid to the Bid contract on SUAVE. This is just a number.
@@ -44,7 +44,7 @@ Frens from Pantera built an example [here](https://github.com/lstephanian/SUIFT)
 1. Deadman switch. A contract that posts a message on the L1 if it doesn’t get (stealth) heartbeats.
 
 2. Liquidations based on sensitive information, like ZK Collateral. Check someone’s ZK Credential of some kind (twitter account, etc.) and keep it in SUAVE [Confidential Data Storage](/technical/specs/rigil/confidential-data-store). Let other people bid on revealing it, or reveal it in case of undercollateralization.
-    1. Not directly related, but revealing information in the case of "bad behaviour" has wide applicability, the most interesting of which is likely [Rate Limiting Nullifiers](https://vac.dev/publications), which could be useful for the SUAVE chain design itself. 
+    1. Not directly related, but revealing information in the case of "bad behaviour" has wide applicability, the most interesting of which is likely [Rate Limiting Nullifiers](https://vac.dev/publications), which could be useful for the SUAVE chain design itself.
 
 3. Bribe Twitter accounts to post certain tweets in certain time periods. Check results and post to chain with an oracle. Hide what the content the account was bribed to say was using [Confidential Data Storage](/technical/specs/rigil/confidential-data-store).
 
@@ -62,7 +62,7 @@ This likely entails a simple builder solidity contract, with working Forge and V
 
 We take inspiration from [Filecoin actors](https://docs.filecoin.io/basics/the-blockchain/actors/) and may wish to replicate something like this to make DevEx a breeze.
 
-### Generalized intents 
+### Generalized intents
 
 Deploy [this](https://blog.essential.builders/introducing-erc-7521-generalized-intents/) to SUAVE. Do something intense with it.
 
@@ -76,7 +76,7 @@ Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-s
 
 1. We know that UniswapV2 and Compound are interesting when they’re ported to TEE beacuse of how Sienna Swap and [Sienna Lend on secret network](https://sienna.network/lend/) are cool. [FuturesMEX](https://securitylab.disi.unitn.it/lib/exe/fetch.php?media=sp18.pdf) is quite similar to this too.
 2. Write path ORAM in [builder solidity](/builder-solidity). It should be [easy](https://pathoram.jimdofree.com/files/)
-3. Steal any and all ideas from contestants in [Oasis](https://oasisprotocol.org/p4w3-hackathon) and [Phala](https://github.com/Phala-Network/amsterDOT-2022) hackathons. 
+3. Steal any and all ideas from contestants in [Oasis](https://oasisprotocol.org/p4w3-hackathon) and [Phala](https://github.com/Phala-Network/amsterDOT-2022) hackathons.
 
 ### Telegram bot
 

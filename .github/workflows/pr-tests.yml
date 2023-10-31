@@ -42,7 +42,11 @@ jobs:
           sleep 5
           echo "Checking for broken links..."
           muffet http://localhost:3000/docs/ \
+            --ignore-fragments \
             --exclude="notion[.]so" \
             -e "github[.]com/flashbots/suave-specs" \
             -e "github[.]com/flashbots/suave-bridge" \
-            -e "algolia[.]net"
+            -e "algolia[.]net" \
+            -e "docs[.]google[.]com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw" \
+            -e "pathoram[.]jimdofree[.]com/files/" \
+            -e "flashbots[.]notion[.]site"
