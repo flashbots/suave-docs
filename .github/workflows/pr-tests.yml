@@ -25,22 +25,27 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Test build
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Building the docs
         env:
-          TARGET_URL: "https://docs.flashbots.net"
-          BASE_URL: "/"
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+          TARGET_URL: "http://localhost:3000"
+          BASE_URL: "/docs/"
+        run: yarn build
 
       - name: Check for broken links
+        env:
+          TARGET_URL: "http://localhost:3000"
+          BASE_URL: "/docs/"
         run: |
           go install github.com/raviqqe/muffet/v2@latest
 
-          echo -e "BASE_URL=/docs/\nTARGET_URL=http://localhost:3000" > .env
           yarn serve &
           sleep 5
+
           echo "Checking for broken links..."
+          muffet --version
           muffet http://localhost:3000/docs/ \
             --ignore-fragments \
             --exclude="notion[.]so" \
