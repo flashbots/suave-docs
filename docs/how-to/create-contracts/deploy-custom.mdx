@@ -22,14 +22,14 @@ This focus of this first guide **how to to deploy custom contracts**. The follow
 
 We have a number of example contracts already written in [`suave/sol/standard_peekers`](https://github.com/flashbots/suave-geth/tree/main/suave/sol/standard_peekers) to give you inspiration.
 
-Create a new file in that directory called `test.sol`:
+Create a new file in that directory called `OnlyConfidential.sol`:
 
 ```solidity
 pragma solidity ^0.8.8;
 
 import "../libraries/Suave.sol";
 
-contract onlyConfidential {
+contract OnlyConfidential {
 
 	event SimResultEvent(
 		uint64 egp
@@ -45,7 +45,7 @@ contract onlyConfidential {
 
 	// note: because of confidential execution, 
     // you will not see your input as input to the function
-	function helloWorld() external view {
+	function helloWorld() external {
 		// 0. ensure confidential execution
 		require(Suave.isConfidential());
 
@@ -73,29 +73,21 @@ This contract uses three new [precompiles](/technical/specs/rigil/precompiles):
 
 There are currently 3 steps required to deploy a custom contract. This will change!
 
-1. Use Remix or your other favourite tool to generate the abi and bytecode, then paste this into the `suave/artifacts` folder.
-2. Extend the `suave/e2e/contracts.go` file with the name and location of your contract, ABI, and bytecode.
-3. Edit the [contract deployment code](/how-to/send-transactions#2-deploy-a-contract) from the previous guide.
+1. Generate the necessary artifacts. This can be done by running:
 
-Using the contract above as an example, create a new folder called `test.sol` in the `suave/artifacts` directory. Create a file in you new folder called `onlyConfidential.json` and structure it like this:
-
-```json
-{
-    "abi": ["<copy_from_remix>"],
-    "deployedBytecode": "<copy_from_remix>",
-    "bytecode": "<same_as_deployedBytecode>"
-}
+```bash
+suave/scripts/contracts.sh build
 ```
 
-Extend `suave/e2e/contracts.go` by adding to the `var` block which declares all the contracts:
+2. Extend the `suave/e2e/contracts.go` by adding to the `var` block which declares all the contracts:
 
 ```go
-OnlyConfidentialContract  = newArtifact("test.sol/onlyConfidential.json")
+OnlyConfidentialContract  = newArtifact("OnlyConfidential.sol/OnlyConfidential.json")
 ```
 
 > **Make sure to capitalize `OnlyConfidentialContract` so that it is exported from this file.**
 
-Edit [`suave/devenv/cmd/deploy.go`](/how-to/send-transactions#2-deploy-a-contract) from the previous guide to look like this:
+3. Edit the [contract deployment code](/how-to/send-transactions#2-deploy-a-contract) from the previous guide to look like this:
 
 ```go
 package main

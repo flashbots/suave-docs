@@ -34,8 +34,6 @@ Creates a new message call transaction or a contract creation for any signed `Co
 
 Executes a new message call immediately without creating a transaction on the block chain. It follows the same format as the default `eth_call` with two extra parameters:
 
-*Parameters*
-
 - `IsConfidential`: Set to true to execute as a confidential request and access the [`MEVM`](/technical/specs/rigil/precompiles) methods.
 - `ExecutionAddress`: `address` - (optional) The execution address that performs the execution.
 

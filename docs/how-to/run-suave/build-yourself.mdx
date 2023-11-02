@@ -1,0 +1,90 @@
+---
+title: Build SUAVE yourself
+description: Start running SUAVE and participating in the chain itself
+keywords:
+  - build
+  - suave
+  - local
+  - binaries
+---
+
+If you'd like to run the suave-geth binaries yourself, this is the guide for you.
+
+### What you need
+
+1. [Install go](https://go.dev/doc/install).
+
+### What to do
+
+1. Clone the repo and build SUAVE:
+```bash
+git clone https://github.com/flashbots/suave-geth.git
+cd suave-geth
+make suave
+```
+2. Run this command:
+```bash
+./build/bin/suave --suave.dev
+```
+
+### What to do next
+
+In another terminal, you can run:
+
+```bash
+go run suave/devenv/cmd/main.go
+```
+
+The output should be roughly similar to the below (addresses, txns, and ids will differ):
+
+```bash
+suave-geth$ go run suave/devenv/cmd/main.go
+Step 0: Create and fund test accounts
+- Funded test account: 0x66d5a8D6B34329c0639071275b3d78D29e11EbC6 (100000000)
+Step 1: Deploy mev-share contract
+- Mev share contract deployed: 0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17
+Step 2: Send bid
+- Bid sent at txn: 0xb49debcdead2b306d6ab6282b88fdad7c8d6a33d87df34b79f56d141eae7c08a
+- Bid id: 30bbc65298f24e67aaf5c95bf5f0686c
+Step 3: Send backrun
+- Backrun sent at txn: 0xcf7880e61e94aaab48c60655c321716ecab6edab752586448b0412e93a969889
+- Backrun bid id: db98b83d02694fc2b13c042ad22c233
+```
+
+#### Using the console
+
+You can also run any familiar Geth command you like. Start by generating a new account:
+
+```bash
+./build/bin/suave --suave account new
+```
+
+If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
+
+You can attach to the usual Geth javascript console to get any interactive data you need with:
+
+```bash
+./build/bin/suave attach /tmp/geth.ipc
+```
+
+From within the console, you can run:
+
+```bash
+eth.accounts[0]
+```
+
+Which should return `"0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f"` which is the account we unlocked when starting the MEVM.
+
+```bash
+eth.getBalance(eth.accounts[0])
+```
+
+Should return a really large number `1.1579...e+77`. If you try `eth.getBalance("<your_new_address>")` instead, you should see `0`.
+
+If you try:
+
+```bash
+web3.eth.blockNumber
+```
+
+It should tell you the block height of your local network.
