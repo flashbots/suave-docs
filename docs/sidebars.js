@@ -15,7 +15,14 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'how-to/index' },
       items: [
-        'how-to/run-suave', 'how-to/send-transactions',
+        {
+          type: 'category',
+          label: 'Run SUAVE Locally',
+          link: { type: 'doc', id: 'how-to/run-suave/index' },
+          items: [
+            'how-to/run-suave/with-docker', 'how-to/run-suave/build-yourself'
+          ]
+        }, 'how-to/send-transactions',
         {
           type: 'category',
           label: 'Create Contracts',

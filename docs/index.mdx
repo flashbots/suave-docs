@@ -30,11 +30,15 @@ Here are all the key terms you'll find in these docs. The names and descriptions
 | ---  | --- |
 | SUAPP | SUAVE application. For now, a smart contract that uses SUAVE precompiles. Frontend optional. |
 | Rigil Testnet | The current test network. Naming convention follows the stars in the Alpha Centauri system. |
+| SUVE Chain | a fork of Ethereum designed to facilitate credible, confidential execution in MEV use cases. |
 | Kettle | The main logical actor in the SUAVE protocol. We don't call it a "node" because it's at least two nodes (and some other services) in a trenchcoat. |
-| MEVM | Modified EVM, where the modifications specifically enable credible offchain computation. |
+| MEVM | Modified EVM, where the modifications enable credible, confidential computation. |
 | Precompile | A convenient way to enable direct execution of predefined functions in the EVM, meant to enable more interesting SUAPPs. |
-| Confidential Compute Request (CCR) | The initial object users send to a Kettle, via an RPC. Made up of an ordinary transaction + confidential inputs + pubkey of Kettle(s) that can decrypt it. |
+| Confidential Compute Request (CCR) | A user request to Suave that contains (1) information such as `to` address and `calldata`, (2) confidential inputs, and (3) a list of SUAPPs and Kettles allowed to operate on confidential inputs. |
 | SUAVE transaction | The transaction object that is broadcast on the SUAVE Chain. Contains the result of a CCR in its calldata + the signature of the Kettle(s) which computed said result. |
 | SUAVE Chain | A fork of Ethereum, currently running Clique PoA consensus for rapid iteration. Main purpose is to reach (and maintain) consensus about smart contract code. |
-| Confidential Data Store | A secure and privacy-focused key-value storage system. | 
+| Confidential Data Store | A privacy-centric networked storage system specifically tailored to enable programmable privacy in SUAPPs. | 
 | Bid | An artefact from early development, which is now just a Data Identifier used when operating on confidential data. For instance, a SUAVE transaction can emit logs on chain which reference the `bidId` from a CCR without revealing the confidential inputs to that CCR. |
+| Peekers | Contracts with the correct permissions - granted by users in CCRs - to get and put data in the Confidential Data Store |
+| Builder solidity | solidity with access to precompiles that help facilitate the processing of transactions and intents. |
+| RPC | Remote Procedure Call which, in Rigil, receives user transactions, moves confidential inputs to the Confidential Data Store, and passes CCRs to MEVM. |
