@@ -88,3 +88,36 @@ web3.eth.blockNumber
 ```
 
 It should tell you the block height of your local network.
+
+### Troubleshooting
+
+<details>
+  <summary>1. Go permission errors</summary>
+  <div>
+    <div>
+      <div>
+        If you are seeing:<br/>
+        <code>
+        "cp: cannot create regular file '/bin/suave': Permission denied"
+        </code><br/><br/>
+        it is most likely because you have not set your GOPATH correctly. You can do so by running:<br/><br/>
+        <code>
+        export GOPATH=$HOME/go
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>2. Missing packages</summary>
+  <div>
+    <div>
+      <div>
+        If you have set up a new machine to run through this, you'll also need to install Make and Go:<br/>
+        <code>
+        sudo apt install make golang-go
+        </code>
+      </div>
+    </div>
+  </div>
+</details>

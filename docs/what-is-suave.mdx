@@ -14,13 +14,7 @@ keywords:
 
 SUAVE - the *Single Unifying Auction for Value Expression* - is a platform for building better mechanisms (such as OFAs and block builders) in a decentralized and private way.
 
-SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
-
-## Unified, decentralized
-
-After [formalizing the threat posed by MEV](https://arxiv.org/abs/1904.05234), and creating [MEV-Geth](https://github.com/flashbots/mev-geth) to begin addressing it, [Flashbots](https://medium.com/flashbots/frontrunning-the-mev-crisis-40629a613752﻿) has collaborated with many people and organizations to build neutral, open-source software like [MEV-Boost](https://github.com/flashbots/mev-boost) and protocols like [MEV-Share](https://github.com/flashbots/MEV-Share). Our work has prevented the worst effects of MEV, though many problems remain.
-
-SUAVE is our means of _keeping block building decentralized_ by creating an _open marketplace for mechanisms_, which we call "SUAPPs". A SUAPP is an application deployed on SUAVE which requires one (or many) of the following:
+SUAVE is designed as an open marketplace for mechanisms, which we call "SUAPPs". A SUAPP is an application deployed on SUAVE which requires one (or many) of the following:
 
 1. **private data**, e.g., auctions, block building
 2. **coordination within block times**, e.g., block building, trade routing and filling
@@ -28,12 +22,42 @@ SUAVE is our means of _keeping block building decentralized_ by creating an _ope
 4. **commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
 5. **too much gas to do on-chain** because of how much compute they use.
 
-Any SUAPP that strikes a meaningful balance between revenue optimality and efficiency will have broad application. SUAVE is a blockchain for many such applications and so exhibits second-order effects. For instance, keeping block building decentralized by creating an open marketplace for mechanisms could result in SUAVE being an effective, unified sequencing layer for other blockchains.
+## What SUAVE is not
 
-We expect that SUAVE will find increasingly wider application as more people build better mechanisms with it.
+SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
 
-## About Flashbots
+SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise depend upon Ethereum for its security. 
 
-Our primary focus is to enable a permissionless, transparent, and fair ecosystem for MEV. We achieve this in three ways: _Illuminate the Dark Forest_, _Democratize Extraction_, and _Distribute Benefits_.
+## What is different about SUAVE
 
-You can interact with Flashbots on our [Discourse forum](https://collective.flashbots.net/) or in [Discord](https://discord.gg/7hvTycdNcK). Our work is open source and you can follow our progress in each [Github repository](https://github.com/flashbots/).
+1. SUAVE is a fork of Geth, with additional precompiles for MEV applications (_SUAPPs_) and a modified runtime to enable confidential computation (the _MEVM_).
+2. Contracts are still written in Solidity, and can be extended with the new precompiles above. We call this _builder solidity_.
+3. Transactions have been altered to enable _confidential compute requests_.
+    1. All the Ethereum JSON RPC methods are there, but some are extended, like `eth_call` and `eth_sendRawTransaction`.
+    2. The type returned by the SUAVE JSON RPC is always a _SUAVE transaction_.
+    3. In practice, deploying contracts is the same (and can be done from familiar tools like Remix or Forge), but sending transactions and handling their responses requires custom code, for which we have developed two SDKs, one in Go and another in typescript.
+4. We call the primary protocol actor a _Kettle_, because it is a modified version of a Geth node + an extended RPC + a confidential data store.
+5. The _confidential compute requests_ contained in the extended transactions above can be encrypted for specific actors (i.e. Kettles and/or other contracts), which enables _programmable privacy_. 
+6. A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or _hints_, on the SUAVE chain itself. 
+    1. This means the programming model and how to think about state transitions both differ from what you may be used to.
+    2. These differences are best illustrated via practical examples, which you can find in our [how to guides](/how-to).
+
+## Important Terms 
+
+Here are all the key terms you'll find in these docs. The names and descriptions will evolve as the software does.
+
+| Term | Description |
+| ---  | --- |
+| Rigil Testnet | The current test network. Naming convention follows the stars in the Alpha Centauri system. |
+| SUAPP | SUAVE application. For now, a smart contract that uses SUAVE precompiles. Frontend optional. |
+| SUAVE Chain | A fork of Ethereum, currently running Clique PoA consensus for rapid iteration. Main purpose is to reach (and maintain) consensus about smart contract code. |
+| Kettle | Accepts and processes confidential compute requests and maintains the SUAVE chain; the logical unit of the SUAVE network and main protocol actor. |
+| MEVM | Modified EVM, where the modifications enable credible, confidential computation. |
+| Precompile | A convenient way to enable direct execution of predefined functions in the EVM, meant to enable more interesting SUAPPs. |
+| Confidential Compute Request (CCR) | A user request to Suave that contains (1) information such as `to` address and `calldata`, (2) confidential inputs, and (3) a list of SUAPPs and Kettles allowed to operate on confidential inputs. |
+| SUAVE transaction | The transaction object that is broadcast on the SUAVE Chain. Contains the result of a CCR in its calldata + the signature of the Kettle(s) which computed said result. |
+| Confidential Data Store | A privacy-centric networked storage system specifically tailored to enable programmable privacy in SUAPPs. | 
+| Bid | An artefact from early development, which is now just a Data Identifier used when operating on confidential data. For instance, a SUAVE transaction can emit logs on chain which reference the `bidId` from a CCR without revealing the confidential inputs to that CCR. |
+| Peekers | Contracts with the correct permissions - granted by users in CCRs - to get and put data in the Confidential Data Store |
+| Builder solidity | Solidity with access to precompiles that help facilitate the processing of transactions and intents. |
+| RPC | Remote Procedure Call which (in Rigil) receives user transactions, moves confidential inputs to the Confidential Data Store, and passes CCRs to MEVM. |
