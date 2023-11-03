@@ -45,7 +45,6 @@ module.exports = {
         'technical/specs/rigil/precompiles',
         'technical/specs/rigil/confidential-data-store',
         'technical/specs/rigil/kettle',
-        'technical/specs/rigil/bridge',
       ],
     },
     // {
