@@ -18,7 +18,7 @@ In either case, you can cause a series of transactions to occur by running:
 go run suave/devenv/cmd/main.go
 ```
 
-[[🔗source](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go)]  
+[[🔗source](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go)]
 
 This guide will show you how to craft such transactions yourself.
 
@@ -43,7 +43,7 @@ Returns the list of available addresses in the Kettle to execute the confidentia
 
 The [SUAVE SDK](https://github.com/flashbots/suave-geth/blob/main/suave/sdk/sdk.go) makes it easy to interact with the extended RPC and we will be using it in this guide.
 
-## 1. Fund a local account
+## Fund a local account
 
 Create a new file in `suave/devenv/cmd` called `transactions.go`:
 
@@ -116,7 +116,7 @@ func fundAccount(clt *sdk.Client, to common.Address, value *big.Int) error {
 	return nil
 }
 
-// General types and methods we need for the above to work as we want it to, 
+// General types and methods we need for the above to work as we want it to,
 // nothing SUAVE specific
 type privKey struct {
 	priv *ecdsa.PrivateKey
@@ -151,7 +151,7 @@ go run suave/devenv/cmd/transactions.go
 
 The important parts to note are the `SendTransaction` method, and the way the balance of a given account is fetched via the `RPC()` method, both available in the SDK. Using this pattern, you should be able to send most of the transactions you wish to, as well as fetch information about other accounts or transactions as is necessary.
 
-## 2. Deploy a contract
+## Deploy a contract
 
 We've written a number of example smart contracts to help get you started thinking about what's possible. For this guide, we'll stick to deploying one of these examples to keep things simple.
 
@@ -234,13 +234,13 @@ go run suave/devenv/cmd/deploy.go
 
 You should see the address of your new example contract printed in the terminal.
 
-The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`. 
+The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`.
 
 If you're able to generate the necessary ABIs and bytecode, you should be able to deploy any contract you like using the above pattern.
 
-## 3. Use Rigil Testnet RPC
+## Use Rigil Testnet RPC
 
-You can also adapt any of this code to use the Rigil Testnet RPC, rather than your local development environment. 
+You can also adapt any of this code to use the Rigil Testnet RPC, rather than your local development environment.
 
 1. Request [faucet funds here](https://faucet.rigil.suave.flashbots.net).
 2. Change this code:
