@@ -56,3 +56,11 @@ This command generates static content into the `build` directory and can be serv
 ## Deployment
 
 The docs use Vercel for hosting, and deployment is done by Vercel on any merge into the main branch.
+
+## Icons
+
+If you want to use icons, best copy the SVG from one of these:
+
+- https://feathericons.com/
+- https://boxicons.com/
+- https://icons.getbootstrap.com/
