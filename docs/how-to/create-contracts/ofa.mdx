@@ -43,8 +43,8 @@ Suave.Bid memory bid = Suave.newBid(
 	bidAllowedStores, 
 	"mevshare:v0:unmatchedBundles"
 );
-Suave.confidentialStoreStore(bid.id, "mevshare:v0:ethBundles", bundleData);
-Suave.confidentialStoreStore(bid.id, "mevshare:v0:ethBundleSimResults", abi.encode(egp));
+Suave.confidentialStore(bid.id, "mevshare:v0:ethBundles", bundleData);
+Suave.confidentialStore(bid.id, "mevshare:v0:ethBundleSimResults", abi.encode(egp));
 ```
 
 The term "bid" is an artefact of earlier versions of suave-geth. Here, it is a general data identifier used when operating on confidential data.
@@ -56,19 +56,19 @@ Any searcher can listen for these events and use them to try and match backrun t
 When the confidential compute request comes from a searcher looking to backrun a transaction (using the `newMatch` function), the MEV-Share SUAPP also merges the bids involved and stores those merged bids:
 
 ```solidity
-Suave.confidentialStoreStore(bid.id, "mevshare:v0:mergedBids", abi.encode(bids));
+Suave.confidentialStore(bid.id, "mevshare:v0:mergedBids", abi.encode(bids));
 ```
 
 It is the `mergedBids` values in the mevshare keyspace that the block building SUAPP (i.e. the `EthBlockBidContract`) then fetches data from when looking to create a block and send it to an offchain relay. This happens with the `confidentialRetrieve` precompile:
 
 ```solidity
-Suave.confidentialStoreRetrieve(allShareMatchBids[j].id, "mevshare:v0:mergedBids"), (Suave.BidId[])
+Suave.confidentialRetrieve(allShareMatchBids[j].id, "mevshare:v0:mergedBids"), (Suave.BidId[])
 ```
 
 or when it orders the merged bids by their effective gas price:
 
 ```solidity
-Suave.confidentialStoreRetrieve(allBids[i].id, "mevshare:v0:ethBundleSimResults")
+Suave.confidentialRetrieve(allBids[i].id, "mevshare:v0:ethBundleSimResults")
 ```
 
 [All the code is here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65) if you want to run it yourself and develop your own picture of the total data flow in SUAVE.

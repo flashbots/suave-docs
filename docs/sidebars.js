@@ -6,7 +6,7 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
-        'novel-use-cases',
+        'what-is-suave', 'novel-use-cases',
       ],
     },
     {
@@ -75,7 +75,7 @@ module.exports = {
     {
       type: 'link',
       label: 'Forum',
-      href: 'https://collective.flashbots.net/',
+      href: 'https://collective.flashbots.net/c/suave/27',
     },
     {
       type: 'link',
