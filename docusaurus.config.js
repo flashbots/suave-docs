@@ -13,8 +13,8 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'flashbots', 
-  projectName: 'docs', 
+  organizationName: 'flashbots',
+  projectName: 'docs',
   url: process.env.TARGET_URL,
   markdown: {
     mermaid: true,
@@ -29,7 +29,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
       crossorigin: 'anonymous',
     },
   ],
-  themeConfig: 
+  themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       algolia: {
@@ -65,7 +65,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
           },
         ],
       }
-      
+
     }),
   presets: [
     [
@@ -76,8 +76,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
           sidebarPath: require.resolve('./docs/sidebars.js'),
           // Please change this to your repo.
           routeBasePath: '/',
-          // editUrl:
-          //   'https://github.com/flashbots/docs/edit/main/',
+          editUrl: "https://github.com/flashbots/suave-docs/edit/main/",
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },

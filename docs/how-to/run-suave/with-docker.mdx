@@ -12,23 +12,22 @@ If you'd like to run SUAVE in Docker, this is the guide for you.
 
 ### What you need
 
-1. Install and start Docker. You can find general directions [here](https://docs.docker.com/get-docker/).
-    1. If you're running Ubuntu or Debian, we recommend [this specific guide](https://docs.docker.com/engine/install/ubuntu/#installation-methods).
-2. Make sure you have `docker-compose` installed too. The should just happen when you install Docker.
-    1. Check with `docker-compose version` (Docker Engine) or `docker compose version` (Docker Desktop).
-3. We do not have high RAM, disk, or bandwidth requirements. This section should work on most consumer laptops.
+1. [Install and start Docker](https://docs.docker.com/get-docker/).
+2. Make sure you have `docker-compose` installed too, which should be part of the regular Docker setup (check with `docker compose version` or `docker-compose version`).
 
 ### What to do
 
-1. Clone suave-geth:
+Clone suave-geth:
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 ```
-2. Get to the right place in the repo:
+
+Get to the right place in the repo:
 ```bash
 cd suave-geth/
 ```
-3. Run SUAVE:
+
+Run SUAVE:
 ```bash
 make devnet-up
 ```
@@ -53,10 +52,11 @@ make devnet-up
 
 ### Testing transactions
 
-4. Test your node by deploying a contract and sending it some transactions:
+Test your node by deploying a contract and sending it some transactions:
 ```bash
 go run suave/devenv/cmd/main.go
 ```
+
 You should see something like the below printed to your terminal (addresses, txns, and ids will differ):
 ```bash
 suave-geth$ go run suave/devenv/cmd/main.go
@@ -82,7 +82,7 @@ make devnet-down
 ### Troubleshooting
 
 <details>
-  <summary>2. Docker not running</summary>
+  <summary>Docker not running</summary>
   <div>
     <div>
       <div>
@@ -103,7 +103,7 @@ make devnet-down
   </div>
 </details>
 <details>
-  <summary>3. Unsupported version</summary>
+  <summary>Unsupported version</summary>
   <div>
     <div>
       <div>
