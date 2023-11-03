@@ -22,7 +22,18 @@ module.exports = {
           items: [
             'how-to/run-suave/with-docker', 'how-to/run-suave/build-yourself'
           ]
-        }, 'how-to/send-transactions',
+        },
+        {
+          type: 'category',
+          label: 'Send Requets',
+          link: { type: 'doc', id: 'how-to/send-requests/index' },
+          items: [
+            `how-to/send-requests/golang-sdk`,
+            'how-to/send-requests/fund-local-account',
+            'how-to/send-requests/deploy-a-contract',
+            'how-to/send-requests/deploy-and-test-example-suapp'
+          ]
+        },
         {
           type: 'category',
           label: 'Create Contracts',
