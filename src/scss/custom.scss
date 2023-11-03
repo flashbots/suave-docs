@@ -44,7 +44,7 @@
   // --ifm-color-primary-lighter: rgb(102, 212, 189);
   // --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
-  --ifm-menu-link-padding-vertical: 8px; 
+  --ifm-menu-link-padding-vertical: 8px;
 }
 
 .theme-doc-sidebar-item-category-level-1 {
@@ -114,7 +114,7 @@ ol,
 ul,
 a,
 b,
-span, 
+span,
 div {
   font-size: 16px;
 }
@@ -167,7 +167,7 @@ div {
 
 .introGrid {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 20px;
 }
@@ -216,6 +216,11 @@ div {
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
+}
+
+footer {
+  padding-top: 3em;
+  border-top: 1px solid #f0f0f0;
 }
 
 @media only screen and (max-width: 1120px) {
