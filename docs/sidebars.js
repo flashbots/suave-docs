@@ -25,13 +25,14 @@ module.exports = {
         },
         {
           type: 'category',
-          label: 'Send Requets',
-          link: { type: 'doc', id: 'how-to/send-requests/index' },
+          label: 'Interact with SUAVE',
+          link: { type: 'doc', id: 'how-to/interact-with-suave/index' },
           items: [
-            `how-to/send-requests/golang-sdk`,
-            'how-to/send-requests/fund-local-account',
-            'how-to/send-requests/deploy-a-contract',
-            'how-to/send-requests/deploy-and-test-example-suapp'
+            `how-to/interact-with-suave/golang-sdk`,
+            `how-to/interact-with-suave/typescript-sdk`,
+            'how-to/interact-with-suave/fund-local-account',
+            'how-to/interact-with-suave/deploy-a-contract',
+            'how-to/interact-with-suave/deploy-and-test-example-suapp'
           ]
         },
         {
