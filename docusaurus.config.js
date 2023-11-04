@@ -77,6 +77,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
           // Please change this to your repo.
           routeBasePath: '/',
           editUrl: "https://github.com/flashbots/suave-docs/edit/main/",
+          showLastUpdateTime: true,
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
