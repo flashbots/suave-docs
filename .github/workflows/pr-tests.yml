@@ -57,4 +57,6 @@ jobs:
             -e "arxiv[.]org" \
             -e "docs[.]google[.]com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw" \
             -e "pathoram[.]jimdofree[.]com/files/" \
-            -e "flashbots[.]notion[.]site"
+            -e "flashbots[.]notion[.]site" \
+            -e "https://github.com/flashbots/suave-docs/" \
+            -e "https://github.com/flashbots/suave-specs/"

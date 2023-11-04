@@ -6,7 +6,9 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
-        'what-is-suave', 'novel-use-cases',
+        'technical/specs/rigil/glossary',
+        'what-is-suave',
+        'novel-use-cases',
       ],
     },
     {
@@ -20,9 +22,11 @@ module.exports = {
           label: 'Run SUAVE Locally',
           link: { type: 'doc', id: 'how-to/run-suave/index' },
           items: [
-            'how-to/run-suave/with-docker', 'how-to/run-suave/build-yourself'
+            'how-to/run-suave/with-docker',
+            'how-to/run-suave/build-yourself'
           ]
-        }, 'how-to/send-transactions',
+        },
+        'how-to/send-transactions',
         {
           type: 'category',
           label: 'Create Contracts',
