@@ -11,7 +11,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🥷 How To',
+      label: '🛠️ How To',
       collapsed: false,
       link: { type: 'doc', id: 'how-to/index' },
       items: [
@@ -52,11 +52,11 @@ module.exports = {
       link: { type: 'doc', id: 'technical/README' },
       items: [
         'technical/specs/rigil/README',
-        'technical/specs/rigil/suave-chain',
+        'technical/specs/rigil/kettle',
         'technical/specs/rigil/mevm',
         'technical/specs/rigil/precompiles',
         'technical/specs/rigil/confidential-data-store',
-        'technical/specs/rigil/kettle',
+        'technical/specs/rigil/suave-chain',
       ],
     },
     // {

@@ -12,24 +12,25 @@ If you'd like to run the suave-geth binaries yourself, this is the guide for you
 
 ### What you need
 
-1. [Install go](https://go.dev/doc/install).
+1. [Install Golang](https://go.dev/doc/install)
 
 ### What to do
 
-1. Clone the repo and build SUAVE:
+Clone the repo and build SUAVE:
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
 make suave
 ```
-2. Run this command:
+
+Run this command:
 ```bash
 ./build/bin/suave --suave.dev
 ```
 
 ### What to do next
 
-In another terminal, you can run:
+Test your node by deploying a contract and sending it some transactions:
 
 ```bash
 go run suave/devenv/cmd/main.go
@@ -92,7 +93,7 @@ It should tell you the block height of your local network.
 ### Troubleshooting
 
 <details>
-  <summary>1. Go permission errors</summary>
+  <summary>Go permission errors</summary>
   <div>
     <div>
       <div>
@@ -109,7 +110,7 @@ It should tell you the block height of your local network.
   </div>
 </details>
 <details>
-  <summary>2. Missing packages</summary>
+  <summary>Missing packages</summary>
   <div>
     <div>
       <div>
