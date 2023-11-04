@@ -6,7 +6,7 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
-        'what-is-suave', 'novel-use-cases',
+        'what-is-suave', 'novel-use-cases', 'development-stack'
       ],
     },
     {
