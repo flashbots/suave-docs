@@ -9,6 +9,7 @@ module.exports = {
         'technical/specs/rigil/glossary',
         'what-is-suave',
         'novel-use-cases',
+        'development-stack'
       ],
     },
     {
