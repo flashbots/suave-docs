@@ -8,6 +8,7 @@ module.exports = {
       items: [
         'what-is-suave',
         'novel-use-cases',
+        'dev-tooling',
         'technical/specs/rigil/glossary'
       ],
     },
