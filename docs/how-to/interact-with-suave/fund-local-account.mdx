@@ -5,7 +5,11 @@ description: Fund Local Accounts for Local Development
 
 This script will go through funding a local account using the golang SDK.
 
-Inside [suave-geth](https://github.com/flashbots/suave-geth) create a new file in `suave/devenv/cmd` called `transactions.go`:
+:::info
+You need to be [running SUAVE locally](/how-to/run-suave) in order for this script to function. 
+:::
+
+Inside your `suave-geth` repo, create a new file in `suave/devenv/cmd` called `transactions.go`:
 
 ```go
 package main
@@ -30,7 +34,7 @@ var (
     // This is the address we used when starting the MEVM
 	exNodeEthAddr = common.HexToAddress("b5feafbdd752ad52afb7e1bd2e40432a485bbb7f")
 	exNodeNetAddr = "http://localhost:8545"
-	// This account is funded in both devenv networks
+	// This account is funded in your local network
 	// address: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
 	fundedAccount = newPrivKeyFromHex(
     "91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12"

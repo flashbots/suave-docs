@@ -1,17 +1,18 @@
 ---
-title: Deploy and Test Example SUAPP
+title: Deploy an Example SUAPP
 description: Deploy a preocmpiled SUAPP and Interact with it
 ---
 
-SUAVE-geth has an example version of MEV-share along with a script that will:
-- deploy example MEV-share
-- sign an submit a transaction to be back run
-- grab the extracted hint from onchain
-- sign a back run transaction and submit it
+The suave-geth repo has an [example version of MEV-Share](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65) along with a script that will:
+
+1. deploy the MEV-Share contract
+2. sign and submit a transaction to be back run
+3. grab the extracted hint from onchain
+4. sign a back run transaction and submit it
 
 ## Running the Script
 
-If you followed the [previous how-to](/how-to/run-suave), you will have SUAVE running locally, either in Docker or via the binaries themselves.
+If you followed the [previous sub-section](/how-to/run-suave), you will have SUAVE running locally, either in Docker or via the binaries themselves.
 
 In either case, you can cause a series of transactions to occur by running:
 
@@ -19,11 +20,11 @@ In either case, you can cause a series of transactions to occur by running:
 go run suave/devenv/cmd/main.go
 ```
 
-This script is focused on sending transactions to a local dev enviornment, but you can repurpose it easily for remote by changing `exNodeNetAddr`.
+[This script](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go) is focused on sending transactions in a local dev environment, but you can repurpose it for Rigil by changing the `exNodeNetAddr` and `exNodeEthAddr`.
 
 ## Step-by-Step Breakdown
 
-Below we will break down what this script is doing.
+Let's break down what this script is doing.
 
 ### Step 1: Create and Fund Test Accounts
 
@@ -40,14 +41,14 @@ fmt.Printf("- Funded test account: %s (%s)\n", testAddr1.Address().Hex(), fundBa
 - Generate two new private keys representing test accounts.
 - Fund these test accounts with a specified amount of Ether to simulate transactions.
 
-### Step 2: Deploy mev-share Contract
+### Step 2: Deploy MEV-Share Contract
 
 ```go
 // Code snippet related to the step
 txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
 ```
 
-- Deploy the `mev-share` smart contract to the blockchain using the bytecode and a client instance.
+- Deploy the MEV-Share smart contract to the SUAVE chain using the bytecode and a client instance.
 - Confirm the deployment by checking the transaction receipt status.
 
 ### Step 3: Send Bid
@@ -72,9 +73,9 @@ txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
     }
 ```
 
-- Craft a bid using the `mev-share` contract function `newBid`.
+- Craft a bid using the MEV-Share contract function `newBid`.
 - Serialize the bundle of transactions to include in the bid.
-- Send the bid to the blockchain and validate its inclusion.
+- Send the bid to the SUAVE chain and validate its inclusion.
 
 ### Step 4: Send Backrun
 
@@ -98,11 +99,13 @@ txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
 ```
 
 - Create a backrun transaction bundle that will be sent after the initial bid.
-- Serialize the backrun bundle and use the `mev-share` contract's `newMatch` function to submit it.
+- Serialize the backrun bundle and use the MEV-Share contract's `newMatch` function to submit it.
 - Verify the transaction receipt to ensure the backrun was successful.
 
 #### Result
+
 If all has been succesfully run you should see the following in your terminal:
+
 ```bash
 suave-geth$ go run suave/devenv/cmd/main.go
 Step 0: Create and fund test accounts

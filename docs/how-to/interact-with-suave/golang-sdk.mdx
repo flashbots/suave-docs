@@ -3,7 +3,7 @@ title: Golang SDK
 description: Brief Explanation of Golang SDK
 ---
 
-[suave-geth](https://github.com/flashbots/suave-geth) provides an SDK with a set of tools to interact with SUAVE, including deploying contracts, sending transactions, and waiting for transaction receipts.
+[suave-geth provides an SDK](https://github.com/flashbots/suave-geth/tree/main/suave/sdk) with a set of tools to interact with SUAVE, including deploying contracts, sending transactions, and waiting for transaction receipts.
 
 ## Installation
 
@@ -25,7 +25,7 @@ client := sdk.NewClient(rpcClient, privateKey, executionNodeAddress)
 
 - `rpcClient`: Your Ethereum RPC client.
 - `privateKey`: An ECDSA private key for signing transactions.
-- `executionNodeAddress`: The address of the execution node.
+- `executionNodeAddress`: The address of a SUAVE Kettle. Use `0x03493869959c866713c33669ca118e774a30a0e5` if working on Rigil.
 
 One way to instantiate a golang RPC client using the go-ethereum rpc module "github.com/ethereum/go-ethereum/rpc" is:
 
