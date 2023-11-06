@@ -50,15 +50,15 @@ jobs:
           muffet http://localhost:3000/docs/ \
             --ignore-fragments \
             --skip-tls-verification \
+            --buffer-size=16384 \
             --exclude="notion[.]so" \
-            -e "github[.]com/flashbots/suave-specs" \
-            -e "github[.]com/flashbots/suave-bridge" \
             -e "algolia[.]net" \
             -e "arxiv[.]org" \
             -e "docs[.]google[.]com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw" \
             -e "pathoram[.]jimdofree[.]com/files/" \
             -e "flashbots[.]notion[.]site" \
-            -e "https://github.com/flashbots/suave-docs/" \
-            -e "https://github.com/flashbots/suave-specs/" \
-            -e "https://github.com/flashbots/suapp-examples/" \
-            -e "https://github.com/flashbots/suave-viem/"
+            -e "https://github.com/flashbots/suave-docs" \
+            -e "https://github.com/flashbots/suave-bridge" \
+            -e "https://github.com/flashbots/suave-specs" \
+            -e "https://github.com/flashbots/suapp-examples" \
+            -e "https://github.com/flashbots/suave-viem"
