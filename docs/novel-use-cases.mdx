@@ -21,10 +21,10 @@ SUAVE exhibits three key differences from existing blockchains:
 
 ## Categories
 
-In present-day Ethereum, there are many centralized services used to coordinate and mitigate the effects of MEV on Blockchains and Decentralized Applications. Most of the categories below are based on these existing services:
+In present-day Ethereum, there are many centralized services used to coordinate and mitigate the effects of MEV. Most of the categories below are based on these existing services:
 
 - [🔄 OFAs](#-ofa-order-flow-auctions)
-- [🔍 Searcher](#-searcher)
+- [🔍 Searchers](#-searchers)
 - [🧮 Solvers](#-solvers)
 - [📢 RFQ](#-rfq-request-for-quote)
 - [🎯 Intents](#-intents)
@@ -35,7 +35,7 @@ In present-day Ethereum, there are many centralized services used to coordinate 
 - [📅 Rollup Scheduler](#-rollup-scheduler)
 - [🧩 Blob Merger](#-blob-merger)
 
-But SUAVE also enables new and unique decentralized application paradigms.
+SUAVE also enables new and unique decentralized application paradigms.
 
 - [🌐 Social](#-social)
 - [🎮 Gaming](#-gaming)
@@ -53,7 +53,7 @@ Order Flow Auctions (OFAs) are responsible for taking in a transaction or intent
     - Batching user trades and back-runs together.
     In all these cases, a SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
 
-### 🔍 Searcher
+### 🔍 Searchers
 
 Take an existing searcher bot design, write it in Solidity, and put it on-chain! Simple strategies will be more effective with the current state of the network and can take advantage of the `sendBundle` precompile to send bundles to centralized block builders.
 
@@ -64,7 +64,12 @@ Solvers are responsible for finding mathematically optimal solutions in combinat
 
 ### 📢 RFQ (Request for Quote)
 
-RFQs, or Requests for Quote, are off-chain services that take a user's ask, broadcast it to a network of market makers, and respond with the best price. A SUAPP could do this in two ways: one is by using an HTTP post precompile to send to a list of market makers, or it could accept a curve of prices a market maker is willing to fill at and automatically respond on their behalf. This changes the nature of the RFQ as market makers would not need to continuously update new pricing curves.
+RFQs, or Requests for Quote, are off-chain services that take a user's ask, broadcast it to a network of market makers, and respond with the best price. A SUAPP could do this in two ways:
+
+1. Use an HTTP post precompile to send to a list of market makers, or 
+2. Accept a curve of prices a market maker is willing to fill at and automatically respond on their behalf. 
+
+The second option changes the nature of RFQs, as market makers would not need to continuously update new pricing curves.
 
 ### 🎯 Intents
 
@@ -87,7 +92,7 @@ Auctions, and mechanism design more broadly, can encompass most of the ideas on 
 - Private NFT auction 🖼️
 - Combinatorial Auction 🤝
 - Dutch Auctions - Fee escalators could be one example that are especially interesting combined with a programmable information leakage model like MEV-Share.
-- Ad Auctions - Learn what header bidding is first. Then, create a snippet/plugin that websites can integrate into their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers, who then participate in an auction. In our case, the website owner would send the CCR to the auction contract, specifying some Kettle(s), and then the off-chain components do the actual auction and return the winning bid.
+- Ad Auctions - [Learn about header bidding first](ttps://digiday.com/media/wtf-header-bidding/). Then, create a snippet/plugin that websites can integrate into their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers, who then participate in an auction. In our case, the website owner would send the CCR to the auction contract, specifying some Kettle(s), and then the off-chain components do the actual auction and return the winning bid.
 
 
 ### 💸 PFOF (Payment for Order Flow)
@@ -109,7 +114,7 @@ In EIP 4844, each blob transaction can have a blob of a max size 128kb and block
 - given block with constant `BLOB_MAX_SIZE` = 128kb and `NUM_BLOBS_PER_BLOCK` = 2
 - and 4 blob transactions w/ sizes: 100 kb, 100kb, 25kb, 25kb
 
-we could never reach the optimal outcome(higher throughput) of all blobs being included. This is because the 100kb blobs will be leaving 28kb of space on the table, which the other two blobs could fit into. This is similar to the relation between the current gas limit and “regular” transactions in ethereum, except in the data gas market case you’re only allowed 2 transaction and each transaction is storing temporary data, not initiating complex contract interaction. Luckily [**EIP4844 Blob Transactions**](https://eips.ethereum.org/EIPS/eip-4844) use ****[BLS12-381](https://electriccoin.co/blog/new-snark-curve/)**** allows us to aggregate them, and is what a "Blob Merger" would do.
+we could never reach the optimal outcome (higher throughput) of all blobs being included. This is because the 100kb blobs will be leaving 28kb of space on the table, which the other two blobs could fit into. This is similar to the relation between the current gas limit and “regular” transactions in Ethereum, except in the data gas market case you’re only allowed two transactions and each transaction is storing temporary data, not initiating complex contract interaction. Luckily, [EIP4844 Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844) use [BLS12-381](https://electriccoin.co/blog/new-snark-curve/) which can be easily aggregated. This is what a "Blob Merger" would do.
 
 ### 🌐 Social
 
