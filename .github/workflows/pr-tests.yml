@@ -59,4 +59,5 @@ jobs:
             -e "pathoram[.]jimdofree[.]com/files/" \
             -e "flashbots[.]notion[.]site" \
             -e "https://github.com/flashbots/suave-docs/" \
-            -e "https://github.com/flashbots/suave-specs/"
+            -e "https://github.com/flashbots/suave-specs/" \
+            -e "https://github.com/flashbots/suapp-examples/"
