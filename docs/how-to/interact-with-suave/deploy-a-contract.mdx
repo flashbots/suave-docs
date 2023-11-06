@@ -1,0 +1,89 @@
+---
+title: Deploy Simple Contract
+description: Deploy a Precompiled Contract
+---
+
+We've written a number of example smart contracts to help get you started thinking about what's possible. For this script using the golang SDK, we'll stick to deploying one of these examples to keep things simple.
+
+Inside [suave-geth](https://github.com/flashbots/suave-geth) create a new file in `suave/devenv/cmd` called `deploy.go`:
+
+```go
+package main
+
+import (
+	"crypto/ecdsa"
+	"fmt"
+
+	_ "embed"
+
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereum/go-ethereum/suave/e2e"
+	"github.com/ethereum/go-ethereum/suave/sdk"
+)
+
+var (
+    // This is the address we used when starting the MEVM
+	exNodeEthAddr = common.HexToAddress("b5feafbdd752ad52afb7e1bd2e40432a485bbb7f")
+	exNodeNetAddr = "http://localhost:8545"
+	// This account is funded in both devenv networks
+	// address: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+	fundedAccount = newPrivKeyFromHex(
+    "91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12"
+    )
+)
+
+var (
+	mevShareArtifact = e2e.MevShareBidContract
+)
+
+func main() {
+    rpcClient, _ := rpc.Dial(exNodeNetAddr)
+	mevmClt := sdk.NewClient(rpcClient, fundedAccount.priv, exNodeEthAddr)
+
+	var mevShareContract *sdk.Contract
+	_ = mevShareContract
+
+	txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
+	if err != nil {
+		fmt.Errorf("Failed to deploy contract: %v", err)
+	}
+	receipt, err := txnResult.Wait()
+	if err != nil {
+		fmt.Errorf("Failed to wait for transaction result: %v", err)
+	}
+	if receipt.Status == 0 {
+		fmt.Errorf("Failed to deploy contract: %v", err)
+	}
+
+	fmt.Printf("- Example contract deployed: %s\n", receipt.ContractAddress)
+	mevShareContract = sdk.GetContract(receipt.ContractAddress, mevShareArtifact.Abi, mevmClt)
+}
+
+// Helpers, not unique to SUAVE
+
+type privKey struct {
+	priv *ecdsa.PrivateKey
+}
+
+func newPrivKeyFromHex(hex string) *privKey {
+	key, err := crypto.HexToECDSA(hex)
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse private key: %v", err))
+	}
+	return &privKey{priv: key}
+}
+```
+
+If you now run:
+
+```bash
+go run suave/devenv/cmd/deploy.go
+```
+
+You should see the address of your new example contract printed in the terminal.
+
+The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`. 
+
+If you're able to generate the necessary ABIs and bytecode, you should be able to deploy any contract you like using the above pattern.

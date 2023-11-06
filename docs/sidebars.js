@@ -6,7 +6,10 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
-        'what-is-suave', 'novel-use-cases', 'development-stack'
+        'technical/specs/rigil/glossary',
+        'what-is-suave',
+        'novel-use-cases',
+        'development-stack'
       ],
     },
     {
@@ -20,9 +23,22 @@ module.exports = {
           label: 'Run SUAVE Locally',
           link: { type: 'doc', id: 'how-to/run-suave/index' },
           items: [
-            'how-to/run-suave/with-docker', 'how-to/run-suave/build-yourself'
+            'how-to/run-suave/with-docker',
+            'how-to/run-suave/build-yourself'
           ]
-        }, 'how-to/send-transactions',
+        },
+        {
+          type: 'category',
+          label: 'Interact with SUAVE',
+          link: { type: 'doc', id: 'how-to/interact-with-suave/index' },
+          items: [
+            `how-to/interact-with-suave/golang-sdk`,
+            `how-to/interact-with-suave/typescript-sdk`,
+            'how-to/interact-with-suave/fund-local-account',
+            'how-to/interact-with-suave/deploy-a-contract',
+            'how-to/interact-with-suave/deploy-and-test-example-suapp'
+          ]
+        },
         {
           type: 'category',
           label: 'Create Contracts',
