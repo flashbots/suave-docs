@@ -1,6 +1,6 @@
 ---
 title: What to Build
-description: An up-to-date list of ideas it might be interesting to build on SUAVE
+description: An up-to-date list of ideas that might be interesting to build on SUAVE
 keywords:
   - key
   - concepts
@@ -9,109 +9,113 @@ keywords:
   - ideas
 ---
 
-# What to Build on SUAVE
+# 🏗️ What to Build on SUAVE
 
-A good way to generate value is to design an app that is **uniquely enabled by SUAVE**.
+A good way to generate value is to design an app that is **uniquely enabled by SUAVE** ✨.
 
-SUAVE exhibits two key differences to existing blockchains:
+SUAVE exhibits three key differences from existing blockchains:
 
-2. Programmable privacy
-3. Credible off-chain computation
+1. Faster block time (than Eth L1) ⏱️
+2. Programmable privacy 🔒
+3. Credible offchain computation 💻
 
-The [SUAVE core team ideas are here](https://www.notion.so/flashbots/Hackathon-Ideas-beed49f0eb0a46c38466b39afb40f372).
+## Categories
 
-Our research team suggests that [interoperability with web2 services may be one key](https://www.notion.so/flashbots/Concrete-Ideas-On-Novel-SUAPPs-b6857caf58b94eaebf1852317594a219) to novel SUAPP design, given that these use cases have a big total addressable market (TAM), and no cold-start problem.
+In present-day Ethereum, there are many centralized services used to coordinate and mitigate the effects of MEV on Blockchains and Decentralized Applications. Most of the categories below are based on these existing services:
 
-They suggest thinking about [anti-mechanisms](https://www.youtube.com/watch?v=5v_wBkrIJhs) for web2 services as a fun, productive use of DarkDAOs. That is, instead of building collusion rings to buy votes, we can build collusion rings to allow permissionless interaction with web2.
+- [🔄 OFAs](#-ofa-order-flow-auctions)
+- [🔍 Searcher](#-searcher)
+- [🧮 Solvers](#-solvers)
+- [📢 RFQ](#-rfq-request-for-quote)
+- [🎯 Intents](#-intents)
+- [🌊 AMMs](#-amms-automated-market-makers)
+- [🖼️ Auctions](#-auctions)
+- [💸 PFOF](#-pfof-payment-for-order-flow)
+- [🛠️ Block Builders](#-block-builders)
+- [📅 Rollup Scheduler](#-rollup-scheduler)
+- [🧩 Blob Merger](#-blob-merger)
 
-## Start here
+But SUAVE also enables new and unique decentralized application paradigms.
 
-### Ticketmasters
+- [🌐 Social](#-social)
+- [🎮 Gaming](#-gaming)
 
-Ticketmasters sell things like Taylor Swift concert tickets. Currently, their UX is basically “click the frontend, wait 10mins, and then find out you didn’t get the ticket.”
 
-An application for this would be similar to ad auctions, but the latency requirements are not as brutal, and can be relaxed to perhaps even a few minutes.
+### 🔄 OFA (Order Flow Auctions)
 
-The basic idea:
+Order Flow Auctions (OFAs) are responsible for taking in a transaction or intent and routing it somewhere, either based on predefined logic, an auction, or by introspecting the transaction or intent.
 
-1. Deploy NFT contract on ETH L1. Accepts face value of tickets in ETH.
-2. Once I have sent face value of ticket to NFT contract, I send my real, confidential bid to the Bid contract on SUAVE. This is just a number.
-3. Bid contract calculates set of winning bids once auction is over. Emits this as bundle (or sends it to builder via precompile).
-4. NFT contract on ETH L1 receives winners, loops through them, checks they have the balance they bid. If so, send NFT. If not, skip (and keep their face value ETH as penalty). Does this over a period of blocks to avoid flash loan vulnerability.
+- [MEV-Share](https://github.com/flashbots/mev-share) 🔄
+- [MEV-Blocker](https://mevblocker.io/) 🛑
+- MEV-Share+
+    - Dynamic refund: currently, users set their own refund percent, but depending on the state of the mempool and blockspace auction, they may want a lower or higher refund percent. A SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
+    - Dynamic hint: one of the open research questions around programmable privacy is where the privacy efficiency lies. An example of this, relevant to MEV-Share, is as follows: given a Uniswap L1 trade, how much information should be revealed? A $10 trade most likely can leak the entire trade details because it would be better to batch, but a very large trade has a risk of being probabilistically front-run; therefore, it should leak less information, or at least that is one possibility.
+    - Batching user trades and back-runs together.
+    In all these cases, a SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
 
-### Triggered!
+### 🔍 Searcher
 
-1. Deadman switch. A contract that posts a message on the L1 if it doesn’t get (stealth) heartbeats.
+Take an existing searcher bot design, write it in Solidity, and put it on-chain! Simple strategies will be more effective with the current state of the network and can take advantage of the `sendBundle` precompile to send bundles to centralized block builders.
 
-2. Liquidations based on sensitive information, like ZK Collateral. Check someone’s ZK Credential of some kind (twitter account, etc.) and keep it in SUAVE [Confidential Data Storage](/technical/specs/rigil/confidential-data-store). Let other people bid on revealing it, or reveal it in case of undercollateralization.
-    1. Not directly related, but revealing information in the case of "bad behaviour" has wide applicability, the most interesting of which is likely [Rate Limiting Nullifiers](https://vac.dev/publications), which could be useful for the SUAVE chain design itself.
+### 🧮 Solvers
 
-3. Bribe Twitter accounts to post certain tweets in certain time periods. Check results and post to chain with an oracle. Hide what the content the account was bribed to say was using [Confidential Data Storage](/technical/specs/rigil/confidential-data-store).
+Solvers are responsible for finding mathematically optimal solutions in combinatorially large solution spaces, usually framed as finding optimal routes through multiple liquidity pools or in matching coincidences-of-wants. Solvers can be implemented in Solidity and operate on order flow and intents submitted by users to SUAVE.
+- [CoWSwap Solver Example](https://github.com/cowprotocol/services/tree/main/crates/solver) 🧩
 
-### SAUVE router
+### 📢 RFQ (Request for Quote)
 
-Please [browse through this presentation](https://docs.google.com/presentation/d/19km1xqXrp6HClAOmyUwtq7lADM7BEUsPbTUE7zCwhCw/edit#slide=id.g2923336d3ff_0_569) to get an overview of the idea.
+RFQs, or Requests for Quote, are off-chain services that take a user's ask, broadcast it to a network of market makers, and respond with the best price. A SUAPP could do this in two ways: one is by using an HTTP post precompile to send to a list of market makers, or it could accept a curve of prices a market maker is willing to fill at and automatically respond on their behalf. This changes the nature of the RFQ as market makers would not need to continuously update new pricing curves.
 
-**Bonus: Add SUAVE-router to metamask page**
+### 🎯 Intents
 
-### SUAVE template repo
+Intents refer to “what” the desired outcome of an action on a blockchain should be as opposed to transactions which specify “how” an action should be performed. Intents and Solvers work together very closely as some solvers aggregate intents in order to maximize user welfare under various definitions. In order to support these functionalities on SUAVE, you can help deploy various intent formats!
 
-This is for anyone who wants to hack on DevEx. Basically, we want to create an unopinionated template repo to help developers who are already familiar with Solidity get going on SUAVE.
+- [ERC-7521](https://github.com/essential-contributions/EIPs/blob/master/EIPS/eip-7521.md?ref=blog.essential.builders) 🔗
+- [ERC-4337: UserOps](https://github.com/eth-infinitism/account-abstraction) 🔏
 
-This likely entails a simple builder solidity contract, with working Forge and Viem tests. Ferran and Dan are working on Forge + Viem support currently.
+### 🌊 AMMs (Automated Market Makers)
 
-We take inspiration from [Filecoin actors](https://docs.filecoin.io/basics/the-blockchain/actors/) and may wish to replicate something like this to make DevEx a breeze.
+The ability for SUAVE to emit transactions and perform off-chain and confidential compute opens numerous doors for AMM designs.
 
-### Generalized intents
+- More expressive liquidity management 🌊
+- Private liquidity 🔐
+- UniV4 hook integrations 🔗
 
-Deploy [this](https://blog.essential.builders/introducing-erc-7521-generalized-intents/) to SUAVE. Do something intense with it.
+### 🖼️ Auctions
 
-### Escalating fee auction
+Auctions, and mechanism design more broadly, can encompass most of the ideas on this page. But some specific interesting auction ideas include:
+- Private NFT auction 🖼️
+- Combinatorial Auction 🤝
+- Dutch Auctions - Fee escalators could be one example that are especially interesting combined with a programmable information leakage model like MEV-Share.
+- Ad Auctions - Learn what header bidding is first. Then, create a snippet/plugin that websites can integrate into their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers, who then participate in an auction. In our case, the website owner would send the CCR to the auction contract, specifying some Kettle(s), and then the off-chain components do the actual auction and return the winning bid.
 
-Basically this is to exercise the persistent storage. It can be an order that is partially filled, but raises the fee offered over time according to a fixed strategy. The entire curve doesn’t have to be revealed, only a short time window of the next offered price. (Confidentiality mechanism).
 
-## SGX building blocks
+### 💸 PFOF (Payment for Order Flow)
 
-Inspired by [Andrew's shitposts](https://flashbots.notion.site/flashbots/SuApp-shitposts-f404c62d046545c2ae256a0ea8e6f2cd), some of which were included in short-term above.
+Design a SUAPP where wallets can forward order flow to and bulk auction off the transactions to searchers and market-makers.
 
-1. We know that UniswapV2 and Compound are interesting when they’re ported to TEE beacuse of how Sienna Swap and [Sienna Lend on secret network](https://sienna.network/lend/) are cool. [FuturesMEX](https://securitylab.disi.unitn.it/lib/exe/fetch.php?media=sp18.pdf) is quite similar to this too.
-2. Write path ORAM in [builder solidity](/builder-solidity). It should be [easy](https://pathoram.jimdofree.com/files/)
-3. Steal any and all ideas from contestants in [Oasis](https://oasisprotocol.org/p4w3-hackathon) and [Phala](https://github.com/Phala-Network/amsterDOT-2022) hackathons.
+### 🛠️ Block Builders
 
-### Telegram bot
+There is a vast amount of builder algorithms live in the current Ethereum blockspace market; any of these can be implemented on SUAVE. Additional precompile support may be needed for more advanced functionality but can be merged relatively fast.
 
-SUAVE got that privacy, Telegram bots today just escrow user keys. This increases the leverage on SGX, since now it matters for integrity (SGX breach could lead to stealing user funds), but that can't stop us from writing it.
+### 📅 Rollup Scheduler
 
-### Exfiltrate data
+Rollups (L2s) have the challenge of posting data batches to L1, increased posting frequency increases security and UX but increases costs, less frequent posting is cheaper, but comes at the cost of UX. A Roll up post scheduler would be a SUAPP where each roll up submits their preference for when batches are uploaded and then stream batches to scheduler whenever ready. The scheduler will find optimal posting schedule for all preferences and post to base layer on each roll ups behalf.
 
-Either to a centralized third party, or a completely separate SGX enclave. This could use [RAVE](https://github.com/PufferFinance/rave) from PufferFi.
+### 🧩 Blob Merger
 
-## Research ideas
+In EIP 4844, each blob transaction can have a blob of a max size 128kb and blocks can have 4 blob txns. This means:
 
-### Friend.tech with Twitter
+- given block with constant `BLOB_MAX_SIZE` = 128kb and `NUM_BLOBS_PER_BLOCK` = 2
+- and 4 blob transactions w/ sizes: 100 kb, 100kb, 25kb, 25kb
 
-In friend.tech you can promise to give out the twitter ads revenue share to your key holders (ofc this has serious legal concerns etc, but as an example it’s cool), your twitter ads revenue is actually public and calculatable using public API, so if we could do an oracle from twitter to on-chain, then it is possible to build a (smart) contract that queries the API like once per day and checks if the account holder pays out to the key holders in 7 days and if not slash some stake.
+we could never reach the optimal outcome(higher throughput) of all blobs being included. This is because the 100kb blobs will be leaving 28kb of space on the table, which the other two blobs could fit into. This is similar to the relation between the current gas limit and “regular” transactions in ethereum, except in the data gas market case you’re only allowed 2 transaction and each transaction is storing temporary data, not initiating complex contract interaction. Luckily [**EIP4844 Blob Transactions**](https://eips.ethereum.org/EIPS/eip-4844) use ****[BLS12-381](https://electriccoin.co/blog/new-snark-curve/)**** allows us to aggregate them, and is what a "Blob Merger" would do.
 
-### Gaming
+### 🌐 Social
 
-In games like Sid Meier’s Civilization etc, you build an on-chain oracle that takes game state as input, and then you can allow players to sign (smart) contracts that allow them to negotiate with each other in a super expressive way, e.g., you can now say “I want to borrow your units in this continent for X turns and in exchange I’ll commit to taking your future contracts of Y,” so in this way you can directly build mods (and specifically, mods around incentives/contracts/commitments) into existing games without having to build a new game, so you don’t have a cold-start problem and those mods are the most monetizable ones anyway.
+Incentivize Twitter accounts to post certain tweets in specific time periods. Check results and post to chain with an oracle. Hide the content the account was incentivized to say using Confidential Data Storage 🐦.
 
-But of course, if those SUAPPs start generating revenue, then we would run into credibility problems (in that the commitments to game mechanics those companies made are not credible). They would be like: “oh those on-chain contracts are making big bucks, let’s shutdown our api/change our code such that the on-chain contracts don’t work and let’s build those features directly into our own game and monetize the same idea.”
+### 🎮 Gaming
 
-### Header-bidding Ad auctions
+In games like Sid Meier’s Civilization, etc., you build an on-chain oracle that takes game state as input, and then you can allow players to sign (smart) contracts that let them negotiate with each other in a super expressive way, e.g., you can now say “I want to borrow your units on this continent for X turns and in exchange, I’ll commit to taking your future contracts of Y.” In this way, you can directly build mods (and specifically, mods around incentives/contracts/commitments) into existing games without having to build a new game, so you don’t have a cold-start problem and those mods are the most monetizable ones anyway 🎲.
 
-[Header-bidding wtf](https://digiday.com/media/wtf-header-bidding/)
-
-[Ad auction](https://www.notion.so/flashbots/Ad-Auctions-3e6c7ca6b93a41f484cd64510cb9619b)
-
-Basically, create a snippet/plugin that websites can integrate in their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers and then they would participate in an auction. In our case, this would be the website owner directly sending to MEVM and then the off-chain components do the ad auction and returns the bid. Of course, the latency requirements are brutal (sub 1 ms level) but we discussed internally and agreed that it’s not impossible.
-
-### Decentralized Autobidders
-
-Currently 80% of google ads and 100% of microsoft ads goes through autobidders: algorithms that help to elicit and constantly express advertiser preferences like: “I want to show my ad to as many junior tech professionals in Colorado as possible for $1,000” but not indicate the value per individual.”
-
-The market structure is similar to the builder market: where sophisticated advertisers develop their own autobidding algorithms instead of using the auctioneer’s provided autobidders (albeit the reasoning could be just more fine-grained control over preferences rather than “private orderflow”). And that the autobidding/advertiser platform/auctions/publisher platform teams have their offices “split up by literal walls” despite them working at the same floor to prevent collusion.
-
-Without privacy one cannot build an autobidder as strategic behavior would just rekt the service (you can manipulate behavior of other people’s bidding agents/algorithms by misreporting your preferences), so over here essentially we want advertisers to report their preferences to some MEVM contract and then the MEVM contract does aggregation and bids in the header-bidding ad auction in real-time.
-
-Just like the gaming example, autobidders could run into serious credibility/vertical-integration concerns if they start getting traction.
