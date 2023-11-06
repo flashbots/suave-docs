@@ -6,10 +6,9 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
-        'technical/specs/rigil/glossary',
         'what-is-suave',
         'novel-use-cases',
-        'development-stack'
+        'technical/specs/rigil/glossary'
       ],
     },
     {
@@ -35,7 +34,6 @@ module.exports = {
             `how-to/interact-with-suave/golang-sdk`,
             `how-to/interact-with-suave/typescript-sdk`,
             'how-to/interact-with-suave/fund-local-account',
-            'how-to/interact-with-suave/deploy-a-contract',
             'how-to/interact-with-suave/deploy-and-test-example-suapp'
           ]
         },
@@ -43,7 +41,9 @@ module.exports = {
           type: 'category',
           label: 'Create Contracts',
           items: [
-            'how-to/create-contracts/deploy-custom', 'how-to/create-contracts/confidential', 'how-to/create-contracts/ofa'
+            'how-to/create-contracts/deploy-custom', 
+            'how-to/create-contracts/confidential', 
+            'how-to/create-contracts/ofa'
           ]
         },
         'how-to/create-precompiles'
@@ -63,30 +63,6 @@ module.exports = {
         'technical/specs/rigil/suave-chain',
       ],
     },
-    // {
-    //   type: 'category',
-    //   label: '⚡ Understanding MEV',
-    //   collapsed: false,
-    //   link: { type: 'doc', id: 'understand/index' },
-    //   items: [
-    //     'understand/meaning',
-    //     'understand/welfare',
-    //     'understand/power'
-    //   ],
-    // },
-    // {
-    //   type: 'category',
-    //   label: '🏴‍☠️ Join Us',
-    //   link: { type: 'doc', id: 'join/joining-suave' },
-    //   items: [
-    //     'join/code-of-conduct',
-    //   ],
-    // },
-    // {
-    //   "Policies": [
-    //     'policies/privacy', 'policies/terms-of-service', 'policies/prohibited-use-policy'
-    //   ]
-    // },
     {
       type: 'link',
       label: 'Forum',

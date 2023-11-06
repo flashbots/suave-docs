@@ -3,9 +3,18 @@ title: Typescript SDK
 description: Brief Explanation of Typescript SDK (suave-viem)
 ---
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem! *Note: Currently Confidential Compute Requests(CCR) are not EIP-1193 compatible and therefore users will not be able to sign CCRs directly from metamask.*
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-This documentation provides instructions on how to work with the SUAVE-viem typescript SDK. The SDK simplifies the interaction with the SUAVE blockchain network and provides easy-to-use functions to send transactions and query data. Below you'll find steps on how to instantiate the library, symlink, and perform basic actions such as sending transactions and fetching blockchain information.
+SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem. 
+
+:::info
+
+Currently,  Confidential Compute Requests (CCRs) are not EIP-1193 compatible and therefore you will not be able to sign CCRs directly from Metamask.
+
+:::
+
+This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform basic actions such as sending transactions and fetching information from the chain.
 
 ## Installation & Symlink
 
@@ -30,31 +39,67 @@ cd suave-viem
 
 Once you have cloned the repository and navigated into the directory, install its dependencies:
 
-```bash
-npm install
-# or if you use yarn
-yarn
-```
+<Tabs
+  defaultValue="yarn"
+  values={[
+    {label: 'Yarn', value: 'yarn'},
+    {label: 'NPM', value: 'npm'},
+  ]}>
+  <TabItem value="yarn">
+    <pre>
+      yarn
+    </pre>
+  </TabItem>
+  <TabItem value="npm">
+    <pre>
+      npm install
+    </pre>
+  </TabItem>
+</Tabs>
 
 ### Step 3: Build the project (if the project needs to be compiled)
 
 Some TypeScript projects need to be compiled before they can be used. If this is the case with the `suave-viem` project, run the build script:
 
-```bash
-npm run build
-# or with yarn
-yarn build
-```
+<Tabs
+  defaultValue="yarn"
+  values={[
+    {label: 'Yarn', value: 'yarn'},
+    {label: 'NPM', value: 'npm'},
+  ]}>
+  <TabItem value="yarn">
+    <pre>
+      yarn build
+    </pre>
+  </TabItem>
+  <TabItem value="npm">
+    <pre>
+      npm run build
+    </pre>
+  </TabItem>
+</Tabs>
 
 ### Step 4: Create a symbolic link
 
 After building the project, you can create a symbolic link in the global `node_modules` directory:
 
-```bash
-npm link
-# or with yarn
-yarn link
-```
+<Tabs
+  defaultValue="yarn"
+  values={[
+    {label: 'Yarn', value: 'yarn'},
+    {label: 'NPM', value: 'npm'},
+  ]}>
+  <TabItem value="yarn">
+    <pre>
+      yarn link
+    </pre>
+  </TabItem>
+  <TabItem value="npm">
+    <pre>
+      npm link
+    </pre>
+  </TabItem>
+</Tabs>
 
 This command will create a symlink in the global folder (usually `/usr/local/lib/node_modules` on Unix systems) that links to the package you've built.
 
@@ -62,10 +107,25 @@ This command will create a symlink in the global folder (usually `/usr/local/lib
 
 Finally, navigate to the project where you want to use the forked library and link it:
 
-```bash
-cd path/to/your/project
-npm link viem
-```
+<Tabs
+  defaultValue="yarn"
+  values={[
+    {label: 'Yarn', value: 'yarn'},
+    {label: 'NPM', value: 'npm'},
+  ]}>
+  <TabItem value="yarn">
+    <pre>
+      cd path/to/your/project<br/>
+      yarn link viem
+    </pre>
+  </TabItem>
+  <TabItem value="npm">
+    <pre>
+      cd path/to/your/project<br/>
+      npm link viem
+    </pre>
+  </TabItem>
+</Tabs>
 
 This command tells npm to use the symlinked version of `viem` (which is actually `suave-viem` you've built and linked globally) instead of the one from the npm registry.
 
@@ -79,7 +139,7 @@ The symlink approach allows you to work with a forked library locally, making it
 
 ## Instantiation
 
-First, you need to import necessary modules and instantiate the client. Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary.
+First, you need to import necessary modules and instantiate the client. 
 
 ```typescript
 import { http, createPublicClient } from 'viem';
@@ -98,6 +158,10 @@ chain: suaveRigil,
 transport: http(suaveRigil.rpcUrls.local.http[0]),
 }),
 ```
+
+:::info
+Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary.
+:::
 
 ## Wallet Creation
 
@@ -212,7 +276,7 @@ Set up a CCR with the appropriate parameters.
 
 ```typescript
 const ccrReq: TransactionRequestSuave = {
-  executionNode: '0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f', // Address of the execution node
+  executionNode: '0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f', // Address of your local Kettle. Use 0x03493869959c866713c33669ca118e774a30a0e5 if on Rigil.
   confidentialInputs:
     '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000fd7b22626c6f636b4e756d626572223a22307830222c22747873223a5b2230786638363538303064383235323038393461646263653931303332643333396338336463653834316336346566643261393232383165653664383230336538383038343032303131386164613038376337386234353663653762343234386237313565353164326465656236343031363032343832333735663130663037396663666637373934383830653731613035373366336364343133396437323037643165316235623263323365353438623061316361636533373034343739656334653939316362356130623661323930225d2c2270657263656e74223a31307d000000', // Confidential inputs to the transaction
   to: '0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17', // The recipient of the transaction
@@ -221,9 +285,14 @@ const ccrReq: TransactionRequestSuave = {
   type: SuaveTxTypes.ConfidentialRequest, // Type of the SUAVE transaction
   chainId: suaveRigil.id, // Chain ID of the SUAVE network
   data: '0x236eb5a70000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000010000000000000000000000008f21fdd6b4f4cacd33151777a46c122797c8bf170000000000000000000000000000000000000000000000000000000000000000', // Data payload for the transaction
-  // Note: The 'data' field needs to be constructed according to the requirements of the CCR.
 };
 ```
+
+:::info
+The `data` field needs to be constructed according to the requirements of the CCR.
+:::
+
+TODO: explain how to construct the `confidentialInputs` and `data` fields "according to the requirements".
 
 #### 7. Send the Confidential Compute Request
 

@@ -71,7 +71,7 @@ This contract uses three new [precompiles](/technical/specs/rigil/precompiles):
 
 ## 2. Deploy locally
 
-There are currently 3 steps required to deploy a custom contract. This will change!
+There are currently 3 steps required to deploy a custom contract.
 
 1. Generate the necessary artifacts. This can be done by running:
 
@@ -85,7 +85,9 @@ suave/scripts/contracts.sh build
 OnlyConfidentialContract  = newArtifact("OnlyConfidential.sol/OnlyConfidential.json")
 ```
 
-> **Make sure to capitalize `OnlyConfidentialContract` so that it is exported from this file.**
+:::info
+Make sure to capitalize `OnlyConfidentialContract` so that it is exported from this file.
+:::
 
 3. Edit the [contract deployment code](/how-to/send-transactions#2-deploy-a-contract) from the previous guide to look like this:
 

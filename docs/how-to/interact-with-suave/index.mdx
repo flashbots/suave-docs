@@ -21,7 +21,8 @@ Or if you followed the [previous guide](/how-to/run-suave), you can use your loc
 
 The easiest way to test your connection to an RPC endpoint is via a simple curl command.
 
-*Remote curl request*
+#### Remote curl request
+
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -29,7 +30,8 @@ curl -X POST \
   https://rpc.rigil.suave.flashbots.net
 ```
 
-*Local curl request*
+#### Local curl request
+
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -38,7 +40,7 @@ curl -X POST \
 
 ```
 
-*Expected Response*
+#### Expected Response
 
 If your connection is working properly you should get a response such as:
 
@@ -54,9 +56,10 @@ The SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods. Some methods in
 
 ### Example
 
-The example above follows the [exact same API interface](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth) as as the original go-ethereum client. But if we grab a random transaction hash from the [Rigil Explorer](https://explorer.rigil.suave.flashbots.net/), we can see the core difference with the SUAVE Rigil RPC, a new SUAVE transaction type.
+The example above follows the [exact same API interface](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth) as the original go-ethereum client. However, if we grab a random transaction hash from the [Rigil Explorer](https://explorer.rigil.suave.flashbots.net/), we can see the core difference with the SUAVE Rigil RPC: a new SUAVE transaction type.
 
-*Remote curl request*
+#### Remote curl request
+
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -71,7 +74,8 @@ curl -X POST \
   https://rpc.rigil.suave.flashbots.net
 ```
 
-*Response*
+#### Response
+
 ```JSON
 {
   "jsonrpc": "2.0",
@@ -123,10 +127,10 @@ Creates a new message call transaction or a contract creation for any signed `Co
 Executes a new message call immediately without creating a transaction on the block chain. It follows the same format as the default `eth_call` with two extra parameters:
 
 - `IsConfidential`: Set to true to execute as a confidential request and access the [`MEVM`](/technical/specs/rigil/precompiles) methods.
-- `ExecutionAddress`: `address` - (optional) The execution address that performs the execution.
+- `ExecutionAddress`: `address` - (optional) The address of the Kettle that performs the execution.
 
 3. **eth_executionAddress**
 
 Returns the list of available addresses in the Kettle to execute the confidential compute request.
 
-The [SUAVE SDK](https://github.com/flashbots/suave-geth/blob/main/suave/sdk/sdk.go) makes it easy to interact with the extended RPC and we will be using it in this guide.
+The [SUAVE SDK](/how-to/interact-with-suave/golang-sdk) makes it easy to interact with the extended RPC and we will be using it in this guide.
