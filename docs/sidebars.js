@@ -41,6 +41,7 @@ module.exports = {
         {
           type: 'category',
           label: 'Create Contracts',
+          link: { type: 'doc', id: 'how-to/create-contracts/index' },
           items: [
             'how-to/create-contracts/deploy-custom', 
             'how-to/create-contracts/confidential', 
