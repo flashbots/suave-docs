@@ -8,6 +8,7 @@ module.exports = {
       items: [
         'what-is-suave',
         'novel-use-cases',
+        'dev-tooling',
         'technical/specs/rigil/glossary'
       ],
     },
@@ -40,6 +41,7 @@ module.exports = {
         {
           type: 'category',
           label: 'Create Contracts',
+          link: { type: 'doc', id: 'how-to/create-contracts/index' },
           items: [
             'how-to/create-contracts/deploy-custom', 
             'how-to/create-contracts/confidential', 
