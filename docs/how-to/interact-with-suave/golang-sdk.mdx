@@ -10,8 +10,16 @@ description: Brief Explanation of Golang SDK
 Make sure you have Go installed on your system and your workspace is set. Then import the SDK package into your Go project:
 
 ```go
-import "github.com/flashbots/suave-geth/suave/sdk"
+import "github.com/ethereum/go-ethereum/suave/sdk"
 ```
+
+Then, introduce a `replace` statement in your `go.mod` file to point to the SUAVE Geth fork:
+
+```go
+replace github.com/ethereum/go-ethereum => github.com/flashbots/suave-geth
+```
+
+This is a temporary setup, and the SDK will later be spawned into its own library.
 
 ## Usage
 
@@ -44,7 +52,6 @@ transactionResult, err := sdk.DeployContract(bytecode, client)
 
 - `bytecode`: The compiled bytecode of the smart contract.
 - `client`: An instance of your `Client`.
-
 
 ### Sending a Transaction
 
