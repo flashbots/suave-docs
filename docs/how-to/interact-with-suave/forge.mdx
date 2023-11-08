@@ -84,7 +84,21 @@ Then, run the Forge script with the `ffi` flag enabled:
 forge script Example.sol --ffi
 ```
 
-This should print the gas used to deploy your contract to your console. If you check the logs of your SUAVE devnet, you should see a message like this:
+<details>
+  <summary>Having issues?</summary>
+  <div>
+    <div>
+      <div>
+        Typically, building SUAVE yourself places the binary in the $GOPATH/bin directory. If it didn't happen, ensure that path is added to your PATH environment variable:<br/><br/>
+        <code>
+        export PATH=$PATH:$GOPATH/bin
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+
+The Forge script should print the gas used to run the specified function in your console. If you check the logs of your SUAVE devnet, you should see a message like this:
 
 `INFO [timestamp] confidential engine: refusing to send writes based on unsigned transaction`
 
