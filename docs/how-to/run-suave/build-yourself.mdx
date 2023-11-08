@@ -25,7 +25,7 @@ make suave
 
 Run this command:
 ```bash
-./build/bin/suave --suave.dev
+suave --suave.dev
 ```
 
 ### What to do next
@@ -57,7 +57,7 @@ Step 3: Send backrun
 You can also run any familiar Geth command you like. Start by generating a new account:
 
 ```bash
-./build/bin/suave --suave account new
+suave --suave account new
 ```
 
 If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
@@ -65,7 +65,7 @@ If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.eth
 You can attach to the usual Geth javascript console to get any interactive data you need with:
 
 ```bash
-./build/bin/suave attach /tmp/geth.ipc
+suave attach /tmp/geth.ipc
 ```
 
 From within the console, you can run:
