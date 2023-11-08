@@ -1,0 +1,69 @@
+# Forge
+
+Suave consists of two execution components:
+
+- Suave chain: an Ethereum compatible chain that accepts Ethereum transactions.
+- Kettles: Offchain components that accept confidential compute requests, execute them in a confidential environment and relay the results to the Suave chain nodes. These requests are executed on the MEVM, a modified EVM extended with custom precompiles.
+
+If a method of the Suapp uses an MEVM precompile, that function can only be executed through a Kettle as a confidential request. Natively, `Foundry` does not support neither MEVM precompiles nor confidential requests. This distinction heavily influences the current use cases for Forge and MEVM.
+
+[`SuaveForge.sol`](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/SuaveForge.sol) is a Solidity library that implements the same MEVM precompiles as `Suave.sol`. However, unlike `Suave.sol`, which is used in the native MEVM environment of the Kettle, `SuaveForge.sol` uses the [ffi](https://book.getfoundry.sh/cheatcodes/ffi) cheatcode in Forge to execute the precompile logic in an external MEVM execution context. The `ffi` cheatcode uses the `suave forge` command from the `suave` binary to make the remote calls.
+
+## Install
+
+To install the binary for Suave, follow the installation guide provided in the [Manual Installation Guide](how-to/run-suave/build-yourself).
+
+Typically, the manual installation process places the binary in the $GOPATH/bin directory. If not done yet, ensure that path is added to your PATH environment variable.
+
+```bash
+$ export PATH=$PATH:$GOPATH/bin
+```
+
+Now, lets import the `SuaveForge.sol` library from `suave-geth`:
+
+```bash
+$ git submodule init
+$ git submodule add github.com/flashbots/suave-geth
+```
+
+The library is located on the `suave-geth/suave/sol/libraries/SuaveForge.sol` path.
+
+## Write and run a Forge script
+
+This is an example `Forge` script that uses the `SuaveForge.sol` library to create a new bid.
+
+```solidity
+pragma solidity ^0.8.8;
+
+import "./suave-geth/suave/sol/libraries/SuaveForge.sol";
+import "forge-std/Script.sol";
+
+contract Forge is Script {
+    address[] public addressList = [Suave.ANYALLOWED];
+
+    function example() public {
+        Suave.Bid memory bid = SuaveForge.newBid(
+            0,
+            addressList,
+            addressList,
+            "namespace"
+        );
+    }
+}
+```
+
+As aforementioned, the same precompile functions available in `Suave.sol` are also implemented for `SuaveForge.sol`. However, a small caveat, the struct types are still imported from `Suave.sol` itself. It is not required to import `Suave.sol` in your scripts since `SuaveForge.sol` already does it.
+
+Before running the script, you need to make sure you are running an external MEVM execution context:
+
+```
+$ suave --suave.dev
+```
+
+Then, run the `forge` script with the `ffi` flag enabled:
+
+```
+$ forge script example.sol --ffi
+```
+
+Due to the limitations of not being able to run confidential compute requests with Forge and having to rely on the external MEVM, it is recommended to use Forge only for testing the precompiles.
