@@ -73,7 +73,7 @@ module.exports = {
     },
     {
       type: "link",
-      href: "https://github.com/flashbots/suave-geth",
+      href: "https://github.com/orgs/flashbots/repositories?q=suave",
       label: "GitHub",
     },
   ],

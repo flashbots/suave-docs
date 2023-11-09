@@ -63,7 +63,7 @@ module.exports = async function createConfigAsync() {
           },
           items: [
             {
-              href: 'https://github.com/flashbots/suave-geth',
+              href: 'https://github.com/orgs/flashbots/repositories?q=suave',
               label: 'GitHub',
               position: 'right',
             },
