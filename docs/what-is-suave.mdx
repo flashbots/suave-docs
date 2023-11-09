@@ -38,11 +38,11 @@ SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise de
 1. SUAVE is a fork of Geth, with additional precompiles for MEV applications (_SUAPPs_) and a modified runtime to enable confidential computation (the _MEVM_).
 2. Contracts are still written in Solidity, and can be extended with the new precompiles above. We call this _builder solidity_.
 3. Transactions have been altered to enable _confidential compute requests_.
-    1. All the Ethereum JSON RPC methods are there, but some are extended, like `eth_call` and `eth_sendRawTransaction`.
-    2. The type returned by the SUAVE JSON RPC is always a _SUAVE transaction_.
-    3. In practice, deploying contracts is the same (and can be done from familiar tools like Remix or Forge), but sending transactions and handling their responses requires custom code, for which we have developed two SDKs, one in Go and another in typescript.
+   1. All the Ethereum JSON RPC methods are there, but some are extended, like `eth_call` and `eth_sendRawTransaction`.
+   2. The type returned by the SUAVE JSON RPC is always a _SUAVE transaction_.
+   3. In practice, deploying contracts is the same (and can be done from familiar tools like Remix or Forge), but sending transactions and handling their responses requires custom code, for which we have developed two SDKs, one in Go and another in typescript.
 4. We call the primary protocol actor a _Kettle_, because it is a modified version of a Geth node + an extended RPC + a confidential data store.
 5. The _confidential compute requests_ contained in the extended transactions above can be encrypted for specific actors (i.e. Kettles and/or other contracts), which enables _programmable privacy_.
 6. A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or _hints_, on the SUAVE chain itself.
-    1. This means the programming model and how to think about state transitions both differ from what you may be used to.
-    2. These differences are best illustrated via practical examples, which you can find in our [how to guides](/how-to).
+   1. This means the programming model and how to think about state transitions both differ from what you may be used to.
+   2. These differences are best illustrated via practical examples, which you can find in our [how to guides](/how-to).

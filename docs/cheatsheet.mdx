@@ -1,9 +1,10 @@
 ---
 title: Docs Cheatsheet
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import TOCInline from '@theme/TOCInline'
+import TOCInline from '@theme/TOCInline';
 
 On this page you'll find every single markdown & mdx component used in our docs
 
@@ -11,7 +12,7 @@ On this page you'll find every single markdown & mdx component used in our docs
 
 For the title of the page, and the name of the tab, at the very top of your file, just add this code snippet to the top.
 
-Any thing inbetween the `---` tags will be used for the meta data of the page
+Any thing between the `---` tags will be used for the meta data of the page
 
 ```md
 ---
@@ -84,57 +85,56 @@ With a line between them
 
 You don't actually have to do the numbers, as long as there is a number at the start it'll count incrementally starting with the first number in the list
 
-1. Ordererd list 1
-69. Ordererd list 2
-42. Ordererd list 3
-
+1. Ordered list 1
+2. Ordered list 2
+3. Ordered list 3
 
 ```md
-1. Ordererd list 1
-69. Ordererd list 2
-42. Ordererd list 3
+1. Ordered list 1
+2. Ordered list 2
+3. Ordered list 3
 ```
 
 ### Nested & Mixed lists
 
-1. Ordererd list
-    1. Sable
-    2. Ferret
-        - Cat rat
-        - Fox weasel
-    8. Lamp
-69. Ordererd list
-    - Grape
-    - Potatoes
-        - Chips
-            1. Crisps
-            1. Fondant
-            1. Frites
-    - Lemons
-        1. Three cats
-        1. Pasta
-        9. Ragu
-42. Ordererd list
+1. Ordered list
+   1. Sable
+   2. Ferret
+      - Cat rat
+      - Fox weasel
+   3. Lamp
+2. Ordered list
+   - Grape
+   - Potatoes
+     - Chips
+       1. Crisps
+       1. Fondant
+       1. Frites
+   - Lemons
+     1. Three cats
+     1. Pasta
+     1. Ragu
+3. Ordered list
 
 ```md
-1. Ordererd list
-    1. Sable
-    2. Ferret
-        - Cat rat
-        - Fox weasel
-    8. Lamp
-69. Ordererd list
-    - Grape
-    - Potatoes
-        - Chips
-            1. Crisps
-            1. Fondant
-            1. Frites
-    - Lemons
-        1. Three cats
-        1. Pasta
-        9. Ragu
-42. Ordererd list
+1. Ordered list
+   1. Sable
+   2. Ferret
+      - Cat rat
+      - Fox weasel
+   3. Lamp
+2. Ordered list
+   - Grape
+   - Potatoes
+     - Chips
+       1. Crisps
+       1. Fondant
+       1. Frites
+   - Lemons
+     1. Three cats
+     1. Pasta
+     1. Ragu
+3. Ordered list
 ```
 
 ## Text styling
@@ -164,18 +164,14 @@ So you basically define a section using the ` ``` ` anything between two lines t
 If you want specific formatting for a certain language like for example Javascript here:
 
 ```js
-const threeCats = ["cat", "cat", "cat"]
+const threeCats = ['cat', 'cat', 'cat'];
 ```
 
-```md
-Mind the indentation here, code blocks in code blocks isn't normal usage
-    ```js
-    const threeCats = ["cat", "cat", "cat"]
-    ```
-```
+````md
+Mind the indentation here, code blocks in code blocks isn't normal usage `js     const threeCats = ["cat", "cat", "cat"]     `
+````
 
 Theres a lot of different formattings to use, `md`, `js`, `ts`, etc. The package used is [Prism react render](https://github.com/FormidableLabs/prism-react-renderer)
-
 
 ## Quotes
 
@@ -184,12 +180,17 @@ Theres a lot of different formattings to use, `md`, `js`, `ts`, etc. The package
 > > Quoted quote.
 
 > Quoted text.
+>
 > > Quoted quote.
+> >
 > > > Quoted quote.
 
 > Quoted text.
+>
 > > Quoted quote.
+> >
 > > > Quoted quote.
+> > >
 > > > > Quoted quote.
 
 ```md
@@ -198,12 +199,17 @@ Theres a lot of different formattings to use, `md`, `js`, `ts`, etc. The package
 > > Quoted quote.
 
 > Quoted text.
+>
 > > Quoted quote.
+> >
 > > > Quoted quote.
 
 > Quoted text.
+>
 > > Quoted quote.
+> >
 > > > Quoted quote.
+> > >
 > > > > Quoted quote.
 ```
 
@@ -213,13 +219,13 @@ These are nifty notification blocks [from Docusaurus](https://docusaurus.io/docs
 
 :::note
 
-The content and title *can* include markdown.
+The content and title _can_ include markdown.
 
 :::
 
 :::note Your Title
 
-The content and title *can* include markdown.
+The content and title _can_ include markdown.
 
 :::
 
@@ -285,27 +291,23 @@ Danger danger, mayday!
 :::
 ```
 
-
-
 ## Links
 
-The links in this paragraph are being pulled from a list [a link][1] and
-another [link][2].
+The links in this paragraph are being pulled from a list [a link][1] and another [link][2].
 
 ```md
-The links in this paragraph are being pulled from a list [a link][1] and
-another [link][2].
+The links in this paragraph are being pulled from a list [a link][1] and another [link][2].
 ```
 
 ```md
 This is that list
 
-[1]: http://example.com/ "Title"
-[2]: http://example.org/ "Title"
+[1]: http://example.com/ 'Title'
+[2]: http://example.org/ 'Title'
 ```
 
-[1]: http://example.com/ "Title"
-[2]: http://example.org/ "Title"
+[1]: http://example.com/ 'Title'
+[2]: http://example.org/ 'Title'
 
 ## Images
 
@@ -313,23 +315,23 @@ This is that list
 
 You can update the alt tag data for text like this:
 
-Logo: ![Alt](/img/logo.png "Flashbots logo")
+Logo: ![Alt](/img/logo.png 'Flashbots logo')
 
 ```md
-Logo: ![Alt](/img/logo.png "Flashbots logo")
+Logo: ![Alt](/img/logo.png 'Flashbots logo')
 ```
 
 You can create a image with a hyperlink to another page or a hash link on the page by adding the link in the brackets next to it
 
-Linked logo: [![alt text](//img/logo.png)](https://docs.flashbots.net/ "Off to the docs")
+Linked logo: [![alt text](//img/logo.png)](https://docs.flashbots.net/ 'Off to the docs')
 
 ```md
-Linked logo: [![alt text](//img/logo.png)](https://docs.flashbots.net/ "Off to the docs")
+Linked logo: [![alt text](//img/logo.png)](https://docs.flashbots.net/ 'Off to the docs')
 ```
 
 ## MDX features
 
-A quick note on using what's called `.mdx` features, `mdx` means markdown extended, to used these features, you need to name your file to have the extention `.mdx`
+A quick note on using what's called `.mdx` features, `mdx` means markdown extended, to used these features, you need to name your file to have the extension `.mdx`
 
 For example `cheatsheet.mdx`
 
@@ -388,9 +390,8 @@ For extend usage, please refer to the [Docusaurus documentation.](https://docusa
 
 <TOCInline toc={toc} />
 
-
 ```mdx
-import TOCInline from '@theme/TOCInline'
+import TOCInline from '@theme/TOCInline';
 
 <TOCInline toc={toc} />
 ```
@@ -407,7 +408,6 @@ To create list of foot notes, you just add list like this somewhere, preferably 
 
 ```md
 [^1]: an amazing foot note, you can add links n things here as usual
-
 ```
 
 ## Docusaurus-specific considerations
@@ -419,16 +419,12 @@ There's a couple things to be aware of when adding your own `*.md` files to our 
 - For images, use the syntax `![Alt Text](image url)` to add an image, alternatively see below:
 
 ```md
-<img
-  src={require('../static/img/example-banner.png').default}
-  alt="Example banner"
-/>
+<img src={require('../static/img/example-banner.png').default} alt="Example banner" />
 ```
 
 ### Adding meta data to your doc
 
-The docs make use of a feature called [frontmatter](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-frontmatter) which lets you add some meta data and
-control the way the docs are referenced through the site.
+The docs make use of a feature called [frontmatter](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-frontmatter) which lets you add some meta data and control the way the docs are referenced through the site.
 
 This is done by adding a small section to the top of your doc like this:
 
@@ -473,6 +469,5 @@ To update the high level navigation, open the file in `docs/sidebars.js` and arr
 The `items` here take a page ID, a page ID by default is the title of the file, as example `example-doc.md` would be `example-doc`
 
 To read the Docusaurus docs, [click here](https://docusaurus.io/docs/sidebar)
-
 
 [^1]: an amazing foot note, you can add links n things here as usual

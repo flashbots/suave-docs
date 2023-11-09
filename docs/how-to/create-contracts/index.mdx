@@ -1,11 +1,11 @@
 ---
 title: Create Contracts
-description: Deploy a precompiled exxample contract on SUAVE
+description: Deploy a precompiled example contract on SUAVE
 ---
 
 This sub-section of guides will walk you through creating and deploying increasingly complex smart contracts.
 
-We've written a number of example smart contracts to help get you started thinking about what's possible. 
+We've written a number of example smart contracts to help get you started thinking about what's possible.
 
 This script uses the [golang SDK](/how-to/interact-with-suave/golang-sdk), and deploys an example contract we've already set up to keep things maximally simple.
 
@@ -88,6 +88,6 @@ go run suave/devenv/cmd/deploy.go
 
 You should see the address of your new example contract printed in the terminal.
 
-The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeplyContract` and `sdk.GetContract`. 
+The important parts to note when deploying contracts are the call to [`e2e`](https://github.com/flashbots/suave-geth/blob/main/suave/e2e/contracts.go), which helps generate ABIs and bytecode for contracts, and the `sdk.DeployContract` and `sdk.GetContract`.
 
 If you're able to generate the necessary ABIs and bytecode, you should be able to deploy any contract you like using the above pattern.

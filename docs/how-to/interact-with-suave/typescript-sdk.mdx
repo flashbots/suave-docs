@@ -6,11 +6,11 @@ description: Brief Explanation of Typescript SDK (suave-viem)
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem. 
+SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
 
 :::info
 
-Currently,  Confidential Compute Requests (CCRs) are not EIP-1193 compatible and therefore you will not be able to sign CCRs directly from Metamask.
+Currently, Confidential Compute Requests (CCRs) are not EIP-1193 compatible and therefore you will not be able to sign CCRs directly from Metamask.
 
 :::
 
@@ -46,14 +46,10 @@ Once you have cloned the repository and navigated into the directory, install it
     {label: 'NPM', value: 'npm'},
   ]}>
   <TabItem value="yarn">
-    <pre>
-      yarn
-    </pre>
+    <pre>yarn</pre>
   </TabItem>
   <TabItem value="npm">
-    <pre>
-      npm install
-    </pre>
+    <pre>npm install</pre>
   </TabItem>
 </Tabs>
 
@@ -68,14 +64,10 @@ Some TypeScript projects need to be compiled before they can be used. If this is
     {label: 'NPM', value: 'npm'},
   ]}>
   <TabItem value="yarn">
-    <pre>
-      yarn build
-    </pre>
+    <pre>yarn build</pre>
   </TabItem>
   <TabItem value="npm">
-    <pre>
-      npm run build
-    </pre>
+    <pre>npm run build</pre>
   </TabItem>
 </Tabs>
 
@@ -90,14 +82,10 @@ After building the project, you can create a symbolic link in the global `node_m
     {label: 'NPM', value: 'npm'},
   ]}>
   <TabItem value="yarn">
-    <pre>
-      yarn link
-    </pre>
+    <pre>yarn link</pre>
   </TabItem>
   <TabItem value="npm">
-    <pre>
-      npm link
-    </pre>
+    <pre>npm link</pre>
   </TabItem>
 </Tabs>
 
@@ -115,13 +103,15 @@ Finally, navigate to the project where you want to use the forked library and li
   ]}>
   <TabItem value="yarn">
     <pre>
-      cd path/to/your/project<br/>
+      cd path/to/your/project
+      <br />
       yarn link viem
     </pre>
   </TabItem>
   <TabItem value="npm">
     <pre>
-      cd path/to/your/project<br/>
+      cd path/to/your/project
+      <br />
       npm link viem
     </pre>
   </TabItem>
@@ -139,38 +129,36 @@ The symlink approach allows you to work with a forked library locally, making it
 
 ## Instantiation
 
-First, you need to import necessary modules and instantiate the client. 
+First, you need to import necessary modules and instantiate the client.
 
 ```typescript
-import { http, createPublicClient } from 'viem';
-import { suaveRigil } from 'viem/chains';
-import { getSuaveWallet } from 'viem/chains/suave/wallet';
+import {http, createPublicClient} from 'viem';
+import {suaveRigil} from 'viem/chains';
+import {getSuaveWallet} from 'viem/chains/suave/wallet';
 
 // Instantiate a public client for Suave
 export const publicClients = {
-suaveRigil: createPublicClient({
-chain: suaveRigil,
-transport: http(),
-}),
+  suaveRigil: createPublicClient({
+    chain: suaveRigil,
+    transport: http(),
+  }),
 
-// Optional: Instantiate version using local node
-suaveLocal: createPublicClient({
-chain: suaveRigil,
-transport: http(suaveRigil.rpcUrls.local.http[0]),
-}),
-}
+  // Optional: Instantiate version using local node
+  suaveLocal: createPublicClient({
+    chain: suaveRigil,
+    transport: http(suaveRigil.rpcUrls.local.http[0]),
+  }),
+};
 ```
 
-:::info
-Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary.
-:::
+:::info Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary. :::
 
 ## Wallet Creation
 
 To interact with the SUAVE network, create a wallet by providing a private key and the RPC URL.
 
 ```typescript
-import { Hex } from 'viem';
+import {Hex} from 'viem';
 
 // Provide your private key here
 const PRIVATE_KEY: Hex = 'your-private-key-hex'; // Replace with your private key
@@ -196,7 +184,7 @@ publicClients.suaveRigil.watchPendingTransactions({
   async onTransactions(transactions) {
     for (const hash of transactions) {
       try {
-        const receipt = await suaveClient.getTransactionReceipt({ hash });
+        const receipt = await suaveClient.getTransactionReceipt({hash});
         console.log('Transaction Receipt:', receipt);
       } catch (error) {
         console.error('Error fetching receipt:', error);
@@ -290,10 +278,7 @@ const ccrReq: TransactionRequestSuave = {
 };
 ```
 
-:::info
-`confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp.
-:::
-
+:::info `confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp. :::
 
 #### 7. Send the Confidential Compute Request
 
@@ -303,7 +288,6 @@ Finally, send the CCR to the network.
 const res = await wallet.sendTransaction(ccrReq);
 console.log(`sent tx: ${res}`);
 ```
-
 
 ## Fetching Blockchain Data
 

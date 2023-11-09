@@ -26,19 +26,19 @@ contract confidentialWithLogs {
 
     function fetchBidConfidentialBundleData() public returns (bytes memory) {
         require(Suave.isConfidential());
-        
+
         bytes memory confidentialInputs = Suave.confidentialInputs();
         return abi.decode(confidentialInputs, (bytes));
     }
 
-    // note: this enables the result of the confidential comput request (CCR) 
+    // note: this enables the result of the confidential compute request (CCR)
     // to be emitted on chain
     function emitSimResultEvent(uint64 egp) public {
         emit SimResultEvent(egp);
     }
 
 
-    // note: because of confidential execution, 
+    // note: because of confidential execution,
     // you will not see your input as input to the function
     function helloWorld() external view returns (bytes memory) {
         // 0. ensure confidential execution
@@ -55,20 +55,21 @@ contract confidentialWithLogs {
     }
 }
 ```
+
 ## Transaction flow
 
-It is easiest to demonstrate how we expect data to flow in Rigil via a diagram. 
+It is easiest to demonstrate how we expect data to flow in Rigil via a diagram.
 
 ![Rigil transaction flow](/assets/rigil-tx-flow.svg)
 
 Once a SUAPP has emitted the result of a confidential computation, what happens? The next guide contains a more complete overview of [how data might flow if we replicate MEV-Share on SUAVE](/how-to/create-contracts/ofa).
 
-## Confidential compute 
+## Confidential compute
 
 The function users would generally call - in this case `helloWorld()` - returns a _callback to another function_ which is intended to permute the state. If it returned the result, rather than this callback, it would expose the confidential data.
 
 Confidential compute occurs through an [offchain function call](https://docs.soliditylang.org/en/latest/contracts.html#view-functions), signified in solidity by the `view` modifier.
 
-Any MEVM specified by the user can use these view functions in conjunction with plaintext access to decrypted data to perform confidential computation. The result, and a signature of integrity, are propagated along with the initial transaction that contained the confidential compute request. 
+Any MEVM specified by the user can use these view functions in conjunction with plaintext access to decrypted data to perform confidential computation. The result, and a signature of integrity, are propagated along with the initial transaction that contained the confidential compute request.
 
 Confidential data is propagated separately via the confidential data store, but other Kettles do not need the underlying data as they will trust any valid signature attesting to the integrity of the computation.

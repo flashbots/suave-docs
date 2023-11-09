@@ -5,9 +5,7 @@ description: Fund Local Accounts for Local Development
 
 This script will go through funding a local account using the golang SDK.
 
-:::info
-You need to be [running SUAVE locally](/how-to/run-suave) in order for this script to function. 
-:::
+:::info You need to be [running SUAVE locally](/how-to/run-suave) in order for this script to function. :::
 
 Inside your `suave-geth` repo, create a new file in `suave/devenv/cmd` called `transactions.go`:
 
@@ -80,7 +78,7 @@ func fundAccount(clt *sdk.Client, to common.Address, value *big.Int) error {
 	return nil
 }
 
-// General types and methods we need for the above to work as we want it to, 
+// General types and methods we need for the above to work as we want it to,
 // nothing SUAVE specific
 type privKey struct {
 	priv *ecdsa.PrivateKey

@@ -40,7 +40,6 @@ SUAVE also enables new and unique decentralized application paradigms.
 - [🌐 Social](#-social)
 - [🎮 Gaming](#-gaming)
 
-
 ### 🔄 OFA (Order Flow Auctions)
 
 Order Flow Auctions (OFAs) are responsible for taking in a transaction or intent and routing it somewhere, either based on predefined logic, an auction, or by introspecting the transaction or intent.
@@ -48,10 +47,9 @@ Order Flow Auctions (OFAs) are responsible for taking in a transaction or intent
 - [MEV-Share](https://github.com/flashbots/mev-share) 🔄
 - [MEV-Blocker](https://mevblocker.io/) 🛑
 - MEV-Share+
-    - Dynamic refund: currently, users set their own refund percent, but depending on the state of the mempool and blockspace auction, they may want a lower or higher refund percent. A SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
-    - Dynamic hint: one of the open research questions around programmable privacy is where the privacy efficiency lies. An example of this, relevant to MEV-Share, is as follows: given a Uniswap L1 trade, how much information should be revealed? A $10 trade most likely can leak the entire trade details because it would be better to batch, but a very large trade has a risk of being probabilistically front-run; therefore, it should leak less information, or at least that is one possibility.
-    - Batching user trades and back-runs together.
-    In all these cases, a SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
+  - Dynamic refund: currently, users set their own refund percent, but depending on the state of the mempool and blockspace auction, they may want a lower or higher refund percent. A SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
+  - Dynamic hint: one of the open research questions around programmable privacy is where the privacy efficiency lies. An example of this, relevant to MEV-Share, is as follows: given a Uniswap L1 trade, how much information should be revealed? A $10 trade most likely can leak the entire trade details because it would be better to batch, but a very large trade has a risk of being probabilistically front-run; therefore, it should leak less information, or at least that is one possibility.
+  - Batching user trades and back-runs together. In all these cases, a SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
 
 ### 🔍 Searchers
 
@@ -60,14 +58,15 @@ Take an existing searcher bot design, write it in Solidity, and put it on-chain!
 ### 🧮 Solvers
 
 Solvers are responsible for finding mathematically optimal solutions in combinatorially large solution spaces, usually framed as finding optimal routes through multiple liquidity pools or in matching coincidences-of-wants. Solvers can be implemented in Solidity and operate on order flow and intents submitted by users to SUAVE.
+
 - [CoWSwap Solver Example](https://github.com/cowprotocol/services/tree/main/crates/solver) 🧩
 
 ### 📢 RFQ (Request for Quote)
 
 RFQs, or Requests for Quote, are off-chain services that take a user's ask, broadcast it to a network of market makers, and respond with the best price. A SUAPP could do this in two ways:
 
-1. Use an HTTP post precompile to send to a list of market makers, or 
-2. Accept a curve of prices a market maker is willing to fill at and automatically respond on their behalf. 
+1. Use an HTTP post precompile to send to a list of market makers, or
+2. Accept a curve of prices a market maker is willing to fill at and automatically respond on their behalf.
 
 The second option changes the nature of RFQs, as market makers would not need to continuously update new pricing curves.
 
@@ -86,14 +85,14 @@ The ability for SUAVE to emit transactions and perform off-chain and confidentia
 - Private liquidity 🔐
 - UniV4 hook integrations 🔗
 
-### 📣   Auctions
+### 📣 Auctions
 
 Auctions, and mechanism design more broadly, can encompass most of the ideas on this page. But some specific interesting auction ideas include:
+
 - Private NFT auction 🖼️
 - Combinatorial Auction 🤝
 - Dutch Auctions - Fee escalators could be one example that are especially interesting combined with a programmable information leakage model like MEV-Share.
-- Ad Auctions - [Learn about header bidding first](ttps://digiday.com/media/wtf-header-bidding/). Then, create a snippet/plugin that websites can integrate into their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers, who then participate in an auction. In our case, the website owner would send the CCR to the auction contract, specifying some Kettle(s), and then the off-chain components do the actual auction and return the winning bid.
-
+- Ad Auctions - [Learn about header bidding first](https://digiday.com/media/wtf-header-bidding/). Then, create a snippet/plugin that websites can integrate into their frontend so whenever a user visits the website, the data is sent to multiple auction houses/ad publishers, who then participate in an auction. In our case, the website owner would send the CCR to the auction contract, specifying some Kettle(s), and then the off-chain components do the actual auction and return the winning bid.
 
 ### 💸 PFOF (Payment for Order Flow)
 
@@ -123,4 +122,3 @@ Incentivize Twitter accounts to post certain tweets in specific time periods. Ch
 ### 🎮 Gaming
 
 In games like Sid Meier’s Civilization, etc., you build an on-chain oracle that takes game state as input, and then you can allow players to sign (smart) contracts that let them negotiate with each other in a super expressive way, e.g., you can now say “I want to borrow your units on this continent for X turns and in exchange, I’ll commit to taking your future contracts of Y.” In this way, you can directly build mods (and specifically, mods around incentives/contracts/commitments) into existing games without having to build a new game, so you don’t have a cold-start problem and those mods are the most monetizable ones anyway 🎲.
-

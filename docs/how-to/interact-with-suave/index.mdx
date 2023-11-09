@@ -16,7 +16,6 @@ Or if you followed the [previous guide](/how-to/run-suave), you can use your loc
 
 - **RPC Endpoint**: `http://localhost:8545`
 
-
 ## Test RPC
 
 The easiest way to test your connection to an RPC endpoint is via a simple curl command.
@@ -106,13 +105,13 @@ curl -X POST \
 }
 ```
 
-This response has a couple fields that aren't in your traditional Ethereum transaction type, namely: 
+This response has a couple fields that aren't in your traditional Ethereum transaction type, namely:
+
 - `confidentialComputeResult`
 - `executionNode`
 - `requestRecord`
 
 To dive deeper into these differences checkout the [SUAVE chain specs](../../technical/specs/rigil/kettle.md).
-
 
 ### `eth` Namespace
 

@@ -1,0 +1,17 @@
+node_modules
+.yarn
+.history
+build
+coverage
+jest.config.js
+jest.transform.js
+jest/vendor
+
+.eslintrc.js
+babel.config.js
+docusaurus.config.js
+stylelintrc.js
+tailwind.config.js
+
+docs/sidebars.js
+src/theme/Layout/index.tsx
