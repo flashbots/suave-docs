@@ -1,50 +1,59 @@
 ---
 title: Forge
-description: Use Forge with Suapps
+description: Use Forge to help develop and test contracts with new precompiles on SUAVE
 ---
 
-Suave consists of two execution components:
+:::info
 
-- Suave chain: an Ethereum compatible chain that accepts Ethereum transactions.
-- Kettles: Offchain components that accept confidential compute requests, execute them in a confidential environment and relay the results to the Suave chain nodes. These requests are executed on the MEVM, a modified EVM extended with custom precompiles.
+There is limited support for Forge in SUAVE. We recommend that you use it only for writing contracts intended to test precompiles.
 
-If a method of the Suapp uses an MEVM precompile, that function can only be executed through a Kettle as a confidential request. Natively, `Foundry` does not support neither MEVM precompiles nor confidential requests. This distinction heavily influences the current use cases for Forge and MEVM.
+:::
 
-[`SuaveForge.sol`](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/SuaveForge.sol) is a Solidity library that implements the same MEVM precompiles as `Suave.sol`. However, unlike `Suave.sol`, which is used in the native MEVM environment of the Kettle, `SuaveForge.sol` uses the [ffi](https://book.getfoundry.sh/cheatcodes/ffi) cheatcode in Forge to execute the precompile logic in an external MEVM execution context. The `ffi` cheatcode uses the `suave forge` command from the `suave` binary to make the remote calls.
+Writing and compiling contracts for SUAVE is similar to Ethereum, and can be done with familiar local tools like Forge, or even IDEs like Remix. Deploying those contracts to SUAVE is done using the same transaction type as Ethereum, and so can also be achieved from those tools without modifying anything other than the RPC endpoint.
+
+However, SUAVE makes an [extended set of precompiles](/technical/specs/rigil/precompiles) available in any contract. While these are included as a [library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) to keep compilation easy, you can't use Forge (or Remix) to interact with any method in those contracts which uses any of the new precompiles once the contracts are deployed.
+
+Methods which use new precompiles can only be executed through a Kettle as a Confidential Compute Request (CCR). Foundry supports neither precompiles nor CCRs. This limits the current use cases for Forge.
+
+[`SuaveForge.sol`](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/SuaveForge.sol) is a Solidity library that implements the same precompiles as `Suave.sol`. The difference is this:
+
+- `Suave.sol` is used in the MEVM on the Kettle specified by any CCR 
+- `SuaveForge.sol` uses the [ffi](https://book.getfoundry.sh/cheatcodes/ffi) cheatcode in an environment external to Forge (i.e. the instance of SUAVE you are running locally). The `ffi` cheatcode uses the `suave forge` command from the `suave` binary to make remote calls.
 
 ## Install
 
-To install the binary for Suave, follow the installation guide provided in the [Manual Installation Guide](/how-to/run-suave/build-yourself).
-
-Typically, the manual installation process places the binary in the $GOPATH/bin directory. If not done yet, ensure that path is added to your PATH environment variable.
+Let's start a new, empty repo and set `suave-geth` as a submodule so that we can easily import the `SuaveForge.sol` library:
 
 ```bash
-$ export PATH=$PATH:$GOPATH/bin
+mkdir suave-forge
 ```
-
-Now, lets import the `SuaveForge.sol` library from `suave-geth`:
-
 ```bash
-$ git submodule init
-$ git submodule add github.com/flashbots/suave-geth
+cd suave-forge
 ```
-
-The library is located on the `suave-geth/suave/sol/libraries/SuaveForge.sol` path.
+```bash
+forge init
+```
+```bash
+git submodule init
+```
+```bash
+git submodule add https://github.com/flashbots/suave-geth.git
+```
 
 ## Write and run a Forge script
 
-This is an example `Forge` script that uses the `SuaveForge.sol` library to create a new bid.
+Here is an example Forge script that uses the `SuaveForge.sol` library to create a new bid. Copy and paste it into a file called `Example.sol` in the `src` directory:
 
 ```solidity
 pragma solidity ^0.8.8;
 
-import "./suave-geth/suave/sol/libraries/SuaveForge.sol";
+import "../suave-geth/suave/sol/libraries/SuaveForge.sol";
 import "forge-std/Script.sol";
 
-contract Forge is Script {
+contract Example is Script {
     address[] public addressList = [Suave.ANYALLOWED];
 
-    function example() public {
+    function run() public {
         Suave.Bid memory bid = SuaveForge.newBid(
             0,
             addressList,
@@ -55,18 +64,57 @@ contract Forge is Script {
 }
 ```
 
-As aforementioned, the same precompile functions available in `Suave.sol` are also implemented for `SuaveForge.sol`. However, a small caveat, the struct types are still imported from `Suave.sol` itself. It is not required to import `Suave.sol` in your scripts since `SuaveForge.sol` already does it.
+The same precompile functions available in `Suave.sol` are also implemented in `SuaveForge.sol`, though the struct types are still imported from `Suave.sol`. It is not required to import `Suave.sol` in your scripts since `SuaveForge.sol` already does it.
 
-Before running the script, you need to make sure you are running an external MEVM execution context:
+In order to deploy this example contract, you need to have [SUAVE running locally](/how-to/run-suave/), which can be done from your git submodule directory:
 
+```bash
+cd suave-geth
 ```
-$ suave --suave.dev
+```bash
+make suave
+```
+```bash
+suave --suave.dev
 ```
 
-Then, run the `forge` script with the `ffi` flag enabled:
+Then, run the Forge script with the `ffi` flag enabled:
 
-```
-$ forge script example.sol --ffi
+```bash
+forge script Example.sol --ffi
 ```
 
-Due to the limitations of not being able to run confidential compute requests with Forge and having to rely on the external MEVM, it is recommended to use Forge only for testing the precompiles.
+<details>
+  <summary>Having issues?</summary>
+  <div>
+    <div>
+      <div>
+        Typically, building SUAVE yourself places the binary in the $GOPATH/bin directory. If it didn't happen, ensure that path is added to your PATH environment variable:<br/><br/>
+        <code>
+        export PATH=$PATH:$GOPATH/bin
+        </code>
+      </div>
+    </div>
+  </div>
+</details>
+
+The Forge script should print the gas used to run the specified function in your console. If you check the logs of your SUAVE devnet, you should see a message like this:
+
+`INFO [timestamp] confidential engine: refusing to send writes based on unsigned transaction`
+
+Due to the limitations described above (no native support for precompiles or CCRs in Forge) and having to rely on your local environment, rather than Foundry's built-in network or forks, we recommend that you only use Forge for testing new precompiles you are writing.
+
+## Deploy your contract
+
+That said, you can use Forge to deploy contracts to SUAVE (though we recommend that you then use the [Golang SDK](/how-to/interact-with-suave/golang-sdk) to send transactions).
+
+If you wanted to deploy `Example.sol`, there are three steps you need to take:
+
+1. Replace `SuaveForge.sol` with `Suave.sol` and update all references in your contract.
+2. Get [Rigil ETH from the faucet](https://faucet.rigil.suave.flashbots.net).
+3. Run the following command:
+
+```bash
+forge create --rpc-url https://rpc.rigil.suave.flashbots.net --legacy \
+--private-key <your_funded_private_key> src/Example.sol:Example
+```
