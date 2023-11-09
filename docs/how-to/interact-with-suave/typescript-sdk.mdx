@@ -147,6 +147,7 @@ import { suaveRigil } from 'viem/chains';
 import { getSuaveWallet } from 'viem/chains/suave/wallet';
 
 // Instantiate a public client for Suave
+export const publicClients = {
 suaveRigil: createPublicClient({
 chain: suaveRigil,
 transport: http(),
@@ -157,6 +158,7 @@ suaveLocal: createPublicClient({
 chain: suaveRigil,
 transport: http(suaveRigil.rpcUrls.local.http[0]),
 }),
+}
 ```
 
 :::info
@@ -190,7 +192,7 @@ You can watch for pending transactions and log their details using the following
 
 ```typescript
 // Watch for pending transactions
-suaveClient.watchPendingTransactions({
+publicClients.suaveRigil.watchPendingTransactions({
   async onTransactions(transactions) {
     for (const hash of transactions) {
       try {
@@ -236,7 +238,7 @@ const fundTx: TransactionRequestSuave = {
 It's often a good practice to simulate the transaction to predict any errors.
 
 ```typescript
-const fundSim = await publicClients.suaveLocal.call({
+const fundSim = await publicClients.suaveRigil.call({
   account: adminWallet.account.address,
   from: adminWallet.account.address,
   ...fundTx,
@@ -259,7 +261,7 @@ Use a while loop to periodically check if the transaction has been confirmed.
 
 ```typescript
 while (true) {
-  const fundReceipt = await publicClients.suaveLocal.getTransactionReceipt({
+  const fundReceipt = await publicClients.suaveRigil.getTransactionReceipt({
     hash: fund,
   });
   if (fundReceipt) {
@@ -289,10 +291,9 @@ const ccrReq: TransactionRequestSuave = {
 ```
 
 :::info
-The `data` field needs to be constructed according to the requirements of the CCR.
+`confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp.
 :::
 
-TODO: explain how to construct the `confidentialInputs` and `data` fields "according to the requirements".
 
 #### 7. Send the Confidential Compute Request
 
@@ -311,10 +312,10 @@ To fetch the latest block or transaction receipt, you can use the following func
 ```typescript
 async function fetchBlockchainData() {
   // Get the number of the latest block
-  const latestBlockNumber = await suaveClient.getBlockNumber();
+  const latestBlockNumber = await publicClients.suaveRigil.getBlockNumber();
 
   // Fetch the latest block
-  const latestBlock = await suaveClient.getBlock({
+  const latestBlock = await publicClients.suaveRigil.getBlock({
     blockNumber: latestBlockNumber,
     includeTransactions: false,
   });
