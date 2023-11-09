@@ -33,6 +33,9 @@ jobs:
         env:
           TARGET_URL: "http://localhost:3000"
           BASE_URL: "/docs/"
+          ALGOLIA_APP_ID: "example"
+          ALGOLIA_SEARCH_API_KEY: "example"
+          ALGOLIA_INDEX_NAME: "example"
         run: yarn build
 
       - name: Check for broken links
