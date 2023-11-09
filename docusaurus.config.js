@@ -59,7 +59,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         },
         items: [
           {
-            href: 'https://github.com/flashbots/suave-geth',
+            href: 'https://github.com/orgs/flashbots/repositories?q=suave',
             label: 'GitHub',
             position: 'right',
           },
