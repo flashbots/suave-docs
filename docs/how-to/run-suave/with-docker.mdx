@@ -32,22 +32,20 @@ Run SUAVE:
 make devnet-up
 ```
 
-<details>
+<Details>
   <summary>1. Docker permission errors</summary>
   <div>
     <div>
       <div>
-        It is likely best to create a new user group for Docker, rather than run the above command as <code>sudo</code>. You can do by running:<br/><br/>
-        <code>
+        It is likely best to create a new user group for Docker, rather than run the above command as sudo. You can do by running:<br/><br/>
+        <pre>
         sudo usermod -aG docker $USER
-        </code><br/>
-        <code>
         newgrp docker
-        </code>
+        </pre>
       </div>
     </div>
   </div>
-</details>
+</Details>
 
 
 ### Testing transactions
@@ -81,38 +79,38 @@ make devnet-down
 
 ### Troubleshooting
 
-<details>
+<Details>
   <summary>Docker not running</summary>
   <div>
     <div>
       <div>
         Make sure that Docker is running. On most Linux machines, you can do this with:<br/>
-        <code>
+        <pre>
         sudo systemctl start docker
-        </code><br/><br/>
+        </pre><br/>
         You can check the current status with:<br/>
-        <code>
+        <pre>
         sudo systemctl status docker
-        </code><br/><br/>
+        </pre><br/>
         If you installed Docker and still run into issues with docker-compose, you can try:<br/>
-        <code>
+        <pre>
         sudo apt install docker-compose
-        </code>
+        </pre>
       </div>
     </div>
   </div>
-</details>
-<details>
+</Details>
+<Details>
   <summary>Unsupported version</summary>
   <div>
     <div>
       <div>
-        If you're running an older version of Docker, you may get a message that looks like this:<br/><br/>
-        <code>
+        If you're running an older version of Docker, you may get a message that looks like this:<br/>
+        <pre>
         ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
-        </code><br/><br/>
-        Go to the file in <code>/suave/devenv/docker-compose.yml</code> and change the first line to use <code>3.3</code> rather than <code>3.8</code>.
+        </pre><br/>
+        Go to the file in "/suave/devenv/docker-compose.yml" and change the first line to use <b>3.3</b> rather than <b>3.8</b>.
       </div>
     </div>
   </div>
-</details>
+</Details>
