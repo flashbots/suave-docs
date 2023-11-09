@@ -24,35 +24,32 @@ We've described a few of the available precompiles, and illustrated an example t
 
 Optionally, bundles can be sent straight to a centralized block builder. In future test networks, the block can also be sent to an onchain relay.
 
-We expect there will be many types of OFAs which serve different needs in different ways. This is, after all, the goal of SUAVE: to create an open marketplace for mechanisms. 
+We expect there will be many types of OFAs which serve different needs in different ways. This is, after all, the goal of SUAVE: to create an open marketplace for mechanisms.
 
 ## Confidential Data
 
 We've already taken a high-level look at what it would take to replicate MEV-Share in a smart contract. Instead of calling the MEV-share API and getting a response immediately, searchers could listen to blocks produced on SUAVE. This implies a longer delay, as searchers have to wait for consensus on the next block. We feel that the innovations in mechanisms that an open, contestable network like SUAVE will encourage may still make this trade-off worthwhile.
 
-:::info
-[The code is here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65) if you want to run it yourself and develop your own picture of the total data flow in SUAVE.
-:::
+:::info [The code is here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65) if you want to run it yourself and develop your own picture of the total data flow in SUAVE. :::
 
-This guide will focus on the way `MevShareBidContract` and `EthBlockBidContract` use the Confidential Data Store after receiving any [confidential compute request (CCR)](/how-to/create-contracts/confidential#transaction-flow) from either users or searchers. 
+This guide will focus on the way `MevShareBidContract` and `EthBlockBidContract` use the Confidential Data Store after receiving any [confidential compute request (CCR)](/how-to/create-contracts/confidential#transaction-flow) from either users or searchers.
 
 When the SUAVE Kettle which the user specified receives a CCR that calls the `newBid` function in the MEV-Share SUAPP, the MEVM in that Kettle fetches the confidential inputs and computes a result. The logic in `MevShareBidContract` tells it to:
 
 ```solidity
 Suave.Bid memory bid = Suave.newBid(
-	decryptionCondition, 
-	bidAllowedPeekers, 
-	bidAllowedStores, 
+	decryptionCondition,
+	bidAllowedPeekers,
+	bidAllowedStores,
 	"mevshare:v0:unmatchedBundles"
 );
 Suave.confidentialStore(bid.id, "mevshare:v0:ethBundles", bundleData);
 Suave.confidentialStore(bid.id, "mevshare:v0:ethBundleSimResults", abi.encode(egp));
 ```
-:::info
-The term "bid" is an artefact of earlier versions of suave-geth. Here, it is a general data identifier used when operating on confidential data.
-:::
 
-The MEV-Share SUAPP is telling the MEVM to store confidential data - along with who can see it and under which conditions - in the Confidential Data Store of that specific Kettle under a "keyspace" named "mevshare". In this case, we are storing both the L1 transaction sent by the user (in the `bundleData`) and the result of the simulation, which is limited to returning the effective gas price for now. 
+:::info The term "bid" is an artefact of earlier versions of suave-geth. Here, it is a general data identifier used when operating on confidential data. :::
+
+The MEV-Share SUAPP is telling the MEVM to store confidential data - along with who can see it and under which conditions - in the Confidential Data Store of that specific Kettle under a "keyspace" named "mevshare". In this case, we are storing both the L1 transaction sent by the user (in the `bundleData`) and the result of the simulation, which is limited to returning the effective gas price for now.
 
 Any searcher can listen for these events and use them to try and match backrun transactions to the user's L1 transaction, which they send to the same MEV-Share SUAPP. These potential matches are stored in the same way as illustrated above, _in the same keyspace_.
 

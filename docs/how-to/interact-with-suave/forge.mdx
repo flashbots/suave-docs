@@ -17,7 +17,7 @@ Methods which use new precompiles can only be executed through a Kettle as a Con
 
 [`SuaveForge.sol`](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/SuaveForge.sol) is a Solidity library that implements the same precompiles as `Suave.sol`. The difference is this:
 
-- `Suave.sol` is used in the MEVM on the Kettle specified by any CCR 
+- `Suave.sol` is used in the MEVM on the Kettle specified by any CCR
 - `SuaveForge.sol` uses the [ffi](https://book.getfoundry.sh/cheatcodes/ffi) cheatcode in an environment external to Forge (i.e. the instance of SUAVE you are running locally). The `ffi` cheatcode uses the `suave forge` command from the `suave` binary to make remote calls.
 
 ## Install
@@ -27,15 +27,19 @@ Let's start a new, empty repo and set `suave-geth` as a submodule so that we can
 ```bash
 mkdir suave-forge
 ```
+
 ```bash
 cd suave-forge
 ```
+
 ```bash
 forge init
 ```
+
 ```bash
 git submodule init
 ```
+
 ```bash
 git submodule add https://github.com/flashbots/suave-geth.git
 ```
@@ -71,9 +75,11 @@ In order to deploy this example contract, you need to have [SUAVE running locall
 ```bash
 cd suave-geth
 ```
+
 ```bash
 make suave
 ```
+
 ```bash
 suave --suave.dev
 ```
@@ -89,10 +95,11 @@ forge script Example.sol --ffi
   <div>
     <div>
       <div>
-        Typically, building SUAVE yourself places the binary in the $GOPATH/bin directory. If it didn't happen, ensure that path is added to your PATH environment variable: <br/><br/>
-        <pre>
-        export PATH=\$PATH\:$GOPATH\/bin
-        </pre>
+        Typically, building SUAVE yourself places the binary in the $GOPATH/bin
+        directory. If it didn't happen, ensure that path is added to your PATH
+        environment variable: <br />
+        <br />
+        <pre>export PATH=\$PATH\:$GOPATH\/bin</pre>
       </div>
     </div>
   </div>

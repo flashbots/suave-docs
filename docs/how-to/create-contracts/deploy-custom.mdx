@@ -12,7 +12,7 @@ keywords:
 
 # Deploy a custom contract
 
-Now, let's write our own simple contract that illustrates how to use confidential inputs. We'll also focus on **how to to deploy custom contracts**. 
+Now, let's write our own simple contract that illustrates how to use confidential inputs. We'll also focus on **how to to deploy custom contracts**.
 
 The following guides will provide more details about precompiles, the programming model, and the data flows we expect to see in SUAVE.
 
@@ -35,13 +35,13 @@ contract OnlyConfidential {
 
 	function fetchBidConfidentialBundleData() public returns (bytes memory) {
 		require(Suave.isConfidential());
-		
+
 		bytes memory confidentialInputs = Suave.confidentialInputs();
 		return abi.decode(confidentialInputs, (bytes));
 	}
 
 
-	// note: because of confidential execution, 
+	// note: because of confidential execution,
     // you will not see your input as input to the function
 	function helloWorld() external {
 		// 0. ensure confidential execution
@@ -55,13 +55,13 @@ contract OnlyConfidential {
 
 		emit SimResultEvent(effectiveGasPrice);
 
-		// note: this function doesn't return anything 
+		// note: this function doesn't return anything
         // so this computation result will never land onchain
 	}
 }
 ```
 
-This contract uses three new [precompiles](/technical/specs/rigil/precompiles): 
+This contract uses three new [precompiles](/technical/specs/rigil/precompiles):
 
 1. `isConfidential` to ensure that only the MEVM(s) specified by the user can fetch the confidential data in transactions to this contract.
 2. `confidentialInputs` to fetch the confidential data that was submitted along with the transaction that the user sent which specified this contract.
@@ -83,9 +83,7 @@ suave/scripts/contracts.sh build
 OnlyConfidentialContract  = newArtifact("OnlyConfidential.sol/OnlyConfidential.json")
 ```
 
-:::info
-Make sure to capitalize `OnlyConfidentialContract` so that it is exported from this file.
-:::
+:::info Make sure to capitalize `OnlyConfidentialContract` so that it is exported from this file. :::
 
 3. Edit the [contract deployment code](/how-to/send-transactions#2-deploy-a-contract) from the previous guide to look like this:
 
@@ -163,7 +161,7 @@ And you should see the address of your custom contract printed in your terminal.
 
 ## 3. Deploy to Rigil
 
-Follow the same steps as listed above, but point your deploy script at the Rigil RPC after getting some faucet funds. 
+Follow the same steps as listed above, but point your deploy script at the Rigil RPC after getting some faucet funds.
 
 Request [faucet funds here](https://faucet.rigil.suave.flashbots.net).
 

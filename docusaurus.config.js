@@ -4,10 +4,12 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-require('dotenv').config()
+require('dotenv').config();
 const {themes} = require('prism-react-renderer');
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
 
 /** @returns {Promise<import('@docusaurus/types').Config>} */
 module.exports = async function createConfigAsync() {
@@ -48,12 +50,12 @@ module.exports = async function createConfigAsync() {
         prism: {
           theme: lightTheme,
           darkTheme: darkTheme,
-          additionalLanguages: ['solidity']
+          additionalLanguages: ['solidity'],
         },
         docs: {
           sidebar: {
-            hideable: true
-          }
+            hideable: true,
+          },
         },
         navbar: {
           title: 'SUAVE',
@@ -68,8 +70,7 @@ module.exports = async function createConfigAsync() {
               position: 'right',
             },
           ],
-        }
-
+        },
       }),
     presets: [
       [
@@ -80,30 +81,31 @@ module.exports = async function createConfigAsync() {
             sidebarPath: require.resolve('./docs/sidebars.js'),
             // Please change this to your repo.
             routeBasePath: '/',
-            editUrl: "https://github.com/flashbots/suave-docs/edit/main/",
+            editUrl: 'https://github.com/flashbots/suave-docs/edit/main/',
             showLastUpdateTime: true,
             remarkPlugins: [(await import('remark-math')).default],
             rehypePlugins: [(await import('rehype-katex')).default],
           },
           theme: {
-            customCss: require.resolve("./src/scss/custom.scss")
+            customCss: require.resolve('./src/css/custom.css'),
           },
         }),
       ],
     ],
     plugins: [
-      'docusaurus-plugin-sass',
-      [
-        "docusaurus2-dotenv",
-        {
-          path: "./.env", // The path to your environment variables.
-          safe: false, // If false ignore safe-mode, if true load './.env.example', if a string load that file as the sample
-          systemvars: false, // Set to true if you would rather load all system variables as well (useful for CI purposes)
-          silent: false, //  If true, all warnings will be suppressed
-          expand: false, // Allows your variables to be "expanded" for reusability within your .env file
-          defaults: false, //  Adds support for dotenv-defaults. If set to true, uses ./.env.defaults
-        },
-      ],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async function tailwindcssSupport(context, options) {
+        return {
+          name: 'docusaurus-tailwindcss',
+          configurePostCss(postcssOptions) {
+            // Appends TailwindCSS and AutoPrefixer.
+            postcssOptions.plugins.push('tailwindcss/nesting');
+            postcssOptions.plugins.push(tailwindcss);
+            postcssOptions.plugins.push(autoprefixer);
+            return postcssOptions;
+          },
+        };
+      },
     ],
-  }
-}
+  };
+};

@@ -31,17 +31,17 @@ jobs:
 
       - name: Building the docs
         env:
-          TARGET_URL: "http://localhost:3000"
-          BASE_URL: "/docs/"
-          ALGOLIA_APP_ID: "example"
-          ALGOLIA_SEARCH_API_KEY: "example"
-          ALGOLIA_INDEX_NAME: "example"
+          TARGET_URL: 'http://localhost:3000'
+          BASE_URL: '/docs/'
+          ALGOLIA_APP_ID: 'example'
+          ALGOLIA_SEARCH_API_KEY: 'example'
+          ALGOLIA_INDEX_NAME: 'example'
         run: yarn build
 
       - name: Check for broken links
         env:
-          TARGET_URL: "http://localhost:3000"
-          BASE_URL: "/docs/"
+          TARGET_URL: 'http://localhost:3000'
+          BASE_URL: '/docs/'
         run: |
           go install github.com/raviqqe/muffet/v2@latest
 

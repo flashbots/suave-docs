@@ -2,7 +2,7 @@
   <!-- svg-source:excalidraw -->
 
   <defs>
-    <style class="style-fonts">
+    <style className="style-fonts">
       @font-face {
         font-family: "Virgil";
         src: url("https://excalidraw.com/Virgil.woff2");

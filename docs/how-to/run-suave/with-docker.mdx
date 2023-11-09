@@ -18,16 +18,19 @@ If you'd like to run SUAVE in Docker, this is the guide for you.
 ### What to do
 
 Clone suave-geth:
+
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 ```
 
 Get to the right place in the repo:
+
 ```bash
 cd suave-geth/
 ```
 
 Run SUAVE:
+
 ```bash
 make devnet-up
 ```
@@ -37,25 +40,26 @@ make devnet-up
   <div>
     <div>
       <div>
-        It is likely best to create a new user group for Docker, rather than run the above command as sudo. You can do by running:<br/><br/>
-        <pre>
-        sudo usermod -aG docker $USER
-        newgrp docker
-        </pre>
+        It is likely best to create a new user group for Docker, rather than run
+        the above command as sudo. You can do by running:
+        <br />
+        <br />
+        <pre>sudo usermod -aG docker $USER newgrp docker</pre>
       </div>
     </div>
   </div>
 </Details>
 
-
 ### Testing transactions
 
 Test your node by deploying a contract and sending it some transactions:
+
 ```bash
 go run suave/devenv/cmd/main.go
 ```
 
 You should see something like the below printed to your terminal (addresses, txns, and ids will differ):
+
 ```bash
 suave-geth$ go run suave/devenv/cmd/main.go
 Step 0: Create and fund test accounts
@@ -73,6 +77,7 @@ Step 3: Send backrun
 If you'd like to examine the Go code responsible for deploying contracts and sending transactions, you can do so [here](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
 5. You can stop your docker containers with:
+
 ```bash
 make devnet-down
 ```
@@ -84,18 +89,19 @@ make devnet-down
   <div>
     <div>
       <div>
-        Make sure that Docker is running. On most Linux machines, you can do this with:<br/>
-        <pre>
-        sudo systemctl start docker
-        </pre><br/>
-        You can check the current status with:<br/>
-        <pre>
-        sudo systemctl status docker
-        </pre><br/>
-        If you installed Docker and still run into issues with docker-compose, you can try:<br/>
-        <pre>
-        sudo apt install docker-compose
-        </pre>
+        Make sure that Docker is running. On most Linux machines, you can do
+        this with:
+        <br />
+        <pre>sudo systemctl start docker</pre>
+        <br />
+        You can check the current status with:
+        <br />
+        <pre>sudo systemctl status docker</pre>
+        <br />
+        If you installed Docker and still run into issues with docker-compose,
+        you can try:
+        <br />
+        <pre>sudo apt install docker-compose</pre>
       </div>
     </div>
   </div>
@@ -105,11 +111,16 @@ make devnet-down
   <div>
     <div>
       <div>
-        If you're running an older version of Docker, you may get a message that looks like this:<br/>
+        If you're running an older version of Docker, you may get a message that
+        looks like this:
+        <br />
         <pre>
-        ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
-        </pre><br/>
-        Go to the file in "/suave/devenv/docker-compose.yml" and change the first line to use <b>3.3</b> rather than <b>3.8</b>.
+          ERROR: Version in "././suave/devenv/docker-compose.yml" is
+          unsupported.
+        </pre>
+        <br />
+        Go to the file in "/suave/devenv/docker-compose.yml" and change the
+        first line to use <b>3.3</b> rather than <b>3.8</b>.
       </div>
     </div>
   </div>

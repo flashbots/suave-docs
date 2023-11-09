@@ -17,6 +17,7 @@ If you'd like to run the suave-geth binaries yourself, this is the guide for you
 ### What to do
 
 Clone the repo and build SUAVE:
+
 ```bash
 git clone https://github.com/flashbots/suave-geth.git
 cd suave-geth
@@ -24,6 +25,7 @@ make suave
 ```
 
 Run this command:
+
 ```bash
 suave --suave.dev
 ```
@@ -97,14 +99,18 @@ It should tell you the block height of your local network.
   <div>
     <div>
       <div>
-        If you are seeing:<br/>
+        If you are seeing:
+        <br />
         <pre>
-        "cp: cannot create regular file '/bin/suave': Permission denied"
-        </pre><br/><br/>
-        it is most likely because you have not set your GOPATH correctly. You can do so by running:<br/><br/>
-        <pre>
-        export GOPATH=$HOME/go
+          "cp: cannot create regular file '/bin/suave': Permission denied"
         </pre>
+        <br />
+        <br />
+        it is most likely because you have not set your GOPATH correctly. You can
+        do so by running:
+        <br />
+        <br />
+        <pre>export GOPATH=$HOME/go</pre>
       </div>
     </div>
   </div>
@@ -114,10 +120,10 @@ It should tell you the block height of your local network.
   <div>
     <div>
       <div>
-        If you have set up a new machine to run through this, you'll also need to install Make and Go:<br/>
-        <pre>
-        sudo apt install make golang-go
-        </pre>
+        If you have set up a new machine to run through this, you'll also need
+        to install Make and Go:
+        <br />
+        <pre>sudo apt install make golang-go</pre>
       </div>
     </div>
   </div>
