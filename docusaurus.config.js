@@ -6,10 +6,11 @@
  */
 require('dotenv').config();
 const {themes} = require('prism-react-renderer');
-const lightTheme = themes.github;
-const darkTheme = themes.dracula;
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
+
+const lightTheme = themes.github;
+const darkTheme = themes.dracula;
 
 /** @returns {Promise<import('@docusaurus/types').Config>} */
 module.exports = async function createConfigAsync() {
@@ -49,7 +50,7 @@ module.exports = async function createConfigAsync() {
         },
         prism: {
           theme: lightTheme,
-          darkTheme: darkTheme,
+          darkTheme,
           additionalLanguages: ['solidity'],
         },
         docs: {

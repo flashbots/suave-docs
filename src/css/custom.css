@@ -144,10 +144,30 @@ div {
   background-color: #fafaf9;
 }
 
+[data-theme='dark'] .intro-block {
+  border: 1px solid #F0F0F0;
+  transition:
+    background-color 0.3s ease 0s,
+    color 0.3s ease 0s;
+  background-color: #242526;
+}
+
+[data-theme='dark'] .intro-heading {
+  color: #fafaf9;
+}
+
+[data-theme='dark'] .intro-desc {
+  color: #fafaf9;
+}
+
 .intro-image {
   display: flex;
   padding: 4px;
   align-items: center;
+}
+
+[data-theme='dark'] path {
+  stroke: white;
 }
 
 .intro-text {

@@ -40,5 +40,8 @@
     // tests, removing this would make things much harder to catch.
     "skipLibCheck": false
   },
-  "include": ["src/**/*"]
+  "include": [
+    "./**/*",
+    "./.*"
+  ]
 }
