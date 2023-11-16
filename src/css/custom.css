@@ -144,6 +144,14 @@ div {
   background-color: #fafaf9;
 }
 
+.intro-block:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .intro-block:hover {
+  border-color: var(--ifm-color-primary);
+}
+
 [data-theme='dark'] .intro-block {
   border: 1px solid #F0F0F0;
   transition:
