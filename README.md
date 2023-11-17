@@ -53,6 +53,14 @@ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
+## Update suave-specs reference
+
+Use this command to update to the latest version of suave-specs:
+
+```bash
+git submodule update --remote
+```
+
 ## Deployment
 
 The docs use Vercel for hosting, and deployment is done by Vercel on any merge into the main branch.
