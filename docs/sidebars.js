@@ -4,10 +4,10 @@ module.exports = {
       type: 'category',
       label: '👋 Welcome',
       collapsed: false,
-      link: {type: 'doc', id: 'index'},
+      link: { type: 'doc', id: 'index' },
       items: [
         'what-is-suave',
-        'novel-use-cases',
+        'what-to-build',
         'dev-tooling',
         'technical/specs/rigil/glossary',
       ],
@@ -16,12 +16,12 @@ module.exports = {
       type: 'category',
       label: '🛠️ How To',
       collapsed: false,
-      link: {type: 'doc', id: 'how-to/index'},
+      link: { type: 'doc', id: 'how-to/index' },
       items: [
         {
           type: 'category',
           label: 'Run SUAVE Locally',
-          link: {type: 'doc', id: 'how-to/run-suave/index'},
+          link: { type: 'doc', id: 'how-to/run-suave/index' },
           items: [
             'how-to/run-suave/with-docker',
             'how-to/run-suave/build-yourself',
@@ -30,7 +30,7 @@ module.exports = {
         {
           type: 'category',
           label: 'Interact with SUAVE',
-          link: {type: 'doc', id: 'how-to/interact-with-suave/index'},
+          link: { type: 'doc', id: 'how-to/interact-with-suave/index' },
           items: [
             `how-to/interact-with-suave/golang-sdk`,
             `how-to/interact-with-suave/typescript-sdk`,
@@ -42,7 +42,7 @@ module.exports = {
         {
           type: 'category',
           label: 'Create Contracts',
-          link: {type: 'doc', id: 'how-to/create-contracts/index'},
+          link: { type: 'doc', id: 'how-to/create-contracts/index' },
           items: [
             'how-to/create-contracts/deploy-custom',
             'how-to/create-contracts/confidential',
@@ -56,7 +56,7 @@ module.exports = {
       type: 'category',
       label: '🤖 Technical Specs',
       collapsed: false,
-      link: {type: 'doc', id: 'technical/README'},
+      link: { type: 'doc', id: 'technical/README' },
       items: [
         'technical/specs/rigil/README',
         'technical/specs/rigil/kettle',
