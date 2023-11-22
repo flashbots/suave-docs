@@ -6,7 +6,7 @@ description: Brief Explanation of Typescript SDK (suave-viem)
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
+SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
 
 :::info
 
@@ -14,9 +14,9 @@ Currently, Confidential Compute Requests (CCRs) are not EIP-1193 compatible and 
 
 :::
 
-This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform basic actions such as sending transactions and fetching information from the chain.
+This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to build the library, import it into your project, and perform basic actions such as sending transactions and fetching information from the chain.
 
-## Installation & Symlink
+## Installation
 
 Since SUAVE-viem has not been upstreamed yet, it is easiest to use via symlink. To do so you'll need to follow these steps:
 
@@ -44,30 +44,48 @@ Once you have cloned the repository and navigated into the directory, install it
   values={[
     {label: 'Yarn', value: 'yarn'},
     {label: 'NPM', value: 'npm'},
+    {label: 'Bun', value: 'bun'},
   ]}>
   <TabItem value="yarn">
-    <pre>yarn</pre>
+    ```bash
+    yarn
+    ```
   </TabItem>
   <TabItem value="npm">
-    <pre>npm install</pre>
+    ```bash
+    npm install
+    ```
+  </TabItem>
+  <TabItem value="bun">
+    ```bash
+    bun install
+    ```
   </TabItem>
 </Tabs>
 
-### Step 3: Build the project (if the project needs to be compiled)
-
-Some TypeScript projects need to be compiled before they can be used. If this is the case with the `suave-viem` project, run the build script:
+### Step 3: Build the project
 
 <Tabs
   defaultValue="yarn"
   values={[
     {label: 'Yarn', value: 'yarn'},
     {label: 'NPM', value: 'npm'},
+    {label: 'Bun', value: 'bun'},
   ]}>
   <TabItem value="yarn">
-    <pre>yarn build</pre>
+    ```bash
+    yarn build
+    ```
   </TabItem>
   <TabItem value="npm">
-    <pre>npm run build</pre>
+    ```bash
+    npm run build
+    ```
+  </TabItem>
+  <TabItem value="bun">
+    ```bash
+    bun run build
+    ```
   </TabItem>
 </Tabs>
 
@@ -80,12 +98,25 @@ After building the project, you can create a symbolic link in the global `node_m
   values={[
     {label: 'Yarn', value: 'yarn'},
     {label: 'NPM', value: 'npm'},
+    {label: 'Bun', value: 'bun'},
   ]}>
   <TabItem value="yarn">
-    <pre>yarn link</pre>
+    ```bash
+    cd src/
+    yarn link
+    ```
   </TabItem>
   <TabItem value="npm">
-    <pre>npm link</pre>
+    ```bash
+    cd src/
+    npm link
+    ```
+  </TabItem>
+  <TabItem value="bun">
+    ```bash
+    cd src/
+    bun link
+    ```
   </TabItem>
 </Tabs>
 
@@ -100,20 +131,28 @@ Finally, navigate to the project where you want to use the forked library and li
   values={[
     {label: 'Yarn', value: 'yarn'},
     {label: 'NPM', value: 'npm'},
+    {label: 'Bun', value: 'bun'},
   ]}>
   <TabItem value="yarn">
-    <pre>
-      cd path/to/your/project
-      <br />
-      yarn link viem
-    </pre>
+    ```bash
+    cd path/to/your/project
+
+    yarn link viem
+    ```
   </TabItem>
   <TabItem value="npm">
-    <pre>
-      cd path/to/your/project
-      <br />
-      npm link viem
-    </pre>
+    ```bash
+    cd path/to/your/project
+
+    npm link viem
+    ```
+  </TabItem>
+  <TabItem value="bun">
+    ```bash
+    cd path/to/your/project
+
+    bun link viem
+    ```
   </TabItem>
 </Tabs>
 
@@ -132,26 +171,13 @@ The symlink approach allows you to work with a forked library locally, making it
 First, you need to import necessary modules and instantiate the client.
 
 ```typescript
-import {http, createPublicClient} from 'viem';
+import {http} from 'viem';
 import {suaveRigil} from 'viem/chains';
-import {getSuaveWallet} from 'viem/chains/suave/wallet';
 
-// Instantiate a public client for Suave
-export const publicClients = {
-  suaveRigil: createPublicClient({
-    chain: suaveRigil,
-    transport: http(),
-  }),
-
-  // Optional: Instantiate version using local node
-  suaveLocal: createPublicClient({
-    chain: suaveRigil,
-    transport: http(suaveRigil.rpcUrls.local.http[0]),
-  }),
-};
+// connect to your local SUAVE node
+const SUAVE_RPC_URL = 'http://localhost:8545'
+const suaveProvider = suaveRigil.newPublicClient(http(SUAVE_RPC_URL))
 ```
-
-:::info Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary. :::
 
 ## Wallet Creation
 
@@ -160,15 +186,12 @@ To interact with the SUAVE network, create a wallet by providing a private key a
 ```typescript
 import {Hex} from 'viem';
 
-// Provide your private key here
-const PRIVATE_KEY: Hex = 'your-private-key-hex'; // Replace with your private key
+// Replace this with your private key
+const PRIVATE_KEY: Hex = 'your-private-key-hex';
 
-const wallet = getSuaveWallet(
-  {
-    chain: suaveRigil,
-    transport: http(),
-  },
+const wallet = suaveRigil.newWallet(
   PRIVATE_KEY,
+  http(SUAVE_RPC_URL), // only needed if not using public testnet
 );
 
 console.log('Wallet Address:', wallet.account.address);
@@ -180,11 +203,11 @@ You can watch for pending transactions and log their details using the following
 
 ```typescript
 // Watch for pending transactions
-publicClients.suaveRigil.watchPendingTransactions({
+suaveProvider.watchPendingTransactions({
   async onTransactions(transactions) {
     for (const hash of transactions) {
       try {
-        const receipt = await suaveClient.getTransactionReceipt({hash});
+        const receipt = await suaveProvider.getTransactionReceipt({hash});
         console.log('Transaction Receipt:', receipt);
       } catch (error) {
         console.error('Error fetching receipt:', error);
@@ -196,21 +219,28 @@ publicClients.suaveRigil.watchPendingTransactions({
 
 ## Sending Confidential Compute Request
 
-Let's walk through how to set up and send a confidential compute request:
+Let's walk through an example of how to set up and send a confidential compute request:
 
 #### 1. Get Current Gas Price
 
 First, fetch the current gas price from the network.
 
 ```typescript
-const gasPrice = await publicClients.suaveLocal.getGasPrice();
+const gasPrice = await suaveProvider.getGasPrice();
 ```
 
-#### 2. Prepare the Fund Transaction
+#### 2. Prepare the Fund Transaction (optional)
 
-Create a transaction object to fund the wallet with the required amount.
+If your SUAVE wallet doesn't have any ether, create a transaction object to fund the wallet with the required amount. On the [suave-geth local devnet](/docs/how-to/run-suave), the account `0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0` is funded with 10 billion ETH, which you can use for testing.
 
 ```typescript
+import { TransactionRequestSuave } from 'viem/chains/suave/types'
+// ...
+
+// key for 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+const ADMIN_PRV_KEY = '0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12'
+const adminWallet = suaveRigil.newWallet(ADMIN_PRV_KEY)
+
 const fundTx: TransactionRequestSuave = {
   type: '0x0',
   value: 100000000000000001n,
@@ -221,20 +251,7 @@ const fundTx: TransactionRequestSuave = {
 };
 ```
 
-#### 3. Simulate the Transaction
-
-It's often a good practice to simulate the transaction to predict any errors.
-
-```typescript
-const fundSim = await publicClients.suaveRigil.call({
-  account: adminWallet.account.address,
-  from: adminWallet.account.address,
-  ...fundTx,
-});
-console.log('simulated fund tx', fundSim);
-```
-
-#### 4. Send the Fund Transaction
+#### 3. Send the Fund Transaction
 
 Send the transaction to fund the wallet.
 
@@ -243,13 +260,13 @@ const fund = await adminWallet.sendTransaction(fundTx);
 console.log('sent fund tx', fund);
 ```
 
-#### 5. Wait for Transaction Confirmation
+#### 4. Wait for Transaction Confirmation
 
 Use a while loop to periodically check if the transaction has been confirmed.
 
 ```typescript
 while (true) {
-  const fundReceipt = await publicClients.suaveRigil.getTransactionReceipt({
+  const fundReceipt = await suaveProvider.getTransactionReceipt({
     hash: fund,
   });
   if (fundReceipt) {
@@ -260,7 +277,7 @@ while (true) {
 }
 ```
 
-#### 6. Create a Confidential Compute Request
+#### 5. Create a Confidential Compute Request
 
 Set up a CCR with the appropriate parameters.
 
@@ -280,7 +297,7 @@ const ccrReq: TransactionRequestSuave = {
 
 :::info `confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp. :::
 
-#### 7. Send the Confidential Compute Request
+#### 6. Send the Confidential Compute Request
 
 Finally, send the CCR to the network.
 
@@ -296,10 +313,10 @@ To fetch the latest block or transaction receipt, you can use the following func
 ```typescript
 async function fetchBlockchainData() {
   // Get the number of the latest block
-  const latestBlockNumber = await publicClients.suaveRigil.getBlockNumber();
+  const latestBlockNumber = await suaveProvider.getBlockNumber();
 
   // Fetch the latest block
-  const latestBlock = await publicClients.suaveRigil.getBlock({
+  const latestBlock = await suaveProvider.getBlock({
     blockNumber: latestBlockNumber,
     includeTransactions: false,
   });
