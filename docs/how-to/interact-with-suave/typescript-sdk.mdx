@@ -191,7 +191,7 @@ const PRIVATE_KEY: Hex = 'your-private-key-hex';
 
 const wallet = suaveRigil.newWallet(
   PRIVATE_KEY,
-  http(SUAVE_RPC_URL), // only needed if not using public testnet
+  http(SUAVE_RPC_URL),
 );
 
 console.log('Wallet Address:', wallet.account.address);
