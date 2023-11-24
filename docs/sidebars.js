@@ -18,8 +18,8 @@ module.exports = {
       link: { type: 'doc', id: 'tutorials/index' },
       items: [
         'tutorials/run-suave',
-        'tutorials/fund-an-account',
-        'tutorials/deploy-a-contract',
+        'tutorials/fund-accounts',
+        'tutorials/deploy-contracts',
         'tutorials/send-transactions',
         'tutorials/create-precompiles'
       ]
