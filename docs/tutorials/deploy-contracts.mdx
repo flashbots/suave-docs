@@ -14,13 +14,12 @@ import RPCButton from '@site/src/components/RPCButton/index';
 
 The previous two tutorials have encouraged you run SUAVE locally. However, the Rigil Testnet is up and running, so you should be able to deploy contracts to it without building everything yourself.
 
-This tutorial is therefore divided into two sections:
+This tutorial is therefore divided into four sections:
 
-1. [SUAPP Examples](#suapp-examples)
-    1. [Deploy to Rigil using Forge](#forge-and-rigil)
-    2. [Deploy Locally using the Golang SDK](#golang-sdk-local)
-    3. [Deploy to Rigil using the Golang SDK](#golang-sdk-and-rigil)
-2. [Deploy to Rigil using Remix](#remix-and-rigil)
+1. [Deploy to Rigil using Forge](#forge-and-rigil)
+2. [Deploy locally using the Golang SDK](#golang-sdk-local)
+3. [Deploy to Rigil using the Golang SDK](#golang-sdk-and-rigil)
+4. [Deploy to Rigil using Remix](#remix-and-rigil)
 
 ## SUAPP Examples
 
@@ -63,6 +62,14 @@ forge create --rpc-url https://rpc.rigil.suave.flashbots.net --legacy \
 --private-key <your_funded_priv_key> examples/onchain-state/onchain-state.sol:OnChainState
 ```
 
+You should see the results of the compilation logged in your terminal, followed by something like this:
+
+```bash
+Deployer: 0x5f3371793285920351344a1EaaAA48d45e600652
+Deployed to: 0x9A76Bb7AF996327828425f6db39a520f148F72DE
+Transaction hash: 0x53c808935ee6da2ce1f076b4088440c322bb7a098cc000eaa8653be28ee75a33
+```
+
 ### Golang SDK Local
 
 :::info
@@ -83,7 +90,14 @@ Finally, we can deploy and transact with any of the example contracts. Just `cd`
 cd examples/onchain-state && go run main.go
 ```
 
-All of the `main.go` files use the Golang SDK, which you can read more about in our [how to guides](/explanations/golang-sdk).
+You should see this message printed in your terminal if successful:
+
+```bash
+1. Send a confidential request that cannot modify the state
+2. Send a confidential request that modifies the state
+```
+
+All of the `main.go` files use the Golang SDK, which you can read more about in our [developer guides](/developers/golang-sdk).
 
 ### Golang SDK and Rigil
 
@@ -112,6 +126,8 @@ Now, you should be able to deploy and transact with any of the contracts in the 
 ```bash
 cd examples/onchain-state && go run main.go
 ```
+
+TODO: this doesn't actually work.
 
 ### Write Your Own Contracts
 

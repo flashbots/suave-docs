@@ -8,35 +8,15 @@ keywords:
   - example
 ---
 
-:::info
+:::warning
 
 Sending transactions requires that you use either the Golang or Typescript SDKs we have made available. Confidential Compute Requests (CCRs) are not EIP-1193 compatible so you won't be able to sign CCRs directly from Metamask or providers like it.
 
 :::
 
-:::warning
+The [previous tutorial illustrated](/tutorials/deploy-contracts) how to deploy a series of example contracts using the Golang SDK and, in the first tutorial, you [setup SUAVE and then ran a script to "test the devnet"](/tutorials/run-suave#testing-the-devnet). 
 
-This tutorial depends on the previous tutorials in this section. You should have [tested SUAVE locally](/tutorials/run-suave#testing-the-devnet), [funded a new account](/tutorials/fund-accounts), and [deployed some example contracts](/tutorials/deploy-contracts) in order to understand everything we do here.  
-
-:::
-
-
-In the "fund an account" tutorial, we first instantiated both an RPC and MEVM client, like this:
-
-```go
-rpcClient, _ := rpc.Dial(exNodeNetAddr)
-mevmClt := sdk.NewClient(rpcClient, fundedAccount.priv, exNodeEthAddr)
-```
-
-We then funded the account using the `SendTransaction()` method in the SDK we instantiated, and checked that it was funded using the `RPC().BalanceAt()` method.
-
-We have also seen how to deploy a series of example contracts using the same SDK. Although not explictly stated in that tutorial, the `framework.go` script it uses also instantiates a MEVM Client before creating the ABI and bytecode we need to deploy, and then using the [`DeployContract()`](https://github.com/flashbots/suapp-examples/blob/main/framework/framework.go#L175) method available in the SDK.
-
-Now, it's time to put this all together into an end-to-end example.
-
-In our very first tutorial, you setup SUAVE and then ran a script to "test the devnet". 
-
-> **This tutorial will [walk you through everything that happens in this script](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).**
+> This tutorial will reiterate how contract deployment works, **and show you how to craft the transactions** that occur in [this script](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
 ## MEV-Share Example
 

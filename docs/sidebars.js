@@ -18,7 +18,6 @@ module.exports = {
       link: { type: 'doc', id: 'tutorials/index' },
       items: [
         'tutorials/run-suave',
-        'tutorials/fund-accounts',
         'tutorials/deploy-contracts',
         'tutorials/send-transactions',
         'tutorials/create-precompiles'
@@ -26,16 +25,16 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '📜 Explanations',
+      label: '🥷 Developers',
       collapsed: false,
-      link: { type: 'doc', id: 'explanations/index' },
+      link: { type: 'doc', id: 'developers/index' },
       items: [
-        'explanations/dev-tools',
-        'explanations/ecosystem',
-        'explanations/forge',
-        'explanations/golang-sdk',
-        'explanations/typescript-sdk',
-        'explanations/rpc'
+        'developers/dev-tools',
+        'developers/ecosystem',
+        'developers/forge',
+        'developers/golang-sdk',
+        'developers/typescript-sdk',
+        'developers/rpc'
       ],
     },
     {
