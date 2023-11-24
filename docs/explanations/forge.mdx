@@ -70,7 +70,7 @@ contract Example is Script {
 
 The same precompile functions available in `Suave.sol` are also implemented in `SuaveForge.sol`, though the struct types are still imported from `Suave.sol`. It is not required to import `Suave.sol` in your scripts since `SuaveForge.sol` already does it.
 
-In order to deploy this example contract, you need to have [SUAVE running locally](/how-to/run-suave/), which can be done from your git submodule directory:
+In order to deploy this example contract, you need to have [SUAVE running locally](/explanations/run-suave/), which can be done from your git submodule directory:
 
 ```bash
 cd suave-geth
@@ -113,7 +113,7 @@ Due to the limitations described above (no native support for precompiles or CCR
 
 ## Deploy your contract
 
-That said, you can use Forge to deploy contracts to SUAVE (though we recommend that you then use the [Golang SDK](/how-to/interact-with-suave/golang-sdk) to send transactions).
+That said, you can use Forge to deploy contracts to SUAVE (though we recommend that you then use the [Golang SDK](/explanations/interact-with-suave/golang-sdk) to send transactions).
 
 If you wanted to deploy `Example.sol`, there are three steps you need to take:
 

@@ -1,0 +1,215 @@
+---
+title: Run SUAVE Locally
+description: Start running SUAVE and participating in the chain itself
+keywords:
+  - build
+  - suave
+  - setup
+  - practice
+---
+
+# Run SUAVE Locally
+
+Our first goal is to start a "Kettle". Kettles house all components necessary to perform confidential compute and are the main protocol actor in the SUAVE protocol.
+
+Here is the architecture of a node on the Rigil Testnet. We'll be running all the stuff within the purple square.
+
+![Rigil architecture](/assets/rigil-architecture.svg)
+
+You can read more about exactly what a Kettle contains in [architecture section of the Technical Specs](/technical/specs/rigil/#architecture).
+
+## Get Started
+
+There are two different approaches you can take to local setup:
+
+1. [Building from source](#building-from-source)
+2. [Docker](#using-docker)
+
+### Clone the [suave-geth](https://github.com/flashbots/suave-geth/) repository
+
+```shell
+git clone git@github.com:flashbots/suave-geth.git && cd suave-geth
+```
+
+### Building from source
+
+Build the binary:
+
+```bash
+make suave
+```
+
+Now you have the `suave` binary in your Go bin directory. You can check this by running:
+
+```bash
+which suave
+suave --version
+```
+
+Start the local devnet with:
+
+```bash
+suave --suave.dev
+```
+
+<details>
+  <summary>Go permission errors</summary>
+  <div>
+    <div>
+      <div>
+        If you are seeing:
+        <br />
+        <pre>
+          "cp: cannot create regular file '/bin/suave': Permission denied"
+        </pre>
+        <br />
+        <br />
+        it is most likely because you have not set your GOPATH correctly. You can
+        do so by running:
+        <br />
+        <br />
+        <pre>export GOPATH=$HOME/go</pre>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>Missing packages</summary>
+  <div>
+    <div>
+      <div>
+        If you have set up a new machine to run through this, you'll also need
+        to install Make and Go:
+        <br />
+        <pre>sudo apt install make golang-go</pre>
+      </div>
+    </div>
+  </div>
+</details>
+
+### Using Docker
+
+Spin up the local devnet with docker-compose:
+
+```bash
+make devnet-up
+```
+
+You can check that the containers are running with:
+
+```bash
+docker ps
+```
+
+And you can stop the local devnet with:
+
+```bash
+make devnet-down
+```
+
+<details>
+  <summary>1. Docker permission errors</summary>
+  <div>
+    <div>
+      <div>
+        It is likely best to create a new user group for Docker, rather than run
+        the above command as sudo. You can do by running:
+        <br />
+        <br />
+        <pre>sudo usermod -aG docker $USER newgrp docker</pre>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>2. Docker not running</summary>
+  <div>
+    <div>
+      <div>
+        Make sure that Docker is running. On most Linux machines, you can do
+        this with:
+        <br />
+        <pre>sudo systemctl start docker</pre>
+        <br />
+        You can check the current status with:
+        <br />
+        <pre>sudo systemctl status docker</pre>
+        <br />
+        If you installed Docker and still run into issues with docker-compose,
+        you can try:
+        <br />
+        <pre>sudo apt install docker-compose</pre>
+      </div>
+    </div>
+  </div>
+</details>
+<details>
+  <summary>3. Unsupported version</summary>
+  <div>
+    <div>
+      <div>
+        If you're running an older version of Docker, you may get a message that
+        looks like this:
+        <br />
+        <pre>
+          ERROR: Version in "././suave/devenv/docker-compose.yml" is
+          unsupported.
+        </pre>
+        <br />
+        Go to the file in "/suave/devenv/docker-compose.yml" and change the
+        first line to use <b>3.3</b> rather than <b>3.8</b>.
+      </div>
+    </div>
+  </div>
+</details>
+
+### Testing the devnet
+
+**Create a few example transactions:**
+
+```bash
+go run suave/devenv/cmd/main.go
+```
+
+**Execute a RPC request with curl like this:**
+
+```bash
+curl 'http://localhost:8545' --header 'Content-Type: application/json' --data '{ "jsonrpc":"2.0", "method":"eth_blockNumber", "params":[], "id":83 }'
+```
+
+**Generate a new account like this:**
+
+```bash
+suave --suave account new
+```
+
+If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
+
+---
+
+**If you built from source (but not if you're running Docker), you can attach to the usual Geth javascript console to get any interactive data you need with:**
+
+```bash
+suave attach /tmp/geth.ipc
+```
+
+From within the console, you can run:
+
+```bash
+eth.accounts[0]
+```
+
+This should return `"0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f"` - the defaul funded account for local development.
+```bash
+eth.getBalance(eth.accounts[0])
+```
+
+Should return a really large number `1.1579...e+77`. If you try `eth.getBalance("<your_new_address>")` instead, you should see `0`.
+
+If you try:
+
+```bash
+web3.eth.blockNumber
+```
+
+It should tell you the block height of your local network.

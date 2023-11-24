@@ -1,21 +1,34 @@
 ---
-title: Send Requests
-description: Step-by-step walkthrough for sending requests to SUAVE
-keywords:
-  - build
-  - suave
-  - setup
-  - practice
-pagination_prev: how-to/run-suave/index
+title: Rigil RPC
+description: How the Rigil RPC differs from Ethereum
 ---
 
-Flashbots has a hosted set of RPC nodes you can use:
+import RPCButton from '@site/src/components/RPCButton/index';
 
-- **RPC Endpoint**: `https://rpc.rigil.suave.flashbots.net`
+Flashbots has a hosted set of RPC nodes you can connect to:
 
-Or if you followed the [previous guide](/how-to/run-suave), you can use your locally running SUAVE.
+<RPCButton />
 
-- **RPC Endpoint**: `http://localhost:8545`
+You will also be using this (slightly modified) RPC when [running locally SUAVE](/tutorials/run-suave). The endpoint in that case is at `http://localhost:8545`.
+
+## Key Differences
+
+In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods. Some methods in the `eth_` namespace are overloaded to support confidential compute requests.
+
+1. **eth_sendRawTransaction**
+
+Creates a new message call transaction or a contract creation for any signed `ConfidentialComputeRequest`.
+
+2. **eth_call**
+
+Executes a new message call immediately without creating a transaction on the block chain. It follows the same format as the default `eth_call` with two extra parameters:
+
+- `IsConfidential`: Set to true to execute as a confidential request and access the [`MEVM`](/technical/specs/rigil/precompiles) methods.
+- `ExecutionAddress`: `address` - (optional) The execution address that performs the execution.
+
+3. **eth_executionAddress**
+
+Returns the list of available addresses in the Kettle to execute the confidential compute request.
 
 ## Test RPC
 
@@ -112,25 +125,5 @@ This response has a couple fields that aren't in your traditional Ethereum trans
 - `executionNode`
 - `requestRecord`
 
-To dive deeper into these differences checkout the [SUAVE chain specs](../../technical/specs/rigil/kettle.md).
+To dive deeper into these differences checkout the [SUAVE chain specs](../technical/specs/rigil/suave-chain.md).
 
-### `eth` Namespace
-
-Below are the main differences to the `eth` namespace
-
-1. **eth_sendRawTransaction**
-
-Creates a new message call transaction or a contract creation for any signed `ConfidentialComputeRequest`.
-
-2. **eth_call**
-
-Executes a new message call immediately without creating a transaction on the block chain. It follows the same format as the default `eth_call` with two extra parameters:
-
-- `IsConfidential`: Set to true to execute as a confidential request and access the [`MEVM`](/technical/specs/rigil/precompiles) methods.
-- `ExecutionAddress`: `address` - (optional) The address of the Kettle that performs the execution.
-
-3. **eth_executionAddress**
-
-Returns the list of available addresses in the Kettle to execute the confidential compute request.
-
-The [SUAVE SDK](/how-to/interact-with-suave/golang-sdk) makes it easy to interact with the extended RPC and we will be using it in this guide.
