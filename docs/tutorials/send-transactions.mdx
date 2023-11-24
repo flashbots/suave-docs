@@ -58,17 +58,13 @@ txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
 
 ### Step 3: Send Confidential Compute Request
 
-:::warning
+:::info
 
 The word "bid" is an artefact of early development. It refers to a generic "Data Identifier" used when operating on confidential data. In this context, a "bid" refers to the Ethereum L1 transaction data the is stored by the MEVM when we send it a CCR.
 
 :::
 
-:::info
-
-In practice, this transaction would be sent by a user of another blockchain who wants to share any MEV the transaction might create in that domain with searchers listening for hints on SUAVE
-
-:::
+In practice, this transaction would be sent by a user of another blockchain who wants to share any MEV the transaction might create in that domain with searchers listening for hints on SUAVE.
 
 ```go
     refundPercent := 10
@@ -96,11 +92,7 @@ In practice, this transaction would be sent by a user of another blockchain who 
 
 ### Step 4: Send Backrun
 
-:::info
-
 In practice, this transaction would be sent by a searcher listening for hints on SUAVE, after they have received the hint emitted by the `newBid` function that the user called above, crafted a backrun based on that hint, which they want a builder to include on the original domain where the user wants to transact.
-
-:::
 
 ```go
     backRunBundle := &types.SBundle{
@@ -126,7 +118,7 @@ In practice, this transaction would be sent by a searcher listening for hints on
 - Verify the transaction receipt to ensure the backrun was successful.
 
 
-:::warning
+:::info
 
 What is not included in this script is the final step in the e2e example. We need to send this matched bundle - which includes both the original transaction from the user and the backrun from the searcher - to a builder so that it can be included in a block on the target domain. Rigil includes the ability to send such bundles to centralized relays for inclusion. There is [builder solidity code which demonstrates how this might occur here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L141). 
 
