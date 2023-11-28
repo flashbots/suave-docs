@@ -51,7 +51,7 @@ module.exports = async function createConfigAsync() {
         prism: {
           theme: lightTheme,
           darkTheme,
-          additionalLanguages: ['solidity', 'bash'],
+          additionalLanguages: ['solidity', 'bash', 'typescript'],
         },
         docs: {
           sidebar: {
