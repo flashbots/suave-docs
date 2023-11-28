@@ -69,7 +69,37 @@ This contract uses three new [precompiles](/technical/specs/rigil/precompiles):
 
 ## 2. Deploy locally
 
-There are currently 3 steps required to deploy a custom contract.
+SUAVE contracts can be deployed using all existing Ethereum client providers (ethers, viem, geth...) and development toolkits (forge, hardhat, brownie...).
+
+### Deploy with Forge
+
+`forge` is a command-line tool from [Foundry](https://getfoundry.sh/) that can compile and deploy smart contracts.
+
+```bash
+# assuming you've already created a project with `forge init`
+forge build
+
+# defaults for a local devnet with suave-geth
+# replace these values with your own as needed
+export RPC_URL=http://localhost:8545
+export PRV_KEY=0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12
+export CONTRACT_NAME="MyContract"
+
+# assuming your contract name (in code) is the same as the filename
+forge create --rpc-url $RPC_URL --private-key $PRV_KEY \
+./src/${CONTRACT_NAME}.sol:$CONTRACT_NAME
+```
+
+_Example Result:_
+
+```
+No files changed, compilation skipped
+Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
+Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
+```
+
+### Deploy with Go
 
 1. Generate the necessary artifacts. This can be done by running:
 
