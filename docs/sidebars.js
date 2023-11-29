@@ -27,14 +27,13 @@ module.exports = {
       type: 'category',
       label: '🥷 Developers',
       collapsed: false,
-      link: { type: 'doc', id: 'developers/index' },
+      link: { type: 'doc', id: 'resources/index' },
       items: [
-        'developers/dev-tools',
-        'developers/ecosystem',
-        'developers/forge',
-        'developers/golang-sdk',
-        'developers/typescript-sdk',
-        'developers/rpc'
+        'resources/tools-resources',
+        'resources/forge',
+        'resources/golang-sdk',
+        'resources/typescript-sdk',
+        'resources/rpc'
       ],
     },
     {
