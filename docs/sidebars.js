@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🥷 Developers',
+      label: '🧉 Resources',
       collapsed: false,
       link: { type: 'doc', id: 'resources/index' },
       items: [
