@@ -183,14 +183,6 @@ go run suave/devenv/cmd/main.go
 curl 'http://localhost:8545' --header 'Content-Type: application/json' --data '{ "jsonrpc":"2.0", "method":"eth_blockNumber", "params":[], "id":83 }'
 ```
 
-**Generate a new account like this:**
-
-```bash
-suave --suave account new
-```
-
-If the `--datadir` flag is not set, a geth client stores data in the `$HOME/.ethereum` directory. Depending on the chain you use, it creates a subdirectory. For example, if you run Sepolia, geth creates `$HOME/.ethereum/sepolia/`. So, if you use the `--suave` flag, your data ends up in `$HOME/.ethereum/suave/...`.
-
 ---
 
 **If you built from source (but not if you're running Docker), you can attach to the usual Geth javascript console to get any interactive data you need with:**

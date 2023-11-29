@@ -114,7 +114,7 @@ Clone the SUAPP Examples repo as above, making sure to initialize and update the
 ```go
 func DefaultConfig() *Config {
 	return &Config{
-		KettleRPC:  "http://rpc.rigil.suave.flashbots.net",
+		KettleRPC:  "https://rpc.rigil.suave.flashbots.net",
 		KettleAddr: common.HexToAddress("03493869959c866713c33669ca118e774a30a0e5"),
 		FundedAccount: NewPrivKeyFromHex("<your_funded_priv_key>"),
 	}
@@ -127,15 +127,11 @@ Now, you should be able to deploy and transact with any of the contracts in the 
 cd examples/onchain-state && go run main.go
 ```
 
-TODO: this doesn't actually work.
-
-### Write Your Own Contracts
-
-You can write your own contracts in this repo and deploy them using any of the methods discussed above. Just make sure you have Foundry downloaded so that you can compile any new additions you make:
+You should again see output like this logged in your terminal:
 
 ```bash
-curl -L https://foundry.paradigm.xyz | bash
-forge build
+1. Send a confidential request that cannot modify the state
+2. Send a confidential request that modifies the state
 ```
 
 ## Remix and Rigil
