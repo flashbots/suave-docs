@@ -7,9 +7,6 @@ keywords:
   - design goals
 ---
 
-import Grid from '@site/src/components/Grid/Grid.tsx';
-import GridBlock from '@site/src/components/GridBlock/GridBlock.tsx';
-
 We draw on the theoretical goals outlined in "[Strategyproof Computing](https://groups.ischool.berkeley.edu/archive/p2pecon/papers/s1-ng.pdf)", a paper that illustrates how to think about incentives in the design of distributed systems:
 
 ```
@@ -30,8 +27,7 @@ and the practical ones which led to the implementation of [Serenity](https://not
 5. Full light-client verifiability
 ```
 
-<Grid>
-<GridBlock symbol="I." title="Permissionless">
+## Permissionless
 
 It should be possible for anyone to deploy any kind of builder solidity contract. This is inspired by the "open" principle from Strategyproof computing, which states: "Our belief is that an open marketplace will naturally lead to mechanisms with the 'right scope' and 'right complexity'."
 
@@ -39,9 +35,7 @@ We cannot preempt every kind of MEV that will exist, or the range of methods whi
 
 - [Searching for Universality](https://docs.google.com/file/d/1c0Ok4M3CcPjMCh7-vh6ErfhqlJsh1qau/edit?filetype=mspresentation)
 
-</GridBlock>
-
-<GridBlock symbol="II." title="Simple">
+## Simple
 
 Strategyproof computing argues that we ought to "simplify the decisions facing participants in distributed multi-agent systems", and Vitalik points out that simplicity matters "because it (i) minimizes development costs, (ii) reduces risk of unforeseen security issues, and (iii) allows protocol designers to more easily convince users that parameter choices are legitimate".
 
@@ -49,11 +43,7 @@ Simplicity implies flexibility with respect to dependencies, such that we can up
 
 - [Simplicity Matters](https://youtu.be/rI8tNMsozo0)
 
-</GridBlock>
-</Grid>
-
-<Grid>
-<GridBlock symbol="III." title="Sufficient">
+## Sufficient
 
 This is inspired by the Serenity design rationale, which states that it should be "possible to build as many classes of applications as possible on top of the protocol".
 
@@ -61,19 +51,13 @@ We strive for the same generality with SUAVE: it should be possible to use SUAVE
 
 - [Information is the new money](https://www.youtube.com/watch?v=vi-rVTFTb6s)
 
-</GridBlock>
-
-<GridBlock symbol="IV." title="Private">
+## Private
 
 The operation of mechanisms for ordering information and distributing value must be public and verifiable. The data which passes through those mechanisms must not be. Privacy is a human right and, in the context of MEV, it enables us to create more economically efficient systems that are resilient to centralization of wealth and power over time, <b>and</b> to malicious manipulation in any given moment.
 
 We must provide people with the ability to keep their data hidden and only reveal it to those whom they trust or wish to interact with.
 
-</GridBlock>
-</Grid>
-
-<Grid>
-<GridBlock symbol="V." title="Decentralized">
+## Decentralized
 
 Allocating resources without a central authority is hard because there is a trade-off between revenue optimality and efficiency. People should benefit maximally from their information, <b>and</b> finding or correcting inefficiencies should carry sufficient reward.
 
@@ -81,9 +65,7 @@ SUAVE is simultaneously a search for the most efficient mechanisms for value ext
 
 - [The holy grail](https://youtu.be/vi-rVTFTb6s?t=1092)
 
-</GridBlock>
-
-<GridBlock symbol="VI." title="Credible">
+## Credible
 
 This is inspired by Strategyproof computing, which states that, "the self-interest of participants in distributed systems should be explicitly addressed by system designers."
 
@@ -94,6 +76,3 @@ It should be possible to quantify who benefits, and how much they benefit relati
 We do not mean "who" in the personal sense, but rather in terms of the type of actors involved. Specifically, users should enjoy the maximum value possible while ensuring SUAVE is adopted by all parties, with the rest of that value cascading down to those doing the most relevant work.
 
 - [MEV Precedence List](https://youtu.be/6oFNYDBH76Q?t=464)
-
-</GridBlock>
-</Grid>

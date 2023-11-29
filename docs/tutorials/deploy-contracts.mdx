@@ -1,0 +1,198 @@
+---
+title: Deploy Contracts
+description: Deploy your first contract on SUAVE
+keywords:
+  - contract
+  - deploy
+  - suave
+  - solidity
+---
+
+import RPCButton from '@site/src/components/RPCButton/index';
+
+# Deploy A Contract
+
+:::info
+
+SUAVE contracts can be deployed using all existing Ethereum client providers (ethers, viem, geth...) and development toolkits (forge, hardhat, brownie...).
+
+:::
+
+The previous two tutorials have encouraged you run SUAVE locally. However, the Rigil Testnet is up and running, so you should be able to deploy contracts to it without building everything yourself.
+
+This tutorial is therefore divided into two sections:
+
+1. [Deploy to Rigil](#deploy-to-rigil)
+2. [Deploy locally](#deploy-locally)
+
+## Deploy to Rigil
+
+:::info
+
+First, get some rETH for the account you want to use from the **[Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net)**. Make sure you can access the private key of this account.
+
+:::
+
+### Deploy with Forge
+
+Forge is a command-line tool from [Foundry](https://getfoundry.sh/) that can compile and deploy smart contracts.
+
+Make a new directory and run the below to intialize it:
+
+```bash
+mkdir suave-contracts && cd suave-contracts/ && forge init
+```
+
+Write your contracts as you usual would, generally in the `src` directory. Then run:
+
+```bash
+forge build
+```
+
+You can now deploy your compiled contract with:
+
+```bash
+forge create --rpc-url https://rpc.rigil.suave.flashbots.net --legacy \
+--private-key <your_funded_priv_key> ./src/<your_contract_name>.sol:<your_contract_name>
+```
+
+You should see something like this logged to your terminal:
+
+```bash
+...relevant compilation results...
+Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
+Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
+```
+
+### Deploy with Remix
+
+:::warning
+
+This method quick, but limited. You can deploy contracts using Remix and an injected web3 provider. However, you cannot send Confidential Compute Requests to those contracts from providers like MetaMask, so it is difficult to interact with your contracts once deployed.
+
+:::
+
+Follow these steps to deploy a contract via Remix:
+
+1. Add the Rigil RPC to your MetaMask or equivalent wallet and connect to it:
+
+<RPCButton />
+
+2. Ensure you have rETH from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net)
+3. Go to the [Remix IDE](http://remix.ethereum.org/) and navigate to the bottom icon on the right-hand menu: "Deploy and Run Transactions".
+4. Open the dropdown "Environment" menu and select "Injected Provider - MetaMask". It should show `Custom (16813125) network` directly below that field if this works correctly.
+5. Write (or import) your contracts in the File Explorer tab, compile them, and deploy them as you usually would.
+
+## Deploy locally
+
+:::info
+
+For this section, you will need SUAVE running locally before trying to deploy any contracts
+
+:::
+
+### SUAPP Examples
+
+First, clone and set up the [SUAPP examples repo](https://github.com/flashbots/suapp-examples/), which comes with a number of different example contracts to illustrate the different precompiles and patterns you can start learning. You'll notice that `suave-geth` is included as a submodule, so we need to initialize it from within the `suapp-examples` repo you have cloned:
+
+```bash
+git submodule init && git submodule update
+```
+
+We'll also need to install Foundry in order to help us compile our contracts and prepare them for deployment:
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+```
+
+You can compile all the contracts in the repo with:
+
+```bash
+forge build
+```
+
+### Golang SDK
+
+You need to build and run SUAVE locally, which you can do with:
+
+```bash 
+cd suave-geth && make suave && suave --suave.dev
+```
+
+Now we can deploy and transact with any of the example contracts. Just `cd` into the relevant directory and run the `main.go` file. For instance, to deploy and transact with the example contract which demonstrates how updating state works for normal vs confidential requests, you can run:
+
+```bash
+cd examples/onchain-state && go run main.go
+```
+
+You should see this message printed in your terminal if successful:
+
+```bash
+1. Send a confidential request that cannot modify the state
+2. Send a confidential request that modifies the state
+```
+
+All of the `main.go` files use the Golang SDK, which you can read more about in our [developer guides](/resources/golang-sdk).
+
+---
+
+The astute will notice that you can use exactly the same setup to deploy contracts to Rigil instead of your local network.
+
+First, ensure you have rETH for the account you want to use from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net).
+
+Then, edit the `DefaultConfig` of `framework/framework.go` to look something like this (with the private key replaced):
+
+```go
+func DefaultConfig() *Config {
+	return &Config{
+		KettleRPC:  "https://rpc.rigil.suave.flashbots.net",
+		KettleAddr: common.HexToAddress("03493869959c866713c33669ca118e774a30a0e5"),
+		FundedAccount: NewPrivKeyFromHex("<your_funded_priv_key_without_0x>"),
+	}
+}
+```
+
+Now, you should be able to deploy and transact with any of the contracts in the repo. For instance, try running:
+
+```bash
+cd examples/onchain-state && go run main.go
+```
+
+You should again see output like this logged in your terminal:
+
+```bash
+1. Send a confidential request that cannot modify the state
+2. Send a confidential request that modifies the state
+```
+
+### Forge
+
+If you prefer Forge to working in Golang, you can keep SUAVE running and work in your own directory:
+
+```bash
+mkdir ~/suave-contracts && cd ~/suave-contracts/ && forge init
+```
+
+Write your contracts as you usual would, generally in the `src` directory. Then run:
+
+```bash
+forge build
+```
+
+You can now deploy your compiled contracts, using a private key that is already funded in your local setup:
+
+```bash
+forge create --rpc-url http://localhost:8545 --legacy \
+--private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \ 
+./src/<your_contract_name>.sol:<your_contract_name>
+```
+
+You should see something like this logged to your terminal:
+
+```bash
+...relevant compilation results...
+Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
+Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
+```

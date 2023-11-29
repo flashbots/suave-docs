@@ -7,11 +7,17 @@ keywords:
   - precompiles
 ---
 
-# Create a precompile
+# Create Precompiles
+
+:::info
+
+Creating precompiles requires writing lower level code than the contracts and transactions we've been working with so far. You will need a local clone of `suave-geth` to follow this tutorial, and we'll be making changes to the core code itself.
+
+:::
 
 SUAVE uses [custom precompiles](/technical/specs/rigil/precompiles) to extend the EVM with specific MEV functions.
 
-In this guide, we will add a new precompile to the [suave-geth client](https://github.com/flashbots/suave-geth) that will be accessible in any builder solidity contract on SUAVE.
+In this tutorial, we will add a new precompile to the [suave-geth client](https://github.com/flashbots/suave-geth) that will be accessible in any builder solidity contract on SUAVE.
 
 ## Understand the structure
 

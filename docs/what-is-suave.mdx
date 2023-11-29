@@ -10,22 +10,27 @@ keywords:
   - mechanisms
 ---
 
+import List from '@site/src/components/List/List.tsx';
+
 # What is SUAVE?
 
 SUAVE - _Single Unifying Auction for Value Expression_ - is a platform for building MEV applications such as OFAs and block builders in a decentralized and private way.
 
-Read more about SUAVE:
+SUAVE is designed as an open marketplace for MEV applications which we call "_SUAPPs_". SUAPPs are composed of smart contracts deployed on SUAVE, which can do one (or more) of the following:
 
-- https://writings.flashbots.net/the-future-of-mev-is-suave
-- https://writings.flashbots.net/mevm-suave-centauri-and-beyond
+<List>
 
-SUAVE is designed as an open marketplace for MEV Applications which we call "_SUAPPs_". A SUAPP is an application deployed on SUAVE which can utilize the following SUAVE-native functionality:
+**Compute on confidential data**, e.g., auctions, block building  
 
-1. **Private data**, e.g., auctions, block building
-2. **Coordination within block times**, e.g., block building, trade routing and filling
-3. **Access to fresh off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
-4. **Commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
-5. **Too much gas to do on-chain** because of how much compute they use.
+**Compute that requires too much gas to do on-chain**  
+
+**Coordinate within block times**, e.g., block building, trade routing and filling  
+
+**Access relevant off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions  
+
+**Help create, attest to, or process commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
+
+</List>
 
 ## What SUAVE is not
 
@@ -35,14 +40,46 @@ SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise de
 
 ## What is different about SUAVE
 
-1. SUAVE is a fork of Geth, with additional precompiles for MEV applications (_SUAPPs_) and a modified runtime to enable confidential computation (the _MEVM_).
-2. Contracts are still written in Solidity, and can be extended with the new precompiles above. We call this _builder solidity_.
-3. Transactions have been altered to enable _confidential compute requests_.
-   1. All the Ethereum JSON RPC methods are there, but some are extended, like `eth_call` and `eth_sendRawTransaction`.
-   2. The type returned by the SUAVE JSON RPC is always a _SUAVE transaction_.
-   3. In practice, deploying contracts is the same (and can be done from familiar tools like Remix or Forge), but sending transactions and handling their responses requires custom code, for which we have developed two SDKs, one in Go and another in typescript.
-4. We call the primary protocol actor a _Kettle_, because it is a modified version of a Geth node + an extended RPC + a confidential data store.
-5. The _confidential compute requests_ contained in the extended transactions above can be encrypted for specific actors (i.e. Kettles and/or other contracts), which enables _programmable privacy_.
-6. A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or _hints_, on the SUAVE chain itself.
-   1. This means the programming model and how to think about state transitions both differ from what you may be used to.
-   2. These differences are best illustrated via practical examples, which you can find in our [how to guides](/how-to).
+### Architecture 
+
+<List>
+
+SUAVE is a fork of Geth, with additional precompiles for MEV applications (**SUAPPs**) and a modified runtime to enable confidential computation (**the MEVM**).
+
+We call the primary protocol actor a **Kettle**, because it is a modified version of a Geth node + an extended RPC + a confidential data store.
+
+A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or "hints", on the SUAVE Chain.
+
+SUAVE has public and private state. 
+
+Public state is accessible on the SUAVE Chain, which currently runs Clique POA Consensus (for fast iteration, to be changed in future releases).
+
+To access private state, we use "Confidential Compute Requests".
+
+</List>
+
+### Contracts and Transactions
+
+<List>
+
+A SUAPP is a smart contract deployed on SUAVE, just as a Dapp is a smart contract deployed on Ethereum. [Deploying contracts](/tutorials/deploy-contracts) is largely the same as any EVM chain.
+
+Transactions are different, because they can contain data encrypted for specific actors (i.e. Kettles and/or other contracts). These are the "Confidential Compute Requests".
+
+Confidential Compute Requests are handled via a modified RPC in each Kettle. They allow you to control how much data ends up back onchain.
+  
+Creating Confidential Compute Requests can be done with the [Golang](/resources/golang-sdk) or [Typescript](/resources/typescript-sdk) SDKs.
+
+</List>
+
+## Why SUAVE matters
+
+To understand the context which has inspired SUAVE, we recommend these resources:
+
+- 🗣️ [SUAVE explained, with Phil Daian and Andrew Miller](https://www.bankless.com/early-access-suave-explained-with-phil-daian-andrew-miller)
+- 🔮 [The Future of MEV is SUAVE](https://writings.flashbots.net/the-future-of-mev-is-suave)
+- 🌟 [MEVM Centauri and Beyond](https://writings.flashbots.net/mevm-suave-centauri-and-beyond)
+
+## FAQs
+
+TODO

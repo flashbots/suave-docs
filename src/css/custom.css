@@ -212,3 +212,14 @@ footer {
     grid-template-columns: none;
   }
 }
+
+
+/* Override DocCardList styles */
+
+.card {
+  color: var(--ifm-link-hover-color);
+}
+
+[data-theme='dark'] .card {
+  color: #fff;
+}

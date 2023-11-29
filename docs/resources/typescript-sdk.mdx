@@ -1,12 +1,12 @@
 ---
 title: Typescript SDK
-description: Brief Explanation of Typescript SDK (suave-viem)
+description: An overview of the Typescript SDK (suave-viem)
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstream'ed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
+SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
 
 :::info
 
@@ -151,7 +151,11 @@ export const publicClients = {
 };
 ```
 
-:::info Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary. :::
+:::info 
+
+Replace `suaveRigil.rpcUrls.local.http[0]` with the appropriate RPC URL if necessary. 
+
+:::
 
 ## Wallet Creation
 
@@ -278,7 +282,11 @@ const ccrReq: TransactionRequestSuave = {
 };
 ```
 
-:::info `confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp. :::
+:::info 
+
+`confidentialInputs` is a field to store information that should be kept private during computation, and the data fields is a typical calldata field for interacting with a dapp. 
+
+:::
 
 #### 7. Send the Confidential Compute Request
 
