@@ -10,12 +10,7 @@ module.exports = {
   },
   content: ['./src/**/*.{js,jsx,ts,tsx}', '../docs/**/*.mdx'],
   theme: {
-    extend: {
-      colors: {
-        list: '#04F',
-        onlist: '#FFF',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };
