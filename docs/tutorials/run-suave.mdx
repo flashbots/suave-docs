@@ -31,12 +31,6 @@ There are two different approaches you can take to local setup:
 git clone git@github.com:flashbots/suave-geth.git
 ```
 
-or 
-
-```bash
-git clone https://github.com/flashbots/suave-geth.git
-```
-
 ### Building from source
 
 Build the binary:
@@ -64,16 +58,9 @@ suave --suave.dev
     <div>
       <div>
         If you are seeing:
-        <br />
-        <pre>
-          "cp: cannot create regular file '/bin/suave': Permission denied"
-        </pre>
-        <br />
-        <br />
+        <pre>"cp: cannot create regular file '/bin/suave': Permission denied"</pre>
         it is most likely because you have not set your GOPATH correctly. You can
-        do so by running:
-        <br />
-        <br />
+        do so by running:  
         <pre>export GOPATH=$HOME/go</pre>
       </div>
     </div>
@@ -86,7 +73,6 @@ suave --suave.dev
       <div>
         If you have set up a new machine to run through this, you'll also need
         to install Make and Go:
-        <br />
         <pre>sudo apt install make golang-go</pre>
       </div>
     </div>
@@ -114,14 +100,12 @@ make devnet-down
 ```
 
 <details>
-  <summary>1. Docker permission errors</summary>
+  <summary>1. Docker permission errors (Linux)</summary>
   <div>
     <div>
       <div>
-        It is likely best to create a new user group for Docker, rather than run
+        On Linux, it is best to create a new user group for Docker, rather than run
         the above command as sudo. You can do by running:
-        <br />
-        <br />
         <pre>sudo usermod -aG docker $USER newgrp docker</pre>
       </div>
     </div>
@@ -134,16 +118,11 @@ make devnet-down
       <div>
         Make sure that Docker is running. On most Linux machines, you can do
         this with:
-        <br />
         <pre>sudo systemctl start docker</pre>
-        <br />
         You can check the current status with:
-        <br />
         <pre>sudo systemctl status docker</pre>
-        <br />
         If you installed Docker and still run into issues with docker-compose,
         you can try:
-        <br />
         <pre>sudo apt install docker-compose</pre>
       </div>
     </div>
@@ -156,12 +135,9 @@ make devnet-down
       <div>
         If you're running an older version of Docker, you may get a message that
         looks like this:
-        <br />
         <pre>
-          ERROR: Version in "././suave/devenv/docker-compose.yml" is
-          unsupported.
+          ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
         </pre>
-        <br />
         Go to the file in "/suave/devenv/docker-compose.yml" and change the
         first line to use <b>3.3</b> rather than <b>3.8</b>.
       </div>
@@ -185,7 +161,7 @@ curl 'http://localhost:8545' --header 'Content-Type: application/json' --data '{
 
 ---
 
-**If you built from source (but not if you're running Docker), you can attach to the usual Geth javascript console to get any interactive data you need with:**
+If you built from source (but not if you're running Docker), you can attach to the usual Geth javascript console to get any interactive data you need with:
 
 ```bash
 suave attach /tmp/geth.ipc

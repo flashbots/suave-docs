@@ -15,11 +15,11 @@ const List: React.FC<ListProps> = ({ children }) => {
             key={`process-child-${index}`}
             className="flex flex-row">
             <div
-              className="text-2xl w-10 min-w-10 h-10 leading-[39px] my-4 min-h-10 rounded-full text-center text-onlist bg-list">
+              className="w-7 h-7 my-2 leading-[23px] border-double rounded-full text-center font-bold">
               {`${index + 1}`}
             </div>
             <div
-              className="ml-3 my-6 w-full last:mb-0 only:mb-0">
+              className="ml-3 my-2 w-full last:mb-0 only:mb-0">
               {child}
             </div>
           </div>
