@@ -296,7 +296,13 @@ Finally, send the CCR to the network.
 
 ```typescript
 const res = await wallet.sendTransaction(ccr);
-console.log(`sent tx: ${res}`);
+console.log(`sent ccr! tx hash: ${res}`);
+```
+
+You should see the transaction hash logged to your terminal, like this:
+
+```bash
+sent ccr! tx hash: 0xad488fd0a2b428bfa30c7ef8f8ce12e2f7f2554643ad1ca94d15ab11ad5dd9dd
 ```
 
 ## Fetching Blockchain Data
