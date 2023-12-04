@@ -127,7 +127,8 @@ type SuaveRuntime interface {
 
 You will now need to write the logic required for your precompile to work as expected based on this generated skeleton.
 
-You can do this in `contracts_suave.go`. In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
+Adapter code will be written into [`contracts_suave_runtime_adapter.go`](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave_runtime_adapter.go), but you will need to add your method to [`suave_contracts.go`](https://github.com/flashbots/suave-geth/blob/main/core/vm/contracts_suave.go).
+In our case, the logic is very simple: just a straightforward addition of the values passed in as inputs. Your implementation may be arbitrarily more complex based on what you want the precompile to achieve.
 
 ```go
 func (b *suaveRuntime) Add(a uint64, b uint64) (uint64, error) {
