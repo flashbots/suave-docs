@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🛠️ Tutorials',
+      label: '🗺️ Tutorials',
       collapsed: false,
       link: { type: 'doc', id: 'tutorials/index' },
       items: [
@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🧉 Resources',
+      label: '🛠️ Resources',
       collapsed: false,
       link: { type: 'doc', id: 'resources/index' },
       items: [
