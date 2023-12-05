@@ -61,4 +61,16 @@ module.exports = {
       label: 'GitHub',
     },
   ],
+  community: [
+    {
+      type: 'category',
+      label: '🤗 Community',
+      collapsed: false,
+      link: { type: 'doc', id: 'community/index' },
+      items: [
+        'community/tools',
+        'community/suapps'
+      ],
+    },
+  ]
 };
