@@ -92,13 +92,13 @@ Setup what you need to create the frontend with `suave-viem`:
 cd packages/next/ && bun link viem
 ```
 
-Build the contract and deploy them locally (from the root directory of your project):
+Compile your contracts (from the root directory of your project):
 
 ```bash
 yarn contracts:build 
 ```
 
-You need to have SUAVE running locally for this to work:
+Deploy the compile contracts (you need to have [SUAVE running locally](/tutorials/run-suave) for this to work):
 
 ```bash
 chmod +x packages/forge/deploy && yarn contracts:deploy 
@@ -183,11 +183,11 @@ There are a few points to understand here:
 
 ### CCRs with data
 
-What happens when we do actually want to send data in our CCR? The typescript template demonstrates how to do this by signing trasactions on Goerli that you wish to be processed by kettles on SUAVE.
+What happens when we do actually want to send data in our CCR? The typescript template demonstrates how to do this by signing transactions on Goerli that you wish to be processed by kettles on SUAVE.
 
 In this case, we need to:
 
-1. Craft a transaction on the domain where we want to transact and sign it. 
+1. Craft a transaction on your chosen domain and sign it. 
 2. Append relevant details like the `decryptionCondition`, `kettleAddress`, `contract` and `chainId`.
 3. Use a helper function like `toConfidentialRequest` to (i) place our signed transaction in `confidentialInputs` and (ii) replace the `data` field with a call to the appropriate method in the specified SUAVE contract.
 
@@ -229,3 +229,11 @@ const sendBid = async (suaveWallet: any) => {
         }
 }
 ```
+
+## Conclusion
+
+You now have two different templates from which to begin building your own SUAPP 💃.
+
+These templates demonstrate how to interact with SUAVE confidentially, both directly, and with data from another domain.
+
+Good luck, and happy building ⚡🤖.
