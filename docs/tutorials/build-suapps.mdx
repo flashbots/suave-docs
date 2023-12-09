@@ -77,28 +77,16 @@ This template comes with a more extensive frontend framework, which uses Next (i
 ```bash
 git clone git@github.com:andytudhope/build-a-suapp-next-ts.git \
 && cd build-a-suapp-next-ts \
-&& yarn
+&& yarn # make sure you have previously built and symlinked suave-viem for this to work
 ```
 
-Setup what you need to handle contracts with `forge`:
+Setup `forge` to compile your contracts:
 
 ```bash
-cd packages/forge/ && forge install
+cd packages/forge/ && forge install && forge build
 ```
 
-Setup what you need to create the frontend with `suave-viem`:
-
-```bash
-cd packages/next/ && bun link viem
-```
-
-Compile your contracts (from the root directory of your project):
-
-```bash
-yarn contracts:build 
-```
-
-Deploy the compile contracts (you need to have [SUAVE running locally](/tutorials/run-suave) for this to work):
+Deploy the compiled contracts from the root directory (you need to have [SUAVE running locally](/tutorials/run-suave) for this to work):
 
 ```bash
 chmod +x packages/forge/deploy && yarn contracts:deploy 
@@ -159,7 +147,7 @@ const sendExample = async () => {
       to: deployedAddress,
       gasPrice: 2000000000n,
       gas: 100000n,
-      type: SuaveTxTypes.ConfidentialRequest,
+      type: '0x43', // SuaveTxRequestTypes.ConfidentialRequest
       chainId: 16813125, // chain id of local SUAVE devnet and Rigil
       data: encodeFunctionData({
         abi: OnChainState.abi,
@@ -170,7 +158,7 @@ const sendExample = async () => {
     const hash = await suaveWallet.sendTransaction(ccr);
     console.log(`Transaction hash: ${hash}`);
     setPendingReceipt(provider.waitForTransactionReceipt({ hash }));
-}
+  }
 ```
 
 There are a few points to understand here:
@@ -178,7 +166,7 @@ There are a few points to understand here:
 1. You need to enable "Eth_sign" in the Advanced settings in your browser wallet for this to work.
 2. The code fetches the nonce manually, because we'll be using that newly-enabled `eth_sign` method.
 3. We can leave the `confidentialInputs` field empty, as we're not actually sending any data along with this transaction: just demonstrating how CCRs work.
-4. We specify a new type for the transaction, which is exported from `suave-viem`.
+4. We specify a new type for the transaction. The [2 `suave-viem` different TxRequest and Tx types are defined here](https://github.com/flashbots/suave-viem/blob/main/src/chains/suave/types.ts).
 5. The `suaveWallet.sendTransaction(ccr)` uses `eth_sign` under the hood, along with a few other steps required to serialize the transaction correctly, which you can see happening [here](https://github.com/flashbots/suave-viem/blob/main/src/chains/suave/wallet.ts).
 
 ### CCRs with data
@@ -234,6 +222,6 @@ const sendBid = async (suaveWallet: any) => {
 
 You now have two different templates from which to begin building your own SUAPP 💃.
 
-These templates demonstrate how to interact with SUAVE confidentially, both directly, and with data from another domain.
+These templates demonstrate how to interact with SUAVE confidentially, both directly and with data from another domain.
 
-Good luck, and happy building ⚡🤖.
+Good luck and happy building ⚡🤖.
