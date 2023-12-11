@@ -34,7 +34,7 @@ jobs:
           ALGOLIA_APP_ID: 'example'
           ALGOLIA_SEARCH_API_KEY: 'example'
           ALGOLIA_INDEX_NAME: 'example'
-        run: npm build
+        run: npm run build
 
       - name: Check for broken links
         env:
