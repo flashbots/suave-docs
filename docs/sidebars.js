@@ -30,11 +30,10 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'resources/index' },
       items: [
-        'resources/tools-resources',
+        'resources/rigil',
         'resources/forge',
         'resources/golang-sdk',
-        'resources/typescript-sdk',
-        'resources/rpc'
+        'resources/typescript-sdk'
       ],
     },
     {
