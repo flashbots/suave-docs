@@ -4,43 +4,43 @@ module.exports = {
       type: 'category',
       label: '👋 Welcome',
       collapsed: false,
-      link: { type: 'doc', id: 'index' },
+      link: {type: 'doc', id: 'index'},
       items: [
         'what-is-suave',
         'what-to-build',
-        'technical/specs/rigil/glossary'
+        'technical/specs/rigil/glossary',
       ],
     },
     {
       type: 'category',
       label: '🗺️ Tutorials',
       collapsed: false,
-      link: { type: 'doc', id: 'tutorials/index' },
+      link: {type: 'doc', id: 'tutorials/index'},
       items: [
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
         'tutorials/send-transactions',
         'tutorials/build-suapps',
-        'tutorials/create-precompiles'
+        'tutorials/create-precompiles',
       ]
     },
     {
       type: 'category',
       label: '🛠️ Resources',
       collapsed: false,
-      link: { type: 'doc', id: 'resources/index' },
+      link: {type: 'doc', id: 'resources/index'},
       items: [
         'resources/rigil',
         'resources/forge',
         'resources/golang-sdk',
-        'resources/typescript-sdk'
+        'resources/typescript-sdk',
       ],
     },
     {
       type: 'category',
       label: '🤖 Technical Specs',
       collapsed: false,
-      link: { type: 'doc', id: 'technical/README' },
+      link: {type: 'doc', id: 'technical/README'},
       items: [
         'technical/specs/rigil/README',
         'technical/specs/rigil/kettle',

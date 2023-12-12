@@ -20,7 +20,7 @@
   ],
   "ignorePaths": [
     "package.json",
-    "yarn.lock",
+    "package-lock.json",
     "project-words.txt",
     "*.gitignore"
   ],

@@ -14,7 +14,7 @@ import RPCButton from '@site/src/components/RPCButton/index';
 
 :::info
 
-SUAVE contracts can be deployed using all existing Ethereum client providers (ethers, viem, geth...) and development toolkits (forge, hardhat, brownie...).
+SUAVE contracts can be deployed using all existing Ethereum client providers (ethers, viem, geth...) and development tool kits (forge, hardhat, brownie...).
 
 :::
 
@@ -37,7 +37,7 @@ First, get some rETH for the account you want to use from the **[Rigil ETH Fauce
 
 Forge is a command-line tool from [Foundry](https://getfoundry.sh/) that can compile and deploy smart contracts.
 
-Make a new directory and run the below to intialize it:
+Make a new directory and run the below to initialize it:
 
 ```bash
 mkdir suave-contracts && cd suave-contracts/ && forge init
@@ -116,7 +116,7 @@ forge build
 
 You need to build and run SUAVE locally, which you can do with:
 
-```bash 
+```bash
 cd suave-geth && make suave && suave --suave.dev
 ```
 
@@ -184,7 +184,7 @@ You can now deploy your compiled contracts, using a private key that is already 
 
 ```bash
 forge create --rpc-url http://localhost:8545 --legacy \
---private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \ 
+--private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \
 ./src/<your_contract_name>.sol:<your_contract_name>
 ```
 

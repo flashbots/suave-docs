@@ -153,7 +153,7 @@ div {
 }
 
 [data-theme='dark'] .intro-block {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #f0f0f0;
   transition:
     background-color 0.3s ease 0s,
     color 0.3s ease 0s;
@@ -212,7 +212,6 @@ footer {
     grid-template-columns: none;
   }
 }
-
 
 /* Override DocCardList styles */
 

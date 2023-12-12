@@ -58,9 +58,11 @@ suave --suave.dev
     <div>
       <div>
         If you are seeing:
-        <pre>"cp: cannot create regular file '/bin/suave': Permission denied"</pre>
-        it is most likely because you have not set your GOPATH correctly. You can
-        do so by running:  
+        <pre>
+          "cp: cannot create regular file '/bin/suave': Permission denied"
+        </pre>
+        it is most likely because you have not set your GOPATH correctly. You
+        can do so by running:
         <pre>export GOPATH=$HOME/go</pre>
       </div>
     </div>
@@ -106,8 +108,8 @@ On MacOS, the above should work out of the box with Docker Desktop. If you're us
   <div>
     <div>
       <div>
-        On Linux, it is best to create a new user group for Docker, rather than run
-        the above command as sudo. You can do by running:
+        On Linux, it is best to create a new user group for Docker, rather than
+        run the above command as sudo. You can do by running:
         <pre>sudo usermod -aG docker $USER newgrp docker</pre>
       </div>
     </div>
@@ -138,7 +140,8 @@ On MacOS, the above should work out of the box with Docker Desktop. If you're us
         If you're running an older version of Docker, you may get a message that
         looks like this:
         <pre>
-          ERROR: Version in "././suave/devenv/docker-compose.yml" is unsupported.
+          ERROR: Version in "././suave/devenv/docker-compose.yml" is
+          unsupported.
         </pre>
         Go to the file in "/suave/devenv/docker-compose.yml" and change the
         first line to use <b>3.3</b> rather than <b>3.8</b>.
@@ -175,7 +178,8 @@ From within the console, you can run:
 eth.accounts[0]
 ```
 
-This should return `"0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f"` - the defaul funded account for local development.
+This should return `"0xb5feafbdd752ad52afb7e1bd2e40432a485bbb7f"` - the default funded account for local development.
+
 ```bash
 eth.getBalance(eth.accounts[0])
 ```

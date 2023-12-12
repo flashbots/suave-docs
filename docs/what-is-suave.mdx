@@ -21,19 +21,22 @@ SUAVE is designed as an open marketplace for MEV applications which we call "_SU
 
 <List>
 
-**Compute on confidential data**, e.g., auctions, block building  
+**Compute on confidential data**, e.g., auctions, block building
 
-**Compute that requires too much gas to do on-chain**  
+**Compute that requires too much gas to do on-chain**
 
-**Coordinate within block times**, e.g., block building, trade routing and filling  
+**Coordinate within block times**, e.g., block building, trade routing and filling
 
-**Access relevant off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions  
+**Access relevant off-chain data**, e.g., trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions
 
 **Help create, attest to, or process commitments** of various kinds, e.g., shared sequencers for rollups, new kinds of DEXes and bridges
 
 </List>
 
-<Video src="https://www.youtube-nocookie.com/embed/j3ZM2ZdUWXU" title="How They Solved Ethereum's Critical Flaw" />
+<Video
+  src="https://www.youtube-nocookie.com/embed/j3ZM2ZdUWXU"
+  title="How They Solved Ethereum's Critical Flaw"
+/>
 
 ## What SUAVE is not
 
@@ -43,7 +46,7 @@ SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise de
 
 ## What is different about SUAVE
 
-### Architecture 
+### Architecture
 
 <List>
 
@@ -53,7 +56,7 @@ We call the primary protocol actor a **Kettle**, because it is a modified versio
 
 A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or "hints", on the SUAVE Chain.
 
-SUAVE has public and private state. 
+SUAVE has public and private state.
 
 Public state is accessible on the SUAVE Chain, which currently runs Clique POA Consensus (for fast iteration, to be changed in future releases).
 
@@ -70,7 +73,7 @@ A SUAPP is a smart contract deployed on SUAVE, just as a Dapp is a smart contrac
 Transactions are different, because they can contain data encrypted for specific actors (i.e. Kettles and/or other contracts). These are the "Confidential Compute Requests".
 
 Confidential Compute Requests are handled via a modified RPC in each Kettle. They allow you to control how much data ends up back onchain.
-  
+
 Creating Confidential Compute Requests can be done with the [Golang](/resources/golang-sdk) or [Typescript](/resources/typescript-sdk) SDKs.
 
 </List>
