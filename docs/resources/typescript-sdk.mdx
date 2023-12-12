@@ -3,15 +3,15 @@ title: Typescript SDK
 description: An overview of the Typescript SDK (suave-viem)
 ---
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state. SUAVE-viem allows easy contract and node interaction via typescript. Most functionality for interacting with SUAVE will be similar to interacting with any other EVM chain in viem.
+:::info 
 
-:::info
+SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state. 
 
-Currently, Confidential Compute Requests (CCRs) are not EIP-1193 compatible and therefore you will not be able to sign CCRs directly from Metamask.
+Sending Confidential Compute Requests works slightly differently, but most other functionality is similar to interacting with any other EVM chain from viem.
 
 :::
 
-This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform basic actions such as sending transactions and fetching information from the chain.
+This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform some basic actions.
 
 ## Installation & Symlink
 
@@ -63,6 +63,12 @@ This command will create a symlink in the global folder (usually `/usr/local/lib
 
 ### Step 5: Link the symbolic link in your project
 
+:::info
+
+If you'd like to start from a template project, you can follow the tutorial on [how to build SUAPPs](/tutorials/build-suapps).
+
+:::
+
 Finally, create a new directory for your SUAPP:
 
 ```bash
@@ -110,7 +116,7 @@ The symlink approach allows you to work with a forked library locally, making it
 
 :::info
 
-The rest of this guide assumes you have [SUAVE running locally](/tutorials/run-suave). Please follow the linked tutorial to get that set up if you haven't already.
+The rest of this guide assumes you have [SUAVE running locally](/tutorials/run-suave).
 
 :::
 
@@ -292,6 +298,8 @@ const ccr: TransactionRequestSuave = {
 :::info
 
 `confidentialInputs` is a field to store information that should be kept private during computation, and the data field is the typical calldata required to interact with a dapp.
+
+If you prefer typescript, you can see how to craft your own CCRs in the [examples directory of suave-viem](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts).
 
 :::
 

@@ -20,8 +20,9 @@ module.exports = {
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
         'tutorials/send-transactions',
+        'tutorials/build-suapps',
         'tutorials/create-precompiles',
-      ],
+      ]
     },
     {
       type: 'category',
