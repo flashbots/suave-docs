@@ -1,17 +1,30 @@
 ---
-title: Rigil RPC
-description: How the Rigil RPC differs from Ethereum
+title: Rigil Specifics
+description: All the relevant information you need to interact with Rigil
 ---
 
 import RPCButton from '@site/src/components/RPCButton/index';
+import List from '@site/src/components/List/List.tsx';
 
 Flashbots has a hosted set of RPC nodes you can connect to:
 
 <RPCButton />
 
-You will also be using this (slightly modified) RPC when [running locally SUAVE](/tutorials/run-suave). The endpoint in that case is at `http://localhost:8545`.
+Other relevant resources may be found below:
 
-## Key Differences
+<List>
+
+[Block Explorer](https://explorer.rigil.suave.flashbots.net)
+
+[Faucet](https://faucet.rigil.suave.flashbots.net/)
+
+[EthStats](https://ethstats.rigil.suave.flashbots.net/)
+
+`chainId: 16813125`
+
+</List>
+
+### RPC Key Differences
 
 In order to keep some data in transactions confidential, SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods. Some methods in the `eth_` namespace are overloaded to support confidential compute requests.
 
@@ -30,7 +43,7 @@ Executes a new message call immediately without creating a transaction on the bl
 
 Returns the list of available addresses in the Kettle to execute the confidential compute request.
 
-## Test RPC
+### Testing the RPC
 
 The easiest way to test your connection to an RPC endpoint is via a simple curl command.
 
@@ -63,11 +76,7 @@ If your connection is working properly you should get a response such as:
 
 Note that the only difference between these two is the URL at the end of the curl request.
 
-## RPC Differences
-
-The SUAVE JSON-RPC extends the usual Ethereum JSOPN-RPC methods. Some methods in the `eth` namespace are overloaded to support confidential compute requests.
-
-### Example
+### SUAVE Transactions
 
 The example above follows the [exact same API interface](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth) as the original go-ethereum client. However, if we grab a random transaction hash from the [Rigil Explorer](https://explorer.rigil.suave.flashbots.net/), we can see the core difference with the SUAVE Rigil RPC: a new SUAVE transaction type.
 
@@ -126,4 +135,3 @@ This response has a couple fields that aren't in your traditional Ethereum trans
 - `requestRecord`
 
 To dive deeper into these differences checkout the [SUAVE chain specs](../technical/specs/rigil/suave-chain.md).
-

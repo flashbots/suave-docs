@@ -11,7 +11,7 @@ import {useSDK} from '@metamask/sdk-react';
  */
 function RPCButton() {
   const {sdk, provider} = useSDK();
-  const rpcUrl = 'https://rpc.rigil.suave.flashbots.net'
+  const rpcUrl = 'https://rpc.rigil.suave.flashbots.net';
 
   const connectToRPC = async () => {
     if (provider && sdk) {
@@ -38,15 +38,14 @@ function RPCButton() {
         });
       } catch (err) {
         // handle "add" error
-        console.error('addChain failed');
       }
     } else {
-      console.error('ethereum provider not found');
+      // handle general error
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 md:w-1/2 mx-auto my-10">
+    <div className="mx-auto my-10 flex flex-col items-center justify-center gap-2 md:w-1/2">
       <div
         role="button"
         tabIndex={0}
@@ -70,9 +69,7 @@ function RPCButton() {
         </svg>
         <div>
           <p className="m-0 text-sm font-bold">RPC URL</p>
-          <p className="m-0 break-all text-sm text-gray-700">
-            {rpcUrl}
-          </p>
+          <p className="m-0 break-all text-sm text-gray-700">{rpcUrl}</p>
         </div>
       </div>
       <button

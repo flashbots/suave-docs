@@ -31,10 +31,10 @@ Then install the dependencies and serve the content:
 
 ```bash
 # install dependencies
-yarn install
+npm install
 
 # start dev-server
-yarn start
+npm start
 
 # doing the same in Docker:
 make docker-deps
@@ -48,7 +48,7 @@ You can open the local docs at [http://localhost:3000/docs](http://localhost:300
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.

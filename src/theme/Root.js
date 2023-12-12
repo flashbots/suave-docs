@@ -5,16 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 import PropTypes from 'prop-types';
-import { MetaMaskProvider } from '@metamask/sdk-react';
+import {MetaMaskProvider} from '@metamask/sdk-react';
 
-export default function Root({ children }) {
+export default function Root({children}) {
   return (
-    <MetaMaskProvider debug={false} sdkOptions={{
-      checkInstallationImmediately: false,
-      dappMetadata: {
-        name: "SUAVE",
-      }
-    }}>
+    <MetaMaskProvider
+      debug={false}
+      sdkOptions={{
+        checkInstallationImmediately: false,
+        dappMetadata: {
+          name: 'SUAVE',
+        },
+      }}>
       {children}
     </MetaMaskProvider>
   );

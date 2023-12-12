@@ -14,7 +14,7 @@ Sending transactions requires that you use either the Golang or Typescript SDKs 
 
 :::
 
-The [previous tutorial illustrated](/tutorials/deploy-contracts) how to deploy a series of example contracts using the Golang SDK and, in the first tutorial, you [setup SUAVE and then ran a script to "test the devnet"](/tutorials/run-suave#testing-the-devnet). 
+The [previous tutorial illustrated](/tutorials/deploy-contracts) how to deploy a series of example contracts using the Golang SDK and, in the first tutorial, you [setup SUAVE and then ran a script to "test the devnet"](/tutorials/run-suave#testing-the-devnet).
 
 > This tutorial will reiterate how contract deployment works, **and show you how to craft the transactions** that occur in [this script](https://github.com/flashbots/suave-geth/blob/main/suave/devenv/cmd/main.go).
 
@@ -113,14 +113,13 @@ In practice, this transaction would be sent by a searcher listening for hints on
     }
 ```
 
-- Create a backrun transaction bundle that will be sent after the initial bid. **This is also a Confidential Compute Request**. 
+- Create a backrun transaction bundle that will be sent after the initial bid. **This is also a Confidential Compute Request**.
 - Serialize the backrun bundle and use the MEV-Share contract's `newMatch` function to submit it.
 - Verify the transaction receipt to ensure the backrun was successful.
 
-
 :::info
 
-What is not included in this script is the final step in the e2e example. We need to send this matched bundle - which includes both the original transaction from the user and the backrun from the searcher - to a builder so that it can be included in a block on the target domain. Rigil includes the ability to send such bundles to centralized relays for inclusion. There is [builder solidity code which demonstrates how this might occur here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L141). 
+What is not included in this script is the final step in the e2e example. We need to send this matched bundle - which includes both the original transaction from the user and the backrun from the searcher - to a builder so that it can be included in a block on the target domain. Rigil includes the ability to send such bundles to centralized relays for inclusion. There is [builder solidity code which demonstrates how this might occur here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L141).
 
 :::
 
@@ -140,3 +139,4 @@ Step 2: Send bid
 Step 3: Send backrun
 - Backrun sent at txn: 0xcf7880e61e94aaab48c60655c321716ecab6edab752586448b0412e93a969889
 - Backrun bid id: db98b83d02694fc2b13c042ad22c233
+```
