@@ -124,11 +124,11 @@ First, you need to import necessary modules and instantiate the client. In your 
 
 ```typescript
 import {http} from 'viem';
-import {suaveRigil} from 'viem/chains';
+import {getSuaveProvider} from 'viem/chains/utils';
 
 // connect to your local SUAVE node
 const SUAVE_RPC_URL = 'http://localhost:8545';
-const suaveProvider = suaveRigil.newPublicClient(http(SUAVE_RPC_URL));
+const suaveProvider = getSuaveProvider(http(SUAVE_RPC_URL));
 ```
 
 ## Wallet Creation
@@ -136,19 +136,17 @@ const suaveProvider = suaveRigil.newPublicClient(http(SUAVE_RPC_URL));
 To interact with the SUAVE network, we'll first need a wallet. When running SUAVE locally, there is an account which is set up with funds for you by default. Paste the following the following block to instantiate it in `viem`:
 
 ```typescript
-// other imports from above
+// plus other imports from above
 import {Hex} from 'viem';
+import {getSuaveWallet} from 'viem/chains/utils';
 
 const DEFAULT_PRIVATE_KEY: Hex =
   '0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12';
 
-const defaultWallet = getSuaveWallet(
-  {
-    chain: suaveRigil,
-    transport: http(),
-  },
-  DEFAULT_PRIVATE_KEY,
-);
+const defaultWallet = getSuaveWallet({
+  transport: http(SUAVE_RPC_URL),
+  privateKey: DEFAULT_PRIVATE_KEY,
+});
 
 console.log('Wallet Address:', defaultWallet.account.address);
 ```
@@ -197,13 +195,10 @@ First, instantiate a new wallet of your own, and fetch the current gas price fro
 const PRIVATE_KEY: Hex = '<your_priv_key>';
 const gasPrice = await publicClients.suaveLocal.getGasPrice();
 
-const wallet = getSuaveWallet(
-  {
-    chain: suaveRigil,
-    transport: http(),
-  },
-  DEFAULT_PRIVATE_KEY,
-);
+const wallet = getSuaveWallet({
+  transport: http(),
+  privateKey: DEFAULT_PRIVATE_KEY,
+});
 ```
 
 #### 2. Prepare the Fund Transaction
@@ -278,8 +273,8 @@ Now, let's set up a CCR with the appropriate parameters.
 ```typescript
 import {
   TransactionRequestSuave,
-  SuaveTxTypes,
-} from './node_modules/viem/chains/suave/types';
+  SuaveTxRequestTypes,
+} from 'viem/chains/utils';
 // ...
 
 const ccr: TransactionRequestSuave = {
@@ -289,7 +284,7 @@ const ccr: TransactionRequestSuave = {
   to: '0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17',
   gasPrice: 10000000000n, // Gas price for the transaction
   gas: 420000n, // Gas limit for the transaction
-  type: SuaveTxTypes.ConfidentialRequest, // Type of the SUAVE transaction
+  type: SuaveTxRequestTypes.ConfidentialRequest, // SUAVE transaction request type ("0x43")
   chainId: suaveRigil.id,
   data: '0x236eb5a70000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000010000000000000000000000008f21fdd6b4f4cacd33151777a46c122797c8bf170000000000000000000000000000000000000000000000000000000000000000', // Data payload for the transaction
 };
