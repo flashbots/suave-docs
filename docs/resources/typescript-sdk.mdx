@@ -196,7 +196,7 @@ const PRIVATE_KEY: Hex = '<your_priv_key>';
 const gasPrice = await publicClients.suaveLocal.getGasPrice();
 
 const wallet = getSuaveWallet({
-  transport: http(),
+  transport: http(SUAVE_RPC_URL),
   privateKey: DEFAULT_PRIVATE_KEY,
 });
 ```
