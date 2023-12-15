@@ -64,7 +64,7 @@ The word "bid" is an artefact of early development. It refers to a generic "Data
 
 :::
 
-In practice, this transaction would be sent by a user of another blockchain who wants to share any MEV the transaction might create in that domain with searchers listening for hints on SUAVE.
+In practice, the transactions in the `bundle` are from other blockchains, and may contain MEV on that chain which the user wants to share with searchers listening for hints on SUAVE.
 
 ```go
     refundPercent := 10
@@ -87,7 +87,8 @@ In practice, this transaction would be sent by a user of another blockchain who 
 ```
 
 - Craft a Confidential Compute Request using the MEV-Share contract function `newBid`.
-- Serialize the bundle of transactions to include in the CCR.
+- Serialize the bundle of transactions to include in the CCR, along with the `refundPercent` the sender of the CCR is looking for.
+- Sets a `targetBlock` which is used as the `decryptionCondition`, along with the `allowedPeekers`. That is, the data in the bundle may be decrypted after a specific block (i.e the `targetBlock`) by any of the `allowedPeekers` (which, in this context, is the mevShareContract itself who needs to store the bundle and potentially match it with any backruns it receives once a hint is emitted). This is what we mean by "programmable privacy" which, in this case, is being used to ensure pre-trade privacy because the `decryptionCondition` is just a block number.
 - Send the CCR to the specified Kettle and validate its inclusion.
 
 ### Step 4: Send Backrun
