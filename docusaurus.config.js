@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 require('dotenv').config();
-const {themes} = require('prism-react-renderer');
+const { themes } = require('prism-react-renderer');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
 
@@ -51,7 +51,7 @@ module.exports = async function createConfigAsync() {
         prism: {
           theme: lightTheme,
           darkTheme,
-          additionalLanguages: ['solidity', 'typescript', 'bash', 'json', 'js', 'yaml'], // https://docusaurus.io/docs/markdown-features/code-blocks#supported-languages
+          additionalLanguages: ['solidity', 'typescript', 'bash', 'json', 'javascript', 'yaml'], // https://docusaurus.io/docs/markdown-features/code-blocks#supported-languages
         },
         docs: {
           sidebar: {
