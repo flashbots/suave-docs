@@ -33,6 +33,12 @@ git clone git@github.com:flashbots/suave-geth.git
 
 ### Building from source
 
+:::info
+
+We recommend that you use golang v1.21.5 or above for this tutorial.
+
+:::
+
 Build the binary:
 
 ```bash
@@ -64,6 +70,8 @@ suave --suave.dev
         it is most likely because you have not set your GOPATH correctly. You
         can do so by running:
         <pre>export GOPATH=$HOME/go</pre>
+        If you have your GOPATH set to something else, you can instead just run SUAVE with:
+        <pre>./build/bin/suave --suave.dev</pre>
       </div>
     </div>
   </div>
@@ -152,10 +160,28 @@ On MacOS, the above should work out of the box with Docker Desktop. If you're us
 
 ### Testing the devnet
 
+**Compile the example contracts:**
+
+<details>
+  <summary>What is Forge?</summary>
+  <div>
+    <div>
+      <div>
+        `forge` is a part of the smart contract development toolchain we use in our examples, which you can learn more about in our [next tutorial](/tutorials/deploy-contracts). If you do not have it installed, you can do so quickly with: 
+        <pre>curl -L https://foundry.paradigm.xyz | bash</pre>
+      </div>
+    </div>
+  </div>
+</details>
+
+```bash
+cd suave && forge build
+```
+
 **Create a few example transactions:**
 
 ```bash
-go run suave/devenv/cmd/main.go
+go run devenv/cmd/main.go
 ```
 
 **Execute a RPC request with curl like this:**
@@ -171,6 +197,17 @@ If you built from source (but not if you're running Docker), you can attach to t
 ```bash
 suave attach /tmp/geth.ipc
 ```
+
+<details>
+  <summary>IPC not found</summary>
+  <div>
+    <div>
+      <div>
+        It may be the case, especially if you have a custom GOPATH, that the geth.ipc is somewhere else. You can either force the path using the `--ipcpath` flag whens tarting SUAVE, or find the path in the logs (it could look something like `/System/Volumes/Data/private/var/folders/rt/gq5bhvy17wz5z5dl32_x83dw0000gp/T/geth.ipc`, for instance).
+      </div>
+    </div>
+  </div>
+</details>
 
 From within the console, you can run:
 

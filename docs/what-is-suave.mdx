@@ -42,7 +42,7 @@ SUAVE is designed as an open marketplace for MEV applications which we call "_SU
 
 SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
 
-SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise depend upon Ethereum for its security.
+SUAVE is not a Layer 2 in the sense that it does not post state roots to Ethereum or otherwise depend upon Ethereum for its security.
 
 ## What is different about SUAVE
 
@@ -52,7 +52,7 @@ SUAVE is not a Layer 2. It does not post state roots to Ethereum or otherwise de
 
 SUAVE is a fork of Geth, with additional precompiles for MEV applications (**SUAPPs**) and a modified runtime to enable confidential computation (**the MEVM**).
 
-We call the primary protocol actor a **Kettle**, because it is a modified version of a Geth node + an extended RPC + a confidential data store.
+We call the primary protocol actor a **Kettle**. A Kettle contains a modified version of a Geth node (the "MEVM") and a confidential data store.
 
 A Kettle can compute over confidential data sent to it, add that data to its local store, and only emit specific information, or "hints", on the SUAVE Chain.
 
@@ -70,11 +70,9 @@ To access private state, we use "Confidential Compute Requests".
 
 A SUAPP is a smart contract deployed on SUAVE, just as a Dapp is a smart contract deployed on Ethereum. [Deploying contracts](/tutorials/deploy-contracts) is largely the same as any EVM chain.
 
-Transactions are different, because they can contain data encrypted for specific actors (i.e. Kettles and/or other contracts). These are the "Confidential Compute Requests".
+Transactions are different, because they can contain data encrypted for specific actors (i.e. Kettles and/or other contracts). These are the ["Confidential Compute Requests"](/tutorials/build-suapps#working-with-ccrs).
 
-Confidential Compute Requests are handled via a modified RPC in each Kettle. They allow you to control how much data ends up back onchain.
-
-Creating Confidential Compute Requests can be done with the [Golang](/resources/golang-sdk) or [Typescript](/resources/typescript-sdk) SDKs.
+Confidential Compute Requests are handled via a modified RPC in each Kettle. They allow you to control how much data ends up back on-chain.
 
 </List>
 
@@ -85,6 +83,3 @@ To understand the context which has inspired SUAVE, we recommend these resources
 - 🔮 [The Future of MEV is SUAVE](https://writings.flashbots.net/the-future-of-mev-is-suave)
 - 🌟 [MEVM Centauri and Beyond](https://writings.flashbots.net/mevm-suave-centauri-and-beyond)
 
-## FAQs
-
-TODO

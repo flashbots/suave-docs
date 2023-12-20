@@ -18,7 +18,7 @@ SUAVE contracts can be deployed using all existing Ethereum client providers (et
 
 :::
 
-The previous two tutorials have encouraged you run SUAVE locally. However, the Rigil Testnet is up and running, so you should be able to deploy contracts to it without building everything yourself.
+The previous tutorial encouraged you to run SUAVE locally. However, the Rigil Testnet is up and running, so you should be able to deploy contracts to it without building everything yourself.
 
 This tutorial is therefore divided into two sections:
 
@@ -43,7 +43,7 @@ Make a new directory and run the below to initialize it:
 mkdir suave-contracts && cd suave-contracts/ && forge init
 ```
 
-Write your contracts as you usual would, generally in the `src` directory. Then run:
+You can find good example contracts to learn from and test with in our [SUAPP examples repo](https://github.com/flashbots/suapp-examples/). Choose one of these and copy-paste it into your `src` directory. Then run:
 
 ```bash
 forge build
@@ -94,10 +94,16 @@ For this section, you will need SUAVE running locally before trying to deploy an
 
 ### SUAPP Examples
 
-First, clone and set up the [SUAPP examples repo](https://github.com/flashbots/suapp-examples/), which comes with a number of different example contracts to illustrate the different precompiles and patterns you can start learning. You'll notice that `suave-geth` is included as a submodule, so we need to initialize it from within the `suapp-examples` repo you have cloned:
+First, clone and set up the [SUAPP examples repo](https://github.com/flashbots/suapp-examples/):
 
 ```bash
-git submodule init && git submodule update
+git clone git@github.com:flashbots/suapp-examples.git
+```
+
+You'll notice that `suave-geth` is included as a submodule, so we need to initialize it:
+
+```bash
+cd suapp-examples && git submodule init && git submodule update
 ```
 
 We'll also need to install Foundry in order to help us compile our contracts and prepare them for deployment:
@@ -106,7 +112,7 @@ We'll also need to install Foundry in order to help us compile our contracts and
 curl -L https://foundry.paradigm.xyz | bash
 ```
 
-You can compile all the contracts in the repo with:
+You can compile the contracts in the repo with:
 
 ```bash
 forge build
