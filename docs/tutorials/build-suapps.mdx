@@ -182,7 +182,7 @@ In this case, we need to:
 The [code which achieves this can be found here](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts) and looks like this:
 
 ```ts
-const sendBid = async (suaveWallet: any) => {
+const sendDataRecord = async (suaveWallet: any) => {
         // create sample transaction; won't land onchain, but will pass payload validation
         const sampleTx = {
             type: "eip1559" as 'eip1559',
@@ -197,9 +197,9 @@ const sendBid = async (suaveWallet: any) => {
         const signedTx = await goerliWallet.signTransaction(sampleTx)
         console.log("signed goerli tx", signedTx)
 
-        // create bid & send ccr
+        // create record & send ccr
         try {
-            const bid = new MevShareBid(
+            const dataRecord = new MevShareDataRecord(
                 1n + await goerliProvider.getBlockNumber(),
                 signedTx,
                 KETTLE_ADDRESS,
