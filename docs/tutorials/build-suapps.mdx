@@ -183,38 +183,38 @@ The [code which achieves this can be found here](https://github.com/flashbots/su
 
 ```ts
 const sendDataRecord = async (suaveWallet: any) => {
-        // create sample transaction; won't land onchain, but will pass payload validation
-        const sampleTx = {
-            type: "eip1559" as 'eip1559',
-            chainId: 5,
-            nonce: 0,
-            maxBaseFeePerGas: 0x3b9aca00n,
-            maxPriorityFeePerGas: 0x5208n,
-            to: '0x0000000000000000000000000000000000000000' as Address,
-            value: 0n,
-            data: '0xf00ba7' as Hex,
-        }
-        const signedTx = await goerliWallet.signTransaction(sampleTx)
-        console.log("signed goerli tx", signedTx)
+    // create sample transaction; won't land onchain, but will pass payload validation
+    const sampleTx = {
+        type: "eip1559" as 'eip1559',
+        chainId: 5,
+        nonce: 0,
+        maxBaseFeePerGas: 0x3b9aca00n,
+        maxPriorityFeePerGas: 0x5208n,
+        to: '0x0000000000000000000000000000000000000000' as Address,
+        value: 0n,
+        data: '0xf00ba7' as Hex,
+    }
+    const signedTx = await goerliWallet.signTransaction(sampleTx)
+    console.log("signed goerli tx", signedTx)
 
-        // create record & send ccr
-        try {
-            const dataRecord = new MevShareDataRecord(
-                1n + await goerliProvider.getBlockNumber(),
-                signedTx,
-                KETTLE_ADDRESS,
-                BID_CONTRACT,
-                suaveRigil.id
-            )
-            console.log(bid)
-            const ccr = bid.toConfidentialRequest()
-            const txHash = await suaveWallet.sendTransaction(ccr)
-            console.log("sendResult", txHash)
-            // callback with result
-            onSendBid(txHash)
-        } catch (e) {
-            return onSendBid('0x', e)
-        }
+    // create bid & send ccr
+    try {
+        const bid = new MevShareRecord(
+            1n + await goerliProvider.getBlockNumber(),
+            signedTx,
+            KETTLE_ADDRESS,
+            MevShareContract.address as Address,
+            suaveRigil.id
+        )
+        console.log(bid)
+        const ccr = bid.toConfidentialRequest()
+        const txHash = await suaveWallet.sendTransaction(ccr)
+        console.log("sendResult", txHash)
+        // callback with result
+        onSendDataRecord(txHash)
+    } catch (e) {
+        return onSendDataRecord('0x', e)
+    }
 }
 ```
 
