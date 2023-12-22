@@ -20,7 +20,7 @@ The [previous tutorial illustrated](/tutorials/deploy-contracts) how to deploy a
 
 ## MEV-Share Example
 
-The `suave-geth` repo has an [example version of MEV-Share](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L65). The script we'll be walking through does four things:
+The `suave-geth` repo has an [example version of MEV-Share](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bundles.sol#L68). The script we'll be walking through does four things:
 
 1. deploy the MEV-Share contract
 2. sign and submit a transaction to be back run
@@ -115,7 +115,7 @@ In practice, this transaction would be sent by a searcher listening for hints on
 
 :::info
 
-What is not included in this script is the final step in the e2e example. We need to send this matched bundle - which includes both the original transaction from the user and the backrun from the searcher - to a builder so that it can be included in a block on the target domain. Rigil includes the ability to send such bundles to centralized relays for inclusion. There is [builder solidity code which demonstrates how this might occur here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bids.sol#L141).
+What is not included in this script is the final step in the e2e example. We need to send this matched bundle - which includes both the original transaction from the user and the backrun from the searcher - to a builder so that it can be included in a block on the target domain. Rigil includes the ability to send such bundles to centralized relays for inclusion. There is [builder solidity code which demonstrates how this might occur here](https://github.com/flashbots/suave-geth/blob/main/suave/sol/standard_peekers/bundles.sol#L182).
 
 :::
 
