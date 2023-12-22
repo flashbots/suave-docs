@@ -39,23 +39,23 @@ pragma solidity ^0.8.8;
 
 import "../libraries/Suave.sol";
 
-contract AnyBidContract {
+contract AnyBundleContract {
 
-	event BidEvent(
-		Suave.BidId bidId,
-		uint64 decryptionCondition,
+	event DataRecordEvent(
+		Suave.DataId dataId, 
+		uint64 decryptionCondition, 
 		address[] allowedPeekers
 	);
 
-	function fetchBidConfidentialBundleData() public returns (bytes memory) {
+	function fetchConfidentialBundleData() public returns (bytes memory) {
 		require(Suave.isConfidential());
 
 		bytes memory confidentialInputs = Suave.confidentialInputs();
 		return abi.decode(confidentialInputs, (bytes));
 	}
 
-	function emitBid(Suave.Bid calldata bid) public {
-		emit BidEvent(bid.id, bid.decryptionCondition, bid.allowedPeekers);
+	function emitDataRecord(Suave.DataRecord calldata dataRecord) public {
+        emit DataRecordEvent(dataRecord.id, dataRecord.decryptionCondition, dataRecord.allowedPeekers);
 	}
 }
 ```

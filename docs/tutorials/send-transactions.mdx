@@ -58,13 +58,7 @@ txnResult, err := sdk.DeployContract(mevShareArtifact.Code, mevmClt)
 
 ### Step 3: Send Confidential Compute Request
 
-:::info
-
-The word "bid" is an artefact of early development. It refers to a generic "Data Identifier" used when operating on confidential data. In this context, a "bid" refers to the Ethereum L1 transaction data the is stored by the MEVM when we send it a CCR.
-
-:::
-
-In practice, the transactions in the `bundle` are from other blockchains, and may contain MEV on that chain which the user wants to share with searchers listening for hints on SUAVE.
+In this example, the transactions in the `bundle` would be from other blockchains, and may contain MEV on those chains which the user wants to share with searchers listening for hints on SUAVE.
 
 ```go
     refundPercent := 10
@@ -75,18 +69,19 @@ In practice, the transactions in the `bundle` are from other blockchains, and ma
     }
     bundleBytes, _ := json.Marshal(bundle)
 
+    // new mevshare transaction inputs
     targetBlock := uint64(1)
     allowedPeekers := []common.Address{mevShareContract.Address()}
 
-    confidentialDataBytes, _ := bundleBidContract.Abi.Methods["fetchBidConfidentialBundleData"].Outputs.Pack(bundleBytes)
+    confidentialDataBytes, _ := bundleContract.Abi.Methods["fetchConfidentialBundleData"].Outputs.Pack(bundleBytes)
 
-    txnResult, err := mevShareContract.SendTransaction("newBid", []interface{}{targetBlock + 1, allowedPeekers, []common.Address{}}, confidentialDataBytes)
+    txnResult, err := mevShareContract.SendTransaction("newTransaction", []interface{}{targetBlock + 1, allowedPeekers, []common.Address{}}, confidentialDataBytes)
     if err != nil {
         return err
     }
 ```
 
-- Craft a Confidential Compute Request using the MEV-Share contract function `newBid`.
+- Craft a Confidential Compute Request using the MEV-Share contract function `newTransaction`.
 - Serialize the bundle of transactions to include in the CCR, along with the `refundPercent` the sender of the CCR is looking for.
 - Sets a `targetBlock` which is used as the `decryptionCondition`, along with the `allowedPeekers`. That is, the data in the bundle may be decrypted after a specific block (i.e the `targetBlock`) by any of the `allowedPeekers` (which, in this context, is the mevShareContract itself who needs to store the bundle and potentially match it with any backruns it receives once a hint is emitted). This is what we mean by "programmable privacy" which, in this case, is being used to ensure pre-trade privacy because the `decryptionCondition` is just a block number.
 - Send the CCR to the specified Kettle and validate its inclusion.
@@ -102,13 +97,13 @@ In practice, this transaction would be sent by a searcher listening for hints on
     }
     backRunBundleBytes, _ := json.Marshal(backRunBundle)
 
-    confidentialDataMatchBytes, _ := bundleBidContract.Abi.Methods["fetchBidConfidentialBundleData"].Outputs.Pack(backRunBundleBytes)
+    confidentialDataMatchBytes, _ := bundleContract.Abi.Methods["fetchConfidentialBundleData"].Outputs.Pack(backRunBundleBytes)
 
     // backrun inputs
     targetBlock := uint64(1)
     allowedPeekers := []common.Address{mevShareContract.Address()}
 
-    txnResult, err := mevShareContract.SendTransaction("newMatch", []interface{}{targetBlock + 1, allowedPeekers, []common.Address{}, bidId}, confidentialDataMatchBytes)
+    txnResult, err := mevShareContract.SendTransaction("newMatch", []interface{}{targetBlock + 1, allowedPeekers, []common.Address{}, DataID}, confidentialDataMatchBytes)
     if err != nil {
         return err
     }
@@ -134,10 +129,10 @@ Step 0: Create and fund test accounts
 - Funded test account: 0x66d5a8D6B34329c0639071275b3d78D29e11EbC6 (100000000)
 Step 1: Deploy mev-share contract
 - Mev share contract deployed: 0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17
-Step 2: Send bid
-- Bid sent at txn: 0xb49debcdead2b306d6ab6282b88fdad7c8d6a33d87df34b79f56d141eae7c08a
-- Bid id: 30bbc65298f24e67aaf5c95bf5f0686c
+Step 2: Send user transaction
+- transaction sent at txn: 0xb49debcdead2b306d6ab6282b88fdad7c8d6a33d87df34b79f56d141eae7c08a
+- Data record id: 30bbc65298f24e67aaf5c95bf5f0686c
 Step 3: Send backrun
 - Backrun sent at txn: 0xcf7880e61e94aaab48c60655c321716ecab6edab752586448b0412e93a969889
-- Backrun bid id: db98b83d02694fc2b13c042ad22c233
+- Backrun data record id: db98b83d02694fc2b13c042ad22c233
 ```
