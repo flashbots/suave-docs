@@ -29,53 +29,35 @@ There are two different approaches you can take to local setup:
 
 ```bash
 git clone git@github.com:flashbots/suave-geth.git
+cd suave-geth
 ```
 
 ### Building from source
 
 :::info
 
-We recommend that you use golang v1.21.5 or above for this tutorial.
+We recommend that you use Golang v1.21 or above.
 
 :::
 
 Build the binary:
 
 ```bash
-cd suave-geth && make suave
+make suave
 ```
 
-Now you have the `suave` binary in your Go bin directory. You can check this by running:
+Now you have a `suave` binary in `./build/bin`. You can check this by running:
 
 ```bash
-which suave
-suave --version
+./build/bin/suave --version
 ```
 
 Start the local devnet with:
 
 ```bash
-suave --suave.dev
+./build/bin/suave --suave.dev
 ```
 
-<details>
-  <summary>Go permission errors</summary>
-  <div>
-    <div>
-      <div>
-        If you are seeing:
-        <pre>
-          "cp: cannot create regular file '/bin/suave': Permission denied"
-        </pre>
-        it is most likely because you have not set your GOPATH correctly. You
-        can do so by running:
-        <pre>export GOPATH=$HOME/go</pre>
-        If you have your GOPATH set to something else, you can instead just run SUAVE with:
-        <pre>./build/bin/suave --suave.dev</pre>
-      </div>
-    </div>
-  </div>
-</details>
 <details>
   <summary>Missing packages</summary>
   <div>
