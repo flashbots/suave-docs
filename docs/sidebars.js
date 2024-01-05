@@ -32,8 +32,29 @@ module.exports = {
       items: [
         'resources/rigil',
         'resources/forge',
-        'resources/golang-sdk',
-        'resources/typescript-sdk',
+        {
+          type: 'category',
+          label: 'SDK',
+          collapsed: true,
+          link: {type: 'doc', id: 'resources/sdks/index'},
+          items: [
+            'resources/sdks/golang-sdk',
+            'resources/sdks/typescript-sdk',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'SUAVE Solidity',
+          collapsed: true,
+          link: {type: 'doc', id: 'resources/suave-solidity/index'},
+          items: [
+            'resources/suave-solidity/block-building-interface',
+            'resources/suave-solidity/confidenital-computation',
+            'resources/suave-solidity/confidential-data-storage',
+            'resources/suave-solidity/mev-supplychain-interface',
+            'resources/suave-solidity/suave-standard-library',
+          ],
+        }
       ],
     },
     {
