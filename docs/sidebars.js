@@ -19,8 +19,8 @@ module.exports = {
       items: [
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
-        'tutorials/send-transactions',
         'tutorials/build-suapps',
+        'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles',
       ]
     },

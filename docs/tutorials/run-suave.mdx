@@ -8,28 +8,23 @@ keywords:
   - practice
 ---
 
-# Run SUAVE Locally
+You can use `suave-geth` to start a local SUAVE devnet.
 
-Our first goal is to start a "Kettle". Kettles house all components necessary to perform confidential compute and are the main protocol actor in the SUAVE protocol.
+There are two ways to work with `suave-geth`:
 
-Here is the architecture of a node on the Rigil Testnet. We'll be running all the stuff within the purple square.
+1. ⚡ [Install the latest release binary](#latest-release-binary)
+2. 🧙‍♀️ [Build from source](#building-from-source)
 
-![Rigil architecture](/assets/rigil-architecture.svg)
-
-You can read more about exactly what a Kettle contains in [architecture section of the Technical Specs](/technical/specs/rigil/#architecture).
-
-## Get Started
-
-There are two different approaches you can take to local setup:
-
-1. [Building from source](#building-from-source)
-2. [Docker](#using-docker)
-
-### Clone the [suave-geth](https://github.com/flashbots/suave-geth/) repository
+### Latest release binary
 
 ```bash
-git clone git@github.com:flashbots/suave-geth.git
-cd suave-geth
+curl -L https://suaveup.flashbots.net | bash
+```
+
+Start your local devnet with:
+
+```bash
+./build/bin/suave --suave.dev
 ```
 
 ### Building from source
@@ -39,6 +34,13 @@ cd suave-geth
 We recommend that you use Golang v1.21 or newer.
 
 :::
+
+Clone the [suave-geth](https://github.com/flashbots/suave-geth/) repository:
+
+```bash
+git clone git@github.com:flashbots/suave-geth.git
+cd suave-geth
+```
 
 Build the binary:
 
@@ -66,75 +68,6 @@ Start the local devnet with:
         If you have set up a new machine to run through this, you'll also need
         to install Make and Go:
         <pre>sudo apt install make golang-go</pre>
-      </div>
-    </div>
-  </div>
-</details>
-
-### Using Docker
-
-Spin up the local devnet with docker-compose:
-
-```bash
-make devnet-up
-```
-
-You can check that the containers are running with:
-
-```bash
-docker ps
-```
-
-And you can stop the local devnet with:
-
-```bash
-make devnet-down
-```
-
-On MacOS, the above should work out of the box with Docker Desktop. If you're using Linux, you may run into some of the issues below:
-
-<details>
-  <summary>1. Docker permission errors</summary>
-  <div>
-    <div>
-      <div>
-        On Linux, it is best to create a new user group for Docker, rather than
-        run the above command as sudo. You can do by running:
-        <pre>sudo usermod -aG docker $USER newgrp docker</pre>
-      </div>
-    </div>
-  </div>
-</details>
-<details>
-  <summary>2. Docker not running</summary>
-  <div>
-    <div>
-      <div>
-        Make sure that Docker is running. On most Linux machines, you can do
-        this with:
-        <pre>sudo systemctl start docker</pre>
-        You can check the current status with:
-        <pre>sudo systemctl status docker</pre>
-        If you installed Docker and still run into issues with docker-compose,
-        you can try:
-        <pre>sudo apt install docker-compose</pre>
-      </div>
-    </div>
-  </div>
-</details>
-<details>
-  <summary>3. Unsupported version</summary>
-  <div>
-    <div>
-      <div>
-        If you're running an older version of Docker, you may get a message that
-        looks like this:
-        <pre>
-          ERROR: Version in "././suave/devenv/docker-compose.yml" is
-          unsupported.
-        </pre>
-        Go to the file in "/suave/devenv/docker-compose.yml" and change the
-        first line to use <b>3.3</b> rather than <b>3.8</b>.
       </div>
     </div>
   </div>
@@ -212,3 +145,13 @@ web3.eth.blockNumber
 ```
 
 It should tell you the block height of your local network.
+
+### What am I actually running?
+
+The main actor in the SUAVE protocol is called a "Kettle". Kettles house all components necessary to perform confidential compute.
+
+Here is the architecture of a Kettle on the Rigil Testnet. When you start a local SUAVE devnet, you're running all the stuff in the purple square (but not the domain specific services, i.e. nodes connected to other chains from/to which you wish to receive or send bundles).
+
+![Rigil architecture](/assets/rigil-architecture.svg)
+
+You can read more about exactly what a Kettle contains in [architecture section of the Technical Specs](/technical/specs/rigil/#architecture).
