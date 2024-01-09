@@ -3,7 +3,31 @@ title: Confidential Computation
 description: test
 ---
 
+Confidential computation is a key primitive in handling orderflow privately and securely. 
 
-- you can request confidential computation via confidential compute Requests
+## Confidential Compute Requests
 
-- explain offchain callback pattern
+From suave-spec
+
+"Starting Point: The process initiates with a "Confidential Compute Request" directed towards the JsonRPC.
+
+MEVM Execution: Upon receiving the request, the Json RPC triggers the MEVM (Modified Ethereum Virtual Machine) to run. MEVM execution can use multiple APIs depending on the context, with two possible paths:
+
+Request to an External Domain: The MEVM can make API requests to external domains via Domain-Specific Services.
+Request to the Confidential Datastore: The MEVM can make API requests directly to the "Confidential Datastore" to fetch or store data.
+Suave Chain Interaction: Eventually, after processing the request, depending on the SUAPP, the MEVM takes the results and sends a SUAVE transaction.
+
+Transaction Hash Output: Following the Suave transaction, a transaction hash is produced and returned to the request's originator, precisely like in the Ethereum process."
+
+### Restricting Callbacks to Confidential Compute
+
+"When u intialise the contract you pass it a secret key which is stored in confidential storage. This key with the local nonce is used to derive the next secret.
+
+Hash of the present secret is in public(evm) storage.
+
+Whenever restricted method is accessed the present secret needs to be provided - which is only accessable through confidential execution.
+
+The implementation of ConfidentialControl: https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/lib/ConfidentialControl.sol
+Example usage: https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/BlockAdV2.sol
+Linking also the GIthub issue on SuaveGeth that describes this problem: https://github.com/flashbots/suave-geth/issues/121 (opens discussion on how to solve this in a better way)
+Lmk if you have any questions or concerns about it!"

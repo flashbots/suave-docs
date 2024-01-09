@@ -3,7 +3,167 @@ title: Block Building Interface
 description: test
 ---
 
+# Block Building Interface
 
+## Overview
 
-- you can build blocks iteratively from solidity!
-- explain stateful simulation API
+The Block Building Interface on SUAVE is an essential tool for developers engaging in block construction. Whether you're working on constructing transactions, creating bundles, or building blocks, this interface offers robust capabilities to interact with the latest blockchain state. The interface leverages SUAVE's state-of-the-art block building features, enabling simulation of transactions and comprehensive block construction.
+
+## Block Building Basics
+
+Bundles are one or more transactions that are grouped together and executed in the order they are provided and are the core unit of block building. If you're unfamiliar and want to learn more checkout [this resource](https://docs.flashbots.net/flashbots-auction/advanced/understanding-bundles). 
+
+### Core Functionality
+
+SUAVE exposes several core precompiles vital for transaction simulation and block construction:
+
+```solidity
+function simulateBundle(bytes memory bundleData) internal view returns (uint64)
+function simulateTransaction(string memory sessionid, bytes memory txn) internal view returns (SimulateTransactionResult memory)
+function buildEthBlock(BuildBlockArgs memory blockArgs, DataId dataId, string memory namespace) internal view returns (bytes memory, bytes memory)
+```
+
+These functions utilize the SUAVE Execution Namespace, a sophisticated system underpinning transaction processing. For an in-depth understanding of this system, refer to the [Execution Namespace specification](https://github.com/flashbots/suave-specs/blob/main/specs/rigil/mevm.md#suavex-namespace).
+
+## Builder Sessions
+
+### Iterative Block Building
+
+The SUAVE platform facilitates iterative block building, allowing developers to construct blocks in stages. This approach can be particularly beneficial in scenarios where transactions need to be simulated and assessed before finalizing the block.
+
+#### Establishing a Builder Session
+
+To initiate a builder session:
+
+```solidity
+function newBuilder() internal view returns (string memory)
+```
+
+Invoking this function generates a new builder instance within a SUAVE execution node, enabling smart contracts to programmatically interact with the block building process.
+
+## Block Building Session Example
+
+### Practical Implementation
+
+Below is an example demonstrating the practical application of a block building session:
+
+```solidity
+function sessionExample(bytes memory subTxn, bytes memory subTxn2) public payable returns (bytes memory) {
+    string memory id = Suave.newBuilder();
+
+    Suave.SimulateTransactionResult memory sim1 = Suave.simulateTransaction(id, subTxn);
+    require(sim1.success == true);
+    require(sim1.logs.length == 1);
+
+    // Simulate the same transaction again should fail due to nonce repetition
+    Suave.SimulateTransactionResult memory sim2 = Suave.simulateTransaction(id, subTxn);
+    require(sim2.success == false);
+
+    // Simulate the transaction with the correct nonce
+    Suave.SimulateTransactionResult memory sim3 = Suave.simulateTransaction(id, subTxn2);
+    require(sim3.success == true);
+    require(sim3.logs.length == 2);
+
+    return abi.encodeWithSelector(this.emptyCallback.selector);
+}
+```
+
+In this example, a new builder session is created, and multiple transactions are simulated with varying conditions to showcase the functionality of the SUAVE interface.
+
+---
+
+This enhanced document provides a clearer, more detailed, and well-structured explanation of the Block Building Interface on SUAVE, making it more accessible and useful for developers.
+
+## SUAVE Execution Node Under the Hood
+
+The below might be too much info andy. Maybe we just link to this spot in the code?
+
+```
+package builder
+
+import (
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core"
+	"github.com/ethereum/go-ethereum/core/state"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/ethereum/go-ethereum/params"
+)
+
+type builder struct {
+	config   *builderConfig
+	txns     []*types.Transaction
+	receipts []*types.Receipt
+	state    *state.StateDB
+	gasPool  *core.GasPool
+	gasUsed  *uint64
+}
+
+type builderConfig struct {
+	preState *state.StateDB
+	header   *types.Header
+	config   *params.ChainConfig
+	context  core.ChainContext
+}
+
+func newBuilder(config *builderConfig) *builder {
+	gp := core.GasPool(config.header.GasLimit)
+	var gasUsed uint64
+
+	return &builder{
+		config:  config,
+		state:   config.preState.Copy(),
+		gasPool: &gp,
+		gasUsed: &gasUsed,
+	}
+}
+
+func (b *builder) AddTransaction(txn *types.Transaction) (*types.SimulateTransactionResult, error) {
+	dummyAuthor := common.Address{}
+
+	vmConfig := vm.Config{
+		NoBaseFee: true,
+	}
+
+	snap := b.state.Snapshot()
+
+	b.state.SetTxContext(txn.Hash(), len(b.txns))
+	receipt, err := core.ApplyTransaction(b.config.config, b.config.context, &dummyAuthor, b.gasPool, b.state, b.config.header, txn, b.gasUsed, vmConfig)
+	if err != nil {
+		b.state.RevertToSnapshot(snap)
+
+		result := &types.SimulateTransactionResult{
+			Success: false,
+			Error:   err.Error(),
+		}
+		return result, nil
+	}
+
+	b.txns = append(b.txns, txn)
+	b.receipts = append(b.receipts, receipt)
+
+	result := &types.SimulateTransactionResult{
+		Success: true,
+		Logs:    []*types.SimulatedLog{},
+	}
+	for _, log := range receipt.Logs {
+		result.Logs = append(result.Logs, &types.SimulatedLog{
+			Addr:   log.Address,
+			Topics: log.Topics,
+			Data:   log.Data,
+		})
+	}
+
+	return result, nil
+}
+
+    function newBuilder() internal view returns (string memory) {
+        (bool success, bytes memory data) = NEW_BUILDER.staticcall(abi.encode());
+        if (!success) {
+            revert PeekerReverted(NEW_BUILDER, data);
+        }
+
+        return abi.decode(data, (string));
+    }
+
+```
