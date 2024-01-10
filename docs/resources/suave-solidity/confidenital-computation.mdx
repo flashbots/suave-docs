@@ -3,7 +3,7 @@ title: Confidential Computation
 description: test
 ---
 
-Confidential computation is a key primitive in handling orderflow privately and securely. 
+Confidential computation is a key primitive in handling orderflow privately and securely. In SUAVE this is enabled by kettles (eventually running on TEEs) performing the compute offchain, but according to programs (smart contracts) written onchain. In this way offchain compute is not constrained by chain consensus.
 
 ## Confidential Compute Requests
 
@@ -18,6 +18,11 @@ Request to the Confidential Datastore: The MEVM can make API requests directly t
 Suave Chain Interaction: Eventually, after processing the request, depending on the SUAPP, the MEVM takes the results and sends a SUAVE transaction.
 
 Transaction Hash Output: Following the Suave transaction, a transaction hash is produced and returned to the request's originator, precisely like in the Ethereum process."
+
+### Computing over Confidential Data
+
+recordId is totally up to the SUAPP. For example in the private ofa example, if a searcher is submitting a backrun they need to include the recordID of the user txn in order for the suapp to include it, so the SUAPP emits it as a log on chain + details of the swap.
+In my TEE example I store a private key in the conf store, so in order to get it to sign, I need to store the recordID in the contracts memory which ends up onchain. But no concern since its gated so only that SUAPP can access.
 
 ### Restricting Callbacks to Confidential Compute
 

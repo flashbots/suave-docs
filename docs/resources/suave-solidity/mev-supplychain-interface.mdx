@@ -3,22 +3,34 @@ title: MEV Supplychain Interface
 description: test
 ---
 
+SUAVE and the precompiles it exposes allows you to interact with whatever component in the MEV supplychain your SUAPP needs to.
 
-The mev supply chain looks like xyz.
+The mev supply chain looks like xyz. (maybe insert linear supplychain photo?)
 
 SUAPPs can interact with any of these components!
 
-### On SUAVE interaction
-
-- explain how mev-share suapp can allow a block builder to access its confidential data store of bundles
-
 ### Off-SUAVE interaction
 
+```solidity
+    function submitBundleJsonRPC(string memory url, string memory method, bytes memory params) internal view returns (bytes memory)
+    function submitEthBlockToRelay(string memory relayUrl, bytes memory builderBid) internal view returns (bytes memory)
+    function doHTTPRequest(HttpRequest memory request) internal view returns (bytes memory)
+```
 - explain how you can create bundles and send them to a centralized block builder
 - explain how you can create blocks and send them to a centralized relay
-- explain how we have an arbitrary http request precompile so you can even query other offchain sources
+- explain how we have an arbitrary http request precompile so you can even send them to arbitrary offchain services or even make queries to offchain APIs.
+
+### On SUAVE interaction
+
+The main way to interact with other components on SUAVE is through the confidential data store. 
+
+```solidity
+    function confidentialStore(DataId dataId, string memory key, bytes memory value) internal view
+    function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
+```
+
 
 
 ### mev supply network
 
-something about programmable interaction between components allowing for 
+something about programmable interaction between components allowing for full programmatic control across the entire supply chain (maybe insert graph supplychain photo from frontier research? good meme)

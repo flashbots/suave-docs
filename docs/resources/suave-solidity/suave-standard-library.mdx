@@ -1,0 +1,111 @@
+---
+title: SUAVE Standard Library
+description: test
+---
+
+A collection of Solidity contracts and libraries to create Suapps. The idea is for this repo to be the main entrypoint for developers to interact with Suave, a place to create building blocks, sdks and patterns that Suave developers might find useful.
+
+Some of the core functionalities of the library handle:
+- transaction parsing and construction
+- JSON object decoding and encoding
+- convenience wrapper around precompiles
+
+## Libraries
+
+### Transactions.sol
+
+Helper library that defines types and encoding/decoding methods for the Ethereum transaction types.
+
+#### Example usage
+
+```solidity
+import "suave-std/Transactions.sol";
+
+contract Example {
+    function example() {
+        Transactions.Legacy memory legacyTxn0 = Transactions.Legacy({
+            to: address(0x095E7BAea6a6c7c4c2DfeB977eFac326aF552d87),
+            gas: 50000,
+            gasPrice: 10,
+            value: 10,
+            ...
+        });
+
+        // Encode to RLP
+        bytes memory rlp = Transactions.encodeRLP(legacyTxn0);
+
+        // Decode from RLP
+        Transactions.Legacy memory legacyTxn1 = Transactions.decodeRLP(rlp);
+    }
+}
+```
+
+### MevShare.sol
+
+not in main branch yet but will be soon https://github.com/flashbots/suave-geth/blob/feature/suave-std/suave/sol/suave-std/mevshare.sol
+
+```solidity
+    struct Bundle {
+            string version;
+            uint64 inclusionBlock;
+            bytes[] bodies;
+            bool[] canRevert;
+            uint8[] refundPercents;
+        }
+
+    function encodeBundle(Bundle memory bundle) internal view returns (bytes memory)
+    function sendBundle(string memory url, Bundle memory bundle) internal view 
+    function toMinimalHexString(bytes memory value) internal pure returns (string memory str)
+
+```
+
+### MevBoost.sol
+
+ ```solidity
+    function encode(Payload memory payload) internal view returns (bytes memory) 
+    function submitBlock(string memory baseUrl, SubmitBlockRequest memory bundle) internal view
+    function toMinimalHexString(bytes memory value) private pure returns (string memory str)
+
+    struct Bid {
+        uint64 slot;
+        bytes parentHash;
+        bytes blockHash;
+        bytes builderPubkey; // bytes48
+        bytes proposerPubkey; // bytes48
+        address proposerFeeRecipient;
+        uint64 gasLimit;
+        uint64 gasUsed;
+        uint256 value;
+    }
+
+    struct Withdrawal {
+        uint64 index;
+        uint64 validatorIndex;
+        address addr;
+        uint256 amount;
+    }
+
+    struct Payload {
+        bytes parentHash;
+        address feeRecipient;
+        bytes stateRoot;
+        bytes receiptsRoot;
+        bytes logsBloom;
+        bytes prevRandao;
+        uint64 blockNumber;
+        uint64 gasLimit;
+        uint64 gasUsed;
+        uint64 timestamp;
+        bytes extraData;
+        bytes baseFeePerGas;
+        bytes blockHash;
+        bytes[] transactions;
+        Withdrawal[] withdrawals;
+    }
+
+    struct SubmitBlockRequest {
+        Bid bid;
+        Payload payload;
+        bytes signature;
+    }
+ ```

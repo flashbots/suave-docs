@@ -4,6 +4,37 @@ description: test
 ---
 
 
+
+## Data Records
+
+confidential storage works via opaque identifiers. you use offchain computation to create an identifier and put that data in storage during offchain/confidential computation.
+
+If another part of a suapp needs to reference or interact with that confidential data, of course in the predefiend way by the smart contract (SUAPP), then you need to emit the unique identifier. Either on the SUAVE chain, or via some other offchain mechanism (text it to your friend)?
+
+
+```solidity
+    type DataId is bytes16;
+
+    struct DataRecord {
+        DataId id;
+        DataId salt;
+        uint64 decryptionCondition; // I think we should not even include this since we're removing soon.
+        address[] allowedPeekers;
+        address[] allowedStores;
+        string version;
+    }
+
+```
+
+## Confidential Storage API
+
 explain in simple terms how the confidential data store works and its core interface:
 - confStore
 - confRetrieve
+
+```solidity
+    function confidentialStore(DataId dataId, string memory key, bytes memory value) internal view
+    function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
+```
+
+
