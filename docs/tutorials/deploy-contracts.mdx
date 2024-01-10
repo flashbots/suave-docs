@@ -18,24 +18,21 @@ SUAVE contracts can be deployed using all existing Ethereum client providers (et
 
 :::
 
-The previous tutorial encouraged you to run SUAVE locally. However, the Rigil Testnet is up and running, so you should be able to deploy contracts to it without building everything yourself.
+## Deploy with Forge
 
-This tutorial is therefore divided into two sections:
+Forge is a smart contract development toolchain we use in our examples. If you do not have it installed, you can get it easily by running:
 
-1. [Deploy to Rigil](#deploy-to-rigil)
-2. [Deploy locally](#deploy-locally)
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+```
 
-## Deploy to Rigil
+### To Rigil
 
 :::info
 
 First, get some rETH for the account you want to use from the **[Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net)**. Make sure you can access the private key of this account.
 
 :::
-
-### Deploy with Forge
-
-Forge is a command-line tool from [Foundry](https://getfoundry.sh/) that can compile and deploy smart contracts.
 
 Make a new directory and run the below to initialize it:
 
@@ -65,11 +62,30 @@ Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
 Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
 ```
 
-### Deploy with Remix
+### Locally
+
+You can follow the exact same method as above to deploy contracts to your local SUAVE devnet. You just need to have SUAVE running and use the pre-funded account we have setup for you:
+
+```bash
+forge create --rpc-url http://localhost:8545 --legacy \
+--private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \
+./src/<your_contract_name>.sol:<your_contract_name>
+```
+
+You should see something like this logged to your terminal:
+
+```bash
+...relevant compilation results...
+Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
+Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
+```
+
+## Deploy with Remix
 
 :::warning
 
-This method quick, but limited. You can deploy contracts using Remix and an injected web3 provider. However, you cannot send Confidential Compute Requests to those contracts from providers like MetaMask, so it is difficult to interact with your contracts once deployed.
+This method is quick, but limited. You can deploy contracts using Remix and an injected web3 provider. However, you cannot send Confidential Compute Requests to those contracts from providers like MetaMask, so it is difficult to interact with your contracts once deployed.
 
 :::
 
@@ -84,15 +100,7 @@ Follow these steps to deploy a contract via Remix:
 4. Open the dropdown "Environment" menu and select "Injected Provider - MetaMask". It should show `Custom (16813125) network` directly below that field if this works correctly.
 5. Write (or import) your contracts in the File Explorer tab, compile them, and deploy them as you usually would.
 
-## Deploy locally
-
-:::info
-
-For this section, you will need SUAVE running locally before trying to deploy any contracts
-
-:::
-
-### SUAPP Examples
+## SUAPP Examples
 
 First, clone and set up the [SUAPP examples repo](https://github.com/flashbots/suapp-examples/):
 
@@ -100,16 +108,10 @@ First, clone and set up the [SUAPP examples repo](https://github.com/flashbots/s
 git clone git@github.com:flashbots/suapp-examples.git
 ```
 
-You'll notice that `suave-geth` is included as a submodule, so we need to initialize it:
+There is a convenient library called `suave-std` which is included as a submodule. Initialize it by running:
 
 ```bash
 cd suapp-examples && git submodule init && git submodule update
-```
-
-We'll also need to install Foundry in order to help us compile our contracts and prepare them for deployment:
-
-```bash
-curl -L https://foundry.paradigm.xyz | bash
 ```
 
 You can compile the contracts in the repo with:
@@ -118,15 +120,23 @@ You can compile the contracts in the repo with:
 forge build
 ```
 
-### Golang SDK
+<details>
+  <summary>What is Forge?</summary>
+  <div>
+    <div>
+      <div>
+        `forge` is a part of the smart contract development toolchain we use in our examples, which you can learn more about in our [next tutorial](/tutorials/deploy-contracts). If you do not have it installed, you can do so quickly with: 
+        <pre>curl -L https://foundry.paradigm.xyz | bash</pre>
+      </div>
+    </div>
+  </div>
+</details>
 
-You need to build and run SUAVE locally, which you can do with:
+### Locally
 
-```bash
-cd suave-geth && make suave && suave --suave.dev
-```
+Now we can deploy and transact with any of the example contracts. 
 
-Now we can deploy and transact with any of the example contracts. Just `cd` into the relevant directory and run the `main.go` file. For instance, to deploy and transact with the example contract which demonstrates how updating state works for normal vs confidential requests, you can run:
+The `framework/framework.go` file defaults to your [local SUAVE devnet](/tutorials/run-suave). If you have that running, just `cd` into the relevant directory and run the `main.go` file. For instance, to deploy and transact with the example contract which demonstrates how updating state works for normal vs confidential requests, you can run:
 
 ```bash
 cd examples/onchain-state && go run main.go
@@ -139,21 +149,18 @@ You should see this message printed in your terminal if successful:
 2. Send a confidential request that modifies the state
 ```
 
-All of the `main.go` files use the Golang SDK, which you can read more about in our [developer guides](/resources/sdks/golang-sdk).
+The `framework.go` and all of the `main.go` files use the Golang SDK, which you can read more about in our [developer guides](/resources/golang-sdk).
 
----
+### To Rigil
 
-The astute will notice that you can use exactly the same setup to deploy contracts to Rigil instead of your local network.
+If you'd like to deploy one of these contracts to the Rigil Testnet instea, first ensure that you have rETH for the account you want to use from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net).
 
-First, ensure you have rETH for the account you want to use from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net).
-
-Then, edit the `DefaultConfig` of `framework/framework.go` to look something like this (with the private key replaced):
+Then, edit the `DefaultConfig` of `framework/framework.go` to look like this (with the private key replaced):
 
 ```go
 func DefaultConfig() *Config {
 	return &Config{
 		KettleRPC:  "https://rpc.rigil.suave.flashbots.net",
-		KettleAddr: common.HexToAddress("03493869959c866713c33669ca118e774a30a0e5"),
 		FundedAccount: NewPrivKeyFromHex("<your_funded_priv_key_without_0x>"),
 	}
 }
@@ -170,35 +177,4 @@ You should again see output like this logged in your terminal:
 ```bash
 1. Send a confidential request that cannot modify the state
 2. Send a confidential request that modifies the state
-```
-
-### Forge
-
-If you prefer Forge to working in Golang, you can keep SUAVE running and work in your own directory:
-
-```bash
-mkdir ~/suave-contracts && cd ~/suave-contracts/ && forge init
-```
-
-Write your contracts as you usual would, generally in the `src` directory. Then run:
-
-```bash
-forge build
-```
-
-You can now deploy your compiled contracts, using a private key that is already funded in your local setup:
-
-```bash
-forge create --rpc-url http://localhost:8545 --legacy \
---private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \
-./src/<your_contract_name>.sol:<your_contract_name>
-```
-
-You should see something like this logged to your terminal:
-
-```bash
-...relevant compilation results...
-Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
-Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
-Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
 ```
