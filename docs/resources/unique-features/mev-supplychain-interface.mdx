@@ -1,11 +1,11 @@
 ---
-title: MEV Supplychain Interface
-description: test
+title: MEV Supply Chain Interface
+description: How SUAVE enables you to interact with virtually any component that has anything to do wih MEV
 ---
 
-The previous pages in this section have illustrated how you can use SUAVE to build blocks for other chains, how to use confidential computation in various different ways depending on your use case, andhow to leverage confiential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
+The previous pages in this section have illustrated how you can use SUAVE to build blocks for other chains, how to use confidential computation in various different ways depending on your use case, and how to leverage confidential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
 
-Taken together, these three broad categories of the unique features of SUAVE should illustrate that you can really use SUAVE to interact with whatever component in the MEV supplychain you want are most interested in and/or think is the most proftiable.
+Taken together, these three broad categories of the unique features of SUAVE should illustrate that you can really use SUAVE to interact with whatever component in the MEV supply chain you want are most interested in and/or think is the most profitable.
 
 At a first approximation, the MEV supply chain looks like this:
 
@@ -36,7 +36,7 @@ Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to m
 
 The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to once again interface with each aspect of the supply chain, right from user intents to bundles and blocks. 
 
-The belwo visualisation demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key vaues into the confidential store such that a block building contract could fetch them and use them to creat eand emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/resources/unique-features/confidential-data-storage#practical-example)):
+The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/resources/unique-features/confidential-data-storage#practical-example)):
 
 ![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
 

@@ -10,7 +10,7 @@ keywords:
 
 :::info
 
-There are a number of different ways to work with SUAVE and to craft Confidential Compute Requests (CCRs). We'll discuss how to use both the Typsecript and Golang SDKs in this tutorial.
+There are a number of different ways to work with SUAVE and to craft Confidential Compute Requests (CCRs). We'll discuss how to use both the Typescript and Golang SDKs in this tutorial.
 
 :::
 
@@ -22,7 +22,7 @@ There are a number of different ways to work with SUAVE and to craft Confidentia
       </div>
       <div className="intro-text">
         <div className="intro-heading">Typescript</div>
-        <div className="intro-desc">For web devs</div>
+        <div className="intro-desc">For web developers</div>
       </div>
     </div>
   </a>
@@ -121,7 +121,7 @@ There are a few key points to understand:
 
 1. You need to enable "Eth_sign" in the Advanced settings in your browser wallet for this to work.
 2. We can leave the `confidentialInputs` field empty, as we're not actually sending any data along with this transaction: just demonstrating how CCRs work.
-3. We specify a new type for the transaction. The [different `suave-viem` transactionx types are defined here](https://github.com/flashbots/suave-viem/blob/main/src/chains/suave/types.ts).
+3. We specify a new type for the transaction. The [different `suave-viem` transaction types are defined here](https://github.com/flashbots/suave-viem/blob/main/src/chains/suave/types.ts).
 5. The `suaveWallet.sendTransaction(ccr)` uses `eth_sign` under the hood, along with a few other steps required to serialize the transaction correctly, which you can see happening [here](https://github.com/flashbots/suave-viem/blob/main/src/chains/suave/wallet.ts).
 
 ### CCRs with data
@@ -228,6 +228,6 @@ In order to send a transaction from a specific account to a specific contract, p
 receipt = contractAddr2.SendTransaction("newMatch", []interface{}{hintEvent.DataRecordId}, backRunBundleBytes)
 ```
 
-We can visualise the most general form of this example (involving multiple different transactions types, actors, and actions) like this:
+We can visualize the most general form of this example (involving multiple different transactions types, actors, and actions) like this:
 
 ![OFA](/assets/OFA_And_Block_Flow.svg)

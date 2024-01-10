@@ -33,7 +33,7 @@ module.exports = {
       items: [
         {
           type: 'category',
-          label: 'Unique Features',
+          label: 'How SUAVE Extends Solidity',
           collapsed: true,
           link: {type: 'doc', id: 'resources/unique-features/index'},
           items: [
