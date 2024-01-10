@@ -3,11 +3,15 @@ title: MEV Supplychain Interface
 description: test
 ---
 
-SUAVE and the precompiles it exposes allows you to interact with whatever component in the MEV supplychain your SUAPP needs to.
+The previous pages in this section have illustrated how you can use SUAVE to build blocks for other chains, how to use confidential computation in various different ways depending on your use case, andhow to leverage confiential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
 
-The mev supply chain looks like xyz. (maybe insert linear supplychain photo?)
+Taken together, these three broad categories of the unique features of SUAVE should illustrate that you can really use SUAVE to interact with whatever component in the MEV supplychain you want are most interested in and/or think is the most proftiable.
 
-SUAPPs can interact with any of these components!
+At a first approximation, the MEV supply chain looks like this:
+
+![MEV Supply Chain - Linear Version](/img/mev-supplychain.png)
+
+The point of this section has been to illustrate that SUAPPs can interact with any of these components.
 
 ### Off-SUAVE interaction
 
@@ -16,21 +20,31 @@ SUAPPs can interact with any of these components!
     function submitEthBlockToRelay(string memory relayUrl, bytes memory builderBid) internal view returns (bytes memory)
     function doHTTPRequest(HttpRequest memory request) internal view returns (bytes memory)
 ```
-- explain how you can create bundles and send them to a centralized block builder
-- explain how you can create blocks and send them to a centralized relay
-- explain how we have an arbitrary http request precompile so you can even send them to arbitrary offchain services or even make queries to offchain APIs.
+
+We've already seen in the previous tutorial, which looked at the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/ofa-private.sol) example contract, how to create bundles and send them to a predefined block builder using the `submitBundleJsonRPC()` precompile.
+
+Similarly speaking, you can construct the whole block yourself and send it to a builder using `submitEthBlockToRelay()`. Taken together, these two precompiles allow you to interface with the **transaction**, **bundle**, and **block** aspects of the supply chain above.
+
+Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they like and require in order to complete the off chain computation they need to.
 
 ### On SUAVE interaction
-
-The main way to interact with other components on SUAVE is through the confidential data store. 
 
 ```solidity
     function confidentialStore(DataId dataId, string memory key, bytes memory value) internal view
     function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
 ```
 
+The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to once again interface with each aspect of the supply chain, right from user intents to bundles and blocks. 
 
+The belwo visualisation demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key vaues into the confidential store such that a block building contract could fetch them and use them to creat eand emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/resources/unique-features/confidential-data-storage#practical-example)):
 
-### mev supply network
+![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
 
-something about programmable interaction between components allowing for full programmatic control across the entire supply chain (maybe insert graph supplychain photo from frontier research? good meme)
+### MEV supply network
+
+Of course, the reality of MEV is a bit more complex than the linear supply chain we have shown above. It may well look something more like this (taken with thanks from [here](https://frontier.tech/infinite-games)):
+
+![MEV Supply Network](/img/mev-supply-network.png)
+
+Although SUAVE is still in early alpha, one of our goals is to enable full programmable interaction with every component in the above network, such that we can create a genuinely open and permissionless marketplace of different mechanisms that mitigate MEV.
+

@@ -38,7 +38,7 @@ module.exports = {
           link: {type: 'doc', id: 'resources/unique-features/index'},
           items: [
             'resources/unique-features/block-building',
-            'resources/unique-features/confidenital-computation',
+            'resources/unique-features/confidential-computation',
             'resources/unique-features/confidential-data-storage',
             'resources/unique-features/mev-supplychain-interface'
           ],
