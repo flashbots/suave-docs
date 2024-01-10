@@ -1,14 +1,36 @@
 ---
 title: SUAVE Standard Library
-description: test
+description: A collection of contracts and libraries to empower SUAPP developers and make life easier for builders.
+keywords:
+  - application
+  - build
+  - suave
+  - solidity
 ---
 
-A collection of Solidity contracts and libraries to create Suapps. The idea is for this repo to be the main entrypoint for developers to interact with Suave, a place to create building blocks, sdks and patterns that Suave developers might find useful.
+import List from '@site/src/components/List/List.tsx';
 
-Some of the core functionalities of the library handle:
-- transaction parsing and construction
-- JSON object decoding and encoding
-- convenience wrapper around precompiles
+[suave-std](https://github.com/flashbots/suave-std) is a collection of Solidity contracts and libraries to help you create Suapps. It is included as a submodule in the [SUAPP Examples](https://github.com/flashbots/suapp-examples/) repo, which we used in the previous tutorial.
+
+In this tutorial, we will be diving deeper into the different capabilities offered by `suave-std`.
+
+:::info 
+
+`suave-std` is the main entrypoint for developers who are interacting with SUAVE. It is a place to create building blocks, sdks, and common patterns that are useful to SUAVE developers.
+
+:::
+
+The core functionalities that `suave-std` will help you handle include:
+
+<List>
+
+transaction parsing and construction
+
+JSON object decoding and encoding
+
+convenience wrapper around precompiles
+
+</List>
 
 ## Libraries
 

@@ -1,0 +1,63 @@
+---
+title: Confidential Computation
+description: test
+---
+
+import List from '@site/src/components/List/List.tsx';
+
+Confidential computation enables you to handle orderflow privately and securely. 
+
+In SUAVE, we achieve this with [Kettles](/technical/specs/rigil/kettle) (eventually running on TEEs) performing compute offchain, but according to programs (smart contracts) written onchain. In this way, offchain compute is not constrained by chain consensus.
+
+## How It Works
+
+:::info
+
+For practical examples of how Confidential Compute Requests (CCRs) work, please follow [**this tutorial**](/tutorials/confidential-compute-requests). The below will explain CCRs conceptually, without code.
+
+:::
+
+<List>
+
+**Starting Point**: A user sends "Confidential Compute Request" uing `eth_sendRawTransaction`, which is received by the JSON RPC.
+
+<div>
+
+**MEVM Execution**: Upon receiving the request, the JSON RPC triggers the MEVM (Modified Ethereum Virtual Machine) to run. MEVM execution can use multiple APIs depending on the context, with two possible paths:
+
+<List>
+
+**Request to an External Domain**: The MEVM can make API requests to external domains: i.e. if you're running an Ethereum node, it can fetch state from there for simulations etc., or if the SUAPP uses the `doHttpRequest()` precompile, it can fetch arbitrary information required for the offchain compute.
+
+**Request to the Confidential Datastore**: The MEVM can make API requests directly to the "Confidential Datastore" to fetch or store data.
+
+</List>
+
+</div>
+
+**Suave Chain Interaction**: Eventually, after processing the request the MEVM can take the results and (depending on the SUAPP's logic) send a SUAVE transaction that holds any relevant information which might enable other users or contracts to take action.
+
+**Transaction Hash Output**: Following the Suave transaction above, a transaction hash is produced and returned to the request's originator, just like Ethereum.
+
+</List>
+
+### Computing over Confidential Data
+
+How to index, store, and use confidential data is left up to each SUAPP. 
+
+For example, in the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), to submit a valid backrun, a searcher must include the `recordId` of the user transaction in order for the Suapp to match them correclty. Therefore, the SUAPP emits the user transaction `recordId` as a log on chain, which searchers can listen for and use to construct valid backruns.
+
+However, the [NFTEE example](https://github.com/flashbots/suapp-examples/tree/main/examples/712) demonstrates how to store a private key in the confidential store. In order to get it to sign a transaction intended for Ethereum L1, we store the `recordId` in the contract's memory, which ends up onchain. In this context, this is not a concern, since it's gated, so only that SUAPP can access the key for signing purposes.
+
+### Restricting Callbacks to Confidential Compute
+
+"When u intialise the contract you pass it a secret key which is stored in confidential storage. This key with the local nonce is used to derive the next secret.
+
+Hash of the present secret is in public(evm) storage.
+
+Whenever restricted method is accessed the present secret needs to be provided - which is only accessable through confidential execution.
+
+The implementation of ConfidentialControl: https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/lib/ConfidentialControl.sol
+Example usage: https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/BlockAdV2.sol
+Linking also the GIthub issue on SuaveGeth that describes this problem: https://github.com/flashbots/suave-geth/issues/121 (opens discussion on how to solve this in a better way)
+Lmk if you have any questions or concerns about it!"

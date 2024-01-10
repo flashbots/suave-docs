@@ -62,7 +62,9 @@ The **Typescript** template will lead you through how to sign a transaction on a
 
 ### Callbacks
 
-Let's therefore start in the [Next template](https://github.com/andytudhope/build-a-suapp-next-ts/) and look at how CCRs work and how to use them. [`OnChainState.sol`](https://github.com/andytudhope/build-a-suapp-next-ts/blob/main/packages/forge/src/OnChainState.sol) demonstrates that any CCR which tries to change state directly will revert. Rather, you need to use a callback to a different function that does change state in order to ensure that data sent in a CCR does remain confidential:
+Let's start in the [Next template](https://github.com/andytudhope/build-a-suapp-next-ts/) and look at how CCRs work and how to use them. 
+
+[`OnChainState.sol`](https://github.com/andytudhope/build-a-suapp-next-ts/blob/main/packages/forge/src/OnChainState.sol) demonstrates that any CCR which tries to change state directly will revert. Rather, you need to use a callback to a different function that does change state in order to ensure that data sent in a CCR remains confidential:
 
 ```solidity
     // nilExample is a function executed in a confidential request

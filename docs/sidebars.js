@@ -19,6 +19,7 @@ module.exports = {
       items: [
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
+        'tutorials/suave-standard-library',
         'tutorials/build-suapps',
         'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles',
@@ -30,31 +31,22 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'resources/index'},
       items: [
-        'resources/rigil',
-        'resources/forge',
         {
           type: 'category',
-          label: 'SDK',
+          label: 'Unique Features',
           collapsed: true,
-          link: {type: 'doc', id: 'resources/sdks/index'},
+          link: {type: 'doc', id: 'resources/unique-features/index'},
           items: [
-            'resources/sdks/golang-sdk',
-            'resources/sdks/typescript-sdk',
+            'resources/unique-features/block-building',
+            'resources/unique-features/confidenital-computation',
+            'resources/unique-features/confidential-data-storage',
+            'resources/unique-features/mev-supplychain-interface'
           ],
         },
-        {
-          type: 'category',
-          label: 'SUAVE Solidity',
-          collapsed: true,
-          link: {type: 'doc', id: 'resources/suave-solidity/index'},
-          items: [
-            'resources/suave-solidity/block-building-interface',
-            'resources/suave-solidity/confidenital-computation',
-            'resources/suave-solidity/confidential-data-storage',
-            'resources/suave-solidity/mev-supplychain-interface',
-            'resources/suave-solidity/suave-standard-library',
-          ],
-        }
+        'resources/rigil',
+        'resources/forge',
+        'resources/golang-sdk',
+        'resources/typescript-sdk'
       ],
     },
     {
