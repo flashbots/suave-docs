@@ -21,7 +21,7 @@ If your SUAPP is intended to produce blocks, be they partial or full, you'll fir
 function newBuilder() internal view returns (string memory)
 ```
 
-This function starts a new builder instance within a Kettle. The basic idea is that you can use a session id to help with simulating transactions efficiently, so that you need not re-simulate transactions unnecessarily each time another transaction or bundle is received by your SUAPP. 
+This function starts a new builder instance within a Kettle. The basic idea is that you can use a session id (the `string` returned by the `newBuilder()` precompile) to help with simulating transactions efficiently. Opening a session enables you to build block iteratively, rather than having to re-run all your simulations each time you receive a new transaction or bundle. 
 
 Once you do receive transactions or bundles, it is often the case that you need to simulate the effect they will have on the state of the target chain for which your SUAPP is building blocks. You'll often want to construct blocks in stages, as your SUAPP receive various different bundles and/or transactions from different users. This can be achieved with either of the below precompiles:
 
