@@ -61,10 +61,10 @@ allowedList[1] = 0x0000000000000000000000000000000043200001;
 
 <div>
 
-Then, we create the `dataRecord`. In this case, the `decryptionCondition` is set to `10` blocks from now (but `decryptionConditions` are to be deprecated soon) and the version is left as a blank string. Then, we write both the transaction itself, and the results from its simulation (in this case, the effective gas price after it is included) into the confidential store at different keys, which we will later use to match bundles and backruns in order to build profitable blocks.
+Then, we create the `dataRecord`. The `decryptionCondition` is passed in as an argument and can be anything (though `decryptionConditions` will be deprecated soon) and the version is left as a blank string. Then, we write both the transaction itself, and the results from its simulation (in this case, the effective gas price after it is included) into the confidential store at different keys, which we will later use to match bundles and backruns in order to build profitable blocks.
 
 ```solidity
-Suave.DataRecord memory dataRecord = Suave.newDataRecord(10, allowedList, allowedList, "");
+Suave.DataRecord memory dataRecord = Suave.newDataRecord(decryptionCondition, allowedList, allowedList, "");
 Suave.confidentialStore(dataRecord.id, "mevshare:v0:ethBundles", bundleData);
 Suave.confidentialStore(dataRecord.id, "mevshare:v0:ethBundleSimResults", abi.encode(egp));
 ```

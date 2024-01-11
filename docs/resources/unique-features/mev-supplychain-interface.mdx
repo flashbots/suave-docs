@@ -25,7 +25,25 @@ We've already seen in the previous tutorial, which looked at the [Private OFA Su
 
 Similarly speaking, you can construct the whole block yourself and send it to a builder using `submitEthBlockToRelay()`. Taken together, these two precompiles allow you to interface with the **transaction**, **bundle**, and **block** aspects of the supply chain above.
 
-Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they need to handle their off chain computation.
+Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they need to handle their off chain computation. An example of this in use can also be found in the Private OFA Suapp Example, and it looks like this:
+
+```solidity
+function submitBundle(string memory builderUrl, bytes memory bundleData) internal view returns (bytes memory) {
+    // encode the jsonrpc request in JSON format.
+    bytes memory body =
+        abi.encodePacked('{"jsonrpc":"2.0","method":"mev_sendBundle","params":[', bundleData, '],"id":1}');
+
+    Suave.HttpRequest memory request;
+    request.url = builderUrl;
+    request.method = "POST";
+    request.body = body;
+    request.headers = new string[](1);
+    request.headers[0] = "Content-Type: application/json";
+    request.withFlashbotsSignature = true;
+
+    return Suave.doHTTPRequest(request);
+}
+```
 
 ### On SUAVE interaction
 
