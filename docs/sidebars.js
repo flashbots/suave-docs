@@ -35,12 +35,12 @@ module.exports = {
           type: 'category',
           label: 'How SUAVE Extends Solidity',
           collapsed: true,
-          link: {type: 'doc', id: 'resources/unique-features/index'},
+          link: {type: 'doc', id: 'concepts/index'},
           items: [
-            'resources/unique-features/block-building',
-            'resources/unique-features/confidential-computation',
-            'resources/unique-features/confidential-data-storage',
-            'resources/unique-features/mev-supplychain-interface'
+            'concepts/block-building',
+            'concepts/confidential-computation',
+            'concepts/confidential-data-storage',
+            'concepts/mev-supplychain-interface'
           ],
         },
         'resources/rigil',

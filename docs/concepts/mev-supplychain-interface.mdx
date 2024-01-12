@@ -54,7 +54,7 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
 
 The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks. 
 
-The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/resources/unique-features/confidential-data-storage#practical-example)):
+The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/concepts/confidential-data-storage#practical-example)):
 
 ![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
 
@@ -66,3 +66,4 @@ Of course, the reality of MEV is a bit more complex than the linear supply chain
 
 Although SUAVE is still in early alpha, one of our goals is to enable full programmable interaction with every component in the above network, such that we can create a genuinely open and permissionless marketplace of different mechanisms that mitigate MEV.
 
+For practical examples of what it looks like to encode current products and services as smart contracts on SUAVE, please consult the [`suave-std` library tutorial](/tutorials/suave-standard-library#mevshare).

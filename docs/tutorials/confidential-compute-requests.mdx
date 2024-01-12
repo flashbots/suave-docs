@@ -194,20 +194,20 @@ The flow of this example is similar to the Typescript MEVShare demo directly abo
 1. Deploy the OFA contract.
 2. Instantiate two new accounts and fund them.
 3. Craft two different transactions: `ethTxn1` which simulates a transaction from another domain, and `ethTxnBackrun` which simulates a backrun based on the hint emitted by `ethTxn1`.
-4. Wrap the first transaction into a "bundle", add any extra data required (in this case, just the percentage of MEV the user is willing to share with whomever includes their transaction), and send it to the OFA contract from the first account.
+4. Wrap the first transaction into a "bundle", add any extra data required (in this case, just the percentage of MEV the user is willing to share with whomever includes their transaction), and send it to the OFA contract on SUAVE.
     1. Receive and store the hint event that is emitted as a result of the transaction.
 5. Wrap the second transaction into another bundle and send it to the OFA contract (along with extra data like the hint event ID).
     1. Receive and store the match event in the case that the contract does batch the transactions together.
 6. Send that resulting batch of matched transactions to a known relayer off-chain so that it can be included on the intended domain.
 
-In order to create a signed transaction, you can use the Golang SDK like this:
+In order to create a signed transaction on Ethereum L1, you can use the Golang SDK like this:
 
 ```go
-ethTxn1, _ := fr.SignTx(testAddr1, &types.LegacyTx{
-    To:       &targeAddr,
-    Value:    big.NewInt(1000),
-    Gas:      21000,
-    GasPrice: big.NewInt(13),
+ethTxn1, _ := fr.L1.SignTx(testAddr1, &types.LegacyTx{
+  To:       &targeAddr,
+  Value:    big.NewInt(1000),
+  Gas:      21000,
+  GasPrice: big.NewInt(670189871),
 })
 ```
 
@@ -222,10 +222,10 @@ bundle := &types.SBundle{
 bundleBytes, _ := json.Marshal(bundle)
 ```
 
-In order to send a transaction from a specific account to a specific contract, passing in particular arguments and storing the resulting receipt, you would use something like this:
+In order to send this bundle to the contract on SUAVE, passing in particular arguments and storing the resulting receipt, we do this:
 
 ```go
-receipt = contractAddr2.SendTransaction("newMatch", []interface{}{hintEvent.DataRecordId}, backRunBundleBytes)
+receipt = contract.SendTransaction("newMatch", []interface{}{hintEvent.DataRecordId}, backRunBundleBytes)
 ```
 
 We can visualize the most general form of this example (involving multiple different transactions types, actors, and actions) like this:

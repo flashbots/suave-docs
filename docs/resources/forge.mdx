@@ -49,7 +49,7 @@ contract Example {
 }
 ```
 
-It can also be difficult to test specific precompiles when using Forge. In order to make this possible, `suave-std` provides a "SUAVE-endabled" test contract, which you can import and use like this:
+It can also be difficult to test specific precompiles when using Forge. In order to make this possible, `suave-std` provides a "SUAVE-enabled" test contract, which you can import and use like this:
 
 ```solidity
 // SPDX-License-Identifier: Unlicense
@@ -74,7 +74,7 @@ contract TestForge is Test, SuaveEnabled {
 }
 ```
 
-You will need to have [SUAVE running locally](/tutorials/run-suave) in order to be able to run such a test successfuly.
+You will need to have [SUAVE running locally](/tutorials/run-suave) in order to be able to run such a test successfully.
 
 ### Deploying Contracts
 
@@ -95,4 +95,4 @@ forge create --rpc-url http://localhost:8545 --legacy \
 examples/app-ofa-private/ofa-private.sol:OFAPrivate
 ```
 
-You should also note, if you look at the other examples, how the [Golang SDK](/resources/golang-sdk) is used not only to deploy contracts, but test various kinds of transactions in order to illustrate how each contract is intende to function. Using the Golang SDK can provide for significantly more flexibility than just deploying your contract via Forge.
+You should also note, if you look at the other examples, how the [Golang SDK](/resources/golang-sdk) is used not only to deploy contracts, but test various kinds of transactions in order to illustrate how each contract is intended to function. Using the Golang SDK can provide for significantly more flexibility than just deploying your contract via Forge.

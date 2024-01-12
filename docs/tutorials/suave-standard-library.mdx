@@ -32,13 +32,11 @@ convenience wrapper around precompiles
 
 </List>
 
-## Libraries
+## Transactions
 
-### Transactions.sol
+One such example of this is encoding and decoding transactions from other chains, which you may need to do when matching different transactions in an order flow auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
 
-Helper library that defines types and encoding/decoding methods for the Ethereum transaction types.
-
-#### Example usage
+Having to encode and decode such transactions is a pain, which is exactly the sort of scenario where `suave-std` can help:
 
 ```solidity
 import "suave-std/Transactions.sol";
@@ -62,72 +60,41 @@ contract Example {
 }
 ```
 
-### MevShare.sol
+## SUAVE Enabled Tests
 
-not in main branch yet but will be soon https://github.com/flashbots/suave-geth/blob/feature/suave-std/suave/sol/suave-std/mevshare.sol
+It can also be difficult to test specific precompiles when using Forge. In order to make this possible, `suave-std` provides a "SUAVE-enabled" test contract, which you can import and use like this:
 
 ```solidity
-    struct Bundle {
-            string version;
-            uint64 inclusionBlock;
-            bytes[] bodies;
-            bool[] canRevert;
-            uint8[] refundPercents;
-        }
+// SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.13;
 
-    function encodeBundle(Bundle memory bundle) internal view returns (bytes memory)
-    function sendBundle(string memory url, Bundle memory bundle) internal view 
-    function toMinimalHexString(bytes memory value) internal pure returns (string memory str)
+import "forge-std/Test.sol";
+import "suave-std/Test.sol";
+import "suave-std/Suave.sol";
 
+contract TestForge is Test, SuaveEnabled {
+    address[] public addressList = [0xC8df3686b4Afb2BB53e60EAe97EF043FE03Fb829];
+
+    function testConfidentialStore() public {
+        Suave.DataRecord memory record = Suave.newDataRecord(0, addressList, addressList, "namespace");
+
+        bytes memory value = abi.encode("suave works with forge!");
+        Suave.confidentialStore(record.id, "key1", value);
+
+        bytes memory found = Suave.confidentialRetrieve(record.id, "key1");
+        assertEq(keccak256(found), keccak256(value));
+    }
+}
 ```
 
-### MevBoost.sol
+## MevShare
 
- ```solidity
-    function encode(Payload memory payload) internal view returns (bytes memory) 
-    function submitBlock(string memory baseUrl, SubmitBlockRequest memory bundle) internal view
-    function toMinimalHexString(bytes memory value) private pure returns (string memory str)
+While not yet in the main branch of `suave-geth`, the [MevShare library](https://github.com/flashbots/suave-geth/blob/feature/suave-std/suave/sol/suave-std/mevshare.sol) illustrates all of the major functionality we've discussed so far.
 
-    struct Bid {
-        uint64 slot;
-        bytes parentHash;
-        bytes blockHash;
-        bytes builderPubkey; // bytes48
-        bytes proposerPubkey; // bytes48
-        address proposerFeeRecipient;
-        uint64 gasLimit;
-        uint64 gasUsed;
-        uint256 value;
-    }
+## MevBoost
 
-    struct Withdrawal {
-        uint64 index;
-        uint64 validatorIndex;
-        address addr;
-        uint256 amount;
-    }
+The same is true for the [MevBoost library](https://github.com/flashbots/suave-geth/blob/feature/suave-std/suave/sol/suave-std/mevboost.sol).
 
-    struct Payload {
-        bytes parentHash;
-        address feeRecipient;
-        bytes stateRoot;
-        bytes receiptsRoot;
-        bytes logsBloom;
-        bytes prevRandao;
-        uint64 blockNumber;
-        uint64 gasLimit;
-        uint64 gasUsed;
-        uint64 timestamp;
-        bytes extraData;
-        bytes baseFeePerGas;
-        bytes blockHash;
-        bytes[] transactions;
-        Withdrawal[] withdrawals;
-    }
+The goal of these two libraries is to illustrate how products and services which currently rely on a known set of actors to run can be encoded as smart contracts on SUAVE, and made to work on an open, permissionless network.
 
-    struct SubmitBlockRequest {
-        Bid bid;
-        Payload payload;
-        bytes signature;
-    }
- ```
+It is in this sense that we make the claim that applications built on SUAVE can interface with any component in the [MEV supply network](/concepts/mev-supplychain-interface).
