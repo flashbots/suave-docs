@@ -3,135 +3,96 @@ title: Forge
 description: Use Forge to help develop and test contracts with new precompiles on SUAVE
 ---
 
-:::info
-
-There is limited support for Forge in SUAVE. We recommend that you use it only for writing contracts intended to test precompiles.
-
-:::
-
 Writing and compiling contracts for SUAVE is similar to Ethereum, and can be done with familiar local tools like Forge, or even IDEs like Remix. Deploying those contracts to SUAVE is done using the same transaction type as Ethereum, and so can also be achieved from those tools without modifying anything other than the RPC endpoint.
 
-However, SUAVE makes an [extended set of precompiles](/technical/specs/rigil/precompiles) available in any contract. While these are included as a [library](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/Suave.sol) to keep compilation easy, you can't use Forge (or Remix) to interact with any method in those contracts which uses any of the new precompiles once the contracts are deployed.
+SUAVE makes an [extended set of precompiles](/technical/specs/rigil/precompiles) available in any contract. 
 
-Methods which use new precompiles can only be executed through a Kettle as a Confidential Compute Request (CCR). Foundry supports neither precompiles nor CCRs. This limits the current use cases for Forge.
+In order to make interacting with these precompiles easier, we maintain a repository of contracts and libraries called [`suave-std`](https://github.com/flashbots/suave-std).
 
-[`SuaveForge.sol`](https://github.com/flashbots/suave-geth/blob/main/suave/sol/libraries/SuaveForge.sol) is a Solidity library that implements the same precompiles as `Suave.sol`. The difference is this:
+## Suapp examples
 
-- `Suave.sol` is used in the MEVM on the Kettle specified by any CCR
-- `SuaveForge.sol` uses the [ffi](https://book.getfoundry.sh/cheatcodes/ffi) cheatcode in an environment external to Forge (i.e. the instance of SUAVE you are running locally). The `ffi` cheatcode uses the `suave forge` command from the `suave` binary to make remote calls.
-
-## Install
-
-Let's start a new, empty repo and set `suave-geth` as a submodule so that we can easily import the `SuaveForge.sol` library:
+The easiest way to start creating your own contracts with Forge is to clone the [Suapp Examples repo](https://github.com/flashbots/suapp-examples/), as it comes with `suave-std` already set up as a submodule, as well as a series of examples that use both Forge and the Golang SDK.
 
 ```bash
-mkdir suave-forge
+git clone git@github.com:flashbots/suave-std.git && cd suapp-examples
 ```
 
 ```bash
-cd suave-forge
+git submodule init && git submodule update
 ```
 
-```bash
-forge init
-```
+## Encoding and Decoding Transactions
 
-```bash
-git submodule init
-```
+`suave-std` is intended to implement core functionality that is likely to be used often by many different kinds of Suapps. One such example of this is encoding and decoding transactions from other chains, which you may need to do when matching different transactions in an order flow auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
 
-```bash
-git submodule add https://github.com/flashbots/suave-geth.git
-```
-
-## Write and run a Forge script
-
-Here is an example Forge script that uses the `SuaveForge.sol` library to create a new bid. Copy and paste it into a file called `Example.sol` in the `src` directory:
+Having to encode and decode such transactions is a pain, which is exactly the sort of scenario where `suave-std` can help:
 
 ```solidity
-pragma solidity ^0.8.8;
+import "suave-std/Transactions.sol";
 
-import "../suave-geth/suave/sol/libraries/SuaveForge.sol";
-import "forge-std/Script.sol";
+contract Example {
+    function example() {
+        Transactions.Legacy memory legacyTxn0 = Transactions.Legacy({
+            to: address(0x095E7BAea6a6c7c4c2DfeB977eFac326aF552d87),
+            gas: 50000,
+            gasPrice: 10,
+            value: 10,
+            ...
+        });
 
-contract Example is Script {
-    address[] public addressList = [Suave.ANYALLOWED];
+        // Encode to RLP
+        bytes memory rlp = Transactions.encodeRLP(legacyTxn0);
 
-    function run() public {
-        Suave.DataRecord memory record = SuaveForge.newDataRecord(
-          0, 
-          addressList, 
-          addressList, 
-          "default:v0:ethBundles"
-        );
-
-        Suave.DataRecord[] memory allShareMatchRecords = SuaveForge.fetchDataRecords(
-          0, 
-          "default:v0:ethBundles"
-        );
-        console.log(allShareMatchRecords.length);
-
-        SuaveForge.confidentialStore(record.id, "a", abi.encodePacked("bbbbbb"));
-        bytes memory result = SuaveForge.confidentialRetrieve(record.id, "a");
-        console.logBytes(result);
+        // Decode from RLP
+        Transactions.Legacy memory legacyTxn1 = Transactions.decodeRLP(rlp);
     }
 }
 ```
 
-The same precompile functions available in `Suave.sol` are also implemented in `SuaveForge.sol`, though the struct types are still imported from `Suave.sol`. It is not required to import `Suave.sol` in your scripts since `SuaveForge.sol` already does it.
+It can also be difficult to test specific precompiles when using Forge. In order to make this possible, `suave-std` provides a "SUAVE-enabled" test contract, which you can import and use like this:
 
-In order to deploy this example contract, you need to have [SUAVE running locally](/tutorials/run-suave/), which can be done from your git submodule directory:
+```solidity
+// SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.13;
 
-```bash
-cd suave-geth
+import "forge-std/Test.sol";
+import "suave-std/Test.sol";
+import "suave-std/Suave.sol";
+
+contract TestForge is Test, SuaveEnabled {
+    address[] public addressList = [0xC8df3686b4Afb2BB53e60EAe97EF043FE03Fb829];
+
+    function testConfidentialStore() public {
+        Suave.DataRecord memory record = Suave.newDataRecord(0, addressList, addressList, "namespace");
+
+        bytes memory value = abi.encode("suave works with forge!");
+        Suave.confidentialStore(record.id, "key1", value);
+
+        bytes memory found = Suave.confidentialRetrieve(record.id, "key1");
+        assertEq(keccak256(found), keccak256(value));
+    }
+}
 ```
 
-```bash
-make suave
-```
+You will need to have [SUAVE running locally](/tutorials/run-suave) in order to be able to run such a test successfully.
 
-```bash
-suave --suave.dev
-```
+### Deploying Contracts
 
-Then, run the Forge script with the `ffi` flag enabled:
+In order to deploy any contract you write in the SUAPP Example repo, you need to either have [SUAVE running locally](/tutorials/run-suave/), or an account on Rigil with some [rETH from the faucet](https://faucet.rigil.suave.flashbots.net).
 
-```bash
-forge script Example.sol --ffi
-```
-
-<Details>
-  <summary>Having issues?</summary>
-  <div>
-    <div>
-      <div>
-        Typically, building SUAVE yourself places the binary in the $GOPATH/bin
-        directory. If it didn't happen, ensure that path is added to your PATH
-        environment variable: <br />
-        <br />
-        <pre>export PATH=\$PATH\:$GOPATH\/bin</pre>
-      </div>
-    </div>
-  </div>
-</Details>
-
-The Forge script should print the gas used to run the specified function in your console. If you check the logs of your SUAVE devnet, you should see a message like this:
-
-`INFO [timestamp] confidential engine: refusing to send writes based on unsigned transaction`
-
-Due to the limitations described above (no native support for precompiles or CCRs in Forge) and having to rely on your local environment, rather than Foundry's built-in network or forks, we recommend that you only use Forge for testing new precompiles you are writing.
-
-## Deploy your contract
-
-That said, you can use Forge to deploy contracts to SUAVE (though we recommend that you then use the [Golang SDK](/resources/golang-sdk) to send transactions).
-
-If you wanted to deploy `Example.sol`, there are three steps you need to take:
-
-1. Replace `SuaveForge.sol` with `Suave.sol` and update all references in your contract.
-2. Get [Rigil ETH from the faucet](https://faucet.rigil.suave.flashbots.net).
-3. Run the following command:
+To deploy on Rigil using Forge, you can run the below:
 
 ```bash
 forge create --rpc-url https://rpc.rigil.suave.flashbots.net --legacy \
---private-key <your_funded_private_key> src/Example.sol:Example
+--private-key <your_funded_private_key> examples/app-ofa-private/ofa-private.sol:OFAPrivate
 ```
+
+In order to deploy locally, you can can change the rpc and private key values:
+
+```bash
+forge create --rpc-url http://localhost:8545 --legacy \
+--private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \
+examples/app-ofa-private/ofa-private.sol:OFAPrivate
+```
+
+You should also note, if you look at the other examples, how the [Golang SDK](/resources/golang-sdk) is used not only to deploy contracts, but test various kinds of transactions in order to illustrate how each contract is intended to function. Using the Golang SDK can provide for significantly more flexibility than just deploying your contract via Forge.

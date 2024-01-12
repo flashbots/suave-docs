@@ -19,6 +19,7 @@ module.exports = {
       items: [
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
+        'tutorials/suave-standard-library',
         'tutorials/build-suapps',
         'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles',
@@ -30,10 +31,22 @@ module.exports = {
       collapsed: false,
       link: {type: 'doc', id: 'resources/index'},
       items: [
+        {
+          type: 'category',
+          label: 'How SUAVE Extends Solidity',
+          collapsed: true,
+          link: {type: 'doc', id: 'concepts/index'},
+          items: [
+            'concepts/block-building',
+            'concepts/confidential-computation',
+            'concepts/confidential-data-storage',
+            'concepts/mev-supplychain-interface'
+          ],
+        },
         'resources/rigil',
         'resources/forge',
         'resources/golang-sdk',
-        'resources/typescript-sdk',
+        'resources/typescript-sdk'
       ],
     },
     {

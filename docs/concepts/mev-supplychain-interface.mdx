@@ -1,0 +1,69 @@
+---
+title: MEV Supply Chain Interface
+description: How SUAVE enables you to interact with virtually any component that has anything to do wih MEV
+---
+
+The previous pages in this section have illustrated how you can use SUAVE to build blocks for other chains, how to use confidential computation in various different ways depending on your use case, and how to leverage confidential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
+
+Taken together, these three broad categories of the unique features of SUAVE should illustrate that you can use SUAVE to interact with whatever component in the MEV supply chain you want are most interested in and/or think is the most profitable.
+
+At a first approximation, the MEV supply chain looks like this:
+
+![MEV Supply Chain - Linear Version](/img/mev-supplychain.png)
+
+The point of this section has been to illustrate that SUAPPs can interact with any of these components.
+
+### Off-SUAVE interaction
+
+```solidity
+    function submitBundleJsonRPC(string memory url, string memory method, bytes memory params) internal view returns (bytes memory)
+    function submitEthBlockToRelay(string memory relayUrl, bytes memory builderBid) internal view returns (bytes memory)
+    function doHTTPRequest(HttpRequest memory request) internal view returns (bytes memory)
+```
+
+We've already seen in the previous tutorial, which looked at the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/ofa-private.sol) example contract, how to create bundles and send them to a predefined block builder using the `submitBundleJsonRPC()` precompile.
+
+Similarly speaking, you can construct the whole block yourself and send it to a builder using `submitEthBlockToRelay()`. Taken together, these two precompiles allow you to interface with the **transaction**, **bundle**, and **block** aspects of the supply chain above.
+
+Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they need to handle their off chain computation. An example of this in use can also be found in the Private OFA Suapp Example, and it looks like this:
+
+```solidity
+function submitBundle(string memory builderUrl, bytes memory bundleData) internal view returns (bytes memory) {
+    // encode the jsonrpc request in JSON format.
+    bytes memory body =
+        abi.encodePacked('{"jsonrpc":"2.0","method":"mev_sendBundle","params":[', bundleData, '],"id":1}');
+
+    Suave.HttpRequest memory request;
+    request.url = builderUrl;
+    request.method = "POST";
+    request.body = body;
+    request.headers = new string[](1);
+    request.headers[0] = "Content-Type: application/json";
+    request.withFlashbotsSignature = true;
+
+    return Suave.doHTTPRequest(request);
+}
+```
+
+### On SUAVE interaction
+
+```solidity
+    function confidentialStore(DataId dataId, string memory key, bytes memory value) internal view
+    function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
+```
+
+The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks. 
+
+The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/concepts/confidential-data-storage#practical-example)):
+
+![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
+
+### MEV supply network
+
+Of course, the reality of MEV is a bit more complex than the linear supply chain we have shown above. It may well look something more like this (taken with thanks from [here](https://frontier.tech/infinite-games)):
+
+![MEV Supply Network](/img/mev-supply-network.png)
+
+Although SUAVE is still in early alpha, one of our goals is to enable full programmable interaction with every component in the above network, such that we can create a genuinely open and permissionless marketplace of different mechanisms that mitigate MEV.
+
+For practical examples of what it looks like to encode current products and services as smart contracts on SUAVE, please consult the [`suave-std` library tutorial](/tutorials/suave-standard-library#mevshare).
