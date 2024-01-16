@@ -44,7 +44,7 @@ If your SUAPP is intended to produce blocks, be they partial or full, you'll fir
 function newBuilder() internal view returns (string memory)
 ```
 
-This function starts a new builder instance within a Kettle. The basic idea is that session ids (the `string` returned by the `newBuilder()` precompile) provide programmatic control when building blocks, one outcome of which is simulating transactions more efficiently. Opening a session enables you to build block iteratively, rather than having to re-run all your simulations each time you receive a new transaction or bundle. 
+This function starts a new builder instance within a Kettle. The basic idea is that session ids (the `string` returned by the `newBuilder()` precompile) provide programmatic control when building blocks, one outcome of which is simulating transactions more efficiently. Opening a session enables you to build blocks iteratively, rather than having to re-run all your simulations each time you receive a new transaction or bundle. 
 
 :::info
 

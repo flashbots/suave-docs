@@ -64,7 +64,7 @@ Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa
 
 ### Locally
 
-You can follow the exact same method as above to deploy contracts to your local SUAVE devnet. You just need to have SUAVE running and use the pre-funded account we have setup for you:
+You can follow the exact same method as above to deploy contracts to your local SUAVE devnet. You need to [have SUAVE running](/tutorials/run-suave) and use the pre-funded account we have setup for you:
 
 ```bash
 forge create --rpc-url http://localhost:8545 --legacy \
@@ -80,25 +80,6 @@ Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
 Deployed to: 0xcbdF0322Cd79212e10b0dB72D775aE05B99c1796
 Transaction hash: 0x9ae80af40bdafbc706108446dbbf7761a59f5bf544b46c97b9b0851dddaa3927
 ```
-
-## Deploy with Remix
-
-:::warning
-
-This method is quick, but limited. You can deploy contracts using Remix and an injected web3 provider. However, you cannot send Confidential Compute Requests to those contracts from providers like MetaMask, so it is difficult to interact with your contracts once deployed.
-
-:::
-
-Follow these steps to deploy a contract via Remix:
-
-1. Add the Rigil RPC to your MetaMask or equivalent wallet and connect to it:
-
-<RPCButton />
-
-2. Ensure you have rETH from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net)
-3. Go to the [Remix IDE](http://remix.ethereum.org/) and navigate to the bottom icon on the right-hand menu: "Deploy and Run Transactions".
-4. Open the dropdown "Environment" menu and select "Injected Provider - MetaMask". It should show `Custom (16813125) network` directly below that field if this works correctly.
-5. Write (or import) your contracts in the File Explorer tab, compile them, and deploy them as you usually would.
 
 ## SUAPP Examples
 
@@ -120,23 +101,11 @@ You can compile the contracts in the repo with:
 forge build
 ```
 
-<details>
-  <summary>What is Forge?</summary>
-  <div>
-    <div>
-      <div>
-        `forge` is a part of the smart contract development toolchain we use in our examples, which you can learn more about in our [next tutorial](/tutorials/deploy-contracts). If you do not have it installed, you can do so quickly with: 
-        <pre>curl -L https://foundry.paradigm.xyz | bash</pre>
-      </div>
-    </div>
-  </div>
-</details>
-
 ### Locally
 
 Now we can deploy and transact with any of the example contracts. 
 
-The `framework/framework.go` file defaults to your [local SUAVE devnet](/tutorials/run-suave). If you have that running, just `cd` into the relevant directory and run the `main.go` file. For instance, to deploy and transact with the example contract which demonstrates how updating state works for normal vs confidential requests, you can run:
+Once you have [SUAVE running locally](/tutorials/run-suave), `cd` into the relevant directory and run the `main.go` file. For instance, to deploy and transact with the example contract which demonstrates how updating state works for normal vs confidential requests, you can run:
 
 ```bash
 cd examples/onchain-state && go run main.go
@@ -149,7 +118,7 @@ You should see this message printed in your terminal if successful:
 2. Send a confidential request that modifies the state
 ```
 
-The `framework.go` and all of the `main.go` files use the Golang SDK, which you can read more about in our [developer guides](/resources/golang-sdk).
+The `framework.go` and all of the `main.go` files use the Golang SDK, which you can read more about in our [resources section](/resources/golang-sdk).
 
 ### To Rigil
 
@@ -178,3 +147,22 @@ You should again see output like this logged in your terminal:
 1. Send a confidential request that cannot modify the state
 2. Send a confidential request that modifies the state
 ```
+
+## Deploy with Remix
+
+:::warning
+
+This method is quick, but limited. You can deploy contracts using Remix and an injected web3 provider. However, you cannot send Confidential Compute Requests to those contracts from providers like MetaMask, so it is difficult to interact with your contracts once deployed.
+
+:::
+
+Follow these steps to deploy a contract via Remix:
+
+1. Add the Rigil RPC to your MetaMask or equivalent wallet and connect to it:
+
+<RPCButton />
+
+2. Ensure you have rETH from the [Rigil ETH Faucet](https://faucet.rigil.suave.flashbots.net)
+3. Go to the [Remix IDE](http://remix.ethereum.org/) and navigate to the bottom icon on the right-hand menu: "Deploy and Run Transactions".
+4. Open the dropdown "Environment" menu and select "Injected Provider - MetaMask". It should show `Custom (16813125) network` directly below that field if this works correctly.
+5. Write (or import) your contracts in the File Explorer tab, compile them, and deploy them as you usually would.
