@@ -42,8 +42,8 @@ cd src/ && bun link
 
 1. Confidential Compute Requests on SUAVE do not work with wallets that implement the EIP-1193 Javascript API. Therefore, we use the unsafe `eth_sign` method to sign CCRs, which does work, but requires that you enable this functionality in wallets like MetaMask.
     1. To do so in MetaMask, go to "Settings" -> "Advanced" -> scroll to bottom -> switch Eth_sign requests on.
-2. Both templates assume that you are running SUAVE locally.
-3. No tests are included for the contracts, as it is not trivial to test new precompiles and different transaction types (i.e. CCRs) in `forge` at this time.
+2. Both templates below assume that you are running SUAVE locally.
+3. No tests are included for the contracts at this time.
 
 ## Typescript Template
 
@@ -72,7 +72,9 @@ This template uses the same MEV-Share example contract we worked with using the 
 
 ## Next Template
 
-This template comes with a more extensive frontend framework, which uses Next (in typescript) and therefore depends on React. You can get it running by first cloning the repo and installing its dependencies. Make sure you have previously built and symlinked suave-viem for this to work:
+This template comes with a more extensive frontend framework, which uses Next (in typescript) and therefore depends on React. You can get it running by first cloning the repo and installing its dependencies. 
+
+Make sure you have previously built and symlinked suave-viem for this to work:
 
 ```bash
 git clone git@github.com:andytudhope/build-a-suapp-next-ts.git \

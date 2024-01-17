@@ -3,13 +3,9 @@ title: Confidential Computation
 description: How to understand confidential computation on SUAVE and use it to yur advantage.
 ---
 
-import List from '@site/src/components/List/List.tsx';
-
 Confidential computation enables you to handle orderflow privately and securely. 
 
-In SUAVE, we achieve this with [Kettles](/technical/specs/rigil/kettle#confidential-computation) performing compute offchain, but according to smart contracts written onchain. In this way, offchain compute is not constrained by chain consensus. The Kettles will eventually run in [TEEs](https://www.youtube.com/watch?v=ek-bu4aoh0A), which provide both enhanced privacy (no-one, not even the host OS, can see unencrypted data) and integrity (you can be sure the correct code, and only that code, is running at all times).
-
-## How It Works
+In SUAVE, we achieve this with [Kettles](/technical/specs/rigil/kettle#confidential-computation) performing compute offchain, but according to smart contracts written onchain. In this way, offchain compute is not constrained by chain consensus. The Kettles will eventually run in [TEEs](https://www.youtube.com/watch?v=ek-bu4aoh0A), which provide both **enhanced privacy** (no-one, not even the host OS, can see unencrypted data) and **integrity** (you can be sure the correct code, and only that code, is running at all times).
 
 :::info
 
@@ -17,29 +13,27 @@ For practical examples of how Confidential Compute Requests (CCRs) work, please 
 
 :::
 
-<List>
+## Interface
 
-**Starting Point**: A user sends "Confidential Compute Request" using `eth_sendRawTransaction`, which is received by the JSON RPC.
+SUAVE exposes several precompiles to help you with confidential computation. The first is a simple check, often used in `require` statements in smart contracts:
 
-<div>
+```solidity
+function isConfidential() internal view returns (bool b)
+```
 
-**MEVM Execution**: Upon receiving the request, the JSON RPC triggers the MEVM (Modified Ethereum Virtual Machine) to run. MEVM execution can use multiple APIs depending on the context, with two possible paths:
+If whoever calls a function in the contract has passed in confidential inputs to be computed offchain, then those inputs can be accessed by the MEVM using:
 
-<List>
+```solidity
+function confidentialInputs() internal view returns (bytes memory)
+```
 
-**Request to an External Domain**: The MEVM can make API requests to external domains: i.e. if you're running an Ethereum node, it can fetch state from there for simulations etc., or if the SUAPP uses the `doHttpRequest()` precompile, it can fetch arbitrary information required for the offchain compute.
+Once the MEVM has the confidential inputs, there is any number of things you could tell it to do with them. For instance, in the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private) we'll look at in greater detail below, we use the below precompile to extract any information about a transaction that the user has agreed to share in order for it to be included timeously in a block on Ethereum L1, thereby replicating MEV-Share in a smart contract on SUAVE:
 
-**Request to the Confidential Datastore**: The MEVM can make API requests directly to the "Confidential Datastore" to fetch or store data.
+```solidity
+function extractHint(bytes memory bundleData) internal view returns (bytes memory)
+```
 
-</List>
-
-</div>
-
-**Broadcast results**: Eventually, after processing the request the MEVM can take the results and, depending on the SUAPP's logic, send a SUAVE transaction, which is a transaction object that contains the result of the CCR in its calldata (and the signature of the Kettle which computed said result), which enables other users or contracts to take action.
-
-**Transaction Hash Output**: A transaction hash for the Suave transaction above is produced and returned to the request's originator, just like Ethereum.
-
-</List>
+You can also consult [our technical specs](/technical/specs/rigil/kettle#confidential-computation) for further information about confidential computation if required.
 
 ### Computing over Confidential Data
 

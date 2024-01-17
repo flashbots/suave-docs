@@ -34,7 +34,7 @@ function sessionExample(bytes memory subTxn, bytes memory subTxn2) public payabl
 
 In this example, a new builder session is created, and multiple transactions are simulated with varying conditions in order to illustrate how you might approach building blocks with SUAVE.
 
-## Conceptual Explanation
+## Interface
 
 SUAVE exposes several precompiles to help you with transaction simulation and block construction.
 
@@ -44,7 +44,7 @@ If your SUAPP is intended to produce blocks, be they partial or full, you'll fir
 function newBuilder() internal view returns (string memory)
 ```
 
-This function starts a new builder instance within a Kettle. The basic idea is that session ids (the `string` returned by the `newBuilder()` precompile) provide programmatic control when building blocks, one outcome of which is simulating transactions more efficiently. Opening a session enables you to build block iteratively, rather than having to re-run all your simulations each time you receive a new transaction or bundle. 
+This function starts a new builder instance within a Kettle. The basic idea is that session ids (the `string` returned by the `newBuilder()` precompile) provide programmatic control when building blocks, one outcome of which is simulating transactions more efficiently. Opening a session enables you to build blocks iteratively, rather than having to re-run all your simulations each time you receive a new transaction or bundle. 
 
 :::info
 
@@ -71,5 +71,7 @@ All of these functions utilize the SUAVE Execution Namespace. To understand more
 
 ## Bundles
 
-Bundles are one or more transactions that are grouped together and executed in the order they are provided and are the core unit of block building. If you're unfamiliar with bundles, and want to learn more, you can read [this document](https://docs.flashbots.net/flashbots-auction/advanced/understanding-bundles). 
+Bundles are one or more transactions that are grouped together and executed in the order they are provided and are the core unit of block building. If you're unfamiliar with bundles, and want to learn more, you can read [this document](https://docs.flashbots.net/flashbots-auction/advanced/understanding-bundles).
+
+To see how to handle bundles in your SUAPP, check out the [`suave-std` repo](https://github.com/flashbots/suave-std/pull/28).
 

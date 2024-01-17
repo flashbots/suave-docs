@@ -132,9 +132,11 @@ The [Typescript template](https://github.com/flashbots/suave-viem/tree/main/exam
 
 In this case, we need to:
 
-1. Craft a transaction on your chosen domain and sign it. 
+1. Craft a transaction on Goerli and sign it. 
 2. Append relevant details like the `decryptionCondition`, `kettleAddress`, `contract` and `chainId`.
-3. Use a helper function like `toConfidentialRequest` to (i) place our signed transaction in `confidentialInputs` and (ii) replace the `data` field with a call to the appropriate method in the specified SUAVE contract.
+3. Use a helper function like `toConfidentialRequest` to
+    1. place our signed transaction in `confidentialInputs` and
+    2. replace the `data` field with a call to the appropriate method in the specified SUAVE contract.
 
 The [code which achieves this can be found here](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts) and looks like this:
 
@@ -187,7 +189,7 @@ The [**SUAPP Examples repo**](https://github.com/flashbots/suapp-examples) uses 
 
 :::
 
-In particular, we can look at the [private order-flow auction example](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/main.go) to understand how to use the Golang SDK to craft more complex kinds of CCRs.
+Let's look at the [private order-flow auction example](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/main.go) to understand how to use the Golang SDK to craft more complex kinds of CCRs.
 
 The flow of this example is similar to the Typescript MEVShare demo directly above. However, we'll use it to demonstrate a full e2e flow with CCRs:
 

@@ -13,7 +13,7 @@ At a first approximation, the MEV supply chain looks like this:
 
 The point of this section has been to illustrate that SUAPPs can interact with any of these components.
 
-### Off-SUAVE interaction
+### Off-SUAVE interface
 
 ```solidity
     function submitBundleJsonRPC(string memory url, string memory method, bytes memory params) internal view returns (bytes memory)
@@ -45,7 +45,7 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
 }
 ```
 
-### On SUAVE interaction
+### On-SUAVE interface
 
 ```solidity
     function confidentialStore(DataId dataId, string memory key, bytes memory value) internal view

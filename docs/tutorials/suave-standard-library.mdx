@@ -8,8 +8,6 @@ keywords:
   - solidity
 ---
 
-import List from '@site/src/components/List/List.tsx';
-
 [suave-std](https://github.com/flashbots/suave-std) is a collection of Solidity contracts and libraries to help you create Suapps. It is included as a submodule in the [SUAPP Examples](https://github.com/flashbots/suapp-examples/) repo, which we used in the previous tutorial.
 
 In this tutorial, we will be diving deeper into the different capabilities offered by `suave-std`.
@@ -20,21 +18,15 @@ In this tutorial, we will be diving deeper into the different capabilities offer
 
 :::
 
-The core functionalities that `suave-std` will help you handle include:
+Some functionalities that `suave-std` will help you handle include:
 
-<List>
-
-transaction parsing and construction
-
-JSON object decoding and encoding
-
-convenience wrapper around precompiles
-
-</List>
+- 💱 Transaction parsing and construction
+- 🔧 JSON object decoding and encoding
+- ♾️ A wrapper for all the precompiles to make calling any of them more convenient
 
 ## Transactions
 
-One such example of this is encoding and decoding transactions from other chains, which you may need to do when matching different transactions in an order flow auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
+Encoding and decoding transactions from other chains is often necessary when matching different transactions in an order flow auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
 
 Having to encode and decode such transactions is a pain, which is exactly the sort of scenario where `suave-std` can help:
 
