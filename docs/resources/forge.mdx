@@ -23,7 +23,7 @@ git submodule init && git submodule update
 
 ## Encoding and Decoding Transactions
 
-`suave-std` is intended to implement core functionality that is likely to be used often by many different kinds of Suapps. One such example of this is encoding and decoding transactions from other chains, which you may need to do when matching different transactions in an order flow auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
+`suave-std` is intended to implement core functionality that is likely to be used often by many different kinds of Suapps. One such example of this is encoding and decoding transactions from other chains, which you may need to do when matching different transactions in an [order flow](https://writings.flashbots.net/illuminate-the-order-flow) auction, or turning bundles into (partial) blocks in a block building contract, or weaving together different transactions on different chains for your unique use case.
 
 Having to encode and decode such transactions is a pain, which is exactly the sort of scenario where `suave-std` can help:
 
