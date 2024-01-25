@@ -29,12 +29,18 @@ There are two different templates you can use for your SUAPP. One with minimal, 
 
 ## Typescript Template
 
-This template can be found directly in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo). Clone the `suave-viem` repo and set up the necessary dependencies:
+This template can be found directly in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo). Clone the `suave-viem` repo and set up contract we'll be using for this demo:
 
 ```bash
 cd examples/suave && \
 ./deployContracts.sh && \
 cd ../suave-web-demo
+```
+
+Next, install the project's dependencies:
+
+```bash
+bun install
 ```
 
 Now you can start the frontend with:
