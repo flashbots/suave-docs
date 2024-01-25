@@ -12,7 +12,7 @@ keywords:
 
 # Build SUAPPs
 
-This tutorial will show you how to build a SUAPP using `suave-viem`, our [typescript SDK](/resources/typescript-sdk).
+This tutorial will show you how to build a SUAPP using [`suave-viem`](https://www.npmjs.com/package/@flashbots/suave-viem), our [typescript SDK](/resources/typescript-sdk).
 
 :::info
 
@@ -20,25 +20,7 @@ There are two different templates you can use for your SUAPP. One with minimal, 
 
 :::
 
-## Set up `suave-viem`
-
-Clone the repo: 
-
-```bash
-git clone git@github.com:flashbots/suave-viem.git && cd suave-viem
-```
-Use [bun](https://bun.sh/) to install the dependencies and build the package:
-
-```bash
-bun install && bun run build
-```
-Symlink your newly built package in the global directory:
-
-```bash
-cd src/ && bun link
-```
-
-### Notes
+### eth_sign dependency
 
 1. Confidential Compute Requests on SUAVE do not work with wallets that implement the EIP-1193 Javascript API. Therefore, we use the unsafe `eth_sign` method to sign CCRs, which does work, but requires that you enable this functionality in wallets like MetaMask.
     1. To do so in MetaMask, go to "Settings" -> "Advanced" -> scroll to bottom -> switch Eth_sign requests on.
@@ -47,16 +29,12 @@ cd src/ && bun link
 
 ## Typescript Template
 
-This template can be found directly in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo). Continuing on from above, you can setup the template by running:
+This template can be found directly in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo). Clone the `suave-viem` repo and set up the necessary dependencies:
 
 ```bash
-cd ../examples/suave-web-demo/ && bun install
-```
-
-This template use `forge` to handle the contracts it interacts with. You will need to compile them, which can be done with:
-
-```bash
-bun run compile
+cd examples/suave && \
+./deployContracts.sh && \
+cd ../suave-web-demo
 ```
 
 Now you can start the frontend with:

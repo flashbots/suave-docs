@@ -18,9 +18,12 @@ This page describes how to work with the SUAVE-viem typescript SDK. The SDK simp
 
 ## Installation
 
-The `@flashbots/suave-viem` package is available on NPM, and can be installed with any NPM-based package manager, such as **npm**, **yarn**, or **bun**.
+The []`@flashbots/suave-viem`](https://www.npmjs.com/package/@flashbots/suave-viem) package is available on NPM, and can be installed with any NPM-based package manager, such as **npm**, **yarn**, or **bun**.
 
-:::warning Alpha Release Version
+:::warning 
+
+Alpha Release Version
+
 Note: you must use the following reference when importing, or else your project won't import the required types. This is a temporary measure while we fix the tests that are failing in CI, which prevents a full release.
 
 `@flashbots/suave-viem@main`
@@ -139,7 +142,7 @@ const wallet = getSuaveWallet({
 Create a transaction object to fund your new wallet with the required amount.
 
 ```typescript
-import {TransactionRequestSuave} from './node_modules/viem/chains/suave/types';
+import {TransactionRequestSuave} from '@flashbots/suave-viem/chains/suave/types';
 // ...
 
 const fundTx: TransactionRequestSuave = {
