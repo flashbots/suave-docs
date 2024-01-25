@@ -3,9 +3,12 @@ title: Typescript SDK
 description: An overview of the Typescript SDK (suave-viem)
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 :::info 
 
-SUAVE-viem is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state. 
+[SUAVE-Viem](https://github.com/flashbots/suave-viem) is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state.
 
 Sending Confidential Compute Requests works slightly differently, but most other functionality is similar to interacting with any other EVM chain from viem.
 
@@ -13,104 +16,34 @@ Sending Confidential Compute Requests works slightly differently, but most other
 
 This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform some basic actions.
 
-## Installation & Symlink
+## Installation
 
-Since SUAVE-viem has not been upstreamed yet, it is easiest to use via symlink. To do so you'll need to follow these steps:
+The `@flashbots/suave-viem` package is available on NPM, and can be installed with any NPM-based package manager, such as **npm**, **yarn**, or **bun**.
 
-1. **Clone the forked repository**
-2. **Install its dependencies**
-3. **Build the project if necessary**
-4. **Create a symbolic link**
-5. **Link the symbolic link in your project**
+:::warning Alpha Release Version
+Note: you must use the following reference when importing, or else your project won't import the required types. This is a temporary measure while we fix the tests that are failing in CI, which prevents a full release.
 
-### Step 1: Clone the forked repository
-
-First, you need to clone the forked repository `suave-viem` from GitHub:
-
-```bash
-git clone git@github.com:flashbots/suave-viem.git && cd suave-viem
-```
-
-### Step 2: Install its dependencies
-
-We'll be using [bun](https://bun.sh/) for this tutorial, so you need to install that first:
-
-```bash
-curl -fsSL https://bun.sh/install | bash
-```
-
-Then use bun to install all the dependencies (this can take a while):
-
-```bash
-bun install
-```
-
-### Step 3: Build the project
-
-```bash
-bun run build
-```
-
-### Step 4: Create a symbolic link
-
-After building the project, you can create a symbolic link in the global `node_modules` directory:
-
-```bash
-cd src/ && bun link
-```
-
-This command will create a symlink in the global folder (usually `/usr/local/lib/node_modules` on Unix systems) that links to the package you've built.
-
-### Step 5: Link the symbolic link in your project
-
-:::info
-
-If you'd like to start from a template project, you can follow the tutorial on [how to build SUAPPs](/tutorials/build-suapps).
+`@flashbots/suave-viem@main`
 
 :::
 
-Finally, create a new directory for your SUAPP:
-
-```bash
-mkdir ~/suapp && cd ~/suapp
-```
-
-Initialize it with:
-
-```bash
-bun init
-```
-
-You should see something like this logged in your terminal (you can accept the default options):
-
-```bash
-bun init helps you get started with a minimal project and tries to guess sensible defaults. Press ^C anytime to quit
-
-package name (suapp):
-entry point (index.ts):
-
-Done! A package.json file was saved in the current directory.
- + index.ts
- + .gitignore
- + tsconfig.json (for editor auto-complete)
- + README.md
-```
-
-With the project setup, we can now link our specific version of `viem`:
-
-```bash
-bun link viem
-```
-
-This command tells npm to use the symlinked version of `viem` (which is actually `suave-viem` you've built and linked globally) instead of the one from the npm registry.
-
-### Important Notes
-
-- When you run `bun link viem` in your project, ensure there is no `viem` dependency in your `node_modules` directory. If there is, you should delete it before running the link command to avoid conflicts.
-- After you've finished working with the symlinked package or if you want to switch back to the official version, you can unlink it by running `npm unlink --no-save viem` within your project directory and then reinstall the package from npm with `npm install viem`.
-- Remember to occasionally pull updates from the forked repository and rebuild it to ensure you have the latest changes while developing.
-
-The symlink approach allows you to work with a forked library locally, making it easier to develop and test changes without affecting the original package's distribution on npm.
+<Tabs>
+  <TabItem value="npm" label="npm">
+    ```bash
+    npm i @flashbots/suave-viem@main
+    ```
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+    ```bash
+    yarn add @flashbots/suave-viem@main
+    ```
+  </TabItem>
+  <TabItem value="bun" label="bun">
+    ```bash
+    bun add @flashbots/suave-viem@main
+    ```
+  </TabItem>
+</Tabs>
 
 ## Instantiation
 
@@ -123,8 +56,8 @@ The rest of this guide assumes you have [SUAVE running locally](/tutorials/run-s
 First, you need to import necessary modules and instantiate the client. In your `index.ts` file, you can copy and paste the following:
 
 ```typescript
-import {http} from 'viem';
-import {getSuaveProvider} from 'viem/chains/utils';
+import {http} from '@flashbots/suave-viem';
+import {getSuaveProvider} from '@flashbots/suave-viem/chains/utils';
 
 // connect to your local SUAVE node
 const SUAVE_RPC_URL = 'http://localhost:8545';
@@ -137,8 +70,8 @@ To interact with the SUAVE network, we'll first need a wallet. When running SUAV
 
 ```typescript
 // plus other imports from above
-import {Hex} from 'viem';
-import {getSuaveWallet} from 'viem/chains/utils';
+import {Hex} from '@flashbots/suave-viem';
+import {getSuaveWallet} from '@flashbots/suave-viem/chains/utils';
 
 const DEFAULT_PRIVATE_KEY: Hex =
   '0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12';
@@ -274,7 +207,7 @@ Now, let's set up a CCR with the appropriate parameters.
 import {
   TransactionRequestSuave,
   SuaveTxRequestTypes,
-} from 'viem/chains/utils';
+} from '@flashbots/suave-viem/chains/utils';
 // ...
 
 const ccr: TransactionRequestSuave = {
