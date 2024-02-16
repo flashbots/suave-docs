@@ -10,8 +10,6 @@ keywords:
   - viem
 ---
 
-# Build SUAPPs
-
 This tutorial will show you how to build a SUAPP using [`suave-viem`](https://www.npmjs.com/package/@flashbots/suave-viem), our [typescript SDK](/resources/typescript-sdk).
 
 :::info
@@ -24,28 +22,88 @@ There are two different templates you can use for your SUAPP. One with minimal, 
 
 1. Confidential Compute Requests on SUAVE do not work with wallets that implement the EIP-1193 Javascript API. Therefore, we use the unsafe `eth_sign` method to sign CCRs, which does work, but requires that you enable this functionality in wallets like MetaMask.
     1. To do so in MetaMask, go to "Settings" -> "Advanced" -> scroll to bottom -> switch Eth_sign requests on.
-2. Both templates below assume that you are running SUAVE locally.
+2. Both templates below assume that you are [running SUAVE locally](/tutorials/run-suave).
 3. No tests are included for the contracts at this time.
 
-## Typescript Template
+To get a feel for how a SUAVE-enabled web app works, we've provided a couple examples. One is written in Vanilla TS, and one is written with [Next](https://nextjs.org/docs).
 
-This template can be found directly in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo). Clone the `suave-viem` repo and set up contract we'll be using for this demo:
+## Vanilla TS Example
+
+This project is written in vanilla TS (built with [Vite](https://v3.vitejs.dev/guide/)), which means we directly manipulate the [DOM Tree](https://developer.mozilla.org/en-US/docs/Web/API/Document) in the browser to render the site, rather than using a web framework like React/Next.
+
+This template can be found in the `suave-viem` repo under [`examples/suave-web-demo`](https://github.com/flashbots/suave-viem/tree/main/examples/suave-web-demo).
+
+### Setup
+
+Before running the example (in docker or locally), make sure you have a [SUAVE devnet running locally](/tutorials/run-suave).
+
+You'll also need to install [Foundry](https://book.getfoundry.sh/getting-started/installation) ([forge](https://github.com/foundry-rs/foundry/tree/master/crates/forge) is used to deploy contracts).
+
+Next, clone the `suave-viem` repo and deploy the contract we'll be using for this demo to your local SUAVE chain:
 
 ```bash
-cd examples/suave && \
-./deployContracts.sh && \
+# clone the repo
+git clone https://github.com/flashbots/suave-viem.git
+
+# deploy contracts
+cd suave-viem/examples/suave
+./deployContracts.sh
+```
+
+### Run with Docker
+
+We recommend running the Typescript examples in [Docker](https://docs.docker.com/get-docker/) for security, since javascript runtimes have the potential to execute arbitrary code on your machine.
+
+If you're still in `suave-viem/examples/suave/`, jump back up to `suave-viem/`:
+
+```bash
+cd ../..
+```
+
+Now we'll build the docker image, which will build the source code and configure the example's environment to connect to your local devnet.
+
+```bash
+docker build -t suave-web-example .
+```
+
+Next, we'll run a docker container with our new image:
+
+```bash
+docker run -it suave-web-example
+```
+
+This will open a bash terminal inside docker, where you'll land in `examples/`.
+
+To run the web example:
+
+```bash
+cd suave-web-demo
+bun dev
+```
+
+Now your container should be hosting the web app on [http://172.17.0.2:5173](http://172.17.0.2:5173). If not, look for the correct **Network** address in your terminal output.
+
+### Run Locally
+
+:::info system dependencies
+
+*The following dependencies are required to run this example on your machine:*
+
+- [foundry](https://book.getfoundry.sh/getting-started/installation) ([forge](https://github.com/foundry-rs/foundry/tree/master/crates/forge) is used to deploy contracts)
+- a Javascript runtime and package manager ([npm](https://github.com/npm/cli)/[yarn](https://yarnpkg.com/getting-started/install)/[bun](https://bun.sh/))
+
+:::
+
+If you're still in `suave-viem/examples/suave/`, jump up to `suave-web-demo/`:
+
+```bash
 cd ../suave-web-demo
 ```
 
-Next, install the project's dependencies:
+Install the project's dependencies and start the web app:
 
 ```bash
 bun install
-```
-
-Now you can start the frontend with:
-
-```bash
 bun run dev
 ```
 
@@ -54,28 +112,31 @@ This template uses the same MEV-Share example contract we worked with using the 
 > _If you're struggling with any of the above, you can also find this pure typescript template as a standalone repo [here](https://github.com/andytudhope/build-a-suapp-ts)._
 
 
-## Next Template
+## Next.js Example
 
 This template comes with a more extensive frontend framework, which uses Next (in typescript) and therefore depends on React. You can get it running by first cloning the repo and installing its dependencies. 
 
 Make sure you have previously built and symlinked suave-viem for this to work:
 
 ```bash
-git clone git@github.com:andytudhope/build-a-suapp-next-ts.git \
-&& cd build-a-suapp-next-ts \
-&& yarn
+git clone git@github.com:andytudhope/build-a-suapp-next-ts.git
+cd build-a-suapp-next-ts
+yarn
 ```
 
 Setup `forge` to compile your contracts:
 
 ```bash
-cd packages/forge/ && forge install && forge build
+cd packages/forge/
+forge install
+forge build
 ```
 
 Deploy the compiled contracts from the root directory (you need to have [SUAVE running locally](/tutorials/run-suave) for this to work):
 
 ```bash
-chmod +x packages/forge/deploy && yarn contracts:deploy 
+chmod +x packages/forge/deploy
+yarn contracts:deploy 
 ```
 
 You can start the frontend with:
