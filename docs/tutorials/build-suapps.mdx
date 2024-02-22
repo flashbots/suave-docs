@@ -23,7 +23,6 @@ There are two different templates you can use for your SUAPP. One with minimal, 
 1. Confidential Compute Requests on SUAVE do not work with wallets that implement the EIP-1193 Javascript API. Therefore, we use the unsafe `eth_sign` method to sign CCRs, which does work, but requires that you enable this functionality in wallets like MetaMask.
     1. To do so in MetaMask, go to "Settings" -> "Advanced" -> scroll to bottom -> switch Eth_sign requests on.
 2. Both templates below assume that you are [running SUAVE locally](/tutorials/run-suave).
-3. No tests are included for the contracts at this time.
 
 To get a feel for how a SUAVE-enabled web app works, we've provided a couple examples. One is written in Vanilla TS, and one is written with [Next](https://nextjs.org/docs).
 
