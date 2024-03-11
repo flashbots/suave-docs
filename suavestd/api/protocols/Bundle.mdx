@@ -1,0 +1,31 @@
+# Bundle
+
+Bundle is a library with utilities to interact with the Flashbots bundle API described in https://docs.flashbots.net/flashbots-auction/advanced/rpc-endpoint#eth_sendbundle
+
+## Functions
+
+### [sendBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L25)
+
+send a bundle to the Flashbots relay.
+
+Input:
+
+- "url": the URL of the Flashbots relay.
+
+- "bundle": the bundle to send.
+
+Output:
+
+- "response": raw bytes response from the Flashbots relay.
+
+### [decodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L77)
+
+decode a bundle from a JSON string.
+
+Input:
+
+- "bundleJson": the JSON string of the bundle.
+
+Output:
+
+- "bundle": the decoded bundle.

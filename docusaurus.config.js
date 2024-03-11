@@ -66,6 +66,16 @@ module.exports = async function createConfigAsync() {
           },
           items: [
             {
+              href: "/",
+              label: "Docs",
+              position: "left"
+            },
+            {
+              href: "/suavestd",
+              label: "Suave-std",
+              position: "left"
+            },
+            {
               href: 'https://github.com/orgs/flashbots/repositories?q=suave',
               label: 'GitHub',
               position: 'right',
@@ -82,6 +92,7 @@ module.exports = async function createConfigAsync() {
             sidebarPath: require.resolve('./docs/sidebars.js'),
             // Please change this to your repo.
             routeBasePath: '/',
+            id: 'docs',
             editUrl: 'https://github.com/flashbots/suave-docs/edit/main/',
             showLastUpdateTime: true,
             remarkPlugins: [(await import('remark-math')).default],
@@ -94,6 +105,15 @@ module.exports = async function createConfigAsync() {
       ],
     ],
     plugins: [
+      [
+        '@docusaurus/plugin-content-docs',
+        {
+          id: 'suavestd',
+          path: 'suavestd',
+          routeBasePath: 'suavestd',
+          sidebarPath: require.resolve('./suavestd/sidebars.js'),
+        },
+      ],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async function tailwindcssSupport(context, options) {
         return {
