@@ -15,7 +15,7 @@ const darkTheme = themes.dracula;
 /** @returns {Promise<import('@docusaurus/types').Config>} */
 module.exports = async function createConfigAsync() {
   return {
-    title: 'SUAVE',
+    title: 'SUAVE Docs',
     tagline: 'Illuminate, Democratize, Distribute',
     baseUrl: process.env.BASE_URL,
     onBrokenLinks: 'throw',
@@ -59,7 +59,7 @@ module.exports = async function createConfigAsync() {
           },
         },
         navbar: {
-          title: 'SUAVE',
+          title: 'SUAVE Docs',
           logo: {
             alt: 'Flashbots Logo',
             src: 'img/logo.png',
@@ -72,6 +72,7 @@ module.exports = async function createConfigAsync() {
             },
           ],
         },
+        image: '/img/social-preview-2.jpg',
       }),
     presets: [
       [
