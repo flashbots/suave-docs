@@ -3,15 +3,16 @@ title: MEV Supply Chain Interface
 description: How SUAVE enables you to interact with virtually any component that has anything to do wih MEV
 ---
 
-The previous pages in this section have illustrated how you can use SUAVE to build blocks for other chains, how to use confidential computation in various different ways depending on your use case, and how to leverage confidential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
+The previous pages have illustrated how to:
+- Build blocks for other chains
+- Use confidential computation in various different ways depending on your use case
+- Leverage confidential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
 
-Taken together, these three broad categories of the unique features of SUAVE should illustrate that you can use SUAVE to interact with whatever component in the MEV supply chain you want are most interested in and/or think is the most profitable.
-
-At a first approximation, the MEV supply chain looks like this:
+Taken together, these three broad categories of the unique SUAVE features allow you to interact with any component in the MEV supply chain. The MEV supply chain looks something like this:
 
 ![MEV Supply Chain - Linear Version](/img/mev-supplychain.png)
 
-The point of this section has been to illustrate that SUAPPs can interact with any of these components.
+---
 
 ### Off-SUAVE interface
 
@@ -45,6 +46,8 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
 }
 ```
 
+---
+
 ### On-SUAVE interface
 
 ```solidity
@@ -52,18 +55,12 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
     function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
 ```
 
-The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks. 
+The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks.
 
 The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/concepts/confidential-data-storage#practical-example)):
 
 ![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
 
-### MEV supply network
+---
 
-Of course, the reality of MEV is a bit more complex than the linear supply chain we have shown above. It may well look something more like this (taken with thanks from [here](https://frontier.tech/infinite-games)):
-
-![MEV Supply Network](/img/mev-supply-network.png)
-
-Although SUAVE is still in early alpha, one of our goals is to enable full programmable interaction with every component in the above network, such that we can create a genuinely open and permissionless marketplace of different mechanisms that mitigate MEV.
-
-For practical examples of what it looks like to encode current products and services as smart contracts on SUAVE, please consult the [`suave-std` library tutorial](/tutorials/suave-standard-library#mevshare).
+For practical examples of what it looks like to develop on SUAVE, please consult the [`suave-std` tutorial](/tutorials/suave-standard-library#mevshare).
