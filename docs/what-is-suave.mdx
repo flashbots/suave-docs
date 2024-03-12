@@ -15,52 +15,40 @@ import Video from '@site/src/components/Video/Video.tsx';
 
 # What is SUAVE?
 
-:::info
+SUAVE, the **Single Unifying Auction for Value Expression**, is a decentralized network for fast, cheap and private MEV applications.
 
-SUAVE, the **Single Unifying Auction for Value Expression**, is a decentralized network intended for MEV applications such as order flow auctions and block builders, which make use of credible, confidential computation.
+SUAVE enables you to:
 
-:::
+- 🛠 Build blocks on other chains
+- 🧑‍💻 Define private compute
+- 🕵️‍♀️ Store private data
+- 🌎 Access off-chain data
+- 🧩 Interface with many different MEV components:
+    - ⚡ Plug into existing MEV infra: i.e sending bundles to block builders, relays, validators or sequencers
+    - 🤖 Build totally new MEV infra: i.e. create unique SUAPPs on SUAVE
 
-SUAVE is designed as an open marketplace for these MEV applications, which we call "_SUAPPs_". SUAPPs are composed of smart contracts deployed on SUAVE, which can do one (or more) of the following:
+---
 
-<List>
+### Why SUAVE matters
 
-🕵️‍♀️ **Compute on confidential data**, e.g. auctions, block building 
+Additional context which has inspired SUAVE:
 
-💸 **Compute that requires too much gas to do on-chain** 
+- 🔮 [The Future of MEV is SUAVE](https://writings.flashbots.net/the-future-of-mev-is-suave)
+- 🌟 [MEVM Centauri and Beyond](https://writings.flashbots.net/mevm-suave-centauri-and-beyond)
+- 📽️ [Bankless episode about "What is SUAVE?" with Phil Daian and Andrew Miller](https://www.youtube.com/watch?v=j3ZM2ZdUWXU)
 
-🤹 **Coordinate within block times**, e.g. block building, trade routing and filling 
-
-🗃️ **Access relevant off-chain data**, e.g. trading strategies conditional on centralized exchange prices or transactions that are conditional on other transactions 
-
-🤝 **Help create, attest to, or process commitments** of various kinds, e.g. shared sequencers for rollups, new kinds of DEXes and bridges 
-
-</List>
-
-<Video
-  src="https://www.youtube-nocookie.com/embed/j3ZM2ZdUWXU"
-  title="How They Solved Ethereum's Critical Flaw"
-/>
-
-## What SUAVE is not
-
-SUAVE does not replace other blockchains: it is intended to aggregate and coordinate all the things that ultimately change the state of other chains.
-
-SUAVE is not a Layer 2 in the sense that it does not post state roots to Ethereum or otherwise depend upon Ethereum for its security.
-
-The bridge between SUAVE and Ethereum is still WIP, and is a topic of active research and debate. Its current implementation is purposefully naive to allow for quick iteration at this early stage.
-
-## What is different about SUAVE
+---
 
 ### Architecture
 
-SUAVE is a fork of Geth, with additional precompiles for MEV applications (**SUAPPs**) and a modified runtime to enable confidential computation (**the MEVM**).
+SUAVE is a fork of go-ethereum, with additional precompiles for MEV applications (**SUAPPs**) and a modified runtime to enable confidential computation (**the MEVM**).
 
 We call the primary protocol actor a **Kettle**. A Kettle contains a modified version of a Geth node (the "MEVM") and a confidential data store.
-
 A Kettle can compute over confidential data sent to it, add that data to its local store, and only broadcast specific information, or "hints", to the wider public.
 
 SUAVE has public and private state. Public state is accessible on the SUAVE Chain, which currently runs Clique POA Consensus (for fast iteration, to be changed in future releases). To access private state, we use "Confidential Compute Requests".
+
+---
 
 ### Contracts and Transactions
 
@@ -69,11 +57,4 @@ A SUAPP is a smart contract deployed on SUAVE, just as a Dapp is a smart contrac
 Transactions can differ, because they can contain data encrypted for specific actors (i.e. Kettles and/or other contracts). These are ["Confidential Compute Requests"](/tutorials/confidential-compute-requests).
 
 Confidential Compute Requests are handled via a modified RPC in each Kettle, and executed by the "Modified Ethereum Virtual Machine", or "MEVM".
-
-## Why SUAVE matters
-
-To understand the context which has inspired SUAVE, we recommend these resources:
-
-- 🔮 [The Future of MEV is SUAVE](https://writings.flashbots.net/the-future-of-mev-is-suave)
-- 🌟 [MEVM Centauri and Beyond](https://writings.flashbots.net/mevm-suave-centauri-and-beyond)
 
