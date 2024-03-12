@@ -1,4 +1,6 @@
-# Website
+# SUAVE Docs
+
+Live at https://suave-alpha.flashbots.net
 
 This website is built using [Docusaurus 3](https://docusaurus.io/docs), a modern static website generator.
 
