@@ -36,9 +36,9 @@ module.exports = {
       link: { type: 'doc', id: 'tutorials/index' },
       items: [
         'tutorials/run-suave',
-        'tutorials/deploy-contracts',
         'tutorials/suave-standard-library',
-        'tutorials/build-suapps',
+        'tutorials/deploy-contracts',
+        'tutorials/build-suapp-webapp',
         'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles',
         'concepts/confidential-data-storage',

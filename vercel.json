@@ -6,6 +6,11 @@
       "source": "/novel-use-cases",
       "destination": "/what-to-build",
       "permanent": false
+    },
+    {
+      "source": "/tutorials/build-suapps",
+      "destination": "/tutorials/build-suapp-webapp",
+      "permanent": false
     }
   ]
 }
