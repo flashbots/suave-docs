@@ -2,7 +2,7 @@ module.exports = {
   docs: [
     {
       type: 'category',
-      label: '👋 Welcome',
+      label: '☀️ Welcome',
       collapsed: false,
       link: { type: 'doc', id: 'index' },
       items: [
