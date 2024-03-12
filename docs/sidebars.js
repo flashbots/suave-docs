@@ -4,18 +4,36 @@ module.exports = {
       type: 'category',
       label: '👋 Welcome',
       collapsed: false,
-      link: {type: 'doc', id: 'index'},
+      link: { type: 'doc', id: 'index' },
       items: [
         'what-is-suave',
         'what-to-build',
-        'technical/specs/rigil/glossary',
+        {
+          type: 'link',
+          label: 'Forum',
+          href: 'https://collective.flashbots.net/c/suave/27',
+        },
       ],
     },
     {
       type: 'category',
-      label: '🗺️ Tutorials',
+      label: '🗺️ Concepts',
       collapsed: false,
-      link: {type: 'doc', id: 'tutorials/index'},
+      link: { type: 'doc', id: 'concepts/index' },
+      items: [
+        'technical/specs/rigil/mevm',
+        'technical/specs/rigil/precompiles',
+        'technical/specs/rigil/confidential-data-store',
+        'concepts/confidential-computation',
+        'concepts/block-building',
+        'concepts/mev-supplychain-interface',
+      ]
+    },
+    {
+      type: 'category',
+      label: '📚 Tutorials',
+      collapsed: false,
+      link: { type: 'doc', id: 'tutorials/index' },
       items: [
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
@@ -23,26 +41,15 @@ module.exports = {
         'tutorials/build-suapps',
         'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles',
+        'concepts/confidential-data-storage',
       ]
     },
     {
       type: 'category',
-      label: '🛠️ Resources',
+      label: '🛠️ Tools',
       collapsed: false,
-      link: {type: 'doc', id: 'resources/index'},
+      link: { type: 'doc', id: 'resources/index' },
       items: [
-        {
-          type: 'category',
-          label: 'How SUAVE Extends Solidity',
-          collapsed: true,
-          link: {type: 'doc', id: 'concepts/index'},
-          items: [
-            'concepts/block-building',
-            'concepts/confidential-computation',
-            'concepts/confidential-data-storage',
-            'concepts/mev-supplychain-interface'
-          ],
-        },
         'resources/rigil',
         'resources/forge',
         'resources/golang-sdk',
@@ -51,27 +58,21 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '🤖 Technical Specs',
-      collapsed: false,
-      link: {type: 'doc', id: 'technical/README'},
+      label: '🔬 Advanced',
+      collapsed: true,
+      link: { type: 'doc', id: 'technical/README' },
       items: [
         'technical/specs/rigil/README',
         'technical/specs/rigil/kettle',
-        'technical/specs/rigil/mevm',
-        'technical/specs/rigil/precompiles',
-        'technical/specs/rigil/confidential-data-store',
         'technical/specs/rigil/suave-chain',
+        'technical/specs/rigil/glossary',
       ],
     },
-    {
-      type: 'link',
-      label: 'Forum',
-      href: 'https://collective.flashbots.net/c/suave/27',
-    },
-    {
-      type: 'link',
-      href: 'https://github.com/orgs/flashbots/repositories?q=suave',
-      label: 'GitHub',
-    },
+
+    // {
+    //   type: 'link',
+    //   href: 'https://github.com/orgs/flashbots/repositories?q=suave',
+    //   label: 'GitHub',
+    // },
   ],
 };
