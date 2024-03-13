@@ -72,7 +72,7 @@ module.exports = async function createConfigAsync() {
             },
           ],
         },
-        image: 'https://suave-alpha.flashbots.net/img/social-preview-2.jpg',
+        image: 'https://suave-alpha.flashbots.net/img/social-preview-3.jpg',
       }),
     presets: [
       [
