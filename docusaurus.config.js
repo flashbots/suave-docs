@@ -106,15 +106,6 @@ module.exports = async function createConfigAsync() {
       ],
     ],
     plugins: [
-      [
-        '@docusaurus/plugin-content-docs',
-        {
-          id: 'suavestd',
-          path: 'suavestd',
-          routeBasePath: 'suavestd',
-          sidebarPath: require.resolve('./suavestd/sidebars.js'),
-        },
-      ],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async function tailwindcssSupport(context, options) {
         return {
