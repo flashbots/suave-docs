@@ -6,127 +6,127 @@ Transactions is a library with utilities to encode, decode and sign Ethereum tra
 
 ### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L109)
 
-encode a EIP-155 transaction in RLP.
+Encode a EIP-155 transaction in RLP.
 
 Input:
 
-- "txStruct": is the transaction structure.
+- `txStruct` ([EIP155](#eip155)): Is the transaction structure.
 
 Output:
 
-- "output": the encoded RLP bytes.
+- `output` (`bytes`): The encoded RLP bytes.
 
 ### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L133)
 
-encode a EIP-1559 request transaction in RLP.
+Encode a EIP-1559 request transaction in RLP.
 
 Input:
 
-- "txStruct": is the transaction structure.
+- `txStruct` ([EIP155Request](#eip155request)): Is the transaction structure.
 
 Output:
 
-- "output": the encoded RLP bytes.
+- `output` (`bytes`): The encoded RLP bytes.
 
 ### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L157)
 
-encode a EIP-1559 transaction in RLP.
+Encode a EIP-1559 transaction in RLP.
 
 Input:
 
-- "txStruct": is the transaction structure.
+- `txStruct` ([EIP1559](#eip1559)): Is the transaction structure.
 
 Output:
 
-- "output": the encoded RLP bytes.
+- `output` (`bytes`): The encoded RLP bytes.
 
 ### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L200)
 
-encode a EIP-1559 request transaction in RLP.
+Encode a EIP-1559 request transaction in RLP.
 
 Input:
 
-- "txStruct": is the transaction structure.
+- `txStruct` ([EIP1559Request](#eip1559request)): Is the transaction structure.
 
 Output:
 
-- "output": the encoded RLP bytes.
+- `output` (`bytes`): The encoded RLP bytes.
 
 ### [decodeRLP_EIP155](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L239)
 
-decode a EIP-155 transaction from RLP.
+Decode a EIP-155 transaction from RLP.
 
 Input:
 
-- "rlp": is the encoded RLP bytes.
+- `rlp` (`bytes`): Is the encoded RLP bytes.
 
 Output:
 
-- "txStruct": the transaction structure.
+- `txStruct` ([EIP155](#eip155)): The transaction structure.
 
 ### [decodeRLP_EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L267)
 
-decode a EIP-155 request transaction from RLP.
+Decode a EIP-155 request transaction from RLP.
 
 Input:
 
-- "rlp": is the encoded RLP bytes.
+- `rlp` (`bytes`): Is the encoded RLP bytes.
 
 Output:
 
-- "txStruct": the transaction structure.
+- `txStruct` ([EIP155Request](#eip155request)): The transaction structure.
 
 ### [decodeRLP_EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L293)
 
-decode a EIP-1559 transaction from RLP.
+Decode a EIP-1559 transaction from RLP.
 
 Input:
 
-- "rlp": is the encoded RLP bytes.
+- `rlp` (`bytes`): Is the encoded RLP bytes.
 
 Output:
 
-- "txStruct": the transaction structure.
+- `txStruct` ([EIP1559](#eip1559)): The transaction structure.
 
 ### [decodeRLP_EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L330)
 
-decode a EIP-1559 request transaction from RLP.
+Decode a EIP-1559 request transaction from RLP.
 
 Input:
 
-- "rlp": is the encoded RLP bytes.
+- `rlp` (`bytes`): Is the encoded RLP bytes.
 
 Output:
 
-- "txStruct": the transaction structure.
+- `txStruct` ([EIP1559Request](#eip1559request)): The transaction structure.
 
 ### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L371)
 
-sign a EIP-155 transaction request.
+Sign a EIP-155 transaction request.
 
 Input:
 
-- "request": is the transaction request.
+- `request` ([EIP1559Request](#eip1559request)): Is the transaction request.
 
-- "signingKey": is the private key to sign the transaction.
+- `signingKey` (`string`): Is the private key to sign the transaction.
 
 Output:
 
-- "response": the signed transaction.
+- `response` ([EIP1559](#eip1559)): The signed transaction.
 
 ### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L400)
 
-sign a EIP-155 transaction request.
+Sign a EIP-155 transaction request.
 
 Input:
 
-- "request": is the transaction request.
+- `request` ([EIP155Request](#eip155request)): Is the transaction request.
 
-- "signingKey": is the private key to sign the transaction.
+- `signingKey` (`string`): Is the private key to sign the transaction.
 
 Output:
 
-- "response": the signed transaction.
+- `response` ([EIP155](#eip155)): The signed transaction.
 
 ## Structs
 
@@ -134,56 +134,56 @@ Output:
 
 EIP-155 transaction structure.
 
-- "to": is the target address.
-- "gas": is the gas limit.
-- "gasPrice": is the gas price.
-- "value": is the transfer value in gwei.
-- "nonce": is the latest nonce of the sender.
-- "data": is the transaction data.
-- "chainId": is the id of the chain where the transaction will be executed.
-- "r": is the &#39;r&#39; signature value.
-- "s": is the &#39;s&#39; signature value.
-- "v": is the &#39;v&#39; signature value.
+- `to` (`address`): Is the target address.
+- `gas` (`uint256`): Is the gas limit.
+- `gasPrice` (`uint256`): Is the gas price.
+- `value` (`uint256`): Is the transfer value in gwei.
+- `nonce` (`uint256`): Is the latest nonce of the sender.
+- `data` (`bytes`): Is the transaction data.
+- `chainId` (`uint256`): Is the id of the chain where the transaction will be executed.
+- `r` (`bytes32`): Is the 'r' signature value.
+- `s` (`bytes32`): Is the 's' signature value.
+- `v` (`uint256`): Is the 'v' signature value.
 
 ### [EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L46)
 
 EIP-155 transaction request structure.
 
-- "to": is the target address.
-- "gas": is the gas limit.
-- "gasPrice": is the gas price.
-- "value": is the transfer value in gwei.
-- "nonce": is the latest nonce of the sender.
-- "data": is the transaction data.
-- "chainId": is the id of the chain where the transaction will be executed.
+- `to` (`address`): Is the target address.
+- `gas` (`uint256`): Is the gas limit.
+- `gasPrice` (`uint256`): Is the gas price.
+- `value` (`uint256`): Is the transfer value in gwei.
+- `nonce` (`uint256`): Is the latest nonce of the sender.
+- `data` (`bytes`): Is the transaction data.
+- `chainId` (`uint256`): Is the id of the chain where the transaction will be executed.
 
 ### [EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L69)
 
 EIP-1559 transaction structure.
 
-- "to": is the target address.
-- "gas": is the gas limit.
-- "maxFeePerGas": is the maximum fee per gas.
-- "maxPriorityFeePerGas": is the maximum priority fee per gas.
-- "value": is the transfer value in gwei.
-- "nonce": is the latest nonce of the sender.
-- "data": is the transaction data.
-- "chainId": is the id of the chain where the transaction will be executed.
-- "accessList": is the access list.
-- "r": is the &#39;r&#39; signature value.
-- "s": is the &#39;s&#39; signature value.
-- "v": is the &#39;v&#39; signature value.
+- `to` (`address`): Is the target address.
+- `gas` (`uint256`): Is the gas limit.
+- `maxFeePerGas` (`uint256`): Is the maximum fee per gas.
+- `maxPriorityFeePerGas` (`uint256`): Is the maximum priority fee per gas.
+- `value` (`uint256`): Is the transfer value in gwei.
+- `nonce` (`uint256`): Is the latest nonce of the sender.
+- `data` (`bytes`): Is the transaction data.
+- `chainId` (`uint256`): Is the id of the chain where the transaction will be executed.
+- `accessList` (`bytes`): Is the access list.
+- `r` (`bytes32`): Is the 'r' signature value.
+- `s` (`bytes32`): Is the 's' signature value.
+- `v` (`uint256`): Is the 'v' signature value.
 
 ### [EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L94)
 
 EIP-1559 transaction request structure.
 
-- "to": is the target address.
-- "gas": is the gas limit.
-- "maxFeePerGas": is the maximum fee per gas.
-- "maxPriorityFeePerGas": is the maximum priority fee per gas.
-- "value": is the transfer value in gwei.
-- "nonce": is the latest nonce of the sender.
-- "data": is the transaction data.
-- "chainId": is the id of the chain where the transaction will be executed.
-- "accessList": is the access list.
+- `to` (`address`): Is the target address.
+- `gas` (`uint256`): Is the gas limit.
+- `maxFeePerGas` (`uint256`): Is the maximum fee per gas.
+- `maxPriorityFeePerGas` (`uint256`): Is the maximum priority fee per gas.
+- `value` (`uint256`): Is the transfer value in gwei.
+- `nonce` (`uint256`): Is the latest nonce of the sender.
+- `data` (`bytes`): Is the transaction data.
+- `chainId` (`uint256`): Is the id of the chain where the transaction will be executed.
+- `accessList` (`bytes`): Is the access list.

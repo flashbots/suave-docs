@@ -1,31 +1,42 @@
 # Bundle
 
-Bundle is a library with utilities to interact with the Flashbots bundle API described in https://docs.flashbots.net/flashbots-auction/advanced/rpc-endpoint#eth_sendbundle
+Bundle is a library with utilities to interact with the Flashbots bundle API described in https://docs.flashbots.net/flashbots-auction/advanced/rpc-endpoint#eth_sendbundle.
 
 ## Functions
 
-### [sendBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L25)
+### [sendBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L30)
 
-send a bundle to the Flashbots relay.
-
-Input:
-
-- "url": the URL of the Flashbots relay.
-
-- "bundle": the bundle to send.
-
-Output:
-
-- "response": raw bytes response from the Flashbots relay.
-
-### [decodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L77)
-
-decode a bundle from a JSON string.
+Send a bundle to the Flashbots relay.
 
 Input:
 
-- "bundleJson": the JSON string of the bundle.
+- `url` (`string`): The URL of the Flashbots relay.
+
+- `bundle` ([BundleObj](#bundleobj)): The bundle to send.
 
 Output:
 
-- "bundle": the decoded bundle.
+- `response` (`bytes`): Raw bytes response from the Flashbots relay.
+
+### [decodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L82)
+
+Decode a bundle from a JSON string.
+
+Input:
+
+- `bundleJson` (`string`): The JSON string of the bundle.
+
+Output:
+
+- `bundle` ([BundleObj](#bundleobj)): The decoded bundle.
+
+## Structs
+
+### [BundleObj](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L16)
+
+BundleObj is a struct that represents a bundle to be sent to the Flashbots relay.
+
+- `blockNumber` (`uint64`): The block number at which the bundle should be executed.
+- `minTimestamp` (`uint64`): The minimum timestamp at which the bundle should be executed.
+- `maxTimestamp` (`uint64`): The maximum timestamp at which the bundle should be executed.
+- `txns` (``): The transactions to be included in the bundle.
