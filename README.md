@@ -1,4 +1,6 @@
-# Website
+# SUAVE Docs
+
+Live at https://suave-alpha.flashbots.net
 
 This website is built using [Docusaurus 3](https://docusaurus.io/docs), a modern static website generator.
 
@@ -69,6 +71,6 @@ The docs use Vercel for hosting, and deployment is done by Vercel on any merge i
 
 If you want to use icons, best copy the SVG from one of these:
 
-- https://feathericons.com/
 - https://boxicons.com/
 - https://icons.getbootstrap.com/
+- https://feathericons.com/

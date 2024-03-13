@@ -1,12 +1,12 @@
 ---
-title: Typescript SDK
-description: An overview of the Typescript SDK (suave-viem)
+title: TypeScript SDK
+description: An overview of the TypeScript SDK (suave-viem)
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-:::info 
+:::info
 
 [SUAVE-Viem](https://github.com/flashbots/suave-viem) is a fork of [viem](https://github.com/wagmi-dev/viem) that will eventually be upstreamed but is currently still in a dynamic state.
 
@@ -14,13 +14,13 @@ Sending Confidential Compute Requests works slightly differently, but most other
 
 :::
 
-This page describes how to work with the SUAVE-viem typescript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform some basic actions.
+This page describes how to work with the SUAVE-viem TypeScript SDK. The SDK simplifies interaction with the SUAVE Chain and provides easy-to-use functions to send transactions and query data. Below, you'll find steps on how to instantiate the library, symlink, and perform some basic actions.
 
 ## Installation
 
 The [`@flashbots/suave-viem`](https://www.npmjs.com/package/@flashbots/suave-viem) package is available on NPM, and can be installed with any NPM-based package manager, such as **npm**, **yarn**, or **bun**.
 
-:::warning 
+:::warning
 
 Alpha Release Version
 
@@ -230,7 +230,7 @@ const ccr: TransactionRequestSuave = {
 
 `confidentialInputs` is a field to store information that should be kept private during computation, and the data field is the typical calldata required to interact with a dapp.
 
-If you prefer typescript, you can see how to craft your own CCRs in the [examples directory of suave-viem](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts).
+If you prefer TypeScript, you can see how to craft your own CCRs in the [examples directory of suave-viem](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts).
 
 :::
 
