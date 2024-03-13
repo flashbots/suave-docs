@@ -20,3 +20,7 @@ docker-serve:
 	docker run -p 3000:3000 --name suave-docs --rm -it -w /mnt -v $(CUR_DIR):/mnt node:20 /usr/local/bin/npm yarn serve
 
 docker-build-serve: docker-build docker-serve
+
+ping-searchengines:
+	curl -s http://www.google.com/webmasters/sitemaps/ping?sitemap=https://suave-alpha.flashbots.net/sitemap.xml -o /dev/null
+	curl -s http://www.bing.com/webmaster/ping.aspx?siteMap=https://suave-alpha.flashbots.net/sitemap.xml -o /dev/null
