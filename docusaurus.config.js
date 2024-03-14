@@ -83,6 +83,7 @@ module.exports = async function createConfigAsync() {
             sidebarPath: require.resolve('./docs/sidebars.js'),
             // Please change this to your repo.
             routeBasePath: '/',
+            id: 'docs',
             editUrl: 'https://github.com/flashbots/suave-docs/edit/main/',
             showLastUpdateTime: true,
             remarkPlugins: [(await import('remark-math')).default],
