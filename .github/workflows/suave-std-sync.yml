@@ -1,0 +1,42 @@
+name: SuaveLib sync
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync-suave-std-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout suave-std repository
+        uses: actions/checkout@v4
+        with:
+          repository: flashbots/suave-std
+          path: suave-std
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ^1.21
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Install and build the contracts
+        run: |
+          cd suave-std
+          forge install
+          forge build
+
+      - name: Run docs generator
+        run: |
+          cd suave-std/tools/docs-gen
+          go run main.go --suave-std ../../../docs/tools/suave-std
