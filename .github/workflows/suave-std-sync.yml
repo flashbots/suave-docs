@@ -31,19 +31,17 @@ jobs:
         with:
           version: nightly
 
-      - name: Install and run docs generator
+      - name: Build the contracts
         run: |
           cd suave-std
           forge install
-          forge build
-          cd tools/docs-gen
+          foundry build
+        
+      - name: Run docs generator
+        run: |
+          cd suave-std/tools/docs-gen
           go run main.go --suave-std ../../ --out ../../../docs/tools/suave-std
       
-      - name: Check git status
-        run: |
-          ls -la
-          git status
-  
       - name: Add changes to git
         run: |
           rm -rf suave-std
