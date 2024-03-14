@@ -2,6 +2,8 @@ name: SuaveLib sync
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */12 * * *'
 
 jobs:
   sync-suave-std-docs:
@@ -36,12 +38,12 @@ jobs:
           cd suave-std
           forge install
           forge build
-        
+
       - name: Run docs generator
         run: |
           cd suave-std/tools/docs-gen
           go run main.go --suave-std ../../ --out ../../../docs/tools/suave-std
-      
+
       - name: Add changes to git
         run: |
           rm -rf suave-std
