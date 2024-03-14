@@ -39,4 +39,4 @@ jobs:
       - name: Run docs generator
         run: |
           cd suave-std/tools/docs-gen
-          go run main.go --suave-std ../../../docs/tools/suave-std
+          go run main.go --suave-std ../../suave-std --out ../../../docs/tools/suave-std
