@@ -40,3 +40,20 @@ jobs:
         run: |
           cd suave-std/tools/docs-gen
           go run main.go --suave-std ../../ --out ../../../docs/tools/suave-std
+        
+      - name: Add changes to git
+        run: |
+          git add ./docs/tools/suave-std
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: "Update Suave-std api reference"
+          delete-branch: true
+          commit-message: Update Suave-std api reference ${{ steps.get_commit_id.outputs.commit_ref }}
+          branch: bot/suave-lib-update
+          labels: |
+            suave-lib-update
+            automated pr
+          body: |
+            Update Suave-std api reference ${{ steps.get_commit_id.outputs.commit_ref }}
