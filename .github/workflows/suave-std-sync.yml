@@ -35,7 +35,7 @@ jobs:
         run: |
           cd suave-std
           forge install
-          foundry build
+          forge build
         
       - name: Run docs generator
         run: |
