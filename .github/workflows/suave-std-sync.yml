@@ -43,8 +43,13 @@ jobs:
         
       - name: Add changes to git
         run: |
+          rm -rf suave-std
           git add ./docs/tools/suave-std
 
+      - name: Check git status
+        run: |
+          git status
+  
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
