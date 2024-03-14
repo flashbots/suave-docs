@@ -36,7 +36,7 @@ jobs:
           forge install
           forge build
           cd tools/docs-gen
-          go run main.go --suave-std ../../ --out ../../../suave-std-out
+          go run main.go --suave-std ../../ --out ../../../docs/tools/suave-std
       
       - name: Check git status
         run: |
