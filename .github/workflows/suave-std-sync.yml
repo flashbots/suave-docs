@@ -32,6 +32,7 @@ jobs:
 
       - name: Install and run docs generator
         run: |
+          rm -rf ./docs/tools/suave-std
           cd suave-std
           forge install
           forge build
