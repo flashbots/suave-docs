@@ -30,26 +30,23 @@ jobs:
         with:
           version: nightly
 
-      - name: Install and build the contracts
+      - name: Install and run docs generator
         run: |
           cd suave-std
           forge install
           forge build
-
-      - name: Run docs generator
+          cd tools/docs-gen
+          go run main.go --suave-std ../../ --out ../../../suave-std-out
+      
+      - name: Check git status
         run: |
-          cd suave-std/tools/docs-gen
-          go run main.go --suave-std ../../ --out ../../../docs/tools/suave-std
-        
+          git status
+  
       - name: Add changes to git
         run: |
           rm -rf suave-std
           git add ./docs/tools/suave-std
 
-      - name: Check git status
-        run: |
-          git status
-  
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
