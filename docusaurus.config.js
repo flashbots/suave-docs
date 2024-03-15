@@ -86,7 +86,7 @@ module.exports = async function createConfigAsync() {
             routeBasePath: '/',
             id: 'docs',
             editUrl: 'https://github.com/flashbots/suave-docs/edit/main/',
-            showLastUpdateTime: true,
+            showLastUpdateTime: false,
             remarkPlugins: [(await import('remark-math')).default],
             rehypePlugins: [(await import('rehype-katex')).default],
           },
