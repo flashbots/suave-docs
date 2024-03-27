@@ -4,7 +4,7 @@ EthJsonRPC is a library with utilities to interact with an Ethereum JSON-RPC end
 
 ## Functions
 
-### [nonce](https://github.com/flashbots/suave-std/tree/main/src/protocols/EthJsonRPC.sol#L21)
+### [nonce](https://github.com/flashbots/suave-std/tree/main/src/protocols/EthJsonRPC.sol#L23)
 
 Get the nonce of an address.
 
@@ -15,3 +15,17 @@ Input:
 Output:
 
 - `val` (`uint256`): The nonce of the address.
+
+### [call](https://github.com/flashbots/suave-std/tree/main/src/protocols/EthJsonRPC.sol#L39)
+
+Call a contract function.
+
+Input:
+
+- `to` (`address`): The address of the contract.
+
+- `data` (`bytes`): The data of the function.
+
+Output:
+
+- `the` (`bytes`): Result of the function call.
