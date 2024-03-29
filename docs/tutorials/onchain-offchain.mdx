@@ -1,5 +1,5 @@
 ---
-title: Building - Onchain Offchain
+title: Onchain Offchain
 description: Understanding the key primitives required to build great SUAPPs
 keywords:
   - contract
@@ -10,13 +10,13 @@ keywords:
   - offchain
 ---
 
-# Onchain Offchain: SUAVE Basics
+# Onchain Offchain Programming Model
 
 If you've followed along from the [previous tutorial](./deploy-contracts), you'll have deployed a simple contract which outlines two `onchain` and `offchain` functions for a Suapp on SUAVE. It should look like this:
 
 ```solidity
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.8;
 
 contract MyFirstSuapp { 
     function onchain() public {}
@@ -31,7 +31,7 @@ contract MyFirstSuapp {
 
 We'd now like to interact with our deployed contract. The `spell` tool we used to deploy the contract can also be used to send confidential compute requests. Using the address your contract was deployed to, you can use `spell` to call any function you like. 
 
-In this case, we'll get our contract to run "offchain" computation (even though we have yet to define exactly what that should be). From the root of your `suapp` directory we first createDocsByIdIndex, run:
+In this case, we'll get our contract to run "offchain" computation (even though we have yet to define exactly what that should be). From the root of your `suapp` directory we first created, run:
 
 ```bash
 suave-geth spell conf-request <your_contract_address> 'offchain()'
@@ -54,7 +54,7 @@ INFO [03-26|10:21:30.153] Waiting for the transaction to be mined...
 INFO [03-26|10:21:30.256] Transaction mined                        status=1 blockNum=6
 ```
 
-As our `offchain()` function doesn't do anything yet, there isn't much to see here. That said, you have already deployed your first contract, and sent your first confidential request to it! We are well on the way to building our first functional SUAPP and understanding a new paradigm for public blockchains!
+As our `offchain()` function doesn't do anything yet, there isn't much to see here. That said, you have already deployed your first contract, and sent your first confidential request to it! We are well on the way to building our first functional SUAPP and understanding a new paradigm for public blockchains...
 
 ## Try to Extend Your Contract
 
@@ -65,7 +65,7 @@ So, let's try add an event and see if we can emit it from our `offchain()` funct
 ```solidity
 // SPDX-License-Identifier: Unlicense
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.8;
 
 contract MyFirstSuapp { 
     event OffchainEvent(uint256 num);
@@ -112,7 +112,7 @@ What's going on here? Well, we can't emit the results of offchain computation di
 
 If we want the relevant part of the results of our offchain computation to result in things happening onchain, we need to be a little more clever with how we write our contracts. 
 
-In order to make this easy, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary http calls, using Chat GPT in your contracts, encoding JSON, RLP encoding transactions, and doing various other commonly useful things.
+In order to make this easy, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary http calls, using Chat GPT in your contracts, encoding and decoding JSON, RLP encoding/decoding transactions, and doing various other commonly useful things.
 
 First, you'll need to add and commit the changes you've made already before we can install `SUAVE-STD`:
 
@@ -126,7 +126,7 @@ Now you can install our friendly helper library in your `suapp` directory:
 forge install flashbots/suave-std
 ```
 
-You can import the basic `Suapp.sol` contract from the `SUAVE-STD` library to help with emitting logs. This comes along with a modifier called `emitOffchainLogs` which will enable you to emit any logs emitted in offchain functions from the onchain function selected in the `return` statement. To see this in UserActivation, modify `MyFirstSuapp.sol` to look like this:
+You can import the basic `Suapp.sol` contract from the `SUAVE-STD` library to help with emitting logs. This comes along with a modifier called `emitOffchainLogs` which will enable you to emit any logs specified in offchain functions from the onchain function selected in the `return` statement. To see this in action, modify `MyFirstSuapp.sol` to look like this:
 
 ```solidity
 // SPDX-License-Identifier: Unlicense

@@ -38,6 +38,8 @@ module.exports = {
         'tutorials/run-suave',
         'tutorials/deploy-contracts',
         'tutorials/onchain-offchain',
+        'tutorials/confidential-store',
+        'tutorials/external-call',
         'tutorials/build-suapp-webapp',
         'tutorials/confidential-compute-requests',
         'tutorials/create-precompiles'

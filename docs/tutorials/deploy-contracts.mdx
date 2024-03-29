@@ -44,7 +44,7 @@ You can then open the resulting files in whichever text editor you prefer.
 
 ## Onchain offchain
 
-We need to adapt the empty contract in the `src` directory to start understanding the key differences between onchain and offchain computation. 
+Let's adapt the empty contract in the `src` directory to see the key differences between onchain and offchain computation. 
 
 Begin by renaming `Contract.sol` to `MyFirstSuapp.sol` and deleting the `Contract.t.sol` file in the `test` directory.
 
@@ -52,7 +52,7 @@ Then, you can write two simple functions called `onchain()` and `offchain()`:
 
 ```solidity
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.8;
 
 contract MyFirstSuapp { 
     function onchain() public {}
@@ -65,9 +65,9 @@ contract MyFirstSuapp {
 }
 ```
 
-All offchain functions should return a function selector to another function inside your SUAPP, such that the relevant outputs of offchain computation can result in the appropriate onchain state transitions. The Kettle which executes a user's call to `offchain()` will take the results of any offchain computation and wrap it in a "SUAVE transaction", using the specified function selector. That SUAVE transaction is broadcast onchain, which eventually results in the onchain component being executed too.
+All offchain functions should return a function selector to another function inside your SUAPP, such that the relevant outputs of offchain computation result in onchain state transitions. The Kettle which executes a user's call to `offchain()` will take the results of any offchain computation and wrap it in a "SUAVE transaction", using the specified function selector. That SUAVE transaction is broadcast onchain, which eventually results in the onchain component being executed too.
 
-Let's take a practical example. In an orderflow auction, users might send their transactions from other domains to a Suapp as confidential inputs. The Suapp can emit specific information about those transactions (without revealing everything) such that searchers listening for events on SUAVE chain can construct backruns. They can then submit their backruns to the same Suapp, which can merge the original transactions and the best backruns offchain (it can take a lot of compute to do this), before emitting the resulting bundle onchain for a block builder on the original domain to pick up and use.
+Let's take a practical example. In an [orderflow auction](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), users might send their transactions from other domains to a Suapp as confidential inputs. The Suapp can emit specific information about those transactions (without revealing everything) such that searchers listening for events on SUAVE chain can construct backruns. They can then submit their backruns to the same Suapp, which can merge the original transactions and the best backruns offchain (it can take many computational steps do this), before emitting the resulting bundle onchain for a block builder on the original domain to pick up and use.
 
 There are many examples which use this onchain-offchain pattern to achieve results that are not otherwise possible in normal public blockchains. We'll be introducing them one by one through the course of these tutorials.
 
@@ -95,7 +95,7 @@ There is a helper facility called `spell` in `suave-geth` which facilitates depl
 suave-geth spell deploy MyFirstSuapp.sol:MyFirstSuapp
 ```
 
-If you built from source, run 
+If you built from source, run:
 
 ```bash
 ./<path_to_suave-geth>/build/bin/suave-geth spell deploy MyFirstSuapp.sol:MyFirstSuapp
@@ -113,4 +113,4 @@ INFO [03-26|09:59:54.515] Contract deployed                        address=0xFcd
 
 Congratulations! You just deployed your first contract to a local SUAVE network! 💃 
 
-Take note of the address to which it has been deployed: you'll need it in the next tutorial, where we'll go over how to send confidential compute requests to your contracts, and how to extend the functions to emit information about offchain computations onchain.
+Take note of the address to which it has been deployed: you'll need it in the next tutorial, where we'll send confidential compute requests to your contracts, and extend the functions to emit information about offchain computations onchain.

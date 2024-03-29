@@ -1,0 +1,162 @@
+---
+title: Confidential Store
+description: Understanding the key primitives required to build great SUAPPs
+keywords:
+  - contract
+  - deploy
+  - suave
+  - solidity
+  - confidential
+  - private
+  - store
+---
+
+# Using the Confidential Store
+
+If you've followed along from the [previous tutorial](./onchain-offchain), you'll have deployed a simple contract with `onchain` and `offchain` functions that use the [`SUAVE-STD` library](https://github.com/flashbots/suave-std) to emit logs onchain that come from offchain compute results.
+
+Now it's time to look at another key primitive often required to build powerful Suapps: the confidential data store.
+
+In particular, we'll consider how to store a private key confidentially, and then use that key to sign transactions intended for other chains. This pattern is useful when you want the results of your offchain computation to cause a transaction on another chain, and it finds application in everything from Uniswap v4 hooks to NFTs for concert tickets.
+
+## Import SUAVE-STD
+
+We're going to want to use more of the functionality offered by `SUAVE-STD` in order to both store our private key, and then retrieve it and use it to sign a transaction intended for another domain.
+
+Create a new file called `ConfidentialStore.sol` and begin by importing the supporting contracts and libraries we need:
+
+```solidity
+// SPDX-License-Identifier: Unlicensed
+pragma solidity ^0.8.8;
+
+import "suave-std/Suapp.sol";
+import "suave-std/Context.sol";
+import "suave-std/Transactions.sol";
+import "suave-std/suavelib/Suave.sol";
+```
+
+If you look through each of these imports, you'll see that:
+
+1. `Suapp.sol` gives us the ability to easily emit logs from offchain computations onchain.
+2. `Context.sol` allows any function to determine whether there are confidential inputs being passed along with the function call. We will use this to pass our private key to our Suapp without revealing what it is.
+3. `Transactions.sol` helps decode/encode transactions from/to other domains.
+4. `Suave.sol` contains all the precompiles which make up the MEVM that runs in each Kettle, along with the addresses they're deployed to.
+
+## Store Keys Confidentially
+
+Next, add the logic you'll need to store a private key confidentially with this Suapp:
+
+```solidity
+contract ConfidentialStore is Suapp {
+    Suave.DataId signingKeyRecord;
+    string public PRIVATE_KEY = "ETH_L1_SIGNER";
+
+    // onchain-offchain pattern to register the new private key in Confidential Store
+    function updateKeyRecordOnchain(Suave.DataId _signingKeyRecord) public {
+        signingKeyRecord = _signingKeyRecord;
+    }
+
+    function registerPrivateKeyOffchain() public returns (bytes memory) {
+        bytes memory keyData = Context.confidentialInputs();
+
+        address[] memory peekers = new address[](1);
+        peekers[0] = address(this);
+
+        Suave.DataRecord memory record = Suave.newDataRecord(0, peekers, peekers, "private_key");
+        Suave.confidentialStore(record.id, PRIVATE_KEY, keyData);
+
+        return abi.encodeWithSelector(this.updateKeyRecordOnchain.selector, record.id);
+    }
+}
+```
+
+The confidential store is a key value store, and the convention is to store "data records" as the values that are keyed by "data IDs". The SUAVE library helps abstract this so you can just call `Suave.DataId` etc. 
+
+A `newDataRecord` expects four values:
+
+1. The "decryption condition" - this is an artifact which will be removed in later versions of `suave-geth`. 
+    1. Set to `0` for now.
+2. The "allowed peekers" - this determines who can "get" data associated with the `DataId`.
+3. The "allowed stores" - this determines who can "set" data associated with the `DataId`. 
+    1. In this example we set the `allowedPeekers` == `allowedStores` == an array of 1 address, which is set to `address(this)`. That is, only this contract can get the private key we're storing, or set it to something else.
+4. The "data type" - a string which specifies the type of data being stored. 
+    1. In this case, it is set to `"private_key"`.
+
+We are also following the same pattern as previous tutorials, with an offchain function that does the heavy lifting (creating the data record for the private key we want to store), which then returns a callback to an onchain function that (rather than emitting an event) updates the `DataId` by which the private key may be fetched by this specific contract.
+
+Anyone can call this function (you may want to change that) and, if they pass in a private key in the `confidentialInputs` field of their Confidential Compute Request (CCR), then the Kettle which processes that CCR will set the private key in its store according to the logic above, all without revealing what that key is.
+
+So, let's compile the contract, deploy it, and send the CCR that will store a private key!
+
+```bash
+forge build
+```
+```bash
+suave-geth spell deploy ConfidentialStore.sol:ConfidentialStore
+```
+
+If you built `suave-geth` from source, you may need to specify the whole path:
+
+```bash
+./<path_to_suave-geth>/build/bin/suave-geth spell deploy ConfidentialStore.sol:ConfidentialStore
+```
+
+**TODO**: Now we can send the private key as a confidential input when we call `registerPrivateKeyOffchain`:
+
+```bash
+suave-geth spell conf-request <your_new_contract_address> 'registerPrivateKeyOffchain()' 
+```
+
+You shouldn't see anything in the logs as you did in previous tutorials, as we're not emitting events from the `updateKeyRecordOnchain` function (thouh you can modify that yourself if you like). 
+
+## Sign a Tx with your Private Key
+
+Let's now add the other important piece we need for this contract, which is using the private key we just stored to sign a transaction for another domain (in this Ethereum L1):
+
+```solidity
+event TxnSignature(bytes32 r, bytes32 s);
+
+function onchain() public emitOffchainLogs {}
+
+function offchain() public returns (bytes memory) {
+    bytes memory signingKey = Suave.confidentialRetrieve(signingKeyRecord, PRIVATE_KEY);
+
+    Transactions.EIP155Request memory txnWithToAddress = Transactions.EIP155Request({
+        to: address(0x00000000000000000000000000000000DeaDBeef),
+        gas: 1000000,
+        gasPrice: 500,
+        value: 1,
+        nonce: 1,
+        data: bytes(""),
+        chainId: 1
+    });
+
+    Transactions.EIP155 memory txn = Transactions.signTxn(txnWithToAddress, string(signingKey));
+    emit TxnSignature(txn.r, txn.s);
+
+    return abi.encodeWithSelector(this.onchain.selector);
+}
+```
+
+By now, this onchain-offchain pattern should be becoming more familiar. Offchain, we do the heavy lifting of constructing the transaction object, which we then emit in the logs of an event onchain by returning a callback to the onchain function. 
+
+The theory here is that any searcher or other service could listen to logs from `TxnSignature` events in this contract on SUAVE and submit them as part of their bundles to block builders for Ethereum L1. However, you can also use the Gateway pattern discussed in the next tutorial to call your preferred RPC provider yourself, such that you need not rely on these events being detected.
+
+Recompile and redeploy your contract, and call the offchain function to see this all in action:
+
+```bash
+forge build
+```
+```bash
+suave-geth spell deploy ConfidentialStore.sol:ConfidentialStore
+```
+
+```bash
+suave-geth spell conf-request <your_new_contract_address> 'offchain()' 
+```
+
+You should see something like this printed to your terminal:
+
+**TODO**
+
+Congratulations! 💃 You've just begun to master the confidential store. The applications that can be built from this kind of foundation are extensive. We're excited to see what you build...
