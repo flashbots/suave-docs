@@ -49,10 +49,9 @@ Next, add the logic you'll need to store a private key confidentially with this 
 ```solidity
 contract ConfidentialStore is Suapp {
     Suave.DataId signingKeyRecord;
-    string public PRIVATE_KEY = "ETH_L1_SIGNER";
+    string public PRIVATE_KEY = "KEY";
 
-    // onchain-offchain pattern to register the new private key in Confidential Store
-    function updateKeyRecordOnchain(Suave.DataId _signingKeyRecord) public {
+    function updateKeyOnchain(Suave.DataId _signingKeyRecord) public {
         signingKeyRecord = _signingKeyRecord;
     }
 
@@ -65,7 +64,7 @@ contract ConfidentialStore is Suapp {
         Suave.DataRecord memory record = Suave.newDataRecord(0, peekers, peekers, "private_key");
         Suave.confidentialStore(record.id, PRIVATE_KEY, keyData);
 
-        return abi.encodeWithSelector(this.updateKeyRecordOnchain.selector, record.id);
+        return abi.encodeWithSelector(this.updateKeyOnchain.selector, record.id);
     }
 }
 ```
@@ -101,17 +100,29 @@ If you built `suave-geth` from source, you may need to specify the whole path:
 ./<path_to_suave-geth>/build/bin/suave-geth spell deploy ConfidentialStore.sol:ConfidentialStore
 ```
 
-**TODO**: Now we can send the private key as a confidential input when we call `registerPrivateKeyOffchain`:
+Now we can send the private key as a confidential input when we call `registerPrivateKeyOffchain`:
 
 ```bash
-suave-geth spell conf-request <your_new_contract_address> 'registerPrivateKeyOffchain()' 
+suave-geth spell conf-request --confidential-input b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291 <your_new_contract_address> 'registerPrivateKeyOffchain()' 
 ```
 
-You shouldn't see anything in the logs as you did in previous tutorials, as we're not emitting events from the `updateKeyRecordOnchain` function (thouh you can modify that yourself if you like). 
+We're passing in private key with the `--confidential-input`, which - in this case - is a hex-encoded string, without the `0x`. The logs printed to your console should pick up that you are passing in a confidential input:
+
+```bash
+INFO [04-02|14:35:30.927] Running with local devchain settings 
+INFO [04-02|14:35:30.927] Confidential input provided              input=b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291
+INFO [04-02|14:35:30.927] Contract at address 0x9a151AA453329f3cdf04D8e4e81585A423f7fC25 
+INFO [04-02|14:35:30.927] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
+INFO [04-02|14:35:30.932] Hash of the result onchain transaction   hash=0x5ed20456c92af0e1117b0e506a3a6622ba6a7edcf9687d69b7474bc096880f35
+INFO [04-02|14:35:30.933] Waiting for the transaction to be mined... 
+INFO [04-02|14:35:31.036] Transaction mined                        status=1 blockNum=9
+```
+
+There's nothing else to see in the logs just yet, as we're not emitting events from the `updateKeyRecordOnchain` function (thouh you can modify that yourself if you like). 
 
 ## Sign a Tx with your Private Key
 
-Let's now add the other important piece we need for this contract, which is using the private key we just stored to sign a transaction for another domain (in this Ethereum L1):
+Let's now add the other important piece we need for this contract, which is using the private key we just stored to sign a transaction on another domain (in this case, our local ChannelSplitterNode, though you can modify this to be Eth L1 if you like):
 
 ```solidity
 event TxnSignature(bytes32 r, bytes32 s);
@@ -128,7 +139,7 @@ function offchain() public returns (bytes memory) {
         value: 1,
         nonce: 1,
         data: bytes(""),
-        chainId: 1
+        chainId: 1337
     });
 
     Transactions.EIP155 memory txn = Transactions.signTxn(txnWithToAddress, string(signingKey));
@@ -157,6 +168,18 @@ suave-geth spell conf-request <your_new_contract_address> 'offchain()'
 
 You should see something like this printed to your terminal:
 
-**TODO**
+```bash
+INFO [04-02|14:36:17.902] Running with local devchain settings 
+INFO [04-02|14:36:17.903] No confidential input provided, using empty string 
+INFO [04-02|14:36:17.903] Contract at address 0x9a151AA453329f3cdf04D8e4e81585A423f7fC25 
+INFO [04-02|14:36:17.903] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
+INFO [04-02|14:36:17.909] Hash of the result onchain transaction   hash=0xaf99b4460039486e93e64da870b890a3cf19dab728c16d89f109e058a8323f9d
+INFO [04-02|14:36:17.909] Waiting for the transaction to be mined... 
+INFO [04-02|14:36:18.013] Transaction mined                        status=1 blockNum=10
+INFO [04-02|14:36:18.117] Logs emitted in the onchain transaction  numLogs=1
+INFO [04-02|14:36:18.117] Log emitted                              name=TxnSignature(bytes32,bytes32) r="[238 188 250 192 222 246 219 86 73 208 174 107 82 237 59 139 161 245 198 196 40 88 141 241 37 70 17 19 186 140 103 73]" s="[93 94 26 175 160 201 100 180 60 37 27 106 82 93 73 87 41 104 242 206 188 88 104 197 139 204 146 129 185 160 117 5]"
+```
+
+The log at the bottom which returns both `r` and `s` values proves that the key you stored in the Confidential Data Store was both correctly stored, and correctly used to sign the transaction.
 
 Congratulations! 💃 You've just begun to master the confidential store. The applications that can be built from this kind of foundation are extensive. We're excited to see what you build...

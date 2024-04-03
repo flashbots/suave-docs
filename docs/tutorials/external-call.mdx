@@ -21,7 +21,17 @@ Let's walk through how to do this, first fetching balance information about USDC
 
 ## Fetching Balances from Ethereum 
 
-Create a new contract in your `src` directory called `ExternalCall.sol`, and paste this into the file (making sure to update with your API key, or preferred RPC provider details):
+:::info
+
+If you have SUAVE running locally, stop it and restart it with another flag we'll need for this tutorial:
+
+```bash
+suave-geth --suave.dev --suave.eth.external-whitelist='*'
+```
+
+:::
+
+Create a new contract in your `src` directory called `ExternalCall.sol`, and implement the same pattern we used for storing private keys to store your RPC endpoint:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -36,26 +46,62 @@ interface ERC20 {
 }
 
 contract ExternalCall is Suapp {
-    function onchain() external payable emitOffchainLogs {}
+    Suave.DataId rpcRecord;
+    string public RPC = "RPC";
 
-    event Balance(uint256 balance);
+    function updateKeyOnchain(Suave.DataId _rpcRecord) public {
+        rpcRecord = _rpcRecord;
+    }
 
-    function offchain() external returns (bytes memory) {
-        string memory jsonRpc = Context.confidentialInputs();
-        // targeting USDC contract on ETH L1
-        Gateway gateway = new Gateway(jsonRpc, 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
-        ERC20 token = ERC20(address(gateway));
+    function registerKeyOffchain() public returns (bytes memory) {
+        bytes memory rpcData = Context.confidentialInputs();
 
-        // Fetching the balance for a Binance exchange account
-        uint256 balance = token.balanceOf(0xDFd5293D8e347dFe59E90eFd55b2956a1343963d);
-        emit Balance(balance);
+        address[] memory peekers = new address[](1);
+        peekers[0] = address(this);
 
-        return abi.encodeWithSelector(this.onchain.selector);
+        Suave.DataRecord memory record = Suave.newDataRecord(0, peekers, peekers, "rpc_endpoint");
+        Suave.confidentialStore(record.id, RPC, rpcData);
+
+        return abi.encodeWithSelector(this.updateKeyOnchain.selector, record.id);
     }
 }
 ```
 
-Follow the by-now familiar pattern of recompiling, deploying, and calling the offchain function using our `spell` tool:
+You'll see that we're also importing a new file called `Gateway.sol`, which is what we'll be using in our offchain function to establish a connection to our stored RPC provider such that we can fetch data from other domains. Let's implement the onchain and offchain functions now:
+
+```solidity
+event Balance(uint256 value);
+
+function onchain() external payable emitOffchainLogs {}
+
+function offchain(address contractAddr, address account) external returns (bytes memory) {
+    bytes memory rpcData = Suave.confidentialRetrieve(rpcRecord, RPC);
+    string memory endpoint = bytesToString(rpcData);
+
+    Gateway gateway = new Gateway(endpoint, contractAddr);
+    ERC20 token = ERC20(address(gateway));
+    uint256 balance = token.balanceOf(account);
+
+    emit Balance(balance);
+
+    return abi.encodeWithSelector(this.onchain.selector);
+}
+
+function bytesToString(bytes memory data) internal pure returns (string memory) {
+    uint256 length = data.length;
+    bytes memory chars = new bytes(length);
+
+    for(uint i = 0; i < length; i++) {
+        chars[i] = data[i];
+    }
+
+    return string(chars);
+}
+```
+
+`Gateway.sol` expects an RPC endpoint, passed in as a string, and a contract addresss to query. If you check the [reference implementation](https://github.com/flashbots/suave-std?tab=readme-ov-file#gateway) you'll see we pass in the Beaconchain Deposit contract and use our new gateway to get all depositors. In this example, we'll pass in the USDC contract on Ethereum and fetch the balance of one of Binance's accounts, because why not?
+
+Follow the by-now familiar pattern of compiling, deploying, and storing your RPC endpoint using our `spell` tool:
 
 ```bash
 forge build
@@ -68,25 +114,33 @@ If you built `suave-geth` from source, you may need to specify the whole path:
 ```bash
 ./<path_to_suave-geth>/build/bin/suave-geth spell deploy ExternalCall.sol:ExternalCall
 ```
+Set your RPC provider (with the key) in the confidential data store:
 ```bash
-suave-geth spell conf-request <your_new_contract_address> 'offchain()' **TODO**
+suave-geth spell conf-request --confidential-input <https://eth-mainnet.g.alchemy.com/v2/your_key> <your_new_contract_address> 'registerKeyOffchain()'
 ```
-
-You should see the balance of the a Binance exchange account (because why not?) emitted as a log in your console:
-
-**TODO**
+Call the USDC contract on Ethereum, and query a Binance Exchange account (because why not?):
+```bash 
+suave-geth spell conf-request <your_new_contract_address> 'offchain(address,address)' '(0xA0b86991c6218b
+36c1d19D4a2e9Eb0cE3606eB48, 0xDFd5293D8e347dFe59E90eFd55b2956a1343963d)'
+```
+You should see the USDC balance of that Binance exchange account emitted as a log in your console:
+```bash 
+INFO [04-03|17:03:47.464] Running with local devchain settings 
+INFO [04-03|17:03:47.464] No confidential input provided, using empty string 
+INFO [04-03|17:03:47.464] Contract at address 0xcb632cC0F166712f09107a7587485f980e524fF6 
+INFO [04-03|17:03:47.464] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
+INFO [04-03|17:03:48.101] Hash of the result onchain transaction   hash=0x654e8b8ee4d66efbc8d37001b8c29e670b74856fc9e047483884888e9e57b2c9
+INFO [04-03|17:03:48.101] Waiting for the transaction to be mined... 
+INFO [04-03|17:03:48.206] Transaction mined                        status=1 blockNum=5
+INFO [04-03|17:03:48.377] Logs emitted in the onchain transaction  numLogs=1
+INFO [04-03|17:03:48.377] Log emitted                              name=Balance(uint256) value=88,763,447,202,982
+```
 
 Fetching blockchain data from domains beyond SUAVE is as easy as that! We're incredibly hyped to see what you build with this primitive. However, blockchain balances and other data is not the only kind of data you can fetch and use in your Suapps... 
 
 ## Using Chat GPT in a smart contract on SUAVE 
 
-:::info
-
-You will need your own ChatGPT API key for this section.
-
-:::
-
-Create a new contract in your `src` directory called `ChatContract.sol`, and paste this into the file:
+Create a new contract in your `src` directory called `Chat.sol`. We'll follow exactly the same procedure to store our ChatGPT API key confidentially. In our `offchain()` function, we'll implement the few lines required to talk to GPT from your contract. In this example, we'll also pass an argument to our offchain function in order to let anyone use their own prompt:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -96,21 +150,52 @@ import "suave-std/Suapp.sol";
 import "suave-std/Context.sol";
 import "suave-std/protocols/ChatGPT.sol";
 
-contract ChatContract is Suapp {
-    function onchain() external payable emitOffchainLogs {}
+contract Chat is Suapp {
+    Suave.DataId apiKeyRecord;
+    string public API_KEY = "API_KEY";
 
-    event Response(string message);
+    function updateKeyOnchain(Suave.DataId _apiKeyRecord) public {
+        apiKeyRecord = _apiKeyRecord;
+    }
 
-    function offchain() external returns (bytes memory) {
-        /* TODO: can Context.confidentialInputs() decode more than 1 value? If so, how? */
-        string memory apiKey = Context.confidentialInputs(0);
-        string[] memory messages = Context.confidentialInputs(1);
-        ChatGPT chatGPT = new ChatGPT(apiKey);
+    function registerKeyOffchain() public returns (bytes memory) {
+        bytes memory keyData = Context.confidentialInputs();
 
-        string memory response = chatGPT.complete(messages);
-        emit Response(response);
+        address[] memory peekers = new address[](1);
+        peekers[0] = address(this);
+
+        Suave.DataRecord memory record = Suave.newDataRecord(0, peekers, peekers, "api_key");
+        Suave.confidentialStore(record.id, API_KEY, keyData);
+
+        return abi.encodeWithSelector(this.updateKeyOnchain.selector, record.id);
+    }
+
+    event Response(string messages);
+
+    function onchain() public emitOffchainLogs {}
+
+    function offchain(string calldata prompt) external returns (bytes memory) {
+        bytes memory keyData = Suave.confidentialRetrieve(apiKeyRecord, API_KEY);
+        string memory apiKey = bytesToString(keyData);
+        ChatGPT chatgpt = new ChatGPT(apiKey);
+
+        ChatGPT.Message[] memory messages = new ChatGPT.Message[](1);
+        messages[0] = ChatGPT.Message(ChatGPT.Role.User, prompt);
+
+        emit Response(chatgpt.complete(messages));
 
         return abi.encodeWithSelector(this.onchain.selector);
+    }
+
+    function bytesToString(bytes memory data) internal pure returns (string memory) {
+        uint256 length = data.length;
+        bytes memory chars = new bytes(length);
+
+        for(uint i = 0; i < length; i++) {
+            chars[i] = data[i];
+        }
+
+        return string(chars);
     }
 }
 ```
@@ -123,10 +208,14 @@ Recompile, deploy, and call the offchain function using our `spell` tool:
 forge build
 ```
 ```bash
-suave-geth spell deploy ChatContract.sol:ChatContract
+suave-geth spell deploy Chat.sol:Chat
 ```
 ```bash
-suave-geth spell conf-request <your_new_contract_address> 'offchain()' **TODO**
+suave-geth spell conf-request --confidential-input <your_api_key> <your_new_contract_address> 'registerKeyOffchain()'
+```
+Once your API key is set in the confidential store, you can send any prompt you like, passing it in as an argument to your offchain function like this:
+```bash
+suave-geth spell conf-request <your_new_contract_address> 'offchain()' '("How do I build novel applications on SUAVE?")'
 ```
 
 You should see the response from ChatGPT printed in your console:
@@ -135,4 +224,4 @@ You should see the response from ChatGPT printed in your console:
 
 Congratulations! 💃 You now have all the tools you need to build powerful and unique Suapps which simply are not possible to build with other public blockchains. 
 
-Feel free to post any Suapp you build on our [forum](https://collective.flashbots.net/c/suave/27) and we'll be happy to help you review interpolate, as well as invite you to our Developer Chat so you can see what others are building and share tips and best practices with the sharpest engineers we know.
+Feel free to post any Suapp you build on our [forum](https://collective.flashbots.net/c/suave/27) and we'll be happy to help you review and iterate, as well as invite you to our Developer Chat so you can see what others are building and share tips and best practices with the sharpest engineers we know.
