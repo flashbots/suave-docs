@@ -140,7 +140,7 @@ Fetching blockchain data from domains beyond SUAVE is as easy as that! We're inc
 
 ## Using Chat GPT in a smart contract on SUAVE 
 
-Create a new contract in your `src` directory called `Chat.sol`. We'll follow exactly the same procedure to store our ChatGPT API key confidentially. In our `offchain()` function, we'll implement the few lines required to talk to GPT from your contract. In this example, we'll also pass an argument to our offchain function in order to let anyone use their own prompt:
+Create a new contract in your `src` directory called `Chat.sol`. We'll follow exactly the same procedure to store our ChatGPT API key confidentially. In our `offchain()` function, we'll implement the few lines required to talk to GPT from your contract:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -174,15 +174,17 @@ contract Chat is Suapp {
 
     function onchain() public emitOffchainLogs {}
 
-    function offchain(string calldata prompt) external returns (bytes memory) {
+    function offchain() external returns (bytes memory) {
         bytes memory keyData = Suave.confidentialRetrieve(apiKeyRecord, API_KEY);
         string memory apiKey = bytesToString(keyData);
         ChatGPT chatgpt = new ChatGPT(apiKey);
 
         ChatGPT.Message[] memory messages = new ChatGPT.Message[](1);
-        messages[0] = ChatGPT.Message(ChatGPT.Role.User, prompt);
+        messages[0] = ChatGPT.Message(ChatGPT.Role.User, "Say hello world");
 
-        emit Response(chatgpt.complete(messages));
+        string memory data = chatgpt.complete(messages);
+
+        emit Response(data);
 
         return abi.encodeWithSelector(this.onchain.selector);
     }
@@ -215,12 +217,22 @@ suave-geth spell conf-request --confidential-input <your_api_key> <your_new_cont
 ```
 Once your API key is set in the confidential store, you can send any prompt you like, passing it in as an argument to your offchain function like this:
 ```bash
-suave-geth spell conf-request <your_new_contract_address> 'offchain()' '("How do I build novel applications on SUAVE?")'
+suave-geth spell conf-request <your_new_contract_address> 'offchain()'
 ```
 
 You should see the response from ChatGPT printed in your console:
 
-**TODO**
+```bash 
+INFO [04-03|20:40:16.752] Running with local devchain settings 
+INFO [04-03|20:40:16.753] No confidential input provided, using empty string 
+INFO [04-03|20:40:16.753] Contract at address 0x975235826142D438d91c0a36171325eF75d7047b 
+INFO [04-03|20:40:16.753] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
+INFO [04-03|20:40:18.112] Hash of the result onchain transaction   hash=0x70e9ab5f00d78a4111a61d0732478de2031b73a8e558f41a0eac42c3dc0aee1c
+INFO [04-03|20:40:18.112] Waiting for the transaction to be mined... 
+INFO [04-03|20:40:18.215] Transaction mined                        status=1 blockNum=25
+INFO [04-03|20:40:18.352] Logs emitted in the onchain transaction  numLogs=1
+INFO [04-03|20:40:18.352] Log emitted                              name=Response(string) messages="Hello, world!"
+```
 
 Congratulations! 💃 You now have all the tools you need to build powerful and unique Suapps which simply are not possible to build with other public blockchains. 
 
