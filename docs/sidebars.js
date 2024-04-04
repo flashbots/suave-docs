@@ -17,6 +17,21 @@ module.exports = {
     },
     {
       type: 'category',
+      label: '📚 Tutorials',
+      collapsed: false,
+      link: { type: 'doc', id: 'tutorials/index' },
+      items: [
+        'tutorials/run-suave',
+        'tutorials/deploy-contracts',
+        'tutorials/onchain-offchain',
+        'tutorials/confidential-store',
+        'tutorials/external-call',
+        'tutorials/community-directory',
+        'tutorials/create-precompiles'
+      ]
+    },
+    {
+      type: 'category',
       label: '🗺️ Concepts',
       collapsed: false,
       link: { type: 'doc', id: 'concepts/index' },
@@ -27,22 +42,6 @@ module.exports = {
         'concepts/confidential-computation',
         'concepts/block-building',
         'concepts/mev-supplychain-interface'
-      ]
-    },
-    {
-      type: 'category',
-      label: '📚 Tutorials',
-      collapsed: false,
-      link: { type: 'doc', id: 'tutorials/index' },
-      items: [
-        'tutorials/run-suave',
-        'tutorials/deploy-contracts',
-        'tutorials/onchain-offchain',
-        'tutorials/confidential-store',
-        'tutorials/external-call',
-        'tutorials/build-suapp-webapp',
-        'tutorials/confidential-compute-requests',
-        'tutorials/create-precompiles'
       ]
     },
     {
