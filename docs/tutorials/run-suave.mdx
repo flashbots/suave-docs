@@ -27,6 +27,8 @@ Start your local devnet with:
 suave-geth --suave.dev
 ```
 
+The `--suave.dev` flag sets some defaults which are useful when developing on SUAVE.
+
 ### Building from source
 
 :::info
@@ -48,16 +50,16 @@ Build the binary:
 make suave
 ```
 
-Now you have a `suave` binary in `./build/bin/`:
-
-```bash
-./build/bin/suave-geth --version
-```
-
 Start the local devnet with:
 
 ```bash
 ./build/bin/suave-geth --suave.dev
+```
+
+You can check that the `suave` binary is available in `./build/bin/` with:
+
+```bash
+./build/bin/suave-geth --version
 ```
 
 <details>
