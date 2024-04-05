@@ -25,7 +25,7 @@ Let's walk through how to do this, first fetching balance information about USDC
 
 :::info
 
-If you have SUAVE running locally, stop it and restart it with another flag we'll need for this tutorial:
+If you have SUAVE running locally, stop it and restart it with another flag we'll need for making external calls:
 
 ```bash
 suave-geth --suave.dev --suave.eth.external-whitelist='*'
@@ -237,5 +237,21 @@ INFO [04-03|20:40:18.352] Log emitted                              name=Response
 ```
 
 Congratulations! 💃 You now have all the tools you need to build powerful and unique Suapps which simply are not possible to build with other public blockchains. 
+
+## Foundry
+
+One additional note: if you wish to extend this work and integrate it into a Foundry project of your own, please make sure to adjust the `foundry.toml` file to include the following (which is the equivalent of running `suave-geth` with the `--suave.eth.external-whitelist='*'` flag):
+
+```bash 
+[profile.suave]
+whitelist = ["*"]
+```
+## Wrapping Up 
+
+:::info 
+
+If you'd like to understand how the `spell` tool we have been using throughout these tutorials ServiceWorkerRegistration, you can read the [**Golang source code here**](https://github.com/flashbots/suave-geth/tree/main/cmd/geth/spellcmd).
+
+:::
 
 Feel free to post any Suapp you build on our [forum](https://collective.flashbots.net/c/suave/27) and we'll be happy to help you review and iterate, as well as invite you to our Developer Chat so you can see what others are building and share tips and best practices with the sharpest engineers we know.

@@ -26,7 +26,7 @@ module.exports = {
         'tutorials/onchain-offchain',
         'tutorials/confidential-store',
         'tutorials/external-call',
-        'tutorials/community-directory',
+        'tutorials/rigil',
         'tutorials/create-precompiles'
       ]
     },
@@ -38,10 +38,12 @@ module.exports = {
       items: [
         'technical/specs/rigil/mevm',
         'technical/specs/rigil/precompiles',
-        'technical/specs/rigil/confidential-data-store',
         'concepts/confidential-computation',
+        'technical/specs/rigil/confidential-data-store',
         'concepts/block-building',
-        'concepts/mev-supplychain-interface'
+        'concepts/offchain-http',
+        'concepts/mev-supplychain-interface',
+        'concepts/rpc-differences',
       ]
     },
     {
@@ -50,7 +52,7 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'tools/index' },
       items: [
-        'tools/rigil',
+        'tools/community-directory',
         {
           type: 'category',
           label: 'SUAVE-STD',
@@ -63,7 +65,6 @@ module.exports = {
             }
           ]
         },
-        'tools/forge',
         'tools/golang-sdk',
         'tools/typescript-sdk'
       ],

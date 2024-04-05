@@ -7,8 +7,9 @@ The previous pages have illustrated how to:
 - Build blocks for other chains
 - Use confidential computation in various different ways depending on your use case
 - Leverage confidential data storage to create a service that is currently run in a centralized way on a decentralized and permissionless network.
+- Request data from anywhere on the IntersectionObserverEntry.
 
-Taken together, these three broad categories of the unique SUAVE features allow you to interact with any component in the MEV supply chain. The MEV supply chain looks something like this:
+Taken together, these four unique SUAVE features allow you to interact with any component in the MEV supply chain. The MEV supply chain looks something like this:
 
 ![MEV Supply Chain - Linear Version](/img/mev-supplychain.png)
 
@@ -22,11 +23,11 @@ Taken together, these three broad categories of the unique SUAVE features allow 
     function doHTTPRequest(HttpRequest memory request) internal view returns (bytes memory)
 ```
 
-We've already seen in the previous tutorial, which looked at the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/ofa-private.sol) example contract, how to create bundles and send them to a predefined block builder using the `submitBundleJsonRPC()` precompile.
+The [Private OFA](https://github.com/flashbots/suapp-examples/blob/main/examples/app-ofa-private/ofa-private.sol) example contract demonstrates how to create bundles and send them to a predefined block builder using the `submitBundleJsonRPC()` precompile.
 
-Similarly speaking, you can construct the whole block yourself and send it to a builder using `submitEthBlockToRelay()`. Taken together, these two precompiles allow you to interface with the **transaction**, **bundle**, and **block** aspects of the supply chain above.
+You can construct the whole block yourself and send it to a builder using `submitEthBlockToRelay()`. Taken together, these two precompiles allow you to interface with the **transaction**, **bundle**, and **block** aspects of the supply chain above.
 
-Furthermore, there is a `doHTTPRequest()` precompile, which enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they need to handle their off chain computation. An example of this in use can also be found in the Private OFA Suapp Example, and it looks like this:
+Furthermore, the `doHTTPRequest()` precompile enables Kettles to make any arbitrary http request in order to fetch information from other services they're running on different chains, or just about any other API they need to handle their off chain computation. An example of this in use can also be found in the Private OFA Suapp Example, and it looks like this:
 
 ```solidity
 function submitBundle(string memory builderUrl, bytes memory bundleData) internal view returns (bytes memory) {
@@ -57,6 +58,6 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
 
 The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks.
 
-The below visualization demonstrate the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we set in [the previous page](/concepts/confidential-data-storage#practical-example)):
+The below visualization demonstrates the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we [discussed here](/concepts/confidential-data-storage#practical-example)):
 
 ![OFA to Block Flow](/assets/OFA_And_Block_Flow.svg)
