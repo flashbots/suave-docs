@@ -19,6 +19,8 @@ SUAVE exhibits three key differences from existing blockchains:
 1. Credible offchain computation 💻
 1. Faster block time (than Eth L1) ⏱️
 
+You can see what is currently being built on SUAVE in our [community directory](/tools/community-directory).
+
 ## Categories
 
 In present-day Ethereum, there are many centralized services used to coordinate and mitigate the effects of MEV. Most of the categories below are based on these existing services:
@@ -47,7 +49,7 @@ Order Flow Auctions (OFAs) are responsible for taking in a transaction or intent
 You can learn more about it by reading ["Illuminating Ethereum's Order Flow Landscape"](https://writings.flashbots.net/illuminate-the-order-flow).
 
 - [MEV-Share](https://github.com/flashbots/mev-share) 🔄
-- [MEV-Blocker](https://mevblocker.io/) 🛑
+- [MEV-Blocker](https://mevblocker.io/) 🏖️
 - MEV-Share+
   - Dynamic refund: currently, users set their own refund percent, but depending on the state of the mempool and blockspace auction, they may want a lower or higher refund percent. A SUAPP could simulate a user's trade, query L1 state to get pool and token information, and use this to reason about what refund % to use on that user’s bundle.
   - Dynamic hint: one of the open research questions around programmable privacy is where the privacy efficiency lies. An example of this, relevant to MEV-Share, is as follows: given a Uniswap L1 trade, how much information should be revealed? A $10 trade most likely can leak the entire trade details because it would be better to batch, but a very large trade has a risk of being probabilistically front-run; therefore, it should leak less information, or at least that is one possibility.

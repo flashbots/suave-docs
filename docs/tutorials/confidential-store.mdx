@@ -109,13 +109,13 @@ suave-geth spell conf-request --confidential-input b71c71a67e1177ad4e901695e1b4b
 We're passing in private key with the `--confidential-input`, which - in this case - is a hex-encoded string, without the `0x`. The logs printed to your console should pick up that you are passing in a confidential input:
 
 ```bash
-INFO [04-02|14:35:30.927] Running with local devchain settings 
-INFO [04-02|14:35:30.927] Confidential input provided              input=b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291
-INFO [04-02|14:35:30.927] Contract at address 0x9a151AA453329f3cdf04D8e4e81585A423f7fC25 
-INFO [04-02|14:35:30.927] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
-INFO [04-02|14:35:30.932] Hash of the result onchain transaction   hash=0x5ed20456c92af0e1117b0e506a3a6622ba6a7edcf9687d69b7474bc096880f35
-INFO [04-02|14:35:30.933] Waiting for the transaction to be mined... 
-INFO [04-02|14:35:31.036] Transaction mined                        status=1 blockNum=9
+INFO [04-04|11:35:27.419] Running with local devchain settings 
+INFO [04-04|11:35:27.419] Confidential input provided              input="[98 55 49 99 55 49 97 54 55 101 49 49 55 55 97 100 52 101 57 48 49 54 57 53 101 49 98 52 98 57 101 101 49 55 97 101 49 54 99 54 54 54 56 100 51 49 51 101 97 99 50 102 57 54 100 98 99 100 97 51 102 50 57 49]"
+INFO [04-04|11:35:27.419] Contract at address 0xd594760B2A36467ec7F0267382564772D7b0b73c 
+INFO [04-04|11:35:27.419] Sending offchain confidential compute request kettle=0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F
+INFO [04-04|11:35:27.425] Hash of the result onchain transaction   hash=0xa1094c169d420fb0115df3be6115711b3ed54b2c2fa1fcaa28f22cdb8a69c8ce
+INFO [04-04|11:35:27.425] Waiting for the transaction to be mined... 
+INFO [04-04|11:35:27.529] Transaction mined                        status=1 blockNum=2
 ```
 
 There's nothing else to see in the logs just yet, as we're not emitting events from the `updateKeyRecordOnchain` function (thouh you can modify that yourself if you like). 

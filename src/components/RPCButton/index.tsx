@@ -10,11 +10,12 @@ import {useSDK} from '@metamask/sdk-react';
  * Button that connects Metamask to relevant SUAVE RPC when it's clicked.
  */
 function RPCButton() {
-  const {sdk, provider} = useSDK();
+  const {sdk} = useSDK();
   const rpcUrl = 'https://rpc.rigil.suave.flashbots.net';
+  const blockExplorerUrl = 'https://explorer.rigil.suave.flashbots.net';
 
   const connectToRPC = async () => {
-    if (provider && sdk) {
+    if (sdk) {
       const addChainParams = {
         chainId: '0x1008C45',
         chainName: `Rigil Testnet`,
@@ -25,6 +26,7 @@ function RPCButton() {
           decimals: 18,
         },
         rpcUrls: [rpcUrl],
+        blockExplorerUrls: [blockExplorerUrl]
       };
       await sdk.connect();
       // delete local storage key "providerType" to allow users pick extension
@@ -32,7 +34,7 @@ function RPCButton() {
       localStorage.removeItem('providerType');
       // do it manually with window.ethereum
       try {
-        await provider.request({
+        await window.ethereum?.request({
           method: 'wallet_addEthereumChain',
           params: [addChainParams],
         });

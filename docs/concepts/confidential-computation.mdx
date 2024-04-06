@@ -7,15 +7,9 @@ Confidential computation enables you to handle orderflow privately and securely.
 
 In SUAVE, we achieve this with [Kettles](/technical/specs/rigil/kettle#confidential-computation) performing compute offchain, but according to smart contracts written onchain. In this way, offchain compute is not constrained by chain consensus. The Kettles will eventually run in [TEEs](https://www.youtube.com/watch?v=ek-bu4aoh0A), which provide both **enhanced privacy** (no-one, not even the host OS, can see unencrypted data) and **integrity** (you can be sure the correct code, and only that code, is running at all times).
 
-:::info
-
-For practical examples of how Confidential Compute Requests (CCRs) work, please follow [**this tutorial**](/tutorials/confidential-compute-requests). The below will explain CCRs conceptually, without code.
-
-:::
-
 ## Interface
 
-SUAVE exposes several precompiles to help you with confidential computation. The first is a simple check, often used in `require` statements in smart contracts:
+SUAVE exposes several precompiles to help you with confidential computation. The first is a simple check, often used in `require` statements:
 
 ```solidity
 function isConfidential() internal view returns (bool b)
@@ -39,9 +33,9 @@ You can also consult [our technical specs](/technical/specs/rigil/kettle#confide
 
 How to index, store, and use confidential data is left up to each SUAPP. 
 
-For example, in the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), to submit a valid backrun, a searcher must include the `recordId` of the user transaction in order for the Suapp to match them. Therefore, the Suapp emits the user transaction `recordId` as a log on chain, which searchers can listen for and use to construct valid backruns.
+For example, our [confidential store tutorial](/tutorials/confidential-store) demonstrates how to store a private key in the confidential store. In order to sign a transaction intended for Ethereum L1, we only store the `recordId` associated with that private key in the contract's memory, which is what ends up ends up onchain.
 
-However, the NFTEE example demonstrates how to store a private key in the confidential store. In order to get it to sign a transaction intended for Ethereum L1, we store the `recordId` associated with that private key in the contract's memory, which ends up onchain. In this context, this is not a concern, since it's gated, so only that Suapp can access the key for signing purposes.
+In the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), to submit a valid backrun, a searcher must include the `recordId` of the user transaction in order for the Suapp to match them. Therefore, the Suapp emits the user transaction `recordId` as a log on chain, which searchers can listen for and use to construct valid backruns.
 
 ### Restricting Access
 
@@ -53,6 +47,4 @@ You need not use confidential requests in the ways which our examples illustrate
 4. Whenever a restricted method is accessed, the present secret needs to be provided. 
     1. This is only accessible through confidential execution.
 
-You can find Miha's implementation of [ConfidentialControl here](https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/lib/ConfidentialControl.sol), along with a [good example which illustrates its use](https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/BlockAdV2.sol).
-
-This particular approach, and the reason it currently works in this manner, is being discussed in this [`suave-geth` issue](https://github.com/flashbots/suave-geth/issues/121).
+You can find an implementation of [ConfidentialControl here](https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/lib/ConfidentialControl.sol), along with a [good example which illustrates its use](https://github.com/halo3mic/suave-playground/blob/9afe269ab2da983ca7314b68fcad00134712f4c0/contracts/blockad/BlockAdV2.sol).
