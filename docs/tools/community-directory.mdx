@@ -10,7 +10,18 @@ keywords:
   - community
 ---
 
+import PirateCards from '@site/src/components/Pirates';
+import RequestsForSuapps from '@site/src/components/SuappRequest'
+
 # Community Directory
+
+<div className="mx-auto my-10 flex flex-col items-center justify-center md:w-1/2">
+    <a
+    href="https://github.com/flashbots/suave-docs/edit/main/docs/tools/community-directory.mdx"
+    className="ring-offset-background focus-visible:ring-ring inline-flex min-w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-md border-none bg-gray-950 text-base font-bold text-white transition-colors hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 directory">
+        Add your work to this page
+    </a>
+</div>
 
 ## SDKs
 
@@ -24,7 +35,7 @@ We provide two well-supported SDKs:
       </div>
       <div className="intro-text">
         <div className="intro-heading">TypeScript</div>
-        <div className="intro-desc">For web developers</div>
+        <div className="intro-desc">Forked from viem</div>
       </div>
     </div>
   </a>
@@ -48,7 +59,7 @@ We provide two well-supported SDKs:
       </div>
       <div className="intro-text">
         <div className="intro-heading">Golang</div>
-        <div className="intro-desc">For engineers</div>
+        <div className="intro-desc">Forked from Geth</div>
       </div>
     </div>
   </a>
@@ -72,7 +83,7 @@ SUAVE works well with Forge, as our tutorials illustrate. If you need something 
         <div className="comm-card">
             <div className="comm-text">
                 <div className="intro-heading">SUAVE Ethers</div>
-                <div className="intro-desc">For those who prefer Ethers to Viem.</div>
+                <div className="intro-desc">For those who prefer Ethers to viem.</div>
             </div>
         </div>
     </a>
@@ -189,4 +200,12 @@ SUAVE works well with Forge, as our tutorials illustrate. If you need something 
     </a>
 </div>
 
+## Requests for SUAPPs 
 
+<RequestsForSuapps />
+
+## SUAVE Pirates
+
+Join the community of people building on SUAVE by creating your own SUAPP or contributing to any of our repos.
+
+<PirateCards />
