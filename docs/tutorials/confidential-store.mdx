@@ -153,7 +153,7 @@ By now, this onchain-offchain pattern should be becoming more familiar. Offchain
 
 The theory here is that any searcher or other service could listen to logs from `TxnSignature` events in this contract on SUAVE and submit them as part of their bundles to block builders for Ethereum L1. However, you can also use the Gateway pattern discussed in the next tutorial to call your preferred RPC provider yourself, such that you need not rely on these events being detected.
 
-Recompile and redeploy your contract, and call the offchain function to see this all in action:
+Recompile and redeploy your contract, send your private key as a confidential input as before, and call the offchain function to see this all in action:
 
 ```bash
 forge build
@@ -161,7 +161,9 @@ forge build
 ```bash
 suave-geth spell deploy ConfidentialStore.sol:ConfidentialStore
 ```
-
+```bash
+suave-geth spell conf-request --confidential-input b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291 <your_new_contract_address> 'registerPrivateKeyOffchain()' 
+```
 ```bash
 suave-geth spell conf-request <your_new_contract_address> 'offchain()' 
 ```
