@@ -4,7 +4,7 @@ Transactions is a library with utilities to encode, decode and sign Ethereum tra
 
 ## Functions
 
-### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L109)
+### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L110)
 
 Encode a EIP-155 transaction in RLP.
 
@@ -16,7 +16,7 @@ Output:
 
 - `output` (`bytes`): The encoded RLP bytes.
 
-### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L133)
+### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L134)
 
 Encode a EIP-1559 request transaction in RLP.
 
@@ -28,7 +28,7 @@ Output:
 
 - `output` (`bytes`): The encoded RLP bytes.
 
-### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L157)
+### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L158)
 
 Encode a EIP-1559 transaction in RLP.
 
@@ -40,7 +40,7 @@ Output:
 
 - `output` (`bytes`): The encoded RLP bytes.
 
-### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L200)
+### [encodeRLP](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L201)
 
 Encode a EIP-1559 request transaction in RLP.
 
@@ -52,7 +52,7 @@ Output:
 
 - `output` (`bytes`): The encoded RLP bytes.
 
-### [decodeRLP_EIP155](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L239)
+### [decodeRLP_EIP155](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L240)
 
 Decode a EIP-155 transaction from RLP.
 
@@ -64,7 +64,7 @@ Output:
 
 - `txStruct` ([EIP155](#eip155)): The transaction structure.
 
-### [decodeRLP_EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L267)
+### [decodeRLP_EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L268)
 
 Decode a EIP-155 request transaction from RLP.
 
@@ -76,7 +76,7 @@ Output:
 
 - `txStruct` ([EIP155Request](#eip155request)): The transaction structure.
 
-### [decodeRLP_EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L293)
+### [decodeRLP_EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L294)
 
 Decode a EIP-1559 transaction from RLP.
 
@@ -88,7 +88,7 @@ Output:
 
 - `txStruct` ([EIP1559](#eip1559)): The transaction structure.
 
-### [decodeRLP_EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L330)
+### [decodeRLP_EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L331)
 
 Decode a EIP-1559 request transaction from RLP.
 
@@ -100,7 +100,7 @@ Output:
 
 - `txStruct` ([EIP1559Request](#eip1559request)): The transaction structure.
 
-### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L371)
+### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L372)
 
 Sign a EIP-155 transaction request.
 
@@ -114,7 +114,7 @@ Output:
 
 - `response` ([EIP1559](#eip1559)): The signed transaction.
 
-### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L400)
+### [signTxn](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L401)
 
 Sign a EIP-155 transaction request.
 
@@ -130,7 +130,7 @@ Output:
 
 ## Structs
 
-### [EIP155](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L25)
+### [EIP155](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L26)
 
 EIP-155 transaction structure.
 
@@ -145,7 +145,7 @@ EIP-155 transaction structure.
 - `s` (`bytes32`): Is the 's' signature value.
 - `v` (`uint256`): Is the 'v' signature value.
 
-### [EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L46)
+### [EIP155Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L47)
 
 EIP-155 transaction request structure.
 
@@ -157,7 +157,7 @@ EIP-155 transaction request structure.
 - `data` (`bytes`): Is the transaction data.
 - `chainId` (`uint256`): Is the id of the chain where the transaction will be executed.
 
-### [EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L69)
+### [EIP1559](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L70)
 
 EIP-1559 transaction structure.
 
@@ -174,7 +174,7 @@ EIP-1559 transaction structure.
 - `s` (`bytes32`): Is the 's' signature value.
 - `v` (`uint256`): Is the 'v' signature value.
 
-### [EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L94)
+### [EIP1559Request](https://github.com/flashbots/suave-std/tree/main/src/Transactions.sol#L95)
 
 EIP-1559 transaction request structure.
 
