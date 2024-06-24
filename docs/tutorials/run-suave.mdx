@@ -29,6 +29,22 @@ suave-geth --suave.dev
 
 The `--suave.dev` flag sets some defaults which are useful when developing on SUAVE.
 
+<details>
+  <summary>Using `--suave.dev` will run suave-geth with the following flags:</summary>
+  <div>
+    <div>
+      <div>
+        <pre>
+          ./build/bin/geth --dev --http --http.addr "0.0.0.0" --http.api "suavex,debug,suavey,eth" \
+          --http.corsdomain "\*" --http.vhosts "\*" --ws --ws.addr "0.0.0.0" --ws.origins "*" \
+          --keystore "/tmp/suave-dev/keystore" --unlock "0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F" \
+          --password "/tmp/suave-dev/password.txt" --miner.gaslimit "30000000"
+        </pre>
+      </div>
+    </div>
+  </div>
+</details>
+
 ### Building from source
 
 :::info
