@@ -26,6 +26,7 @@ module.exports = {
         'tutorials/onchain-offchain',
         'tutorials/confidential-store',
         'tutorials/external-call',
+        'tutorials/suappify-counter',
         'tutorials/rigil',
         'tutorials/create-precompiles'
       ]
