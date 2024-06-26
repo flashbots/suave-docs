@@ -46,7 +46,7 @@ The rest of this guide assumes you have [SUAVE running locally](/tutorials/run-s
 
 :::
 
-First, you need to import necessary modules and instantiate the client. In your `index.ts` file, you can copy and paste the following:
+First, you need to import necessary modules and instantiate the client. In your source code, you can copy and paste the following:
 
 ```typescript
 import {http} from '@flashbots/suave-viem';
@@ -59,22 +59,33 @@ const suaveProvider = getSuaveProvider(http(SUAVE_RPC_URL));
 
 ## Wallet Creation
 
-To interact with the SUAVE network, we'll first need a wallet. When running SUAVE locally, there is an account which is set up with funds for you by default. Paste the following the following block to instantiate it in `viem`:
+To interact with the SUAVE network, we'll need a wallet. When running a local SUAVE devnet, there is an account which is set up with funds for you by default. If (when) you need this account again, you can find it here: [Pre-funded devnet accounts](/tutorials/run-suave#pre-funded-accounts).
+
+To make a wallet, we'll import the `getSuaveWallet` function. We'll also need to import the `Hex` type to make sure our hex strings are properly formatted.
+
+We'll make a wallet using the pre-funded account. Update your code to match, or you can just copy-paste the whole snippet over what you already wrote.
 
 ```typescript
-// plus other imports from above
-import {Hex} from '@flashbots/suave-viem';
-import {getSuaveWallet} from '@flashbots/suave-viem/chains/utils';
+// don't forget to include these new imports!
+import {http, type Hex} from '@flashbots/suave-viem';
+import {
+  getSuaveProvider,
+  getSuaveWallet
+} from '@flashbots/suave-viem/chains/utils';
 
-const DEFAULT_PRIVATE_KEY: Hex =
+// connect to your local SUAVE node
+const SUAVE_RPC_URL = 'http://localhost:8545';
+const suaveProvider = getSuaveProvider(http(SUAVE_RPC_URL));
+
+// create a wallet with the pre-funded devenet account
+const PRIVATE_KEY: Hex =
   '0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12';
-
-const defaultWallet = getSuaveWallet({
+const wallet = getSuaveWallet({
   transport: http(SUAVE_RPC_URL),
-  privateKey: DEFAULT_PRIVATE_KEY,
+  privateKey: PRIVATE_KEY,
 });
 
-console.log('Wallet Address:', defaultWallet.account.address);
+console.log('Wallet Address:', wallet.account.address);
 ```
 
 You can now run this file:
@@ -91,7 +102,7 @@ Wallet Address: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
 
 ## Watching Pending Transactions
 
-You can watch for pending transactions and log their details using the following example:
+Watch for pending transactions and log their details by adding the following code to the previous example:
 
 ```typescript
 // Watch for pending transactions
@@ -109,126 +120,295 @@ suaveProvider.watchPendingTransactions({
 });
 ```
 
-## Send a Confidential Compute Request
+If you're running this against a local devnet, you won't see any activity until you send some transactions. This is covered in the next section.
 
-Let's walk through how to set up and send a Confidential Compute Request:
+## Sending Requests
 
-#### 1. Get Current Gas Price
+`suave-viem` can send confidential compute requests (CCRs) and traditional ethereum transactions. Here we provide examples of both.
 
-First, instantiate a new wallet of your own, and fetch the current gas price from the network.
+:::info
+
+This example continues building on the code from the previous sections. If you see something unfamiliar, check the code examples above to make sure you didn't miss anything.
+
+In the following steps we'll be calling asynchronous functions, so we'll add an async `main` function to wrap our main program.
+
+If you're following along with the example, add the following to the bottom of your code. This is where we'll put all of our code from now on.
 
 ```typescript
-const PRIVATE_KEY: Hex = '<your_priv_key>';
+async function main() {
+  // add your code here!
+}
 
-const wallet = getSuaveWallet({
-  transport: http(SUAVE_RPC_URL),
-  privateKey: DEFAULT_PRIVATE_KEY,
-});
+main();
 ```
 
-#### 2. Prepare the Fund Transaction
+❗*Don't forget: Code snippets below should be added to the `main` function.*
 
-Create a transaction object to fund your new wallet with the required amount.
+:::
+
+#### 1. Get current gas price
+
+First, fetch the current gas price from the network.
 
 ```typescript
-import {TransactionRequestSuave} from '@flashbots/suave-viem/chains/suave/types';
-// ...
+const gasPrice = await suaveProvider.getGasPrice();
+```
 
+#### 2. Prepare a transaction
+
+To send transactions (or confidential requests), we need to import the `TransactionRequestSuave` type.
+
+```typescript
+import {type TransactionRequestSuave} from '@flashbots/suave-viem/chains/suave/types';
+```
+
+To make sure our everything is working, let's send some ether from the devnet account to itself.
+
+```typescript
+const gasPrice = await suaveProvider.getGasPrice();
 const fundTx: TransactionRequestSuave = {
-  type: '0x0',
-  value: 100000000000000001n,
-  gasPrice: 10000000000n, // 10 gwei is typically fine for testing
   to: wallet.account.address,
+  value: 100000000000000001n,
+  gasPrice,
   gas: 21000n,
+  type: '0x0',
 };
 ```
 
-#### 3. Send the Fund Transaction and wait for confirmation
+:::info FYI: Transaction Types
 
-Send the transaction to fund the wallet.
+The Confidential Compute Request transaction type is `0x43`. This is the type you'll need to send data to your smart contracts confidentially.
+
+If you're not sending confidential data, you can use the original ethereum tx types to send traditional transactions: `0x0` for legacy & `0x2` for EIP-1559.
+
+:::
+
+#### 3. Send a transaction and wait for confirmation
+
+To sign and send the transaction request, we can use `wallet.sendTransaction`.
 
 ```typescript
-const fund = await defaultWallet.sendTransaction(fundTx);
-console.log('sent fund tx', fund);
+const txHash = await wallet.sendTransaction(fundTx);
+console.log('Sent tx', txHash);
 ```
 
-Use a while loop to periodically check if the transaction has been confirmed.
+*Alternatively*, if you need to sign the request without immediately sending it to suave, you can instead use `wallet.signTransaction` and `suaveProvider.sendRawTransaction`.
 
 ```typescript
-while (true) {
-  const fundReceipt = await suaveProvider.getTransactionReceipt({
-    hash: fund,
-  });
-  if (fundReceipt) {
-    console.log('fund tx landed', fundReceipt);
-    break;
-  }
-  await sleep(4000);
-}
+const signedTx = await wallet.signTransaction(fundTx);
+const txHash = await suaveProvider.sendRawTransaction({
+  serializedTransaction: signedTx
+});
 ```
 
-If you once again run `bun run index.ts`, you should see something like the following logged to your terminal:
+If you followed the [Watching Pending Transactions](#watching-pending-transactions) section, you now should see your transaction's receipt show up in your console logs when you run the program.
 
-```txt
-sent fund tx 0xe6f7385c6992c91941fe10e43feaf987cb4377f302915945b747fcb0e0a7f40a
-formatting tx receipt
-fund tx landed {
-  blockHash: "0x23c08d5a680b75ca10f4e0d737eadade2ec4c6eb66dae6edea88867033bd436e",
-  blockNumber: 2n,
+Run the program again and you should see something like this:
+
+```sh
+$ bun run index.ts
+Wallet Address: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Sent tx: 0xcf95ee9d30d4c865444f60d03727b0c04f8738501b394ebc078e56eeb733a80a
+Transaction Receipt: {
+  blockHash: "0x61c7ef6d56bf16d75a49dc06b82d82df74c1f8f02c95c0a10abe369b03a580a2",
+  blockNumber: 1n,
   contractAddress: null,
   cumulativeGasUsed: 21000n,
-  effectiveGasPrice: 3000000001n,
+  effectiveGasPrice: 1000000001n,
   from: "0xbe69d72ca5f88acba033a063df5dbe43a4148de0",
   gasUsed: 21000n,
   logs: [],
   logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
   status: "success",
-  to: "0x5f3371793285920351344a1eaaaa48d45e600652",
-  transactionHash: "0xe6f7385c6992c91941fe10e43feaf987cb4377f302915945b747fcb0e0a7f40a",
+  to: "0xbe69d72ca5f88acba033a063df5dbe43a4148de0",
+  transactionHash: "0xcf95ee9d30d4c865444f60d03727b0c04f8738501b394ebc078e56eeb733a80a",
   transactionIndex: 0,
-  type: "legacy"
+  type: "legacy",
 }
 ```
 
-#### 4. Create a Confidential Compute Request
+#### 4. Create a smart contract
 
-Now, let's set up a CCR with the appropriate parameters.
+CCRs must target a smart contract, so let's quickly deploy one to test with.
+
+
+:::warning
+
+If you're using git in your project, you'll need to stash or commit any uncommitted changes before executing this step.
+
+:::
+
+Initialize a new forge project within your typescript project. Then install `suave-std`.
+
+```bash
+forge init
+forge install flashbots/suave-std
+```
+
+Now you should have a forge project alongside your typescript project. You'll have a `src/` directory and inside it, a file called `Counter.sol`.
+
+Delete the contents of `Counter.sol` and copy the following snippet into the file:
+
+```solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.19;
+
+import "suave-std/suavelib/Suave.sol";
+import {Suapp} from "suave-std/Suapp.sol";
+
+contract Counter is Suapp {
+    uint256 public number;
+
+    event NumberSet(uint256 number);
+
+    modifier confidential() {
+        require(
+            Suave.isConfidential(),
+            "function must be called confidentially"
+        );
+        _;
+    }
+
+    function onSetNumber(uint256 newNumber) external {
+        number = newNumber;
+        emit NumberSet(newNumber);
+    }
+
+    function setNumber() public confidential returns (bytes memory) {
+        bytes memory data = Suave.confidentialInputs();
+        uint256 newNumber = abi.decode(data, (uint256));
+        return abi.encodeWithSelector(this.onSetNumber.selector, newNumber);
+    }
+}
+```
+
+:::info Smart Contract Breakdown
+
+In this simple contract, we have two functions `setNumber` & `onSetNumber`.
+
+`onSetNumber` is the function that updates the number stored in our smart contract (in blockchain storage). As you'll see shortly, we don't call this function directly (though we could, but the inputs would be public).
+
+`setNumber` is executed by a user sending a CCR. This function reads and decodes the confidential inputs from the request before returning the ABI-encoded calldata for calling `onSetNumber`.
+
+Returning calldata from a function is how SUAVE separates onchain & offchain logic. When calling a function via CCR, the operations in that function are considered "offchain." If that function returns calldata, that calldata (function) is executed by the kettle as another transaction, and that call is considered "onchain."
+
+:::
+
+Also remove `test/Counter.t.sol` -- we won't need it for this example.
+
+```bash
+rm test/Counter.t.sol
+```
+
+#### 4a. Deploy smart contract
+
+Any traditional method of smart contract deployment will work for suave. We like `anvil`.
+
+Run the following commands to compile your smart contract and deploy it from the default devnet account.
+
+```bash
+forge build
+forge create \
+  --private-key 0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12 \
+  src/Counter.sol:Counter
+```
+
+You should see output similar to this:
+
+```txt
+[⠊] Compiling...
+No files changed, compilation skipped
+Deployer: 0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0
+Deployed to: 0xcF643f1BF7ed34487CFDA05894fA83119bF856E1
+Transaction hash: 0xadffe4d4c312925dd368632bf473704c74c336493c51d0ffa7f0a5453fbedf13
+```
+
+❗Make note of that "Deployed to" address. We'll need it in the next step.
+
+If you're following the examples, let's export it as an environment variable so we have easy access to it when we run our Typescript program.
+
+```bash
+# replace this address with the one you get from `forge create`
+export COUNTER_ADDRESS=0xcF643f1BF7ed34487CFDA05894fA83119bF856E1
+```
+
+#### 4b. Import the smart contract into our project
+
+When you ran `forge build` you should have created (or updated) your `out/` directory. This is where forge keeps its build artifacts. We'll use this to get the ABI definition for our smart contract, so we can call its functions from Typescript.
+We'll also need some helper functions from viem.
+
+Add these to your existing imports:
 
 ```typescript
+// helper functions & types
 import {
-  TransactionRequestSuave,
-  SuaveTxRequestTypes,
-} from '@flashbots/suave-viem/chains/utils';
-// ...
+  decodeEventLog,
+  encodeAbiParameters,
+  encodeFunctionData,
+  type Address,
+} from "@flashbots/suave-viem"
+// smart contract build artifact
+import Counter from "./out/Counter.sol/Counter.json";
+```
 
+#### 5. Create a Confidential Compute Request
+
+In step 3, we sent a traditional ethereum transaction. Now, let's set up a confidential compute request (CCR) to send data to our smart contracts confidentially.
+
+First, retrieve the smart contract address from the environment variable we set earlier (`COUNTER_ADDRESS`):
+
+```typescript
+if (!process.env.COUNTER_ADDRESS) {
+  throw new Error('COUNTER_ADDRESS env var must be set');
+}
+const counterAddress = process.env.COUNTER_ADDRESS as Address;
+```
+
+Now we can assemble our CCR:
+
+```typescript
 const ccr: TransactionRequestSuave = {
-  confidentialInputs:
-    '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000fd7b22626c6f636b4e756d626572223a22307830222c22747873223a5b2230786638363538303064383235323038393461646263653931303332643333396338336463653834316336346566643261393232383165653664383230336538383038343032303131386164613038376337386234353663653762343234386237313565353164326465656236343031363032343832333735663130663037396663666637373934383830653731613035373366336364343133396437323037643165316235623263323365353438623061316361636533373034343739656334653939316362356130623661323930225d2c2270657263656e74223a31307d000000',
-  kettleAddress: '0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F', // Address of your local Kettle. Use 0x03493869959C866713C33669cA118E774A30A0E5 if on Rigil.
-  to: '0x8f21Fdd6B4f4CacD33151777A46c122797c8BF17',
-  gasPrice: 10000000000n, // Gas price for the transaction
-  gas: 420000n, // Gas limit for the transaction
-  type: SuaveTxRequestTypes.ConfidentialRequest, // SUAVE transaction request type ("0x43")
-  chainId: suaveRigil.id,
-  data: '0x236eb5a70000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000010000000000000000000000008f21fdd6b4f4cacd33151777a46c122797c8bf170000000000000000000000000000000000000000000000000000000000000000', // Data payload for the transaction
+  to: counterAddress,
+  value: 0n,
+  gasPrice: await suaveProvider.getGasPrice(),
+  gas: 69000n,
+  type: '0x43',
+  data: encodeFunctionData({
+    abi: Counter.abi,
+    functionName: "setNumber",
+  }),
+  confidentialInputs: encodeAbiParameters([
+    {type: 'uint256'}
+  ], [
+    13n
+  ]),
+  kettleAddress: "0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F",
 };
 ```
+
+**What's going on here?**
+
+- We specify transaction type `0x43` to indicate that this is a confidential compute request.
+- We send the request to our smart contract (`counterAddress`) to call `setNumber` with confidential inputs.
+- We call the `setNumber` function by ABI-encoding the function call in the `data` field, same as a traditional ethereum transaction.
+- We provide our confidential data (also ABI-encoded) in the `confidentialInputs` field; this data is not revealed publicly, and is only known to the kettle.
+- The `kettleAddress` we use is specific to the local devnet. On a public testnet, this value is different. If you're looking for that address you can find it [here](/tutorials/rigil).
 
 :::info
 
 `confidentialInputs` is a field to store information that should be kept private during computation, and the data field is the typical calldata required to interact with a dapp.
 
-If you prefer TypeScript, you can see how to craft your own CCRs in the [examples directory of suave-viem](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts).
+You can see more examples of how to craft your own CCRs in the [examples directory of suave-viem](https://github.com/flashbots/suave-viem/blob/main/examples/suave-web-demo/src/suave.ts).
 
 :::
 
 #### 5. Send the Confidential Compute Request
 
-Finally, send the CCR to the network.
+Finally, send the CCR to SUAVE.
 
 ```typescript
-const res = await wallet.sendTransaction(ccr);
-console.log(`sent ccr! tx hash: ${res}`);
+const ccrHash = await wallet.sendTransaction(ccr);
+console.log(`sent ccr! tx hash: ${ccrHash}`);
 ```
 
 You should see the transaction hash logged to your terminal, like this:
@@ -237,25 +417,32 @@ You should see the transaction hash logged to your terminal, like this:
 sent ccr! tx hash: 0xad488fd0a2b428bfa30c7ef8f8ce12e2f7f2554643ad1ca94d15ab11ad5dd9dd
 ```
 
-## Fetching Blockchain Data
-
-To fetch the latest block or transaction receipt, you can use the following functions:
+To see the logs emitted by the `onSetNumber` function, use viem's `decodeEventLog` function. Following the example, replace the code from the [Watching Pending Transactions](#watching-pending-transactions) step with this snippet:
 
 ```typescript
-async function fetchBlockchainData() {
-  // Get the number of the latest block
-  const latestBlockNumber = await suaveProvider.getBlockNumber();
-
-  console.log('Block number: ', latestBlockNumber);
-
-  // Fetch the latest block
-  const latestBlock = await suaveProvider.getBlock({
-    blockNumber: latestBlockNumber,
-    includeTransactions: false,
-  });
-
-  console.log('Latest Block:', latestBlock);
-}
-
-fetchBlockchainData();
+suaveProvider.watchPendingTransactions({
+  async onTransactions(transactions) {
+    for (const hash of transactions) {
+      try {
+        const receipt = await suaveProvider.getTransactionReceipt({hash});
+        console.log('Transaction Receipt:', receipt);
+        if (receipt.status === 'success' && receipt.logs.length > 0) {
+          const decodedLogs = decodeEventLog({
+            abi: Counter.abi,
+            ...receipt.logs[0],
+          })
+          console.log("decoded logs", decodedLogs)
+        }
+      } catch (error) {
+        console.error('Error fetching receipt:', error);
+      }
+    }
+  },
+});
 ```
+
+Lastly, press Ctrl+C to quit the example program.
+
+---
+
+For viem-related questions, the [viem docs](https://viem.sh/docs/introduction) are a great resource. suave-viem is just a fork of viem, so you can expect it to work pretty much the same as vanilla viem.
