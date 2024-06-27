@@ -160,10 +160,12 @@ async function main() {
         },
     });
 
+    const gasPrice = await suaveProvider.getGasPrice();
+
     const ccr: TransactionRequestSuave = {
         to: counterAddress,
         value: 0n,
-        gasPrice: 4200000000n,
+        gasPrice,
         gas: 690000n,
         type: '0x43',
         data: encodeFunctionData({
@@ -240,3 +242,44 @@ There are two ways to run this file: you can either use [bun](https://bun.sh) or
     ```
   </TabItem>
 </Tabs>
+
+In either case, you should see something like this printed to your terminal:
+
+```bash
+Transaction Receipt: {
+  blockHash: "0xee533da6fad9ae95b7b3f5dd74711d011b0c984490274b3936159c5555e72e32",
+  blockNumber: 7n,
+  contractAddress: null,
+  cumulativeGasUsed: 120532n,
+  effectiveGasPrice: 4200000000n,
+  from: "0xbe69d72ca5f88acba033a063df5dbe43a4148de0",
+  gasUsed: 120532n,
+  logs: [
+    {
+      address: "0xd594760b2a36467ec7f0267382564772d7b0b73c",
+      topics: [ "0x9ec8254969d1974eac8c74afb0c03595b4ffe0a1d7ad8a7f82ed31b9c8542591"
+      ],
+      data: "0x000000000000000000000000000000000000000000000000000000000000000d",
+      blockNumber: 7n,
+      transactionHash: "0x98619cc542c1aa6d427e4ce6edbb4eeef5d98c0dcf96f094fe93be28632b582b",
+      transactionIndex: 0,
+      blockHash: "0xee533da6fad9ae95b7b3f5dd74711d011b0c984490274b3936159c5555e72e32",
+      logIndex: 0,
+      removed: false,
+    }
+  ],
+  logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000004000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  status: "success",
+  to: "0xd594760b2a36467ec7f0267382564772d7b0b73c",
+  transactionHash: "0x98619cc542c1aa6d427e4ce6edbb4eeef5d98c0dcf96f094fe93be28632b582b",
+  transactionIndex: 0,
+  type: "0x50",
+}
+decoded logs {
+  eventName: "NumberSet",
+  args: {
+    number: 13n,
+  },
+}
+```
+

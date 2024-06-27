@@ -119,10 +119,12 @@ If you're not sending confidential data, you can use the original ethereum tx ty
 Add this code to your existing `index.ts` file. We can check that ordinary, public Ethereum transactions are working by sending some ETH from the pre-funded devnet account to itself:
 
 ```ts
+const gasPrice = await suaveProvider.getGasPrice();
+
 const fundTx: TransactionRequestSuave = {
   to: wallet.account.address,
   value: 100000000000000001n,
-  gasPrice: 4200000000n,
+  gasPrice,
   gas: 21000n,
   type: '0x0',
 };
@@ -173,26 +175,28 @@ const wallet = getSuaveWallet({
 
 async function main() {
 
-    const ccr: TransactionRequestSuave = {
-        to: <contract_address>,
-        value: 0n,
-        gasPrice: 4200000000n, // just spoof high gasPrice + gas for test networks
-        gas: 690000n,
-        type: '0x43',
-        data: encodeFunctionData({
-          abi: Contract.abi,
-          functionName: exampleWithNumberInput,
-        }),
-        confidentialInputs: encodeAbiParameters([
-          {type: 'uint256'}
-        ], [
-          13n
-        ]),
-        kettleAddress: "0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F",
-    };
+  const gasPrice = await suaveProvider.getGasPrice();
 
-    const ccrHash = await wallet.sendTransaction(ccr);
-    console.log("Your ccr tx hash is: ", ccrHash);
+  const ccr: TransactionRequestSuave = {
+      to: <contract_address>,
+      value: 0n,
+      gasPrice,
+      gas: 690000n,
+      type: '0x43',
+      data: encodeFunctionData({
+        abi: Contract.abi,
+        functionName: exampleWithNumberInput,
+      }),
+      confidentialInputs: encodeAbiParameters([
+        {type: 'uint256'}
+      ], [
+        13n
+      ]),
+      kettleAddress: "0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F",
+  };
+
+  const ccrHash = await wallet.sendTransaction(ccr);
+  console.log("Your ccr tx hash is: ", ccrHash);
 }
   
 main();
