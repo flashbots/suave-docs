@@ -8,6 +8,8 @@ keywords:
   - solidity
 ---
 
+import DevInfo from '@site/src/components/DevInfo';
+
 # Deploy A Contract
 
 Now that you have `suave-geth` running locally, let's deploy a new contract and begin looking at the programming model on SUAVE. Remember, SUAVE enables you to:
@@ -115,18 +117,4 @@ Congratulations! You just deployed your first contract to a local SUAVE network!
 
 Take note of the address to which it has been deployed: you'll need it in the next tutorial, where we'll send confidential compute requests to your contracts, and extend the functions to emit information about offchain computations onchain.
 
-### Pre-funded accounts
-
-The local devnet we're using here funds a dev account for you by default, as well as setting up a Kettle for you to submit Confidential Compute Requests to when interacting with your contracts (coming up in the following tutorials). Your local address and the Kettle created for your local devnet are listed below:
-
-#### Local dev account
-
-- balance: 10 billion RETH
-- address: `0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0`
-- private key: `0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12`
-
-#### Local kettle account
-
-- balance: 2^256 RETH
-- address: `0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F`
-- private key: `0x6c45335a22461ccdb978b78ab61b238bad2fae4544fb55c14eb096c875ccfc52`
+<DevInfo />
