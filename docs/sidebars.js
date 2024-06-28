@@ -28,7 +28,6 @@ module.exports = {
         'tutorials/external-call',
         'tutorials/suappify-counter',
         'tutorials/rigil',
-        'tutorials/create-precompiles'
       ]
     },
     {
