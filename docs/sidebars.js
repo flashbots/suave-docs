@@ -8,6 +8,7 @@ module.exports = {
       items: [
         'what-is-suave',
         'what-to-build',
+        'rigil',
         {
           type: 'link',
           label: 'Forum',
@@ -26,8 +27,9 @@ module.exports = {
         'tutorials/onchain-offchain',
         'tutorials/confidential-store',
         'tutorials/external-call',
-        'tutorials/rigil',
-        'tutorials/create-precompiles'
+        'tutorials/suappify-counter',
+        'tutorials/using-testnet',
+        'tutorials/cross-chain'
       ]
     },
     {

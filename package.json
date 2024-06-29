@@ -20,14 +20,13 @@
     "format:diff": "prettier --list-different ."
   },
   "dependencies": {
-    "@docusaurus/core": "^3.2.1",
-    "@docusaurus/plugin-content-docs": "^3.2.1",
-    "@docusaurus/plugin-sitemap": "^3.2.1",
-    "@docusaurus/preset-classic": "^3.2.1",
-    "@docusaurus/theme-mermaid": "^3.2.1",
-    "@docusaurus/utils": "^3.2.1",
+    "@docusaurus/core": "^3.4.0",
+    "@docusaurus/plugin-content-docs": "^3.4.0",
+    "@docusaurus/plugin-sitemap": "^3.4.0",
+    "@docusaurus/preset-classic": "^3.4.0",
+    "@docusaurus/theme-mermaid": "^3.4.0",
+    "@docusaurus/utils": "^3.4.0",
     "@mdx-js/react": "^3.0.0",
-    "@metamask/sdk": "^0.18.2",
     "@metamask/sdk-react": "^0.14.1",
     "@vercel/analytics": "^0.1.11",
     "autoprefixer": "^10.4.16",
@@ -55,15 +54,16 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.2.1",
-    "@docusaurus/module-type-aliases": "^3.2.1",
-    "@docusaurus/tsconfig": "^3.2.1",
+    "@docusaurus/eslint-plugin": "^3.4.0",
+    "@docusaurus/module-type-aliases": "^3.4.0",
+    "@docusaurus/tsconfig": "^3.4.0",
     "@tsconfig/docusaurus": "2.0.2",
     "@types/react": "^18.2.23",
     "@types/react-helmet": "^6.1.2",
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
+    "braces": ">=3.0.3",
     "cspell": "^6.31.2",
     "debug": "^4.3.4",
     "eslint": "^8.48.0",
@@ -87,7 +87,8 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "ws": ">=8.17.1"
   },
   "engines": {
     "node": ">=18.0"
