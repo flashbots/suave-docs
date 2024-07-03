@@ -5,7 +5,6 @@ description: An overview of the TypeScript SDK (suave-viem)
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import DevInfo from '@site/src/components/DevInfo';
 
 :::info
 
@@ -60,9 +59,13 @@ const suaveProvider = getSuaveProvider(http(SUAVE_RPC_URL));
 
 ## Wallet Creation
 
-To interact with the SUAVE network, we'll need a wallet. When running a local SUAVE devnet, there is an account which is set up with funds for you by default. 
+To interact with the SUAVE network, we'll need a wallet. 
 
-<DevInfo />
+:::info
+
+When running a local SUAVE devnet, [**there is an account which is set up with funds for you by default**](/toliman#dev-info).
+
+:::
 
 To make a wallet, we'll import the `getSuaveWallet` function. We'll also need to import the `Hex` type to make sure our hex strings are properly formatted.
 
