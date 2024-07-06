@@ -5,7 +5,6 @@ description: An overview of the TypeScript SDK (suave-viem)
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import DevInfo from '@site/src/components/DevInfo';
 
 :::info
 
@@ -60,9 +59,13 @@ const suaveProvider = getSuaveProvider(http(SUAVE_RPC_URL));
 
 ## Wallet Creation
 
-To interact with the SUAVE network, we'll need a wallet. When running a local SUAVE devnet, there is an account which is set up with funds for you by default. 
+To interact with the SUAVE network, we'll need a wallet. 
 
-<DevInfo />
+:::info
+
+When running a local SUAVE devnet, [**there is an account which is set up with funds for you by default**](/toliman#dev-info).
+
+:::
 
 To make a wallet, we'll import the `getSuaveWallet` function. We'll also need to import the `Hex` type to make sure our hex strings are properly formatted.
 
@@ -190,6 +193,7 @@ async function main() {
         abi: Contract.abi,
         functionName: exampleWithNumberInput,
       }),
+      isEIP712,
       confidentialInputs: encodeAbiParameters([
         {type: 'uint256'}
       ], [
@@ -207,9 +211,10 @@ main();
 
 1. We specify transaction type `0x43` to indicate that this is a Confidential Compute Request.
 2. We call functions by ABI-encoding the function call in the `data` field, the same as you would for an Ethereum transaction.
-2. We set a new field called **with confidential inputs**.
-4. We provide our confidential data (also ABI-encoded) in the `confidentialInputs` field; this data is not revealed publicly, and is only known to the kettle.
-5. The `kettleAddress` we use is specific to the local devnet. On a public testnet, this value is different. If you're looking for that address you can find it [here](/rigil).
+3. We specify `isEIP712` (a boolean which defaults to `true` above), to signify that the request should be signed as EIP712 signed typed data. This is particularly useful as it allows users to interact with Suave without ever changing their RPC endpoint. We recommend you always set it to `true`.
+4. We set a new field called **with confidential inputs**.
+5. We provide our confidential data (also ABI-encoded) in the `confidentialInputs` field; this data is not revealed publicly, and is only known to the kettle.
+6. The `kettleAddress` we use is specific to the local devnet. On a public testnet, this value is different. If you're looking for that address you can find it [here](/toliman).
 
 ## Watching Pending Transactions
 

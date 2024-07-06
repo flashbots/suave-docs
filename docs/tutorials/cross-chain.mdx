@@ -18,7 +18,7 @@ It is often the case that Suapps need to connect to two (or more!) different blo
 
 The other option is to spoof Ethereum L1 (or chains like it) using Anvil, a tool which is also well suited to making your cross-chain life easier. 
 
-For this reason, we maintain a [fork of foundry](https://github.com/flashbots/suavex-foundry) which specifically implements [`suavex_call`](/technical/specs/rigil/mevm#suavex-namepspace). The historical context for this tool can be found in [this forum post](https://collective.flashbots.net/t/anvil-for-mevm-external-provider/3114).
+For this reason, we maintain a [fork of foundry](https://github.com/flashbots/suavex-foundry) which specifically implements [`suavex_call`](/technical/specs/toliman/mevm#suavex-namepspace). The historical context for this tool can be found in [this forum post](https://collective.flashbots.net/t/anvil-for-mevm-external-provider/3114).
 
 The idea is that, instead of running your own L1 node, you simply run Anvil via an RPC provider, and use that to test any croos chain interactions:
 

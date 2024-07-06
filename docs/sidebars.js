@@ -8,7 +8,7 @@ module.exports = {
       items: [
         'what-is-suave',
         'what-to-build',
-        'rigil',
+        'toliman',
         {
           type: 'link',
           label: 'Forum',
@@ -38,10 +38,10 @@ module.exports = {
       collapsed: false,
       link: { type: 'doc', id: 'concepts/index' },
       items: [
-        'technical/specs/rigil/mevm',
-        'technical/specs/rigil/precompiles',
+        'technical/specs/toliman/mevm',
+        'technical/specs/toliman/precompiles',
         'concepts/confidential-computation',
-        'technical/specs/rigil/confidential-data-store',
+        'technical/specs/toliman/confidential-data-store',
         'concepts/block-building',
         'concepts/offchain-http',
         'concepts/mev-supplychain-interface',
@@ -77,10 +77,10 @@ module.exports = {
       collapsed: true,
       link: { type: 'doc', id: 'technical/README' },
       items: [
-        'technical/specs/rigil/README',
-        'technical/specs/rigil/kettle',
-        'technical/specs/rigil/suave-chain',
-        'technical/specs/rigil/glossary',
+        'technical/specs/toliman/README',
+        'technical/specs/toliman/kettle',
+        'technical/specs/toliman/suave-chain',
+        'technical/specs/toliman/glossary',
       ],
     },
 
