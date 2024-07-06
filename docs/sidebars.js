@@ -77,10 +77,10 @@ module.exports = {
       collapsed: true,
       link: { type: 'doc', id: 'technical/README' },
       items: [
-        'technical/specs/rigil/README',
-        'technical/specs/rigil/kettle',
-        'technical/specs/rigil/suave-chain',
-        'technical/specs/rigil/glossary',
+        'technical/specs/toliman/README',
+        'technical/specs/toliman/kettle',
+        'technical/specs/toliman/suave-chain',
+        'technical/specs/toliman/glossary',
       ],
     },
 

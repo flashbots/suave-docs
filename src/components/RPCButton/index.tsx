@@ -11,14 +11,14 @@ import {useSDK} from '@metamask/sdk-react';
  */
 function RPCButton() {
   const {sdk} = useSDK();
-  const rpcUrl = 'https://rpc.rigil.suave.flashbots.net';
-  const blockExplorerUrl = 'https://explorer.rigil.suave.flashbots.net';
+  const rpcUrl = 'https://rpc.toliman.suave.flashbots.net';
+  const blockExplorerUrl = 'https://explorer.toliman.suave.flashbots.net';
 
   const connectToRPC = async () => {
     if (sdk) {
       const addChainParams = {
-        chainId: '0x1008C45',
-        chainName: `Rigil Testnet`,
+        chainId: '0x201188A',
+        chainName: `Toliman Testnet`,
         iconUrls: ['https://docs.flashbots.net/img/logo.png'],
         nativeCurrency: {
           name: 'Ethereum',
@@ -78,7 +78,7 @@ function RPCButton() {
         type="button"
         className="ring-offset-background focus-visible:ring-ring inline-flex h-10 min-w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-md border-none bg-gray-950 px-4 py-2 text-base font-bold text-white transition-colors hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
         onClick={() => connectToRPC()}>
-        Connect to Rigil
+        Connect to Toliman
       </button>
     </div>
   );

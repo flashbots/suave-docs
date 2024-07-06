@@ -1,6 +1,6 @@
 ---
 title: Using SUAVE Testnets
-description: How to deploy contracts and transact on the Rigil testnet
+description: How to deploy contracts and transact on the Toliman testnet
 keywords:
   - test
   - build
@@ -14,11 +14,11 @@ keywords:
 
 The `spell` tool we've been using in all our previous tutorials is only intended for local use. Therefore, we'll need to adapt our approach slightly in order to get our contract working on the testnet, and start transacting there.
 
-1. Get rETH from the [faucet](https://faucet.rigil.suave.flashbots.net/).
+1. Get rETH from the [faucet](https://faucet.toliman.suave.flashbots.net/).
 2. Use Forge. From the root of your contracts directory, you can run:
 
 ```bash 
-forge create --rpc-url https://rpc.rigil.suave.flashbots.net --legacy \
+forge create --rpc-url https://rpc.toliman.suave.flashbots.net --legacy \
 --private-key <your_funded_priv_key> <your_contract_name>.sol:<your_contract_name>
 ```
 
