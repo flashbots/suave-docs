@@ -1,4 +1,4 @@
----
+--- 
 title: Toliman Testnet
 description: How to use the Toliman testnet
 keywords:
@@ -35,26 +35,21 @@ We have RPC nodes you can connect to:
 
 <RPCButton />
 
-## Dev info
+## Deloying SUAPPs on Toliman
 
-The local devnet setup funds a dev account for you by default, as well as setting up a Kettle for you to submit Confidential Compute Requests to when interacting with your contracts. Your local address and the Kettle created for your local devnet are listed below:
+We encourage you to follow the example set in [this tutorial](/tutorials/suappify-counter#using-the-typescript-sdk) and simply change the RPC url and the `kettleAdress` to the one listed above.
 
-### Local dev account
+We provide you a few convenient RPC endpoints you might need if, for instance, you need to fetch or submit transactiosn and/or data to Ethereum L1 or the Holesky testnet:
 
-The address is:
+```
+http://holesky.toliman.suave-testnets.aws.internal:8545
+http://mainnet.toliman.suave-testnets.aws.internal:8545\
+```
 
-`0xBE69d72ca5f88aCba033a063dF5DBe43a4148De0`
+If you would like to use these when testing locally, before deploying on Toliman, simply [run SUAVE](/tutorials/run-suave) with these additional flags:
 
-The private key is:
-
-`0x91ab9a7e53c220e6210460b65a7a3bb2ca181412a8a7b43ff336b3df1737ce12`
-
-### Local Kettle
-
-The address is:
-
-`0xB5fEAfbDD752ad52Afb7e1bD2E40432A485bBB7F`
-
-The private key is:
-
-`0x6c45335a22461ccdb978b78ab61b238bad2fae4544fb55c14eb096c875ccfc52`
+```
+--suave.eth.remote_endpoint http://holesky.toliman.suave-testnets.aws.internal:8545 \
+--suave.service-alias holesky=http://holesky.toliman.suave-testnets.aws.internal:8545 \
+--suave.service-alias mainnet=http://mainnet.toliman.suave-testnets.aws.internal:8545 \
+```
