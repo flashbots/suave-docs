@@ -18,7 +18,31 @@ Output:
 
 - `response` (`bytes`): Raw bytes response from the Flashbots relay.
 
-### [decodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L82)
+### [encodeBundleParams](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L39)
+
+Encode a bundle in json format.
+
+Input:
+
+- `args` ([BundleObj](#bundleobj)): The bundle to encode.
+
+Output:
+
+- `params` (`bytes`): JSON-encoded bytes: `{blockNumber, txs, minTimestamp, maxTimestamp}`.
+
+### [encodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L61)
+
+Encode a call to `eth_sendBundle` as an HttpRequest.
+
+Input:
+
+- `args` ([BundleObj](#bundleobj)): The bundle to encode.
+
+Output:
+
+- `request` ([HttpRequest](/tools/suave-std/suavelib/Suave#httprequest)): The HttpRequest to send the bundle.
+
+### [decodeBundle](https://github.com/flashbots/suave-std/tree/main/src/protocols/Bundle.sol#L90)
 
 Decode a bundle from a JSON string.
 
