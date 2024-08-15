@@ -106,13 +106,17 @@ INFO [03-26|10:30:27.900] Waiting for the transaction to be mined...
 INFO [03-26|10:30:28.004] Transaction mined                        status=1 blockNum=8
 ```
 
-What's going on here? Well, we can't emit the results of offchain computation directly onchain, because that leaks whatever happened in the computation, which is precisely what we want to avoid doing. 
+What's going on here? 
 
-## Using SUAVE-STD 
+:::info
 
-If we want the relevant part of the results of our offchain computation to result in things happening onchain, we need to be a little more clever with how we write our contracts. 
+Any function intended to be run offchain cannot emit events or trigger state changes. Instead, place a callback to an onchain function at the end of whatever offchain logic you want to run, and trigger any state changes from the onchain function.
 
-In order to make this easy, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary http calls, using Chat GPT in your contracts, encoding and decoding JSON, RLP encoding/decoding transactions, and doing various other commonly useful things.
+:::
+
+## Using SUAVE-STD  
+
+In order to make working with offchain logic and onchain callbacks easier, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary http calls, using Chat GPT in your contracts, encoding and decoding JSON, RLP encoding/decoding transactions, and doing various other commonly useful things.
 
 First, you'll need to add and commit the changes you've made already before we can install `SUAVE-STD`:
 

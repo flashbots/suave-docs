@@ -13,6 +13,10 @@ module.exports = {
           type: 'link',
           label: 'Forum',
           href: 'https://collective.flashbots.net/c/suave/27',
+        },{
+          type: 'link',
+          label: 'Telegram',
+          href: 'https://t.me/+MxHZuQDJR_4yYTAx',
         },
       ],
     },
