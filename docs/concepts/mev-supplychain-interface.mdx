@@ -56,7 +56,7 @@ function submitBundle(string memory builderUrl, bytes memory bundleData) interna
     function confidentialRetrieve(DataId dataId, string memory key) internal view returns (bytes memory)
 ```
 
-The Private OFA examples also illustrates how the confidential store, and the various on chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks.
+The Private OFA examples also illustrate how the confidential store, and the various on-chain interactions in enables, may be used to interface with **every aspect** of the supply chain, right from user intents to bundles and blocks.
 
 The below visualization demonstrates the generalized form such Suapps can take as SUAVE matures, illustrating how the OFA contract could key values into the confidential store such that a block building contract could fetch them and use them to create and emit valid blocks (this would require, among other things, extending the **allowedPeekers** we [discussed here](/concepts/confidential-data-storage#practical-example)):
 

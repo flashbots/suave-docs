@@ -1,3 +1,8 @@
+
+
+
+
+
 ---
 title: Confidential Computation
 description: How to understand confidential computation on SUAVE and use it to yur advantage.
@@ -21,7 +26,7 @@ If whoever calls a function in the contract has passed in confidential inputs to
 function confidentialInputs() internal view returns (bytes memory)
 ```
 
-Once the MEVM has the confidential inputs, there is any number of things you could tell it to do with them. For instance, in the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private) we'll look at in greater detail below, we use the below precompile to extract any information about a transaction that the user has agreed to share in order for it to be included timeously in a block on Ethereum L1, thereby replicating MEV-Share in a smart contract on SUAVE:
+Once the MEVM has the confidential inputs, there are any number of things you could tell it to do with them. For instance, in the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private) we'll look at in greater detail below, we use the below precompile to extract any information about a transaction that the user has agreed to share in order for it to be included timeously in a block on Ethereum L1, thereby replicating MEV-Share in a smart contract on SUAVE:
 
 ```solidity
 function extractHint(bytes memory bundleData) internal view returns (bytes memory)
@@ -33,7 +38,7 @@ You can also consult [our technical specs](/technical/specs/toliman/kettle#confi
 
 How to index, store, and use confidential data is left up to each SUAPP. 
 
-For example, our [confidential store tutorial](/tutorials/confidential-store) demonstrates how to store a private key in the confidential store. In order to sign a transaction intended for Ethereum L1, we only store the `recordId` associated with that private key in the contract's memory, which is what ends up ends up onchain.
+For example, our [confidential store tutorial](/tutorials/confidential-store) demonstrates how to store a private key in the confidential store. In order to sign a transaction intended for Ethereum L1, we only store the `recordId` associated with that private key in the contract's memory, which is what ends up on-chain.
 
 In the [Private OFA Suapp](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), to submit a valid backrun, a searcher must include the `recordId` of the user transaction in order for the Suapp to match them. Therefore, the Suapp emits the user transaction `recordId` as a log on chain, which searchers can listen for and use to construct valid backruns.
 

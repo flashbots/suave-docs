@@ -1,5 +1,5 @@
 ---
-title: Onchain Offchain
+title: On-chain Off-chain
 description: Understanding the key primitives required to build great SUAPPs
 keywords:
   - contract
@@ -10,7 +10,7 @@ keywords:
   - offchain
 ---
 
-# Onchain Offchain Programming Model
+# On-chain Off-chain Programming Model
 
 If you've followed along from the [previous tutorial](./deploy-contracts), you'll have deployed a simple contract which outlines two `onchain` and `offchain` functions for a Suapp on SUAVE. It should look like this:
 
@@ -58,7 +58,7 @@ As our `offchain()` function doesn't do anything yet, there isn't much to see he
 
 ## Try to Extend Your Contract
 
-Now, for a Suapp which defines something like an orderflow auction, we want our offchain component to emit information about user trades for searchers to construct backruns, as well as information about successful backruns merged with user trades for builders to construct blocks.
+Now, for a Suapp which defines something like an orderflow auction, we want our off-chain component to emit information about user trades for searchers to construct backruns, as well as information about successful backruns merged with user trades for builders to construct blocks.
 
 So, let's try add an event and see if we can emit it from our `offchain()` function:
 
@@ -110,13 +110,13 @@ What's going on here?
 
 :::info
 
-Any function intended to be run offchain cannot emit events or trigger state changes. Instead, place a callback to an onchain function at the end of whatever offchain logic you want to run, and trigger any state changes from the onchain function.
+Any function intended to be run `offchain` cannot emit events or trigger state changes. Instead, place a callback to an `onchain` function at the end of whatever off-chain logic you want to run, and trigger any state changes from the `onchain` function.
 
 :::
 
 ## Using SUAVE-STD  
 
-In order to make working with offchain logic and onchain callbacks easier, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary http calls, using Chat GPT in your contracts, encoding and decoding JSON, RLP encoding/decoding transactions, and doing various other commonly useful things.
+In order to make working with off-chain logic and on-chain callbacks easier, we maintain a [useful library called `SUAVE-STD`](https://github.com/flashbots/suave-std) which enables you to do anything from emitting logs (like we're trying to do in this tutorial), to making arbitrary HTTP calls, using Chat GPT in your contracts, encoding and decoding JSON, RLP encoding/decoding transactions, and doing various other commonly useful things.
 
 First, you'll need to add and commit the changes you've made already before we can install `SUAVE-STD`:
 
@@ -130,7 +130,7 @@ Now you can install our friendly helper library in your `suapp` directory:
 forge install flashbots/suave-std
 ```
 
-You can import the basic `Suapp.sol` contract from the `SUAVE-STD` library to help with emitting logs. This comes along with a modifier called `emitOffchainLogs` which will enable you to emit any logs specified in offchain functions from the onchain function selected in the `return` statement. To see this in action, modify `MyFirstSuapp.sol` to look like this:
+You can import the basic `Suapp.sol` contract from the `SUAVE-STD` library to help with emitting logs. This comes along with a modifier called `emitOffchainLogs` which will enable you to emit any logs specified in `offchain` functions from the `onchain` function selected in the `return` statement. To see this in action, modify `MyFirstSuapp.sol` to look like this:
 
 ```solidity
 // SPDX-License-Identifier: Unlicense
@@ -179,4 +179,4 @@ INFO [03-26|10:48:38.753] Log emitted                              name=Offchain
 INFO [03-26|10:48:38.753] Log emitted                              name=OffchainEvent(uint256) num=2
 ```
 
-Congratulations! You have deployed a contract, sent it various confidential requests, and begun learning how to use `SUAVE-STD` to handle the requirements of programming Suapps with both onchain and offchain components! 💃 
+Congratulations! You have deployed a contract, sent it various confidential requests, and begun learning how to use `SUAVE-STD` to handle the requirements of programming Suapps with both on-chain and off-chain components! 💃 

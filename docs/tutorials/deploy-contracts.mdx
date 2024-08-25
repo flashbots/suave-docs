@@ -42,9 +42,9 @@ forge init --template https://github.com/foundry-rs/forge-template
 
 You can then open the resulting files in whichever text editor you prefer.
 
-## Onchain offchain
+## On-chain off-chain
 
-Let's adapt the empty contract in the `src` directory to see the key differences between onchain and offchain computation. 
+Let's adapt the empty contract in the `src` directory to see the key differences between on-chain and off-chain computation. 
 
 Begin by renaming `Contract.sol` to `MyFirstSuapp.sol` and deleting the `Contract.t.sol` file in the `test` directory.
 
@@ -65,11 +65,11 @@ contract MyFirstSuapp {
 }
 ```
 
-All offchain functions should return a function selector to another function inside your SUAPP, such that the relevant outputs of offchain computation result in onchain state transitions. The Kettle which executes a user's call to `offchain()` will take the results of any offchain computation and wrap it in a "SUAVE transaction", using the specified function selector. That SUAVE transaction is broadcast onchain, which eventually results in the onchain component being executed too.
+All off-chain functions should return a function selector to another function inside your SUAPP, such that the relevant outputs of off-chain computation result in on-chain state transitions. The Kettle which executes a user's call to `offchain()` will take the results of any off-chain computation and wrap it in a "SUAVE transaction", using the specified function selector. That SUAVE transaction is broadcast on-chain, which eventually results in the on-chain component being executed too.
 
-Let's take a practical example. In an [orderflow auction](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), users might send their transactions from other domains to a Suapp as confidential inputs. The Suapp can emit specific information about those transactions (without revealing everything) such that searchers listening for events on SUAVE chain can construct backruns. They can then submit their backruns to the same Suapp, which can merge the original transactions and the best backruns offchain (it can take many computational steps do this), before emitting the resulting bundle onchain for a block builder on the original domain to pick up and use.
+Let's take a practical example. In an [orderflow auction](https://github.com/flashbots/suapp-examples/tree/main/examples/app-ofa-private), users might send their transactions from other domains to a Suapp as confidential inputs. The Suapp can emit specific information about those transactions (without revealing everything) such that searchers listening for events on SUAVE chain can construct backruns. They can then submit their backruns to the same Suapp, which can merge the original transactions and the best backruns off-chain (it can take many computational steps do this), before emitting the resulting bundle on-chain for a block builder on the original domain to pick up and use.
 
-There are many examples which use this onchain-offchain pattern to achieve results that are not otherwise possible in normal public blockchains. We'll be introducing them one by one through the course of these tutorials.
+There are many examples which use this on-chain/off-chain pattern to achieve results that are not otherwise possible in normal public blockchains. We'll be introducing them one by one through the course of these tutorials.
 
 For now, let's just get on with deploying our simple contract.
 
@@ -113,7 +113,7 @@ INFO [03-26|09:59:54.515] Contract deployed                        address=0xFcd
 
 Congratulations! You just deployed your first contract to a local SUAVE network! 💃 
 
-Take note of the address to which it has been deployed: you'll need it in the next tutorial, where we'll send confidential compute requests to your contracts, and extend the functions to emit information about offchain computations onchain.
+Take note of the address to which it has been deployed: you'll need it in the next tutorial, where we'll send confidential compute requests to your contracts, and extend the functions to emit information about off-chain computations on-chain.
 
 :::info 
 

@@ -71,7 +71,7 @@ Suave.confidentialStore(dataRecord.id, "mevshare:v0:ethBundleSimResults", abi.en
 
 <div>
 
-The hint is not directly emitted on chain, as Confidential Compute Requests cannot directly change state, but rather is emitted as a callback once the order has been saved and the hint returned:
+The hint is not directly emitted on-chain, as Confidential Compute Requests cannot directly change state, but rather is emitted as a callback once the order has been saved and the hint returned:
 
 ```solidity
 return abi.encodeWithSelector(this.emitHint.selector, hintOrder);
