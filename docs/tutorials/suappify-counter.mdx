@@ -39,7 +39,7 @@ contract Counter is Suapp {
 
     event NumberSet(uint256 number);
 
-    modifier confidential() {
+    modifier confidential() override {
         require(
             Suave.isConfidential(),
             "function must be called confidentially"
@@ -164,6 +164,7 @@ async function main() {
 
     const ccr: TransactionRequestSuave = {
         to: counterAddress,
+        chainId: 16813125,
         value: 0n,
         gasPrice,
         gas: 690000n,
