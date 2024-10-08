@@ -42,14 +42,14 @@ We encourage you to follow the example set in [this tutorial](/tutorials/suappif
 We provide you a few convenient RPC endpoints you might need if, for instance, you need to fetch or submit transactiosn and/or data to Ethereum L1 or the Holesky testnet:
 
 ```
-http://holesky.toliman.suave-testnets.aws.internal:8545
-http://mainnet.toliman.suave-testnets.aws.internal:8545\
+https://holesky.toliman.suave.flashbots.net:8545
+https://mainnet.toliman.suave.flashbots.net:8545\
 ```
 
 If you would like to use these when testing locally, before deploying on Toliman, simply [run SUAVE](/tutorials/run-suave) with these additional flags:
 
 ```
---suave.eth.remote_endpoint http://holesky.toliman.suave-testnets.aws.internal:8545 \
---suave.service-alias holesky=http://holesky.toliman.suave-testnets.aws.internal:8545 \
---suave.service-alias mainnet=http://mainnet.toliman.suave-testnets.aws.internal:8545 \
+--suave.eth.remote_endpoint https://holesky.toliman.suave.flashbots.net:8545 \
+--suave.service-alias holesky=https://holesky.toliman.suave.flashbots.net:8545 \
+--suave.service-alias mainnet=https://mainnet.toliman.suave.flashbots.net:8545 \
 ```
