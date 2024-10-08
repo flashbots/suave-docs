@@ -4,7 +4,7 @@ Library to interact with the Suave MEVM precompiles.
 
 ## Functions
 
-### [isConfidential](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L155)
+### [isConfidential](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L161)
 
 Returns whether execution is off- or on-chain.
 
@@ -12,7 +12,35 @@ Output:
 
 - `b` (`bool`): Whether execution is off- or on-chain.
 
-### [buildEthBlock](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L174)
+### [aesDecrypt](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L178)
+
+Decrypts a message using given bytes as a cipher.
+
+Input:
+
+- `key` (`bytes`): Private key used to decrypt the ciphertext.
+
+- `ciphertext` (`bytes`): Message to decrypt.
+
+Output:
+
+- `message` (`bytes`): Decrypted message.
+
+### [aesEncrypt](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L191)
+
+Encrypts a message using given bytes as a cipher.
+
+Input:
+
+- `key` (`bytes`): Private key used to encrypt the message.
+
+- `message` (`bytes`): Message to encrypt.
+
+Output:
+
+- `ciphertext` (`bytes`): Encrypted message.
+
+### [buildEthBlock](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L206)
 
 Constructs an Ethereum block based on the provided data records. No blobs are returned.
 
@@ -30,7 +58,7 @@ Output:
 
 - `executionPayload` (`bytes`): Execution payload encoded in JSON.
 
-### [buildEthBlockTo](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L193)
+### [buildEthBlockTo](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L225)
 
 Constructs an Ethereum block based on the provided data records. No blobs are returned.
 
@@ -50,7 +78,7 @@ Output:
 
 - `executionPayload` (`bytes`): Execution payload encoded in JSON.
 
-### [confidentialInputs](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L210)
+### [confidentialInputs](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L242)
 
 Provides the confidential inputs associated with a confidential computation request. Outputs are in bytes format.
 
@@ -58,7 +86,7 @@ Output:
 
 - `confindentialData` (`bytes`): Confidential inputs.
 
-### [confidentialRetrieve](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L223)
+### [confidentialRetrieve](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L255)
 
 Retrieves data from the confidential store. Also mandates the caller's presence in the `AllowedPeekers` list.
 
@@ -72,7 +100,7 @@ Output:
 
 - `value` (`bytes`): Value of the data.
 
-### [confidentialStore](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L236)
+### [confidentialStore](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L268)
 
 Stores data in the confidential store. Requires the caller to be part of the `AllowedPeekers` for the associated data record.
 
@@ -84,7 +112,7 @@ Input:
 
 - `value` (`bytes`): Value of the data to store.
 
-### [contextGet](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L246)
+### [contextGet](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L278)
 
 Retrieves a value from the context.
 
@@ -96,7 +124,7 @@ Output:
 
 - `value` (`bytes`): Value of the key.
 
-### [doHTTPRequest](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L258)
+### [doHTTPRequest](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L290)
 
 Performs an HTTP request and returns the response. `request` is the request to perform.
 
@@ -108,7 +136,7 @@ Output:
 
 - `httpResponse` (`bytes`): Body of the response.
 
-### [ethcall](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L271)
+### [ethcall](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L303)
 
 Uses the `eth_call` JSON RPC method to let you simulate a function call and return the response.
 
@@ -122,7 +150,7 @@ Output:
 
 - `callOutput` (`bytes`): Output of the contract call.
 
-### [extractHint](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L283)
+### [extractHint](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L315)
 
 Interprets the bundle data and extracts hints, such as the `To` address and calldata.
 
@@ -134,7 +162,7 @@ Output:
 
 - `hints` (`bytes`): List of hints encoded in JSON.
 
-### [fetchDataRecords](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L297)
+### [fetchDataRecords](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L329)
 
 Retrieves all data records correlating with a specified decryption condition and namespace.
 
@@ -148,7 +176,7 @@ Output:
 
 - `dataRecords` (``): List of data records that match the filter.
 
-### [fillMevShareBundle](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L309)
+### [fillMevShareBundle](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L341)
 
 Joins the user's transaction and with the backrun, and returns encoded mev-share bundle. The bundle is ready to be sent via `SubmitBundleJsonRPC`.
 
@@ -160,7 +188,15 @@ Output:
 
 - `encodedBundle` (`bytes`): Mev-Share bundle encoded in JSON.
 
-### [newBuilder](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L321)
+### [getInsecureTime](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L353)
+
+Returns the current Kettle Unix time in seconds.
+
+Output:
+
+- `time` (`uint256`): Current Unix time in seconds.
+
+### [newBuilder](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L364)
 
 Initializes a new remote builder session.
 
@@ -168,7 +204,7 @@ Output:
 
 - `sessionid` (`string`): ID of the remote builder session.
 
-### [newDataRecord](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L336)
+### [newDataRecord](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L379)
 
 Initializes data records within the ConfidentialStore. Prior to storing data, all data records should undergo initialization via this precompile.
 
@@ -186,7 +222,7 @@ Output:
 
 - `dataRecord` ([DataRecord](#datarecord)): Data record that was created.
 
-### [privateKeyGen](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L354)
+### [privateKeyGen](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L397)
 
 Generates a private key in ECDA secp256k1 format.
 
@@ -198,7 +234,7 @@ Output:
 
 - `privateKey` (`string`): Hex encoded string of the ECDSA private key. Exactly as a signMessage precompile wants.
 
-### [randomBytes](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L366)
+### [randomBytes](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L409)
 
 Generates a number of random bytes, given by the argument numBytes.
 
@@ -210,7 +246,7 @@ Output:
 
 - `value` (`bytes`): Randomly-generated bytes.
 
-### [signEthTransaction](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L380)
+### [signEthTransaction](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L423)
 
 Signs an Ethereum Transaction, 1559 or Legacy, and returns raw signed transaction bytes. `txn` is binary encoding of the transaction.
 
@@ -226,7 +262,7 @@ Output:
 
 - `signedTxn` (`bytes`): Signed transaction encoded in RLP.
 
-### [signMessage](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L397)
+### [signMessage](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L440)
 
 Signs a message and returns the signature.
 
@@ -242,7 +278,7 @@ Output:
 
 - `signature` (`bytes`): Signature of the message with the private key.
 
-### [simulateBundle](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L413)
+### [simulateBundle](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L456)
 
 Performs a simulation of the bundle by building a block that includes it.
 
@@ -254,7 +290,7 @@ Output:
 
 - `effectiveGasPrice` (`uint64`): Effective Gas Price of the resultant block.
 
-### [simulateTransaction](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L426)
+### [simulateTransaction](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L469)
 
 Simulates a transaction on a remote builder session.
 
@@ -268,7 +304,7 @@ Output:
 
 - `simulationResult` ([SimulateTransactionResult](#simulatetransactionresult)): Result of the simulation.
 
-### [submitBundleJsonRPC](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L443)
+### [submitBundleJsonRPC](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L486)
 
 Submits bytes as JSONRPC message to the specified URL with the specified method. As this call is intended for bundles, it also signs the params and adds `X-Flashbots-Signature` header, as usual with bundles. Regular eth bundles don't need any processing to be sent.
 
@@ -284,7 +320,7 @@ Output:
 
 - `errorMessage` (`bytes`): Error message if any.
 
-### [submitEthBlockToRelay](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L460)
+### [submitEthBlockToRelay](https://github.com/flashbots/suave-std/tree/main/src/suavelib/Suave.sol#L503)
 
 Submits a given builderBid to a mev-boost relay.
 
